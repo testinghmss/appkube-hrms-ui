@@ -32,7 +32,7 @@ const Organizationdetails = () => {
         tabBarStyle={{ width: '15%' }}
       >
         <Tabs.items tabBarStyle={{color:'red'}} tab={
-            <span className='p-2 w-full'>Organization Details </span>
+            <span className='p-2 w-full '>Organization Details </span>
         } key="1" >
           {tabContents['1']}
         </Tabs.items>

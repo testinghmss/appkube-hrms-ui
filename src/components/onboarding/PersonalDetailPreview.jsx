@@ -1,5 +1,5 @@
+import React from "react";
 import Image from "next/image";
-import { Button, Progress } from "antd";
 import { IoChevronBackOutline } from "react-icons/io5";
 import Onboard from "@/../public/assets/onboarding/OnbordingImg.svg";
 import Logout from "@/../public/assets/onboarding/Logout.svg";
@@ -10,31 +10,50 @@ import {useDispatch,useSelector} from "react-redux"
 import { createUser } from "@/redux/slices/Onboardingpersdetails";
 import { createCompany } from "@/redux/slices/Onboardingpersdetails";
 
-const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
+import { Button, Progress } from "antd";
+const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
 
-  const personalData = useSelector((state) => state.personalDetails.personalData);
-  const companyData = useSelector((state) => state.personalDetails.companyData);
+  const personalData = useSelector((state) => state.Onboardingpersdetails.personalData);
+  const companyData = useSelector((state) => state.Onboardingpersdetails.companyData);
 
   const dispatch = useDispatch()
-  const handleSubmit = async () => {
-    // e.preventDefault();
-    // console.log("company...", companyData);
-    const combinedData = {"orgId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",...companyData, };  
-      dispatch(createCompany(personalData))
-      dispatch(createUser(combinedData))
-      //  console.log(combinedData);
+
+  // const handleSubmit = async () => {
+  //   // e.preventDefault();
+  //   // console.log("company...", companyData);
+
+  //      const combinedData = {"482d8374-fca3-43ff-a638-02c8a425c492",...companyData, };
   
+  //      dispatch(createUser(personalData))
+  //      dispatch(createCompany(combinedData))
+  //     //  console.log(combinedData);
+  
+  // };
+
+  const handleSubmit = async () => {
+    const orgId = "482d8374-fca3-43ff-a638-02c8a425c492"; // Replace with your actual orgId value
+  
+    // Combine orgId with companyData
+    const combinedData = { orgId, ...companyData };
+  
+    // Dispatch actions with the modified data
+    dispatch(createUser(personalData));
+    dispatch(createCompany(combinedData));
+  
+    // console.log(combinedData);
   };
+
+  // console.log(personalData.name);
 
   return (
     <div className="flex justify-center items-center gap-16 w-[100%] h-[100vh] p-10 ">
-      <div className="md:w-[70vw] h-[88vh] rounded-2xl  p-4 bg-[#E6F7FF] flex justify-center items-center">
-        <Image width={100} height={100} src={Onboard} className="w-[60%] " />
+      <div className="md:w-[70vw] h-[88vh] rounded-2xl bg-[#E6F7FF] flex justify-center items-center">
+        <Image width={100} height={100} src={Onboard} className="w-[60%]  " />
       </div>
-      <div className="flex flex-col gap-1 items-center  w-[50vw] relative leading-8">
+      <div className="flex flex-col gap-5 items-center  w-[50vw] h-[85vh] relative">
         <Link href="/login">
           <div
-            className="flex  items-center px-1 gap-1 border border-blue-500 text-black group btn hover:bg-blue-100 transition w-[100px] absolute rounded-sm
+            className="flex  items-center p-1 gap-1 border border-blue-500 text-black group btn hover:bg-blue-100 transition w-[100px] absolute rounded-sm
          right-2 -top-5 cursor-pointer"
           >
             <Image
@@ -46,10 +65,10 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
             <button className="">Logout</button>
           </div>
         </Link>
-        <div className="w-full ">
+        <div className="w-full h-full flex flex-col gap-5 ">
           <div className="w-full  flex flex-col">
             <span
-              className="flex items-center gap-2 hover:scale-105 transition-all cursor-pointer"
+              className="flex items-center gap-2 hover:scale-105 transition-all cursor-pointer mt-2 "
               onClick={() => {
                 setStep(step - 1);
               }}
@@ -59,87 +78,55 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
             </span>
             <p className="text-sm text-gray-400">Onboarding</p>
             <Progress percent={86} showInfo={false} />
-            <span className="text-[#4F7396] text-sm mb-2">step 3 of 3</span>
+            <span className="text-[#4F7396] text-sm -mb-2 ">step 3 of 3</span>
           </div>
-
-          <h2 className="text-xl font-bold mb-2">Preview</h2>
-          <div className="flex gap-8 ">
-            <div
-              className=" border-b-2 border-black font-medium cursor-pointer hover:scale-105 transition-all"
-              onClick={() => {
-                setInStep(inStep - 1);
-              }}
-            >
+          <h2 className="text-xl font-bold -mb-3">Preview</h2>
+          <div className="flex gap-8 -mb-2">
+            <div className=" border-b-2 border-blue-400 text-blue-400 font-medium cursor-pointer hover:scale-105 transition-all">
               Personal Details
             </div>
-            <div className="border-b-2  cursor-pointer border-blue-400 text-blue-400 font-medium hover:scale-105 transition-all ">
+            <div
+              className="border-b-2 border-black  font-medium cursor-pointer hover:scale-105 transition-all"
+              onClick={() => {
+                setInStep(inStep + 1);
+              }}
+            >
               Company Details
             </div>
           </div>
         </div>
-        <div className="self-start rounded-md w-full p-2 h-full flex flex-col gap-2">
-          <div className="w-[7vw] h-[8vh] bg-white rounded-md">
-            <Image
-              src={Company}
-              width={100}
-              height={100}
-              className="w-[80%] h-[80%] border "
-            />
-          </div>
-          <div className="flex flex-col gap-4">
-            <div className="flex  justify-start gap-40 border-b  border-gray-200 w-full">
-              <span className="  flex flex-col  ">
-                <span className="text-gray-400 text-xs">
-                  Legal Company Name
-                </span>
-                <span className="text-xs">{companyData.companyname}</span>
+        <div className="self-start rounded-md w-full p-2 h-full flex flex-col gap-5">
+          <Image src={Profile} width={100} height={100} />
+          <div className="flex flex-col gap-2">
+            <div className="flex  justify-start gap-40 border-b-2 -mt-2  border-gray-200 w-full">
+              <span className="  flex flex-col gap-1 ">
+                <span className="text-gray-400 ">First Name</span>
+                <span>{personalData.first_name}</span>
               </span>
-              <span className="flex flex-col  pl-4">
-                <span className="text-gray-400 text-xs">
-                  Company Email Address
-                </span>
-                <span className="text-xs">{companyData.companyemail}</span>
+              <span className="flex flex-col gap-1 pl-4">
+                <span className="text-gray-400 ">Last Name</span>
+                <span>{personalData.last_name}</span>
               </span>
             </div>
-            <div className="flex flex-col   border-b border-gray-200 w-full">
-              <span className="text-gray-400 text-xs">Phone Number</span>
-              <span className="text-xs">91+{companyData.companynumber}</span>
+            <div className="flex flex-col gap-1  border-b-2 border-gray-200 w-full">
+              <span className="text-gray-400 ">Gender</span>
+              <span>{personalData.gender}</span>
             </div>
-            <div className="flex flex-col   border-b border-gray-200 w-full">
-              <span className="text-gray-400 text-xs">Address Line 1</span>
-              <span className="text-xs">{companyData.addressone}</span>
+            <div className="flex flex-col gap-1  border-b-2 border-gray-200 w-full">
+              <span className="text-gray-400 ">Phone Number</span>
+              <span>91+{personalData.number}</span>
             </div>
-            <div className="flex flex-col   border-b border-gray-200 w-full">
-              <span className="text-gray-400 text-xs"> Address Line 2</span>
-              <span className="text-xs">{companyData.addresstwo}</span>
-            </div>
-            <div className="flex  justify-start gap-48 border-b  border-gray-200 w-full">
-              <span className="  flex flex-col  ">
-                <span className="text-gray-400 text-xs">Country</span>
-                <span className="text-xs">{companyData.country}</span>
-              </span>
-              <span className="flex flex-col  pl-2">
-                <span className="text-gray-400 text-xs">State</span>
-                <span className="text-xs">{companyData.state}</span>
-              </span>
-            </div>
-            <div className="flex  justify-start gap-40  border-b border-gray-200 w-full">
-              <span className="  flex flex-col  ">
-                <span className="text-gray-400 text-xs">City</span>
-                <span className="text-xs">{companyData.city}</span>
-              </span>
-              <span className="flex flex-col  pl-4">
-                <span className="text-gray-400 text-xs">Zipcode</span>
-                <span className="text-xs">{companyData.zipcode}</span>
-              </span>
+            <div className="flex flex-col gap-1  border-b-2 border-gray-200 w-full">
+              <span className="text-gray-400 "> Date of Birth</span>
+              <span>{personalData.dob}</span>
             </div>
           </div>
         </div>
         <button
-          className="w-[70%] lg:mt-6 h-8 bg-[#1890FF] hover:bg-blue-600 transition-all text-white items-end"
+          className="w-[70%] lg:mt py-1 h-8 bg-[#1890FF] hover:bg-blue-600 transition-all text-white items-end"
           onClick={() => {
-            handleSubmit(),
-            setStep(step + 1);
+            handleSubmit()
+            ,setStep(step + 1)
           }}
         >
           Complete
@@ -149,4 +136,4 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
   );
 };
 
-export default PreviewCompany;
+export default PreviewEmp;

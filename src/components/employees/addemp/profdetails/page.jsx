@@ -1,22 +1,44 @@
-'use client'
+"use client";
 
 // ProfessionalForm.js
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateProfessionalDetails, selectProfessionalDetails, setDropdownOption } from '../../../../redux/slices/profDetails'
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+// import {
+//   updateProfessionalDetails,
+//   selectProfessionalDetails,
+//   setDropdownOption,
+// } from "../../../../redux/slices/profDetails";
 
-import { Form, Input, Button, Select, Col, Row } from 'antd';
-import { useForm } from 'antd/lib/form/Form';
+import { Form, Input, Button, Select, Col, Row,DatePicker, Space } from "antd";
+import { useForm } from "antd/lib/form/Form";
 
-import { useRouter } from 'next/navigation';
-import axios from "@/api/axios"
-const { Option } = Select;
+import { useRouter } from "next/navigation";
+import axios from "@/api/axios";
+import { updateProfessionalDetails, selectProfessionalDetails, setDropdownOption,
+  setDropdownOptionDesig,setDropdownOptionwork,setDropdownOptionReport,setSelectedDate} from "../../../../redux/slices/profDetails";
+// const { Option } = Select;
 const numberRegex = /^[0-9]{5,}$/; // Ensure at least 5 digits
 
 const ProfessionalInfo = ({ tab, setTab }) => {
+  const handleSelectChange = (value) => {
+    dispatch(setDropdownOption(value));
+  };
+  const handlework=(value)=>{
+    dispatch(setDropdownOptionwork(value));
+  }
+  const handleDesig=(value)=>{
+    dispatch(setDropdownOptionDesig(value));
+  }
+  const handlReportk=(value)=>{
+    dispatch(setDropdownOptionReport(value));
+  }
+  const handleDateChange = (date, dateString) => {
+    // Dispatch the action to update the selectedDate in the Redux store
+    dispatch(setSelectedDate(dateString));
+  };
   const dispatch = useDispatch();
   const professionalDetails = useSelector(selectProfessionalDetails);
-  const [form] = useForm(); 
+  const [form] = useForm();
 
   const handleChange = (name, value) => {
     // console.log(name,value)
@@ -24,182 +46,282 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   };
 
   const handleSubmit = () => {
-    // Save data to local storage
-    // console.log("succcess", professionalDetails)
-    console.log("handling submit")
-    putting();
-    // localStorage.setItem(
-    //   "professionalDetails",
-    //   JSON.stringify(professionalDetails)
-    // );
-    // alert("data stored in local storage");
+    dispatch(updateProfessionalDetails(professionalDetails))
+    console.log(professionalDetails);
+    putting(professionalDetails)
+    // Retrieve existing data from local storage
+    // const existingData = JSON.parse(localStorage.getItem('professionalDetails')) || {};
+
+    // Merge existing data with the new data
+    // const newData = [{ ...existingData, ...professionalDetails }];
+
+    // Save the merged data to local storage
+    // localStorage.setItem('professionalDetails', JSON.stringify(newData));
+    // alert("Data stored in local storage");
   };
-  const handleSelectChange = (name, value) => {
-    dispatch(setDropdownOption({[name]: value}));
-};
-  const { selectedOption } = useSelector(selectProfessionalDetails);
-
   const router = useRouter();
+  const prof1=["option1","option2","option3"]
+  const prof=["option1","option2","option3"]
+  
+   
 
-  const[ value,setvalue]=useState({})
-  // const axios = require('axios');
+ 
+   
+
   
-  const putting =  ()=>{
-   let data = {
-    "designation_id": 1,
-    "pf": "3333333  ",
-    "uan": "3333333 ",
-    "department_id": 6,
-    "reporting_manager_id": "960abb87-2007-4c2c-96b1-80420a35a970",
-    "work_location": "Office A",
-    "start_date": "2024-02-20",
-    "emp_id": "184f0014-d70d-4c4d-a973-a84f185477c9"
-}
-    
-    const response = axios.put('/employee/professionalInfo',data)
-    .then((response) => {
-      console.log("success",response)
-    })
-    .catch((error) => {
-      console.log("error",error)
-    })
+ 
+
+  const putting = (values) => {
+    let data = {
+      // designation_id: values.selectedDesignation,
+      designation_id: 4,
+      pf: values.pfNumber,
+      uan: values.uanNumber,
+      // department_id: values.selectedDepartment,
+      department_id:5,
+      // reporting_manager_id: values.selectedReportingMngr,
+      reporting_manager_id:'61a6b732-1597-444a-afcc-10eeafbacc63',
+      work_location: values.selectedworkLocation,
+      start_date: values.selectedDate,
+      emp_id: values.employeeId,
+    };
+
+    const response = axios
+      .put("/employee/professionalInfo", data)
+      .then((response) => {
+        console.log("success", response);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  };
+
   
-  }
+  const  selectedDepartment = useSelector((state) => state.selectedDepartment);
+  const  selectedDesignation = useSelector((state) => state.selectedDesignation);
+  const  selectedReportingMngr = useSelector((state) => state.selectedReportingMngr);
+  const  selectedworkLocation = useSelector((state) => state.selectedworkLocation);
+  const selectedDate = useSelector((state) => state.selectedDate);
 
   return (
-    <Form
-      style={{ padding: "20px", margin: "auto", border: "2px solid #eee" }}
-      className=" justify-center items-center w-[80%] "
-      onFinish={handleSubmit}
-    // Adjust the span value based on your layout
-    // Adjust the span value based on your layout
-    >
-      <Form.Item
-        label="Designation"
-        name="designation_id"
-        rules={[{ required: true, message: "Please select a designation." }]}
+    <div>
+      <Form
+        requiredMark={false}
+        style={{
+          padding: "50px",
+          border: "2px solid #eee",
+          borderRadius: "none",
+        }}
+        className="m-20 w-[90%] rounded-none"
+        onFinish={handleSubmit}
       >
-      <Select
-          className="rounded-none h-11 font-semibold mb-5  w-[25rem]"
-          placeholder="Select Designation"
-          value={professionalDetails.designation_id}
-          onChange={(value) => handleChange("designation", value)}
+        <Form.Item
+          className="w-[49.3rem] rounded-none "
+          label="Designation"
+          name="designation"
+          rules={[{ required: true, message: "Please select a designation." }]}
         >
-          <Option value="option10">Option 10</Option>
-          <Option value="option11">Option 11</Option>
-          <Option value="option12">Option 12</Option>
-        </Select>
-      </Form.Item>
-
-      <Row gutter={16}>
-        <Col span={12}>
-          <Form.Item
-            label="PF No"
-            name="pf"
-            rules={[
-              { required: true, message: "Please enter a PF number." },
-              {
-                pattern: numberRegex,
-                message: "Please enter at least 5 digits for PF number.",
-              },
-            ]}
+          <Select
+            showSearch
+            style={{ width: 611, marginLeft: 95 }}
+            className="rounded-none"
+            onChange={handleDesig}
+            value={selectedDesignation}
+            placeholder="Select Designation"
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
           >
-            <Input
-              className="h-11"
-              type="text"
-              value={professionalDetails.pf}
-              onChange={(e) => handleChange("pf", e.target.value)}
-            />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            label="uan No"
-            name="uan"
-            rules={[
-              { required: true, message: "Please enter a uan number." },
-              {
-                pattern: numberRegex,
-                message: "Please enter at least 5 digits for uan number.",
-              },
-            ]}
-          >
-            <Input
-              className="h-11"
-              type="text"
-              value={professionalDetails.uan}
-              onChange={(e) => handleChange("uan", e.target.value)}
-            />
-          </Form.Item>
-        </Col>
-      </Row>
+            {prof1.map((option) => (
+              <Select.Option
+                key={option}
+                value={option}
+                className="rounded-none"
+              >
+                {option}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
 
-      <Form.Item
-        label="department_id"
-        name="department_id"
-        rules={[{ required: true, message: "Please select a department_id." }]}
-      >
-       <Select
-            placeholder="Select department_id"
-            className="rounded-none mb-5 font-semibold h-11"
-            value={professionalDetails.department_id}
-            onChange={(value) => handleChange("department_id", value)}
-          >
-          <Option value="option1">Option 1</Option>
-          <Option value="option2">Option 2</Option>
-          <Option value="option3">Option 3</Option>
-        </Select>
-      </Form.Item>
-
-      <Form.Item
-        label="Reporting Manager"
-        name="reporting_manager_id"
-        rules={[
-          { required: true, message: "Please select a reporting manager." },
-        ]}
-      >
-       <Select
-  placeholder="Select Reporting Manager"
-  className="h-11 rounded-none mb-5"
-  value={professionalDetails.reporting_manager_id}
-  onChange={(value) => handleChange("reporting_manager_id", value)}
->
-          <Option value="option4">Option 4</Option>
-          <Option value="option5">Option 5</Option>
-          <Option value="option6">Option 6</Option>
-        </Select>
-      </Form.Item>
-
-      <Form.Item
-        label="Work Location"
-        name="work_location"
-        rules={[{ required: true, message: "Please select a work location." }]}
-      >
-         <Select
-    placeholder="Select Work Location"
-    className="h-11 rounded-none"
-    value={professionalDetails.work_location}
-    onChange={(value) => handleChange("work_location", value)} // Corrected here
-  >
-          <Option value="option7">Option 7</Option>
-          <Option value="option8">Option 8</Option>
-          <Option value="option9">Option 9</Option>
-        </Select>
-      </Form.Item>
-
-      <Form.Item>
-        <Button
-          onClick={() => {
-            setTab(tab + 1);
-          }}
-          type="primary"
-          htmlType="submit"
-          className="rounded-none w-full h-14 bg-blue-600"
+        <Row gutter={16}>
+          <Col span={10}>
+            <Form.Item
+              label="PF No (Optional)"
+              name="pfNumber"
+              rules={[
+                { message: "Enter Your PF Number" },
+                {
+                  pattern: numberRegex,
+                  message: "Please enter at least 5 digits for PF number.",
+                },
+              ]}
+            >
+              <Input
+                placeholder="Enter your PF number"
+                className="ml-[70px] w-[250px] "
+                type="text"
+                value={professionalDetails.pfNumber}
+                onChange={(e) => handleChange("uanNumber", e.target.value)}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              label="UAN No (Optional)"
+              name="uanNumber"
+              className="ml-[20px]"
+              rules={[
+                { message: "Enter Your UAN Number" },
+                {
+                  pattern: numberRegex,
+                  message: "Please enter at least 5 digits for UAN number.",
+                },
+              ]}
+            >
+              <Input
+                placeholder="Enter Your UAN Number"
+                className="w-[205px] "
+                type="text"
+                value={professionalDetails.uanNumber}
+                onChange={(e) => handleChange("pfNumber", e.target.value)}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Form.Item
+          label="Employee ID (Optional)"
+          name="employeeId"
+          rules={[
+            { message: "Enter Your Employee ID" },
+            {
+              // pattern: numberRegex,
+              message: "Please enter at least 5 digits for UAN number.",
+            },
+          ]}
         >
-          Next
-        </Button>
-      </Form.Item>
-    </Form>
+          <Input
+            placeholder="Enter Your Employee ID"
+            className="w-[611px] ml-[30px]"
+            type="text"
+            value={professionalDetails.employeeId}
+            onChange={(e) => handleChange("employeeId", e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item
+          className="w-[49rem] rounded-none"
+          label="Department"
+          name="department"
+          rules={[{ required: true, message: "Please select a department." }]}
+        >
+          <Select
+            showSearch
+            style={{ width: 611, marginLeft: 100, borderRadius: 0 }}
+            className="rounded-none"
+            onChange={handleSelectChange}
+            value={selectedDepartment}
+            placeholder="Select Department "
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {prof.map((option) => (
+              <Select.Option key={option} value={option}>
+                {option}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          className="w-[54rem]"
+          label=" Direct Reporting Manager"
+          name="reportingManager"
+          rules={[
+            { required: true, message: "Please select a reporting manager." },
+          ]}
+        >
+          <Select
+            showSearch
+            style={{ width: 611, marginLeft: 15, borderRadius: 0 }}
+            className="rounded-none"
+            onChange={handlReportk}
+            value={selectedReportingMngr}
+            placeholder="Select Reporting Manager "
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {prof.map((option) => (
+              <Select.Option key={option} value={option}>
+                {option}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          className="w-[50rem]"
+          label="Work Location"
+          name="workLocation"
+          rules={[
+            { required: true, message: "Please select a work location." },
+          ]}
+        >
+          <Select
+            showSearch
+            style={{ width: 611, marginLeft: 85, borderRadius: 0 }}
+            className="rounded-none"
+            onChange={handlework}
+            value={selectedworkLocation}
+            placeholder=" Select Work Location "
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {prof.map((option) => (
+              <Select.Option key={option} value={option}>
+                {option}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          className="w-[700px]"
+          label="Started Date"
+          name="Date"
+          rules={[{ message: "Please select a  Date" }]}
+        >
+          <Space direction="vertical">
+            <DatePicker
+              onChange={handleDateChange}
+              value={selectedDate}
+              className=" w-[611px] ml-[98px]"
+            />
+          </Space>
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="rounded-none w-[418px] ml-80 h-[40px] bg-blue-600"
+          >
+            Next
+          </Button>
+        </Form.Item>
+        {/* <Form.Item>
+          <Button
+            type="primary"
+            htmlType="button"
+            className="rounded-md w-20 h-8 bg-blue-600"
+          >
+            <Link href="/ProfReview">Review</Link>
+          </Button>
+        </Form.Item> */}
+      </Form>
+    </div>
   );
 };
 

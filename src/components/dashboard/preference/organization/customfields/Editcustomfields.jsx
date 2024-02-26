@@ -68,7 +68,7 @@ const Editcustomfields = () => {
                 />
               </span>
 
-              <button className="flex items-center gap-2 p-3 rounded-md text-lg hover:bg-white border hover:border-blue-500 hover:text-blue-500 transition-all text-white px-6 bg-[#1890FF] w-[250px] ">
+              <button className="flex items-center gap-1 p-2 rounded-md text-lg hover:bg-white border hover:border-blue-500 hover:text-blue-500 transition-all text-white px-6 bg-[#1890FF] w-[250px] ">
                 <IoSave />
                 Add New Step
               </button>

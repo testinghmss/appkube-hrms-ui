@@ -62,7 +62,8 @@ const Form = ({ onAddItems, tab,setTab }) => {
     <div className="flex flex-col items-center justify-center min-h-96">
       <form className="w-8/12 mt-0" onClick={(values)=>{
             console.log('done',values)
-          }}>
+          }}
+          >
         <div className="mb-4 flex items-center">
           <label className="text-sm font-medium w-32 min-w-44">Device Provide by:</label>
           <div className="flex ml-2 mb-2">

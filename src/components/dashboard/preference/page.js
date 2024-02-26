@@ -14,10 +14,10 @@ const Preference = () => {
         {/* <Orgdetails/> */}
         <Organizationdetails />
       </Tabs.TabPane>
-      <Tabs.TabPane tab="Security " key="3">
+      <Tabs.TabPane tab="Security " key="3" disabled>
         {/* <Organizationdetails/> */}
       </Tabs.TabPane>
-      <Tabs.TabPane tab="Notifications " key="4"></Tabs.TabPane>
+      <Tabs.TabPane tab="Notifications " key="4" disabled></Tabs.TabPane>
     </Tabs>
   );
 };

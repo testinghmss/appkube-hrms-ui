@@ -12,9 +12,9 @@ const Onboardemp = () => {
   return (
     <div className=" !w-full min-h-full h-dvh relative flex flex-col justify-center items-center gap-3 bg-gray-100 border ">
       <div className="absolute right-4 top-3 ">
-        <Button className=" bg-blue-400 text-white  rounded-sm">
+        <button className="bg-blue-400 text-white hover:bg-white hover:text-blue-400 border hover:border-blue-400 p-2  rounded-md">
           Bulk import
-        </Button>
+        </button>
       </div>
 
       <div className="flex flex-col justify-center items-center -mt-24 gap-3">
