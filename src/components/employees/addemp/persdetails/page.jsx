@@ -490,7 +490,7 @@ const PersonalInformation = ({tab,setTab}) => {
       >
         Next
       </Button> */}
-          <button className="bg-[#1890ff] w-[418px] text-white h-full rounded-none" onClick={()=>{
+          <button className="bg-[#1890ff] w-[418px] text-white border hover:bg-white hover:text-[#1890FF] hover:border-[#1890FF] transition-all h-full rounded-none" onClick={()=>{
             setTab(tab+1)
           }}>
             Next

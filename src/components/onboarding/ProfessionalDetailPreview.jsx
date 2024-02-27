@@ -49,7 +49,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
       <div className="flex flex-col gap-1 items-center  w-[50vw] relative leading-8">
         <Link href="/login">
           <div
-            className="flex  items-center px-1 gap-1 border border-blue-500 text-black group btn hover:bg-blue-100 transition w-[100px] absolute rounded-sm
+            className="flex  items-center px-1 gap-1 border border-[#1890FF] text-black group btn hover:bg-white transition w-[100px] absolute rounded-sm
          right-2 -top-5 cursor-pointer"
           >
             <Image
@@ -87,7 +87,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
             >
               Personal Details
             </div>
-            <div className="border-b-2  cursor-pointer border-blue-400 text-blue-400 font-medium hover:scale-105 transition-all ">
+            <div className="border-b-2  cursor-pointer border-[#1890FF] text-[#1890FF] font-medium hover:scale-105 transition-all ">
               Company Details
             </div>
           </div>
@@ -151,7 +151,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
           </div>
         </div>
         <button
-          className="w-[70%] lg:mt-6 h-8 bg-[#1890FF] hover:bg-blue-600 transition-all text-white items-end"
+          className="w-[70%] lg:mt-6 h-8 border bg-[#1890FF] hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] transition-all text-white items-end"
           onClick={() => {
             handleSubmit(),
             setStep(step + 1);

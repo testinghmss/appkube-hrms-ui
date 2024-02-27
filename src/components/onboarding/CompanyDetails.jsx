@@ -59,7 +59,7 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
 
       <div className="w-[50vw] h-[96vh] -mt-7 flex flex-col relative">
         <Link href="/login">
-          <div className="flex  items-center p-1 gap-1 border border-blue-500 hover:bg-blue-100 transition-all btn btn-primary w-[100px] absolute right-2 top-8 cursor-pointer">
+          <div className="flex  items-center p-1 gap-1 border border-[#1890FF] hover:bg-blue-100 transition-all btn btn-primary w-[100px] absolute right-2 top-8 cursor-pointer">
             <Image width={15} height={15} src={Logout}  />
             <button className="">Logout</button>
           </div>
@@ -89,14 +89,14 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
             name="name"
             onChange={getCompanyData}
             placeholder="Legal Company Name"
-            className="p-2 mb-2 border border-gray-300 outline-blue-500 w-[70%] "
+            className="p-2 mb-2 border border-gray-300 outline-[#1890FF] w-[70%] "
             value={companyData.name !== undefined ? companyData.name : "" || companyData.name }
           />
           <input
             name="email"
             onChange={getCompanyData}
             placeholder="Company Email Address"
-            className="p-2 mb-2 border border-gray-300 outline-blue-500 w-[70%] "
+            className="p-2 mb-2 border border-gray-300 outline-[#1890FF] w-[70%] "
             value={companyData.email !== undefined ? companyData.email : "" || companyData.email }
           />
 
@@ -111,7 +111,7 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
                 onChange={getCompanyData}
                 type="number"
                 placeholder="Phone Number"
-                className="w-full h-9 p-2 border-gray-300 outline-blue-500"
+                className="w-full h-9 p-2 border-gray-300 outline-[#1890FF]"
                 value={companyData.number !== undefined ? companyData.number : "" || companyData.number }
               />
             </Form>
@@ -120,14 +120,14 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
             name="address_line_1"
             onChange={getCompanyData}
             placeholder="Address Line 1"
-            className="p-1 mb-2 border border-gray-300 outline-blue-500 w-[70%] "
+            className="p-1 mb-2 border border-gray-300 outline-[#1890FF] w-[70%] "
             value={companyData.address_line_1 !== undefined ? companyData.address_line_1 : "" || companyData.address_line_1 }
           />
           <input
             name="address_line_2"
             onChange={getCompanyData}
             placeholder="Address Line 2"
-            className="p-1 mb-2 border border-gray-300 outline-blue-500 w-[70%] "
+            className="p-1 mb-2 border border-gray-300 outline-[#1890FF] w-[70%] "
           />
 
           <div>
@@ -136,7 +136,7 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
                 name="country"
                 onChange={getCompanyData}
                 placeholder="Country"
-                className="w-[33.5%] mr-4 p-1 border border-gray-300 outline-blue-500"
+                className="w-[33.5%] mr-4 p-1 border border-gray-300 outline-[#1890FF]"
                 value={companyData.country !== undefined ? companyData.country : "" || companyData.country }
               >
                 <option value="">select Country</option>
@@ -148,7 +148,7 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
                 name="state"
                 onChange={getCompanyData}
                 placeholder="State"
-                className="w-[33.5%] p-1 border border-gray-300 outline-blue-500"
+                className="w-[33.5%] p-1 border border-gray-300 outline-[#1890FF]"
                 value={companyData.state !== undefined ? companyData.state : "" || companyData.state }
               >
                 <option value="">select State</option>
@@ -162,7 +162,7 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
                 name="city"
                 onChange={getCompanyData}
                 placeholder="City"
-                className="w-[33.5%] mr-4 p-1 border border-gray-300 outline-blue-500"
+                className="w-[33.5%] mr-4 p-1 border border-gray-300 outline-[#1890FF]"
                 value={companyData.city !== undefined ? companyData.city : "" || companyData.city }
               >
                 <option value="">select city</option>
@@ -175,7 +175,7 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
                 onChange={getCompanyData}
                 type="number"
                 placeholder="Zip Code"
-                className="w-[33.5%] p-1 border border-gray-300 outline-blue-500"
+                className="w-[33.5%] p-1 border border-gray-300 outline-[#1890FF]"
                 value={companyData.zipcode !== undefined ? companyData.zipcode : "" || companyData.zipcode }
               />
             </div>
@@ -193,7 +193,7 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
             </div>
           </div>
 
-          <button className="w-[70%] h-8 bg-[#1890FF] text-white hover:bg-blue-600" onClick={()=>{console.log("world"),handleCompanySubmit(),setStep(step+1)}}>
+          <button className="w-[70%] h-8 border bg-[#1890FF] text-white hover:text-[#1890FF] hover:border-[#1890FF] hover:bg-white" onClick={()=>{console.log("world"),handleCompanySubmit(),setStep(step+1)}}>
             Next
           </button>
         </div>

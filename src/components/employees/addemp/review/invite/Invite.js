@@ -34,13 +34,13 @@ const Invite = () => {
 
   return (
     <div className="">
-      <Button
-        type="primary"
+      <button
+        
         onClick={showModal}
-        className="bg-blue-500 rounded-none"
+        className="bg-[#1890FF] rounded-none text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] p-2"
       >
         Finished
-      </Button>
+      </button>
       <Modal
         visible={visible}
         onOk={handleOk}

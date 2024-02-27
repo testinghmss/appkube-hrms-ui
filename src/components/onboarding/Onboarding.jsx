@@ -66,7 +66,7 @@ const Onboarding = ({ step, setStep }) => {
       </div>
 
       <div className="w-[50vw] h-[96vh] flex flex-col relative">
-        <div className="flex  items-center p-1  border border-blue-500 hover:bg-blue-100 transition-all btn btn-primary w-[100px] absolute right-2 top-10 cursor-pointer">
+        <div className="flex  items-center p-1  border border-[#1890FF] hover:bg-white hover:text-[#1890FF] transition-all btn btn-primary w-[100px] absolute right-2 top-10 cursor-pointer">
           <Image width={15} height={15} src={Logout} />
           <button className="" onClick={()=>{
             router.push("/login")
@@ -90,14 +90,14 @@ const Onboarding = ({ step, setStep }) => {
           <input
             name="first_name"
             placeholder="First name"
-            className="p-1 mb-3 border border-gray-300 outline-blue-500 w-[70%] "
+            className="p-1 mb-3 border border-gray-300 outline-[#1890FF] w-[70%] "
             onChange={getUserData}
             value={personal.first_name !== undefined ? personal.first_name : "" || personalData.first_name }
           /> 
           <input
             name="last_name"
             placeholder="Last name"
-            className="p-1 mb-3 border border-gray-300 outline-blue-500 w-[70%]"
+            className="p-1 mb-3 border border-gray-300 outline-[#1890FF] w-[70%]"
             onChange={getUserData}
             value={personal.last_name !== undefined ? personal.last_name : "" || personalData.last_name }
           />
@@ -158,7 +158,7 @@ const Onboarding = ({ step, setStep }) => {
             name="dob"
             type="date"
             placeholder="Date of birth"
-            className="p-1 mb-2 border border-gray-300 outline-blue-500 w-[70%]"
+            className="p-1 mb-2 border border-gray-300 outline-[#1890FF] w-[70%]"
             onChange={getUserData}
             value={personal.dob !== undefined ? personal.dob : "" || personalData.dob }
           />
@@ -172,7 +172,7 @@ const Onboarding = ({ step, setStep }) => {
               <input
                 name="number"
                 type="number"
-                className="w-full h-9 p-2 border-gray-300 outline-blue-500"
+                className="w-full h-9 p-2 border-gray-300 outline-[#1890FF]"
                 onChange={getUserData}
                 value={personal.number !== undefined ? personal.number : "" || personalData.number }
               />
@@ -194,7 +194,7 @@ const Onboarding = ({ step, setStep }) => {
 
           <button
             type="submit"
-            className="w-[70%] lg:mt-6 h-8 bg-[#1890FF] hover:bg-blue-600 transition-all text-white items-end"
+            className="w-[70%] lg:mt-6 h-8 border bg-[#1890FF] hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] transition-all text-white items-end"
             onClick={() => {handleSubmit(), console.log('hello'),setStep(step + 1)}}
           >
             Next

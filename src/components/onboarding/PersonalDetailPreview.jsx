@@ -53,7 +53,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
       <div className="flex flex-col gap-5 items-center  w-[50vw] h-[85vh] relative">
         <Link href="/login">
           <div
-            className="flex  items-center p-1 gap-1 border border-blue-500 text-black group btn hover:bg-blue-100 transition w-[100px] absolute rounded-sm
+            className="flex  items-center p-1 gap-1 border border-[#1890FF] text-black group btn hover:bg-white transition w-[100px] absolute rounded-sm
          right-2 -top-5 cursor-pointer"
           >
             <Image
@@ -82,7 +82,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
           </div>
           <h2 className="text-xl font-bold -mb-3">Preview</h2>
           <div className="flex gap-8 -mb-2">
-            <div className=" border-b-2 border-blue-400 text-blue-400 font-medium cursor-pointer hover:scale-105 transition-all">
+            <div className=" border-b-2 border-[#1890FF] text-[#1890FF] font-medium cursor-pointer hover:scale-105 transition-all">
               Personal Details
             </div>
             <div
@@ -123,7 +123,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
           </div>
         </div>
         <button
-          className="w-[70%] lg:mt py-1 h-8 bg-[#1890FF] hover:bg-blue-600 transition-all text-white items-end"
+          className="w-[70%] lg:mt py-1 h-8 bg-[#1890FF] border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] transition-all text-white items-end"
           onClick={() => {
             handleSubmit()
             ,setStep(step + 1)

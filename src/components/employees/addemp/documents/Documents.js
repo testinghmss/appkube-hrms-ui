@@ -41,7 +41,7 @@ const Documents = ({tab,setTab}) => {
       <FileTable />
 
       <button
-        className="w-[30%] bg-[#1890FF] text-white m-auto h-9 "
+        className="w-[30%]  bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white  border hover:border-[#1890FF] m-auto h-9 "
         onClick={() => {
           setTab(tab + 1);
         }}

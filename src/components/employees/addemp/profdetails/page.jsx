@@ -303,13 +303,13 @@ const ProfessionalInfo = ({ tab, setTab }) => {
           </Space>
         </Form.Item>
         <Form.Item>
-          <Button
-            type="primary"
+          <button
+            onClick={()=>{setTab(tab+1)}}
             htmlType="submit"
-            className="rounded-none w-[418px] ml-80 h-[40px] bg-blue-600"
+            className="rounded-md w-[418px] ml-80 h-[40px] bg-[#1890FF] text-white hover:bg-white hover:text-[#1890FF] border hover:border-[#1890FF]"
           >
             Next
-          </Button>
+          </button>
         </Form.Item>
         {/* <Form.Item>
           <Button

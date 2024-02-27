@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Avatar from "@/../public/assets/empDetails/Avatar1.svg";
 // import axios from 'axios'
 import axios from "@/api/axios"
+import { FiPlus } from "react-icons/fi";
 
 const page = () => {
   const router = useRouter();
@@ -117,9 +118,9 @@ const page = () => {
           <h2 className="text-xl font-semibold">All Employees</h2>
         </div>
         <Link href={"/hrms/employees/addemp"}>
-          <button className="bg-[#1890FF] hover:bg-blue-600 text-white flex p-4 gap-3 justify-center items-center">
-            {" "}
-            <Image src={Plus} /> Add New Employees{" "}
+          <button className="bg-[#1890FF] hover:text-[#1890FF] border hover:bg-white hover:border-[#1890FF] text-white flex p-4 gap-3 justify-center items-center">  
+            
+            <FiPlus/> Add New Employees
           </button>
         </Link>
       </div>

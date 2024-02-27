@@ -10,7 +10,7 @@ import Plus from "../../../public/assets/homeicons/Union.svg";
 import AccountImg from "../../../public/assets/homeicons/EmployeesImg/AccountImg.svg";
 import Person from "../../../public/assets/homeicons/EmployeesImg/Account.svg";
 import Circle from "../../../public/assets/homeicons/EmployeesImg/circle.svg";
-
+import { FiPlus } from "react-icons/fi";
 const page = () => {
   const columns = [
     {
@@ -159,9 +159,9 @@ const page = () => {
       <div className="flex justify-between p-4">
         <h2>Employees</h2>
         <Link href={"/hrms/employees/addemp"}>
-          <button className="bg-[#1890FF] text-white flex p-4 gap-3 justify-center items-center">
-            {" "}
-            <Image src={Plus} /> Add New Employees{" "}
+          <button className="bg-[#1890FF] text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] flex p-4 gap-3 justify-center items-center">
+             <FiPlus />
+             Add New Employees
           </button>
         </Link>
       </div>

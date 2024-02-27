@@ -27,7 +27,7 @@ const Profile5 = ({ step, setStep }) => {
                 <p>Schedule invite
                 </p>
             </div>
-            <button className='bg-[#1890FF] w-[100%] mb-5 h-9 rounded-sm' >Confirm and Continue</button>
+            <button className='bg-[#1890FF] w-[100%] mb-5 h-9 rounded-sm text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF]' >Confirm and Continue</button>
             <p className='mb-5 cursor-pointer text-center' onClick={handleBack} >Back</p>
             {/* </div> */}
         </>
