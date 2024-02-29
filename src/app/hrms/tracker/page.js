@@ -1,15 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Table, Breadcrumb } from "antd";
-import Image from "next/image";
-import Link from "next/link";
-import Plus from "../../../../public/assets/homeicons/Union.svg";
+import {  Breadcrumb } from "antd";
+
 import { useRouter } from "next/navigation";
-import Avatar from "@/../public/assets/empDetails/Avatar1.svg";
+
 // import axios from 'axios'
 import axios from "@/api/axios";
-import { FiPlus } from "react-icons/fi";
-
 export const SendEmp = (emp) => {
   if(emp===undefined){
     console.log('')
@@ -33,12 +29,12 @@ const page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const values = await axios.get("/employee?page=1");
-        console.log("response", values.data.employees);
+        const values = await axios.get("/employee/tracker");
+        console.log("response tracker", values);
         setEmployees(values.data.employees);
         // console.log("data",employees)
       } catch (error) {
-        console.log("error", error);
+        console.log("error tracker", error);
       }
     };
     fetchData();
@@ -66,9 +62,9 @@ const page = () => {
           <h2 className="text-xl font-semibold">All Employees</h2>
         </div>
         
-          <button onClick={AddEmployees} className="bg-[#1890FF] hover:text-[#1890FF] border hover:bg-white hover:border-[#1890FF] text-white flex p-4 gap-3 justify-center items-center">
+          {/* <button onClick={AddEmployees} className="bg-[#1890FF] hover:text-[#1890FF] border hover:bg-white hover:border-[#1890FF] text-white flex p-4 gap-3 justify-center items-center">
             <FiPlus /> Add New Employees
-          </button>
+          </button> */}
        
       </div>
       {employees.length > 0 ? (
@@ -76,13 +72,13 @@ const page = () => {
           <thead>
             <tr>
               <th>Employee Name</th>
-              <th>Employee Id</th>
-              <th>Project</th>
+              {/* <th>Project</th> */}
               <th>Email Address</th>
+              <th>Employee Status</th>
               <th>Designation</th>
               <th>Employee Type</th>
-              <th>Department</th>
-              <th>Start Date</th>
+              {/* <th>image</th> */}
+              {/* <th>Start Date</th> */}
             </tr>
           </thead>
           <tbody>
@@ -95,13 +91,13 @@ const page = () => {
                 className="!p-10 "
               >
                 <td>{emp.employee_name}</td>
-                <td>{emp.employee_id}</td>
-                <td>appkube</td>
+                {/* <td>appkube</td> */}
                 <td>{emp.email}</td>
+                <td>{emp.employee_status}</td>
                 <td>{emp.designation}</td>
                 <td>{emp.employee_type}</td>
-                <td>{emp.department}</td>
-                <td>{emp.start_date}</td>
+                {/* <td>{emp.image}</td> */}
+                {/* <td>{emp.start_date}</td> */}
               </tr>
             ))}
           </tbody>

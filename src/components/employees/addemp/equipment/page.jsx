@@ -6,9 +6,7 @@
   import { Checkbox, DatePicker, Input, Radio, Select } from "antd";
   import { useDispatch, useSelector } from "react-redux";
   import { AddEquipment } from "@/redux/slices/Equipment";
-  // import EquipmentDetails from "@/components/employeesOverview/EquipmentDetails";
-  // import { addFormData } from "@/redux/slices/Equipment";
-  // import EquipmentForm from "./EquipmentForm";
+  
   import axios from "@/api/axios";
   const { TextArea } = Input;
 
@@ -27,17 +25,6 @@
     const dispatch = useDispatch();
     const details = useSelector((state) => state.EquipmentDetails);
     const [provideBy, setProvideBy] = useState("org");
-  
-
-  
-
-  
-
-    
-  
-
-    
-
     const handleProvideByChange = (e) => {
       setOwner(e.target.value)
       setProvideBy(e.target.value);

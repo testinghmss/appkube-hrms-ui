@@ -15,7 +15,7 @@ const page = ({ tab, setTab }) => {
         <div className="flex justify-between w-full mb-4">
           <p className="font-medium text-xl">Personal Information</p>
           <div className="flex items-center gap-4">
-            <button className="flex items-center border px-5 py-2">
+            <button className="flex items-center border px-5 py-2" onClick={()=>{setTab(1)}}>
               <RiEditFill />
               <p>Edit</p>
             </button>
@@ -35,7 +35,7 @@ const page = ({ tab, setTab }) => {
         <div className="flex justify-between w-full mb-4 ">
           <p className="font-medium text-xl">Professional Information</p>
           <div className="flex items-center gap-4">
-            <button className="flex items-center border px-5 py-2">
+            <button className="flex items-center border px-5 py-2" onClick={()=>{setTab(2)}}>
               <RiEditFill />
               <p>Edit</p>
             </button>
@@ -48,7 +48,7 @@ const page = ({ tab, setTab }) => {
         <div className="flex justify-between w-full mb-4">
           <p className="font-medium text-xl">Equipment Details</p>
           <div className="flex items-center gap-4">
-            <button className="flex items-center border px-5 py-2">
+            <button className="flex items-center border px-5 py-2" onClick={()=>{setTab(3)}}>
               <RiEditFill />
               <p>Edit</p>
             </button>
@@ -64,7 +64,7 @@ const page = ({ tab, setTab }) => {
         <div className="flex justify-between w-full mb-4">
           <p className="font-medium text-xl">Documents</p>
           <div className="flex items-center gap-4">
-            <button className="flex items-center border px-5 py-2">
+            <button className="flex items-center border px-5 py-2" onClick={()=>{setTab(4)}}>
               <RiEditFill />
               <p>Edit</p>
             </button>

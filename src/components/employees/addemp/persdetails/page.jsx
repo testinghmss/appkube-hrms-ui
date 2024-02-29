@@ -16,11 +16,7 @@ const PersonalInformation = ({tab,setTab}) => {
   // const [form] = Form.useForm();
   // const Details = useSelector((state) => state.personalDetails) || {};
 
-  // useEffect(() => {
-  //   if (Details) {
-  //     form.setFieldsValue(personalDetails);
-  //   }
-  // }, [Details, form]);
+ 
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -38,10 +34,7 @@ const PersonalInformation = ({tab,setTab}) => {
   const handleImageChange = (event) => {};
 
   const nextStore = async (values) => {
-    // const myHeaders = new Headers();
-    // myHeaders.append("Content-Type", "application/json");
-    // myHeaders.append("Accept", "application/json");
-
+    
     const data = {
       first_name: values.first_name,
       last_name: values.last_name,
@@ -70,38 +63,12 @@ const PersonalInformation = ({tab,setTab}) => {
       console.log("error", error);
     }
 
-    // const requestOptions = {
-    //   method: "POST",
-    //   headers: myHeaders,
-    //   body: data,
-    //   redirect: "follow",
-    // };
-    // console.log('values',values)
+   
 
-    // await fetch(
-    //   "https://bwppdwpoab.execute-api.us-east-1.amazonaws.com/dev/employee/personalInfo",
-    //   requestOptions
-    // )
-    //   .then((response) => response.text())
-    //   .then((result) => console.log(result))
-    //   .catch((error) => console.error(error));
-    //     console.log("success", values);
-    //     axios.post('/employee/personalInfo',values  )
-    //     .then((res) => {
-    //       console.log(res);
-    // router.push("/employee/personalDetails");
-    //     })
-    //  .catch((err) => {
-    //       console.log("error",err);
-    //     });
-    // dispatch(addPersonalDetails(values));
+   
   };
 
-  //   const axios = require('axios');
 
-  // .catch((error) => {
-  //   console.log(error);
-  // });
 
   return (
     <div style={{ display: "flex", justifyContent: "center", gap: "100px" }}>

@@ -96,7 +96,7 @@ export default function RootLayout({ children }) {
       <UserOutlined />
     ),
     getItem(
-      <Link href={"/compliance"}>Compliance</Link>,
+      <Link href={"/hrms/tracker"}>Tracker</Link>,
       "5",
       <HighlightOutlined />
     ),

@@ -33,7 +33,7 @@ const page = () => {
     {
       key: "5",
       label: "Review",
-      children: <Review />,
+      children: <Review tab={activeTab} setTab={setActiveTab}/>,
     },
   ];
   const onChange = (key) => {

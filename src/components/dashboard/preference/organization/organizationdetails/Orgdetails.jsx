@@ -6,12 +6,18 @@ import Company from "@/../../public/assets/onboarding/company.svg";
 // import { useRouter } from "next/navigation";
 // import { PiPencilSimpleLineFill } from "react-icons/pi";
 import { AiFillEdit } from "react-icons/ai";
-import { Button } from "antd";
+// import { Button } from "antd";
 // import { IoSaveSharp } from "react-icons/io5";
 import Editorgdetails from "./Editorgdetails";
+import {useSelector} from "react-redux"
+
+
 
 const Orgdetails = () => {
   const [edit, setEdit] = useState(false);
+  const companyData = useSelector((state) => state.Onboardingpersdetails.companyData);
+
+
   return (
     <>
       {!edit ? (
@@ -38,47 +44,47 @@ const Orgdetails = () => {
               <div className="flex  justify-between  border-1 border-b  border-gray-200 w-full">
                 <span className="  flex flex-col gap-1 w-[50%]">
                   <span className="text-gray-400 ">Legal Company Name</span>
-                  <span>Synectiks India Private LTD</span>
+                  <span>{companyData.name}</span>
                 </span>
                 <span className="flex flex-col gap-1 pl-4 w-[50%]">
                   <span className="text-gray-400 ">Company Email Address</span>
-                  <span>hr@synectiks.com</span>
+                  <span>{companyData.email}</span>
                 </span>
               </div>
               <div className="flex  justify-between border-b border-1  border-gray-200 w-full">
                 <span className="  flex flex-col gap-1 items-start w-[50%]">
                   <span className="text-gray-400 ">Contact Number</span>
-                  <span>91+ 9505934716</span>
+                  <span>91+{companyData.number}</span>
                 </span>
                 <span className="flex flex-col gap-1 pl-4 w-[50%]">
                   <span className="text-gray-400 ">Address Line 1</span>
-                  <span>Level 6, Phase 2, N Heights</span>
+                  <span>{companyData.address_line_1}</span>
                 </span>
               </div>
               <div className="flex  justify-between border-b border-1  border-gray-200 w-full">
                 <span className="  flex flex-col gap-1 w-[50%]">
                   <span className="text-gray-400 "> Address Line 2</span>
-                  <span>Hitech city</span>
+                  <span>{companyData.address_line_1}</span>
                 </span>
                 <span className="flex flex-col items-start gap-1 pl-4 w-[50%]">
                   <span className="text-gray-400 ">Country</span>
-                  <span>India</span>
+                  <span>{companyData.country}</span>
                 </span>
               </div>
               <div className="flex  justify-between border-b border-1  border-gray-200 w-full">
                 <span className="  flex flex-col gap-1 w-[50%]">
                   <span className="text-gray-400 ">State</span>
-                  <span>Telangana</span>
+                  <span>{companyData.state}</span>
                 </span>
                 <span className="flex flex-col items-start gap-1 pl-4 w-[50%]">
                   <span className="text-gray-400 ">City</span>
-                  <span>Hyderabad</span>
+                  <span>{companyData.city}</span>
                 </span>
               </div>
               <div className="flex   border-b border-1  border-gray-200 w-full">
                 <span className="  flex flex-col gap-1 w-[50%] border-b border-1 ">
                   <span className="text-gray-400 ">Zipcode</span>
-                  <span>500053</span>
+                  <span>{companyData.zipcode}</span>
                 </span>
               </div>
             </div>
