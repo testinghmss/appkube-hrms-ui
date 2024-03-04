@@ -4,7 +4,8 @@ import { Tabs } from 'antd';
 // import TopNav from './TopNav';
 import { IoMdPerson } from "react-icons/io";
 // import Image from "next/image"
-import Customfeilds from './customfields/customfeilds';
+import Customfeilds from '@/components/dashboard/preference/organization/customfields/Customfeilds';
+// import Customfeilds from './customfields/customfeilds';
 import Orgdetails from './organizationdetails/Orgdetails';
 // import ProjectIcon from "@/../../public/assets/Projects.svg"
 // import AllProjects from './AllProjects';
@@ -23,12 +24,12 @@ const Organizationdetails = () => {
 
   return (
     <div>
-      
+
       <Tabs
         tabPosition={tabPosition}
         activeKey={activeTab}
         onTabClick={(key) => changeActiveTab(key)}
-       
+
         tabBarStyle={{ width: '15%' }}
       >
         <Tabs.items tabBarStyle={{color:'red'}} tab={

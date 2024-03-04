@@ -2,7 +2,8 @@
 import React from "react";
 import { Tabs } from "antd";
 import PersonalDetails from "./personaldetails/Personaldetails";
-import Orgdetails from "./organization/organizationdetails/orgdetails";
+import Orgdetails from "@/components/dashboard/preference/organization/organizationdetails/Orgdetails";
+// import Orgdetails from "./organization/organizationdetails/orgdetails";
 import Organizationdetails from "./organization/Organizationdetails";
 const Preference = () => {
   return (
