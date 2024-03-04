@@ -9,7 +9,7 @@ import Avatar from "@/../public/assets/empDetails/Avatar1.svg";
 // import axios from 'axios'
 import axios from "@/api/axios"
 
-const page = () => {
+const EmployeesOverview = () => {
   const router = useRouter();
   const columns = [
     // {
@@ -76,7 +76,7 @@ const page = () => {
 
 
  const [employees, setEmployees] = useState([])
-  
+
 
 
   useEffect(()=>{
@@ -94,7 +94,7 @@ const page = () => {
     }
     fetchData()
   },[])
- 
+
   const stylestable = {
     width: "100%",
     borderCollapse: "collapse",
@@ -123,10 +123,10 @@ const page = () => {
           </button>
         </Link>
       </div>
-       <Link href={`/hrms/employees/employeesOverView`}> 
+       <Link href={`/hrms/employees/employeesOverView`}>
        <Table className="!m-1 !p-0"  columns={columns} dataSource={employees} style={stylestable}
   rowClassName="table-row"
-  onChange={onChange} /> 
+  onChange={onChange} />
 
        </Link>
       {/* <ul>
@@ -168,4 +168,4 @@ const page = () => {
 };
 
 
-export default page;
+export default EmployeesOverview;

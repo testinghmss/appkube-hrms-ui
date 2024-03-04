@@ -6,7 +6,7 @@ import { useState } from "react";
 import {useRouter} from "next/navigation";
 import React from "react";
 
-const page = () => {
+const Onboard = () => {
   const router = useRouter();
   const [step, setStep] = useState(1);
   return (
@@ -19,4 +19,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Onboard;

@@ -7,7 +7,7 @@ import Personal from "@/components/employees/addemp/persdetails/page";
 import Professional from "@/components/employees/addemp/profdetails/page";
 import Review from "@/components/employees/addemp/review/page";
 
-const page = () => {
+const Details = () => {
   const [activeTab, setActiveTab] = useState(1);
   const items = [
     {
@@ -73,4 +73,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Details;

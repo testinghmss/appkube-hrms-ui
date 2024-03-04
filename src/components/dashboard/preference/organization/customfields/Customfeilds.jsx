@@ -16,7 +16,7 @@ const Customfeilds = () => {
             <span>
               <h2 className="font-semibold text-lg">Custom Field</h2>
               <p>
-                Define supplementary information that can be added to workers'
+                Define supplementary information that can be added to workers
                 personal profiles or contracts.
               </p>
             </span>
