@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Editcustomfields from "./Editcustomfields";
+import Editcustomfield from "./Editcustomfield";
 import { GoPlus } from "react-icons/go";
 
-const Customfeilds = () => {
+const Customfeild = () => {
   const HandleEdit = () => {
     console.log("cliked edit");
     setEdit(!edit);
@@ -76,10 +76,10 @@ const Customfeilds = () => {
           </table>
         </div>
       ) : (
-        <Editcustomfields />
+        <Editcustomfield />
       )}
     </>
   );
 };
 
-export default Customfeilds;
+export default Customfeild;

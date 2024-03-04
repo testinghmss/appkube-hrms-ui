@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { IoSave } from "react-icons/io5";
 import { IoSaveSharp } from "react-icons/io5";
 Button;
-import Customfeilds from "./Customfeilds";
-const Editcustomfields = () => {
+import Customfeild from "./Customfeild";
+const Editcustomfield = () => {
   const [edit, setEdit] = useState(true);
 
   return (
@@ -85,10 +85,10 @@ const Editcustomfields = () => {
           </div>
         </div>
       ) : (
-        <Customfeilds />
+        <Customfeild />
       )}
     </>
   );
 };
 
-export default Editcustomfields;
+export default Editcustomfield;

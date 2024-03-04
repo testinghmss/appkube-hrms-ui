@@ -2,7 +2,7 @@
 import React from "react";
 import { Tabs } from "antd";
 import PersonalDetails from "./personaldetails/Personaldetails";
-import Orgdetails from "./organization/organizationdetails/orgdetails";
+// import Orgdetail from "./organization/organizationdetails/orgdetail";
 import Organizationdetails from "./organization/Organizationdetails";
 const Preference = () => {
   return (
