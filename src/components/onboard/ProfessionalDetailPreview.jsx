@@ -44,7 +44,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
   return (
     <div className="flex justify-center items-center gap-16 w-[100%] h-[100vh] p-10 ">
       <div className="md:w-[70vw] h-[88vh] rounded-2xl  p-4 bg-[#E6F7FF] flex justify-center items-center">
-        <Image width={100} height={100} src={Onboard} className="w-[60%] " />
+        <Image width={100} height={100} src={Onboard} className="w-[60%] " alt="onboard"/>
       </div>
       <div className="flex flex-col gap-1 items-center  w-[50vw] relative leading-8">
         <Link href="/login">
@@ -57,6 +57,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
               height={15}
               src={Logout}
               className="group-hover:bg-white"
+              alt="logout"
             />
             <button className="">Logout</button>
           </div>
@@ -99,6 +100,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
               width={100}
               height={100}
               className="w-[80%] h-[80%] border "
+              alt="company"
             />
           </div>
           <div className="flex flex-col gap-4">

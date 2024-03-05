@@ -11,7 +11,7 @@ const page = () => {
     <>
       <div className="flex justify-between items-center p-10 gap-10 md:mr-[200px]">
         <div className="md:w-[53vw] md:h-[88vh] bg-[#E6F7FF] rounded-3xl flex justify-center items-center overflow-hidden">
-          <Image src={otpImage} className="bg-[#E6F7FF] w-full scale-75" />
+          <Image src={otpImage} className="bg-[#E6F7FF] w-full scale-75" alt="otp image"/>
         </div>
         <div className="ml-5 leading-10 ">
           <p className="cursor-pointer hover:scale-105 transition-all">

@@ -8,6 +8,7 @@
   import { AddEquipment } from "@/redux/slices/Equipment";
   
   import axios from "@/api/axios";
+import Image from "next/image";
   const { TextArea } = Input;
 
 
@@ -99,10 +100,11 @@
         >
           <div className=" flex gap-5">
             <div>
-              <img
+              <Image
                 src="https://cdn-icons-png.flaticon.com/512/68/68792.png"
                 className="h-8 w-10"
-              ></img>
+                alt="nothing"
+              />
             </div>
             <div className="w-full">
               <h1 className="text-xl">
@@ -284,11 +286,12 @@
         >
           <div className=" flex gap-5">
             <div className="bg-cyan-400 h-12 w-16 rounded-full">
-              <img
+              <Image
+
                 src="https://www.iconpacks.net/icons/1/free-keyboard-icon-1405-thumb.png"
                 className="rounded-xl h-6 w-6 ml-2.5 mt-3"
                 alt="Equipment Icon"
-              ></img>
+              />
             </div>
             <div className="w-full">
               <h1 className="text-xl">
@@ -312,7 +315,7 @@
                 type="editbtn"
                 className="text-black rounded-none mt-3 flex h-8 w-24 hover:text-blue-600 hover:border-blue-600 border-gray-300 font-semibold text-base"
               >
-                <img
+                <Image
                   src="https://w7.pngwing.com/pngs/613/900/png-transparent-computer-icons-editing-delete-button-miscellaneous-angle-logo.png"
                   className="h-4 w-4 mt-1 ml-2"
                   alt="Edit Icon"
@@ -324,7 +327,7 @@
                 type="dltbtn"
                 className="text-white rounded-none mt-3 bg-red-500 hover:text- hover:border-red-600 border-gray-300 font-semibold text- flex h-8 w-24 justify-center"
               >
-                <img
+                <Image
                   src="https://cdn-icons-png.flaticon.com/512/3687/3687412.png"
                   className="h-6 w-6 bg-transparent hover:text-cyan-600"
                   alt="Delete Icon"

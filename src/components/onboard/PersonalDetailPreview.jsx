@@ -3,14 +3,14 @@ import Image from "next/image";
 import { IoChevronBackOutline } from "react-icons/io5";
 import Onboard from "@/../public/assets/onboarding/OnbordingImg.svg";
 import Logout from "@/../public/assets/onboarding/Logout.svg";
-import Company from "@/../public/assets/onboarding/company.svg";
+// import Company from "@/../public/assets/onboarding/company.svg";
 import Profile from "@/../public/assets/onboarding/profile.svg";
 import Link from "next/link";
 import {useDispatch,useSelector} from "react-redux"
 import { createUser } from "@/redux/slices/Onboardingpersdetails";
 import { createCompany } from "@/redux/slices/Onboardingpersdetails";
 
-import { Button, Progress } from "antd";
+import {  Progress } from "antd";
 const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
 
   const personalData = useSelector((state) => state.Onboardingpersdetails.personalData);
@@ -48,7 +48,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
   return (
     <div className="flex justify-center items-center gap-16 w-[100%] h-[100vh] p-10 ">
       <div className="md:w-[70vw] h-[88vh] rounded-2xl bg-[#E6F7FF] flex justify-center items-center">
-        <Image width={100} height={100} src={Onboard} className="w-[60%]  " />
+        <Image width={100} height={100} src={Onboard} className="w-[60%]  "  alt="onboard"/>
       </div>
       <div className="flex flex-col gap-5 items-center  w-[50vw] h-[85vh] relative">
         <Link href="/login">
@@ -61,6 +61,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
               height={15}
               src={Logout}
               className="group-hover:bg-white"
+              alt="logout"
             />
             <button className="">Logout</button>
           </div>
@@ -96,7 +97,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
           </div>
         </div>
         <div className="self-start rounded-md w-full p-2 h-full flex flex-col gap-5">
-          <Image src={Profile} width={100} height={100} />
+          <Image src={Profile} width={100} height={100} alt="profile"/>
           <div className="flex flex-col gap-2">
             <div className="flex  justify-start gap-40 border-b-2 -mt-2  border-gray-200 w-full">
               <span className="  flex flex-col gap-1 ">

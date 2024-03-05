@@ -1,14 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import { Button } from "antd";
+// import { Button } from "antd";
 import Image from "next/image";
 import Profile from "@/../../public/assets/onboarding/profile.svg";
 // import { useRouter } from "next/navigation";
 // import { PiPencilSimpleLineFill } from "react-icons/pi";
 import { AiFillEdit } from "react-icons/ai";
-import Editpersonaldetails from "./Editpersonaldetails";
+import Editpersonaldetail from "./Editpersonaldetail";
 
-const PersonalDetails = () => {
+const PersonalDetail = () => {
   // const router = useRouter();
   const [edit, setEdit] = useState(false);
 
@@ -34,6 +34,7 @@ const PersonalDetails = () => {
                 className="h-full w-full rounded-full"
                 width={100}
                 height={100}
+                alt="profile"
               />
             </div>
             <div className="w-[40%] flex flex-col gap-5 leading-8">
@@ -71,10 +72,10 @@ const PersonalDetails = () => {
           </div>
         </div>
       ) : (
-        <Editpersonaldetails />
+        <Editpersonaldetail />
       )}
     </>
   );
 };
 
-export default PersonalDetails;
+export default PersonalDetail;

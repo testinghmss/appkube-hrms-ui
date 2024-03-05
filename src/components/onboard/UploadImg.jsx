@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
+import Image from 'next/image';
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
@@ -72,7 +73,7 @@ const App = () => {
         
       >
         {imageUrl ? (
-          <img
+          <Image
           
             src={imageUrl}
             alt="avatar"

@@ -26,7 +26,7 @@ const page = ({ tab, setTab }) => {
           </div>
         </div>
         <div className="flex items-start gap-4">
-          <Image src={ProfImg} className="w-[100px] " />
+          <Image src={ProfImg} className="w-[100px] " alt="profile"/>
           <PersonalInfo />
         </div>
       </div>

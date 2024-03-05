@@ -7,6 +7,7 @@ import { Button, Form, Input, Row, Col, Select, Radio, DatePicker } from "antd";
 // } from "@/redux/slices/personalDetails";
 import { useRouter } from "next/navigation";
 import axios from "@/api/axios";
+import Image from "next/image";
 // import axios from "axios";
 const { Option } = Select;
 
@@ -91,7 +92,7 @@ const PersonalInformation = ({tab,setTab}) => {
               style={{ display: "none" }}
             />
             {image ? (
-              <img
+              <Image
                 src={URL.createObjectURL(image)}
                 alt="upload image"
                 className="img-display-after"

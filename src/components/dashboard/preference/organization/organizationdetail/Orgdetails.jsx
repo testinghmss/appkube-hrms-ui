@@ -33,7 +33,7 @@ const Orgdetails = () => {
           <div className="w-full  flex items-start justify-start shadow-md gap-20 px-4 py-2">
             <div className="h-24 w-24 rounded-full border bg-gray-300">
               <Image
-                // src="profile.svg"
+                alt="company logo"
                 src={Company}
                 className="h-full w-full rounded-full"
                 width={100}

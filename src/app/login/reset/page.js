@@ -9,7 +9,7 @@ const page = () => {
     <>
       <div className="flex justify-center items-center bg-gray-200  h-screen ">
         <div className="shadow-lg w-[400px] bg-white  p-9 flex flex-col justify-center items-center">
-          <Image src={updateImage} className="self-center w-[12vw]" />
+          <Image src={updateImage} className="self-center w-[12vw]" alt='update img'/>
           {/* <p className=' flex justify-center'>image ?????</p> */}
           <p className="font-bold  text-2xl  text-center">
             Password Update <br /> successfully

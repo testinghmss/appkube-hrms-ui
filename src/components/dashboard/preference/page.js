@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Tabs } from "antd";
-import PersonalDetails from "./personaldetails/Personaldetails";
+import PersonalDetails from "./personaldetails/Personaldetail";
 // import Orgdetail from "./organization/organizationdetails/orgdetail";
 import Organizationdetails from "./organization/Organizationdetails";
 const Preference = () => {
@@ -11,12 +11,9 @@ const Preference = () => {
         <PersonalDetails />
       </Tabs.TabPane>
       <Tabs.TabPane tab="Organizational Information" key="2">
-        {/* <Orgdetails/> */}
         <Organizationdetails />
       </Tabs.TabPane>
-      <Tabs.TabPane tab="Security " key="3" disabled>
-        {/* <Organizationdetails/> */}
-      </Tabs.TabPane>
+      <Tabs.TabPane tab="Security " key="3" disabled></Tabs.TabPane>
       <Tabs.TabPane tab="Notifications " key="4" disabled></Tabs.TabPane>
     </Tabs>
   );

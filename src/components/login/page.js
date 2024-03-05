@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
@@ -9,7 +9,7 @@ import Image from "next/image";
 import LoginImage from "../../../public/assets/login/login2.svg";
 import synectiksImage from "../../../public/assets/login/synectiks.svg";
 import welcomeImage from "../../../public/assets/login/hand.jpg";
-import unionImage from "../../../public/assets/login/Union.svg";
+// import unionImage from "../../../public/assets/login/Union.svg";
 
 const Page = () => {
   const [onBoarded, setOnBoarded] = useState(false);
@@ -25,12 +25,13 @@ const Page = () => {
           <Image
             src={LoginImage}
             className="bg-[#E6F7FF] w-[50%] h-[80%] scale-150"
+            alt="login image"
           />
         </div>
         <div className="w-[50%]">
           <div className="ml-5 mb-14">
             <p className="font-semibold text-2xl">HR Portal</p>
-            <Image src={synectiksImage} className="w-[100px]" />
+            <Image src={synectiksImage} className="w-[100px]" alt="company logo"/>
           </div>
 
           <div className="ml-5">
@@ -40,6 +41,7 @@ const Page = () => {
                 <Image
                   src={welcomeImage}
                   className="w-[25px] h-[25px] ml-2 mb-2"
+                  alt="welcome"
                 />
               </div>
               <p className="text-gray-400 mb-4 -mt-1 text-sm">

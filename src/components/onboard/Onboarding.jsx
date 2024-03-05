@@ -8,13 +8,12 @@ import Logout from '@/../public/assets/onboarding/Logout.svg'
 import {
   Flex,
   Form,
-  Input,
-  InputNumber,
-  Option,
+  
   Progress,
   Segmented,
   Select,
-  Item,
+  
+  
 } from "antd";
 
 // import { UserOutlined } from "@ant-design/icons";
@@ -62,12 +61,13 @@ const Onboarding = ({ step, setStep }) => {
           height={100}
           src={OnBoardingImg}
           className="w-[60%]  "
+          alt="onboarding img"
         />
       </div>
 
       <div className="w-[50vw] h-[96vh] flex flex-col relative">
         <div className="flex  items-center p-1  border border-[#1890FF] hover:bg-white hover:text-[#1890FF] transition-all btn btn-primary w-[100px] absolute right-2 top-10 cursor-pointer">
-          <Image width={15} height={15} src={Logout} />
+          <Image width={15} height={15} src={Logout} alt="logout"/>
           <button className="" onClick={()=>{
             router.push("/login")
           }}>Logout</button>

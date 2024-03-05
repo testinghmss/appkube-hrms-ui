@@ -7,7 +7,7 @@ import Personal from "@/components/employees/addemp/persdetails/page";
 import Professional from "@/components/employees/addemp/profdetails/page";
 import Review from "@/components/employees/addemp/review/page";
 
-const page = () => {
+const Page = () => {
   const [activeTab, setActiveTab] = useState(1);
   const items = [
     {
@@ -33,7 +33,7 @@ const page = () => {
     {
       key: "5",
       label: "Review",
-      children: <Review tab={activeTab} setTab={setActiveTab}/>,
+      children: <Review tab={activeTab} setTab={setActiveTab} />,
     },
   ];
   const onChange = (key) => {
@@ -73,4 +73,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

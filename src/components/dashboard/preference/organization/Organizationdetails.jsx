@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import { Tabs } from 'antd';
 // import TopNav from './TopNav';
-import { IoMdPerson } from "react-icons/io";
+// import { IoMdPerson } from "react-icons/io";
 // import Image from "next/image"
 import Customfeild from './customfields/Customfeild';
-import Orgdetails from './organizationdetails/Orgdetails';
+import Orgdetails from './organizationdetail/Orgdetails';
 // import ProjectIcon from "@/../../public/assets/Projects.svg"
 // import AllProjects from './AllProjects';
 const Organizationdetails = () => {

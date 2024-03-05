@@ -13,7 +13,7 @@ export const SendEmp = (emp) => {
     console.log(emp);
   
 };
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const AddEmployees = ()=>{
 
@@ -109,4 +109,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

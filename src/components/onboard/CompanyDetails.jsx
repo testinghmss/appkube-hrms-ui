@@ -13,15 +13,13 @@ import {useDispatch,useSelector} from "react-redux"
 
 
 import {
-  Flex,
+  
   Form,
-  Input,
-  InputNumber,
-  Option,
+  
+  
   Progress,
-  Segmented,
-  Select,
-  Item,
+
+
 } from "antd";
 import Link from "next/link";
 const CompanyDetails = ({ step, setStep }) => {
@@ -54,13 +52,13 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
   return (
     <div className="flex justify-center items-center gap-16 w-[100%] h-[100vh] p-10">
       <div className="w-[70vw] h-[88vh] rounded-2xl bg-[#E6F7FF] flex justify-center items-center">
-        <Image width={100} height={100} src={ImageUp} className="w-[60%]"  />
+        <Image width={100} height={100} src={ImageUp} className="w-[60%]" alt="image above" />
       </div>
 
       <div className="w-[50vw] h-[96vh] -mt-7 flex flex-col relative">
         <Link href="/login">
           <div className="flex  items-center p-1 gap-1 border border-[#1890FF] hover:bg-blue-100 transition-all btn btn-primary w-[100px] absolute right-2 top-8 cursor-pointer">
-            <Image width={15} height={15} src={Logout}  />
+            <Image width={15} height={15} src={Logout}  alt="logout"/>
             <button className="">Logout</button>
           </div>
         </Link>

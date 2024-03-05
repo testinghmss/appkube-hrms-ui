@@ -1,11 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Table, Breadcrumb } from "antd";
-import Image from "next/image";
-import Link from "next/link";
-import Plus from "../../../../public/assets/homeicons/Union.svg";
+import { Breadcrumb } from "antd";
+// import Image from "next/image";
+// import Link from "next/link";
+// import Plus from "../../../../public/assets/homeicons/Union.svg";
 import { useRouter } from "next/navigation";
-import Avatar from "@/../public/assets/empDetails/Avatar1.svg";
+// import Avatar from "@/../public/assets/empDetails/Avatar1.svg";
 // import axios from 'axios'
 import axios from "@/api/axios";
 import { FiPlus } from "react-icons/fi";
@@ -17,7 +17,7 @@ export const SendEmp = (emp) => {
     console.log(emp);
   
 };
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const AddEmployees = ()=>{
 
@@ -113,4 +113,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

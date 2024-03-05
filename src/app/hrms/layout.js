@@ -1,6 +1,6 @@
 "use client";
 
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google";
 
 import "../globals.css";
 // import {
@@ -18,25 +18,25 @@ import {
   UserOutlined,
   HighlightOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu } from "antd";
+import { Layout, Menu } from "antd";
 import React, { useState } from "react";
 import Link from "next/link";
-import { relative } from "path";
+// import { relative } from "path";
 
 import { Provider } from "react-redux";
 import { store } from "@/redux/store/store";
 
-import { AudioOutlined } from "@ant-design/icons";
-import { Input, Space } from "antd";
+// import { AudioOutlined } from "@ant-design/icons";
+import { Input } from "antd";
 const { Search } = Input;
 
 import Image from "next/image";
-import Vector from "../../../public/assets/homeicons/Vector.svg";
-import Vector1 from "../../../public/assets/homeicons/Vector1.svg";
-import Wrapper from "../../../public/assets/homeicons/wrapper.svg";
-import Wrapper1 from "../../../public/assets/homeicons/wrapper1.svg";
-import Wrapper2 from "../../../public/assets/homeicons/wrapper2.svg";
-import Icon from "../../../public/assets/homeicons/icon.svg";
+// import Vector from "../../../public/assets/homeicons/Vector.svg";
+// import Vector1 from "../../../public/assets/homeicons/Vector1.svg";
+// import Wrapper from "../../../public/assets/homeicons/wrapper.svg";
+// import Wrapper1 from "../../../public/assets/homeicons/wrapper1.svg";
+// import Wrapper2 from "../../../public/assets/homeicons/wrapper2.svg";
+// import Icon from "../../../public/assets/homeicons/icon.svg";
 import Account from "../../../public/assets/homeicons/Setting.svg";
 import Vector2 from "../../../public/assets/homeicons/Vector2.svg";
 import Bell from "../../../public/assets/homeicons/Bell.svg";
@@ -150,9 +150,9 @@ export default function RootLayout({ children }) {
                 />
               </div>
               <div className="flex w-full gap-4 justify-evenly px-4">
-                <Image src={Vector2} />
-                <Image className="text-white" src={Bell} />
-                <Image src={Account} />
+                <Image src={Vector2} alt="vector"/>
+                <Image className="text-white" src={Bell} alt="bell"/>
+                <Image src={Account} alt="account"/>
               </div>
             </div>
           </Header>

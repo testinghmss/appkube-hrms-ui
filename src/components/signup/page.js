@@ -3,8 +3,8 @@ import { useRef } from "react";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
-import { UseDispatch } from "react-redux";
-import { Button, Checkbox, Form, Input } from "antd";
+// import { UseDispatch } from "react-redux";
+import { Button,  Form, Input } from "antd";
 import { useRouter } from "next/navigation";
 // import signup from "../../../public/assets/photos/signup/signuphero.png";
 import signup from "@/../public/assets/photos/signup/signuphero1.svg";
@@ -27,7 +27,7 @@ const Signup = () => {
       </div>
       <div className="md:w-[50vw] flex flex-col  items-start">
         <span className="flex items-center gap-3">
-          <Image src={hrmslogo} />
+          <Image src={hrmslogo} alt="logo"/>
           <h1 className="font-semibold text-2xl">HRMS</h1>
         </span>
         <div className="mt-12">

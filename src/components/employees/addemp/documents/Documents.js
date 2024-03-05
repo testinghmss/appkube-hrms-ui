@@ -5,7 +5,7 @@ import Upload from './upload'
 import { FaRegFileAlt } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import {Progress, Table} from "antd"
-import { AiFillDelete } from "react-icons/ai";
+// import { AiFillDelete } from "react-icons/ai";
 // import Delete from './Table';
 // import FileTable from './FileTable';
 import FileTable from './FileTable';
