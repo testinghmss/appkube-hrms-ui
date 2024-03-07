@@ -21,6 +21,7 @@ import { useState  } from "react"
 import {useDispatch,useSelector} from "react-redux"
 // import { createUser } from "@/redux/slices/personalDetails";
 import { setPersonalData } from '@/redux/slices/Onboardingpersdetails';
+import { notification } from 'antd';
 
 
 
@@ -32,7 +33,7 @@ const Onboarding = ({ step, setStep }) => {
   const { Option } = Select;
   const router = useRouter();
   
-  const [personal , setPersonal] = useState({})
+  const [personal , setPersonal] = useState(personalData || {})
   const dispatch = useDispatch()
 
   const getUserData = (e) =>{
@@ -44,11 +45,25 @@ const Onboarding = ({ step, setStep }) => {
     setPersonal({ ...personal, gender: selectedValue });
   };
 
+  const openNotification = () => {
+    notification.open({
+      message: 'Please fill in all the required fields',
+    });
+  };
+
  const handleSubmit = async () => {
   // e.preventDefault();
+  if (!personal.first_name || !personal.last_name || !personal.gender || !personal.dob || !personal.number) {
+    console.log("Please fill in all the required fields");
+    // alert("fill All the input fields")
+    openNotification();
+    return;
+  }
   console.log("personal...", personal);
   
      dispatch(setPersonalData(personal));
+
+     setStep(step + 1);
 
 };
 
@@ -92,14 +107,16 @@ const Onboarding = ({ step, setStep }) => {
             placeholder="First name"
             className="p-1 mb-3 border border-gray-300 outline-[#1890FF] w-[70%] "
             onChange={getUserData}
-            value={personal.first_name !== undefined ? personal.first_name : "" || personalData.first_name }
+            // value={personal.first_name !== undefined ? personal.first_name : "" || personalData.first_name }
+            value={personal.first_name || ''}
           /> 
           <input
             name="last_name"
             placeholder="Last name"
             className="p-1 mb-3 border border-gray-300 outline-[#1890FF] w-[70%]"
             onChange={getUserData}
-            value={personal.last_name !== undefined ? personal.last_name : "" || personalData.last_name }
+            // value={personal.last_name !== undefined ? personal.last_name : "" || personalData.last_name }
+            value={personal.last_name || ''}
           />
 
           <div className="mb-3">
@@ -148,7 +165,8 @@ const Onboarding = ({ step, setStep }) => {
                 ]}
                 onChange={handleGenderChange}
                 // value={ personal.gender ?? personalData.gender ?? ""}
-                value={personal.gender || personalData.gender || "male"}
+                // value={personal.gender || personalData.gender || "male"}
+                value={personal.gender || ''}
 
               />
             </Flex>
@@ -160,7 +178,8 @@ const Onboarding = ({ step, setStep }) => {
             placeholder="Date of birth"
             className="p-1 mb-2 border border-gray-300 outline-[#1890FF] w-[70%]"
             onChange={getUserData}
-            value={personal.dob !== undefined ? personal.dob : "" || personalData.dob }
+            // value={personal.dob !== undefined ? personal.dob : "" || personalData.dob }
+            value={personal.dob || ''}
           />
 
           <div>
@@ -174,7 +193,8 @@ const Onboarding = ({ step, setStep }) => {
                 type="number"
                 className="w-full h-9 p-2 border-gray-300 outline-[#1890FF]"
                 onChange={getUserData}
-                value={personal.number !== undefined ? personal.number : "" || personalData.number }
+                // value={personal.number !== undefined ? personal.number : "" || personalData.number }
+                value={personal.number || ''}
               />
             </Form>
           </div>
@@ -195,7 +215,7 @@ const Onboarding = ({ step, setStep }) => {
           <button
             type="submit"
             className="w-[70%] lg:mt-6 h-8 border bg-[#1890FF] hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] transition-all text-white items-end"
-            onClick={() => {handleSubmit(), console.log('hello'),setStep(step + 1)}}
+            onClick={() => {handleSubmit(), console.log('hello')}}
           >
             Next
           </button>

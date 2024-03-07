@@ -104,6 +104,8 @@ import Image from "next/image";
                 src="https://cdn-icons-png.flaticon.com/512/68/68792.png"
                 className="h-8 w-10"
                 alt="nothing"
+                width={100}
+                height={100}
               />
             </div>
             <div className="w-full">
@@ -291,6 +293,8 @@ import Image from "next/image";
                 src="https://www.iconpacks.net/icons/1/free-keyboard-icon-1405-thumb.png"
                 className="rounded-xl h-6 w-6 ml-2.5 mt-3"
                 alt="Equipment Icon"
+                width={100}
+                height={100}
               />
             </div>
             <div className="w-full">
@@ -319,6 +323,8 @@ import Image from "next/image";
                   src="https://w7.pngwing.com/pngs/613/900/png-transparent-computer-icons-editing-delete-button-miscellaneous-angle-logo.png"
                   className="h-4 w-4 mt-1 ml-2"
                   alt="Edit Icon"
+                  width={100}
+                  height={100}
                 />
                 <p className="ml-1"> Edit</p>
               </Button>
@@ -331,6 +337,8 @@ import Image from "next/image";
                   src="https://cdn-icons-png.flaticon.com/512/3687/3687412.png"
                   className="h-6 w-6 bg-transparent hover:text-cyan-600"
                   alt="Delete Icon"
+                  width={100}
+                  height={100}
                 />
                 <p className="ml-1"> Delete</p>
               </Button>
