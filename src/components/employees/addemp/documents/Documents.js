@@ -5,7 +5,7 @@ import Upload from './upload'
 import { FaRegFileAlt } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import {Progress, Table} from "antd"
-import { AiFillDelete } from "react-icons/ai";
+// import { AiFillDelete } from "react-icons/ai";
 // import Delete from './Table';
 // import FileTable from './FileTable';
 import FileTable from './FileTable';
@@ -41,7 +41,7 @@ const Documents = ({tab,setTab}) => {
       <FileTable />
 
       <button
-        className="w-[30%] bg-[#1890FF] text-white m-auto h-9 "
+        className="w-[30%]  bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white  border hover:border-[#1890FF] m-auto h-9 "
         onClick={() => {
           setTab(tab + 1);
         }}

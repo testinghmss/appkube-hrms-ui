@@ -134,8 +134,8 @@ const FileTable = () => {
         key="action"
         render={(_, record) => (
           <Space size="middle">
-            <button className="flex items-center gap-2 justify-between bg-[#FF4D4F] rounded-sm text-white py-2  px-4">
-              <AiFillDelete />
+            <button className="flex items-center gap-2 justify-between border bg-[#FF4D4F] text-white hover:text-[#FF4D4F] hover:bg-white hover:border-[#FF4D4F]       rounded-sm  py-2  px-4 group">
+              <AiFillDelete className=""/>
               <span>Delete</span>
             </button>
           </Space>

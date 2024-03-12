@@ -6,10 +6,9 @@
   import { Checkbox, DatePicker, Input, Radio, Select } from "antd";
   import { useDispatch, useSelector } from "react-redux";
   import { AddEquipment } from "@/redux/slices/Equipment";
-  // import EquipmentDetails from "@/components/employeesOverview/EquipmentDetails";
-  // import { addFormData } from "@/redux/slices/Equipment";
-  // import EquipmentForm from "./EquipmentForm";
+  
   import axios from "@/api/axios";
+import Image from "next/image";
   const { TextArea } = Input;
 
 
@@ -27,17 +26,6 @@
     const dispatch = useDispatch();
     const details = useSelector((state) => state.EquipmentDetails);
     const [provideBy, setProvideBy] = useState("org");
-  
-
-  
-
-  
-
-    
-  
-
-    
-
     const handleProvideByChange = (e) => {
       setOwner(e.target.value)
       setProvideBy(e.target.value);
@@ -112,10 +100,13 @@
         >
           <div className=" flex gap-5">
             <div>
-              <img
+              <Image
                 src="https://cdn-icons-png.flaticon.com/512/68/68792.png"
                 className="h-8 w-10"
-              ></img>
+                alt="nothing"
+                width={100}
+                height={100}
+              />
             </div>
             <div className="w-full">
               <h1 className="text-xl">
@@ -127,7 +118,7 @@
               </p>
             </div>
             <div>
-              <Button type="primary" className="bg-blue-600 rounded-none mt-3">
+              <Button type="primary"  className="bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white  border hover:border-[#1890FF] rounded-none mt-3 p-2 ">
                 Add Equipment
               </Button>
             </div>
@@ -272,7 +263,7 @@
                   </Button>
                   <Button
                     type="primary"
-                    className="rounded-none bg-blue-600 h-8 w-36 text-base"
+                    className="rounded-md  h-8 w-36 text-base bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white  border hover:border-[#1890FF]"
                     onClick={() => {
                         StoreEquipment();
                         setTab(tab + 1)
@@ -297,11 +288,14 @@
         >
           <div className=" flex gap-5">
             <div className="bg-cyan-400 h-12 w-16 rounded-full">
-              <img
+              <Image
+
                 src="https://www.iconpacks.net/icons/1/free-keyboard-icon-1405-thumb.png"
                 className="rounded-xl h-6 w-6 ml-2.5 mt-3"
                 alt="Equipment Icon"
-              ></img>
+                width={100}
+                height={100}
+              />
             </div>
             <div className="w-full">
               <h1 className="text-xl">
@@ -325,10 +319,12 @@
                 type="editbtn"
                 className="text-black rounded-none mt-3 flex h-8 w-24 hover:text-blue-600 hover:border-blue-600 border-gray-300 font-semibold text-base"
               >
-                <img
+                <Image
                   src="https://w7.pngwing.com/pngs/613/900/png-transparent-computer-icons-editing-delete-button-miscellaneous-angle-logo.png"
                   className="h-4 w-4 mt-1 ml-2"
                   alt="Edit Icon"
+                  width={100}
+                  height={100}
                 />
                 <p className="ml-1"> Edit</p>
               </Button>
@@ -337,10 +333,12 @@
                 type="dltbtn"
                 className="text-white rounded-none mt-3 bg-red-500 hover:text- hover:border-red-600 border-gray-300 font-semibold text- flex h-8 w-24 justify-center"
               >
-                <img
+                <Image
                   src="https://cdn-icons-png.flaticon.com/512/3687/3687412.png"
                   className="h-6 w-6 bg-transparent hover:text-cyan-600"
                   alt="Delete Icon"
+                  width={100}
+                  height={100}
                 />
                 <p className="ml-1"> Delete</p>
               </Button>

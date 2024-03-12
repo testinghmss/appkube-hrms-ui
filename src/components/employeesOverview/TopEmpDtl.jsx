@@ -18,7 +18,7 @@ const TopEmpDtl = () => {
 
         </div>
         
-        <button className='flex items-center gap-2 bg-[#1890FF] text-white font-light py-2 px-4 rounded-sm '> <AiFillEdit />Edit Profile</button>
+        <button className='flex items-center gap-2 bg-[#1890FF] text-white font-semibold  border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF]  py-2 px-4 rounded-sm '> <AiFillEdit />Edit Profile</button>
     </div>
   )
 }

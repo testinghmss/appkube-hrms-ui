@@ -44,12 +44,12 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
   return (
     <div className="flex justify-center items-center gap-16 w-[100%] h-[100vh] p-10 ">
       <div className="md:w-[70vw] h-[88vh] rounded-2xl  p-4 bg-[#E6F7FF] flex justify-center items-center">
-        <Image width={100} height={100} src={Onboard} className="w-[60%] " />
+        <Image width={100} height={100} src={Onboard} className="w-[60%] " alt="onboard"/>
       </div>
       <div className="flex flex-col gap-1 items-center  w-[50vw] relative leading-8">
         <Link href="/login">
           <div
-            className="flex  items-center px-1 gap-1 border border-blue-500 text-black group btn hover:bg-blue-100 transition w-[100px] absolute rounded-sm
+            className="flex  items-center px-1 gap-1 border border-[#1890FF] text-black group btn hover:bg-white transition w-[100px] absolute rounded-sm
          right-2 -top-5 cursor-pointer"
           >
             <Image
@@ -57,6 +57,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
               height={15}
               src={Logout}
               className="group-hover:bg-white"
+              alt="logout"
             />
             <button className="">Logout</button>
           </div>
@@ -87,7 +88,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
             >
               Personal Details
             </div>
-            <div className="border-b-2  cursor-pointer border-blue-400 text-blue-400 font-medium hover:scale-105 transition-all ">
+            <div className="border-b-2  cursor-pointer border-[#1890FF] text-[#1890FF] font-medium hover:scale-105 transition-all ">
               Company Details
             </div>
           </div>
@@ -99,6 +100,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
               width={100}
               height={100}
               className="w-[80%] h-[80%] border "
+              alt="company"
             />
           </div>
           <div className="flex flex-col gap-4">
@@ -151,7 +153,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
           </div>
         </div>
         <button
-          className="w-[70%] lg:mt-6 h-8 bg-[#1890FF] hover:bg-blue-600 transition-all text-white items-end"
+          className="w-[70%] lg:mt-6 h-8 border bg-[#1890FF] hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] transition-all text-white items-end"
           onClick={() => {
             handleSubmit(),
             setStep(step + 1);

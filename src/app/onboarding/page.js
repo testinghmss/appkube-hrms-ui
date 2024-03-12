@@ -1,12 +1,12 @@
 "use client";
-import CompanyDetails from "@/components/onboarding/CompanyDetails";
-import Onboarding from "@/components/onboarding/Onboarding";
-import PreviewDetails from "@/components/onboarding/PreviewDetails";
+import CompanyDetails from "@/components/onboard/CompanyDetails";
+import Onboarding from "@/components/onboard/Onboarding";
+import PreviewDetails from "@/components/onboard/PreviewDetails";
 import { useState } from "react";
 import {useRouter} from "next/navigation";
 import React from "react";
 
-const Onboard = () => {
+const Page = () => {
   const router = useRouter();
   const [step, setStep] = useState(1);
   return (
@@ -19,4 +19,4 @@ const Onboard = () => {
   );
 };
 
-export default Onboard;
+export default Page;

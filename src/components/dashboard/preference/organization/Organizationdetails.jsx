@@ -2,11 +2,10 @@
 import React, { useState } from 'react';
 import { Tabs } from 'antd';
 // import TopNav from './TopNav';
-import { IoMdPerson } from "react-icons/io";
+// import { IoMdPerson } from "react-icons/io";
 // import Image from "next/image"
-import Customfeilds from '@/components/dashboard/preference/organization/customfields/Customfeilds';
-// import Customfeilds from './customfields/customfeilds';
-import Orgdetails from './organizationdetails/Orgdetails';
+import Customfeild from './customfields/Customfeild';
+import Orgdetails from './organizationdetail/Orgdetails';
 // import ProjectIcon from "@/../../public/assets/Projects.svg"
 // import AllProjects from './AllProjects';
 const Organizationdetails = () => {
@@ -15,7 +14,7 @@ const Organizationdetails = () => {
 
   const tabContents = {
     '1': <Orgdetails />,
-    '2': <Customfeilds/>,
+    '2': <Customfeild/>,
   };
 
   const changeActiveTab = (key) => {

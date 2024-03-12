@@ -5,12 +5,12 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import Plus from "../../../public/assets/homeicons/Union.svg";
+// import Plus from "../../../public/assets/homeicons/Union.svg";
 
 import AccountImg from "../../../public/assets/homeicons/EmployeesImg/AccountImg.svg";
 import Person from "../../../public/assets/homeicons/EmployeesImg/Account.svg";
 import Circle from "../../../public/assets/homeicons/EmployeesImg/circle.svg";
-
+import { FiPlus } from "react-icons/fi";
 const page = () => {
   const columns = [
     {
@@ -131,7 +131,7 @@ const page = () => {
 
         <div className="flex gap-4 justify-center items-center">
           <div className="flex w-full py-6">
-            <Image src={AccountImg} className="" />
+            <Image src={AccountImg} className="" alt="acount image" />
             <div className=" flex flex-col pl-4">
               <h1 className="text-2xl"> Welcome Ajay! </h1>
               <h1 className="text-2xl">Have a nice day!</h1>
@@ -139,7 +139,7 @@ const page = () => {
           </div>
 
           <div className="flex w-full bg-white p-6 gap-4 border rounded-xl ">
-            <Image src={Person} />
+            <Image src={Person} alt="person"/>
             <div>
               <h2>Total Employees</h2>
               <h3 className="text-2xl">82</h3>
@@ -147,7 +147,7 @@ const page = () => {
           </div>
 
           <div className="flex w-full bg-white p-6 gap-4  border rounded-2xl ">
-            <Image src={Circle} />
+            <Image src={Circle} alt="circle"/>
             <div>
               <h2>Total Projects</h2>
               <h3 className="text-2xl">07</h3>
@@ -159,9 +159,9 @@ const page = () => {
       <div className="flex justify-between p-4">
         <h2>Employees</h2>
         <Link href={"/hrms/employees/addemp"}>
-          <button className="bg-[#1890FF] text-white flex p-4 gap-3 justify-center items-center">
-            {" "}
-            <Image src={Plus} /> Add New Employees{" "}
+          <button className="bg-[#1890FF] text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] flex p-4 gap-3 justify-center items-center">
+             <FiPlus />
+             Add New Employees
           </button>
         </Link>
       </div>

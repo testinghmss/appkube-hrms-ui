@@ -14,6 +14,7 @@ const page = () => {
           <Image
             src={forgotImage}
             className="bg-[#E6F7FF] w-[100%] scale-90 h-[100%] rounded-3xl "
+            alt="forgot image"
           />
         </div>
         <div className="ml-5 leading-10">

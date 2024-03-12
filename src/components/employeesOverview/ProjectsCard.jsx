@@ -30,9 +30,9 @@ const ProjectsCard = () => {
           Completed
         </p>
         <div className=" relative w-[30%] h-10 ">
-          <Image src={img1} className="absolute left-1 top-2" />
-          <Image src={img2} className="absolute left-6 top-2" />
-          <Image src={img3} className="absolute left-10 top-0" />
+          <Image src={img1} className="absolute left-1 top-2"  alt="images"/>
+          <Image src={img2} className="absolute left-6 top-2"  alt="images"/>
+          <Image src={img3} className="absolute left-10 top-0"  alt="images"/>
         </div>
       </div>
     </div>

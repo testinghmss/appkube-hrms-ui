@@ -3,11 +3,7 @@
 // ProfessionalForm.js
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import {
-//   updateProfessionalDetails,
-//   selectProfessionalDetails,
-//   setDropdownOption,
-// } from "../../../../redux/slices/profDetails";
+
 
 import { Form, Input, Button, Select, Col, Row,DatePicker, Space } from "antd";
 import { useForm } from "antd/lib/form/Form";
@@ -16,7 +12,7 @@ import { useRouter } from "next/navigation";
 import axios from "@/api/axios";
 import { updateProfessionalDetails, selectProfessionalDetails, setDropdownOption,
   setDropdownOptionDesig,setDropdownOptionwork,setDropdownOptionReport,setSelectedDate} from "../../../../redux/slices/profDetails";
-// const { Option } = Select;
+
 const numberRegex = /^[0-9]{5,}$/; // Ensure at least 5 digits
 
 const ProfessionalInfo = ({ tab, setTab }) => {
@@ -49,29 +45,14 @@ const ProfessionalInfo = ({ tab, setTab }) => {
     dispatch(updateProfessionalDetails(professionalDetails))
     console.log(professionalDetails);
     putting(professionalDetails)
-    // Retrieve existing data from local storage
-    // const existingData = JSON.parse(localStorage.getItem('professionalDetails')) || {};
-
-    // Merge existing data with the new data
-    // const newData = [{ ...existingData, ...professionalDetails }];
-
-    // Save the merged data to local storage
-    // localStorage.setItem('professionalDetails', JSON.stringify(newData));
-    // alert("Data stored in local storage");
+    
   };
   const router = useRouter();
   const prof1=["option1","option2","option3"]
   const prof=["option1","option2","option3"]
-  
-   
-
- 
-   
-
-  
  
 
-  const putting = (values) => {
+  const putting = async (values) => {
     let data = {
       // designation_id: values.selectedDesignation,
       designation_id: 4,
@@ -86,14 +67,15 @@ const ProfessionalInfo = ({ tab, setTab }) => {
       emp_id: values.employeeId,
     };
 
-    const response = axios
-      .put("/employee/professionalInfo", data)
-      .then((response) => {
-        console.log("success", response);
-      })
-      .catch((error) => {
+    try{
+      console.log('stored data',data)
+      const response = await axios.put("/employee/professionalInfo", data)
+      console.log("success", response);
+
+    }  
+    catch(error){
         console.log("error", error);
-      });
+      }
   };
 
   
@@ -106,24 +88,36 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   return (
     <div>
       <Form
+      
         requiredMark={false}
         style={{
           padding: "50px",
-          border: "2px solid #eee",
-          borderRadius: "none",
+          text:"start"
         }}
+        initialValues={professionalDetails}
+        labelAlign="left"
+      
+        labelCol={{
+          span: 5,
+        }}
+         labelWrap
         className="m-20 w-[90%] rounded-none"
         onFinish={handleSubmit}
       >
+        <Col span="3xl">
         <Form.Item
-          className="w-[49.3rem] rounded-none "
+          className="rounded-none "
           label="Designation"
           name="designation"
+          
+          labelWrap
+
+
           rules={[{ required: true, message: "Please select a designation." }]}
+          
         >
           <Select
             showSearch
-            style={{ width: 611, marginLeft: 95 }}
             className="rounded-none"
             onChange={handleDesig}
             value={selectedDesignation}
@@ -144,9 +138,12 @@ const ProfessionalInfo = ({ tab, setTab }) => {
             ))}
           </Select>
         </Form.Item>
+        </Col>
 
-        <Row gutter={16}>
-          <Col span={10}>
+        <Row gutter={30}
+        >
+        <Col span={12}>
+          
             <Form.Item
               label="PF No (Optional)"
               name="pfNumber"
@@ -157,21 +154,27 @@ const ProfessionalInfo = ({ tab, setTab }) => {
                   message: "Please enter at least 5 digits for PF number.",
                 },
               ]}
+              labelCol={{ span:10}}
+              
             >
               <Input
                 placeholder="Enter your PF number"
-                className="ml-[70px] w-[250px] "
+
+             
                 type="text"
                 value={professionalDetails.pfNumber}
-                onChange={(e) => handleChange("uanNumber", e.target.value)}
+                style={{width:"100%", marginLeft:"3%"}}
+                onChange={(e) => handleChange("pfNumber", e.target.value)}
               />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item
+            
               label="UAN No (Optional)"
               name="uanNumber"
-              className="ml-[20px]"
+              // className="ml-20"
+              style={{ marginLeft: '30px' }}
               rules={[
                 { message: "Enter Your UAN Number" },
                 {
@@ -179,17 +182,20 @@ const ProfessionalInfo = ({ tab, setTab }) => {
                   message: "Please enter at least 5 digits for UAN number.",
                 },
               ]}
+              labelCol={{ span: 8}}
             >
               <Input
+                
                 placeholder="Enter Your UAN Number"
-                className="w-[205px] "
+              
                 type="text"
                 value={professionalDetails.uanNumber}
-                onChange={(e) => handleChange("pfNumber", e.target.value)}
+                onChange={(e) => handleChange("uanNumber", e.target.value)}
               />
             </Form.Item>
           </Col>
         </Row>
+        <Col span="3xl">
         <Form.Item
           label="Employee ID (Optional)"
           name="employeeId"
@@ -203,21 +209,23 @@ const ProfessionalInfo = ({ tab, setTab }) => {
         >
           <Input
             placeholder="Enter Your Employee ID"
-            className="w-[611px] ml-[30px]"
+            
             type="text"
             value={professionalDetails.employeeId}
             onChange={(e) => handleChange("employeeId", e.target.value)}
           />
         </Form.Item>
+        </Col>
+        <Col span="3xl">
         <Form.Item
-          className="w-[49rem] rounded-none"
+          className="rounded-none"
           label="Department"
           name="department"
           rules={[{ required: true, message: "Please select a department." }]}
         >
           <Select
             showSearch
-            style={{ width: 611, marginLeft: 100, borderRadius: 0 }}
+            style={{ borderRadius: 0 }}
             className="rounded-none"
             onChange={handleSelectChange}
             value={selectedDepartment}
@@ -234,8 +242,9 @@ const ProfessionalInfo = ({ tab, setTab }) => {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item
-          className="w-[54rem]"
+        </Col>
+        <Col span="3xl">        <Form.Item
+    
           label=" Direct Reporting Manager"
           name="reportingManager"
           rules={[
@@ -244,7 +253,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
         >
           <Select
             showSearch
-            style={{ width: 611, marginLeft: 15, borderRadius: 0 }}
+            style={{borderRadius: 0 }}
             className="rounded-none"
             onChange={handlReportk}
             value={selectedReportingMngr}
@@ -261,8 +270,10 @@ const ProfessionalInfo = ({ tab, setTab }) => {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item
-          className="w-[50rem]"
+        </Col>
+        <Col span="3xl">   
+          <Form.Item
+        
           label="Work Location"
           name="workLocation"
           rules={[
@@ -271,7 +282,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
         >
           <Select
             showSearch
-            style={{ width: 611, marginLeft: 85, borderRadius: 0 }}
+            style={{ borderRadius: 0 }}
             className="rounded-none"
             onChange={handlework}
             value={selectedworkLocation}
@@ -288,29 +299,61 @@ const ProfessionalInfo = ({ tab, setTab }) => {
             ))}
           </Select>
         </Form.Item>
+        </Col>
+       <Col span="3xl">
         <Form.Item
-          className="w-[700px]"
+          
           label="Started Date"
           name="Date"
           rules={[{ message: "Please select a  Date" }]}
+         
         >
-          <Space direction="vertical">
+          <Space direction="vertical"
+           style={{ width:"100%"}}>
             <DatePicker
+             style={{ width:"100%"}}
+          
               onChange={handleDateChange}
               value={selectedDate}
-              className=" w-[611px] ml-[98px]"
+            
+              
             />
           </Space>
         </Form.Item>
-        <Form.Item>
+        </Col>
+       
+        {/* <Form.Item
+        style={{display:"flex" , justifyContent:"center"}}>
+          <Col span={24}>
           <Button
             type="primary"
             htmlType="submit"
-            className="rounded-none w-[418px] ml-80 h-[40px] bg-blue-600"
+            className=" bg-[#1890ff]"
+            style={{borderRadius:"0" , height:"40px", width:"500%",marginLeft:"20%"}}
           >
             Next
           </Button>
-        </Form.Item>
+          </Col>
+         
+        </Form.Item> */}
+            <Row gutter={16}>
+      {/* Other columns */}
+      <Col span={18}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="bg-[#1890ff]"
+          style={{ borderRadius: "0", height: "40px", width: "80%",display:"flex", justifyContent:"center", marginLeft:"40%"}}
+          onClick={()=>{setTab(tab+1)}}
+          >
+        
+          Next
+        </Button>
+      </Col>
+    </Row>
+        
+
+
         {/* <Form.Item>
           <Button
             type="primary"

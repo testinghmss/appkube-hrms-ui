@@ -9,19 +9,14 @@ import { setCompanyData } from '@/redux/slices/Onboardingpersdetails';
 // import { createUser } from "@/redux/slices/personalDetails";
 import { useState  } from "react"
 import {useDispatch,useSelector} from "react-redux"
+import { notification } from 'antd';
+
 // import {personalDetails} from '@/redux/slices/Onboardingpersdetails'
 
 
 import {
-  Flex,
   Form,
-  Input,
-  InputNumber,
-  Option,
-  Progress,
-  Segmented,
-  Select,
-  Item,
+  Progress
 } from "antd";
 import Link from "next/link";
 const CompanyDetails = ({ step, setStep }) => {
@@ -30,19 +25,33 @@ const CompanyDetails = ({ step, setStep }) => {
 const companyData = useSelector((state) => state.Onboardingpersdetails.companyData);
 
 // console.log(personalData);
-  const [company , setCompany] = useState({})
+  const [company , setCompany] = useState(companyData || {})
   const dispatch = useDispatch()
 
   const getCompanyData = (e) =>{
     setCompany({...company, [e.target.name]: e.target.value})
     // console.log(company);
   }
+
+  const openNotification = () => {
+    notification.open({
+      message: 'Please fill in all the required fields',
+    });
+  };
   
  const handleCompanySubmit = async () => {
   // e.preventDefault();
+
+  if (!company.name || !company.email || !company.number || !company.address_line_1  || !company.address_line_2 || !company.country || !company.state || !company.city || !company.zipcode) {
+    console.log("Please fill in all the required fields");
+    openNotification()
+    return;
+  }
   console.log("company...", company);
   
      dispatch(setCompanyData(company));
+
+     setStep(step+1)
 
     //  const combinedData = {...company, ...personalData };
 
@@ -54,13 +63,13 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
   return (
     <div className="flex justify-center items-center gap-16 w-[100%] h-[100vh] p-10">
       <div className="w-[70vw] h-[88vh] rounded-2xl bg-[#E6F7FF] flex justify-center items-center">
-        <Image width={100} height={100} src={ImageUp} className="w-[60%]"  />
+        <Image width={100} height={100} src={ImageUp} className="w-[60%]" alt="image above" />
       </div>
 
       <div className="w-[50vw] h-[96vh] -mt-7 flex flex-col relative">
         <Link href="/login">
-          <div className="flex  items-center p-1 gap-1 border border-blue-500 hover:bg-blue-100 transition-all btn btn-primary w-[100px] absolute right-2 top-8 cursor-pointer">
-            <Image width={15} height={15} src={Logout}  />
+          <div className="flex  items-center p-1 gap-1 border border-[#1890FF] hover:bg-blue-100 transition-all btn btn-primary w-[100px] absolute right-2 top-8 cursor-pointer">
+            <Image width={15} height={15} src={Logout}  alt="logout"/>
             <button className="">Logout</button>
           </div>
         </Link>
@@ -89,15 +98,17 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
             name="name"
             onChange={getCompanyData}
             placeholder="Legal Company Name"
-            className="p-2 mb-2 border border-gray-300 outline-blue-500 w-[70%] "
-            value={companyData.name !== undefined ? companyData.name : "" || companyData.name }
+            className="p-2 mb-2 border border-gray-300 outline-[#1890FF] w-[70%] "
+            // value={companyData.name !== undefined ? companyData.name : "" || companyData.name }
+            value={company.name || ''}
           />
           <input
             name="email"
             onChange={getCompanyData}
             placeholder="Company Email Address"
-            className="p-2 mb-2 border border-gray-300 outline-blue-500 w-[70%] "
-            value={companyData.email !== undefined ? companyData.email : "" || companyData.email }
+            className="p-2 mb-2 border border-gray-300 outline-[#1890FF] w-[70%] "
+            // value={companyData.email !== undefined ? companyData.email : "" || companyData.email }
+            value={company.email || ''}
           />
 
           <div className="mb-2">
@@ -111,8 +122,9 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
                 onChange={getCompanyData}
                 type="number"
                 placeholder="Phone Number"
-                className="w-full h-9 p-2 border-gray-300 outline-blue-500"
-                value={companyData.number !== undefined ? companyData.number : "" || companyData.number }
+                className="w-full h-9 p-2 border-gray-300 outline-[#1890FF]"
+                // value={companyData.number !== undefined ? companyData.number : "" || companyData.number }
+                value={company.number || ''}
               />
             </Form>
           </div>
@@ -120,14 +132,17 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
             name="address_line_1"
             onChange={getCompanyData}
             placeholder="Address Line 1"
-            className="p-1 mb-2 border border-gray-300 outline-blue-500 w-[70%] "
-            value={companyData.address_line_1 !== undefined ? companyData.address_line_1 : "" || companyData.address_line_1 }
+            className="p-1 mb-2 border border-gray-300 outline-[#1890FF] w-[70%] "
+            // value={companyData.address_line_1 !== undefined ? companyData.address_line_1 : "" || companyData.address_line_1 }
+            value={company.address_line_1 || ''}
           />
           <input
             name="address_line_2"
             onChange={getCompanyData}
             placeholder="Address Line 2"
-            className="p-1 mb-2 border border-gray-300 outline-blue-500 w-[70%] "
+            className="p-1 mb-2 border border-gray-300 outline-[#1890FF] w-[70%] "
+            // value={companyData.address_line_2 !== undefined ? companyData.address_line_2 : "" || companyData.address_line_2 }
+            value={company.address_line_2 || ''}
           />
 
           <div>
@@ -136,8 +151,9 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
                 name="country"
                 onChange={getCompanyData}
                 placeholder="Country"
-                className="w-[33.5%] mr-4 p-1 border border-gray-300 outline-blue-500"
-                value={companyData.country !== undefined ? companyData.country : "" || companyData.country }
+                className="w-[33.5%] mr-4 p-1 border border-gray-300 outline-[#1890FF]"
+                // value={companyData.country !== undefined ? companyData.country : "" || companyData.country 
+                value={company.country || ''}
               >
                 <option value="">select Country</option>
                 <option value="India">India</option>
@@ -148,8 +164,9 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
                 name="state"
                 onChange={getCompanyData}
                 placeholder="State"
-                className="w-[33.5%] p-1 border border-gray-300 outline-blue-500"
-                value={companyData.state !== undefined ? companyData.state : "" || companyData.state }
+                className="w-[33.5%] p-1 border border-gray-300 outline-[#1890FF]"
+                // value={companyData.state !== undefined ? companyData.state : "" || companyData.state }
+                value={company.state || ''}
               >
                 <option value="">select State</option>
                 <option value="Telangana">Telangana</option>
@@ -162,8 +179,9 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
                 name="city"
                 onChange={getCompanyData}
                 placeholder="City"
-                className="w-[33.5%] mr-4 p-1 border border-gray-300 outline-blue-500"
-                value={companyData.city !== undefined ? companyData.city : "" || companyData.city }
+                className="w-[33.5%] mr-4 p-1 border border-gray-300 outline-[#1890FF]"
+                // value={companyData.city !== undefined ? companyData.city : "" || companyData.city }
+                value={company.city || ''}
               >
                 <option value="">select city</option>
                 <option value="Hyderabad">Hyderabad</option>
@@ -175,8 +193,9 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
                 onChange={getCompanyData}
                 type="number"
                 placeholder="Zip Code"
-                className="w-[33.5%] p-1 border border-gray-300 outline-blue-500"
-                value={companyData.zipcode !== undefined ? companyData.zipcode : "" || companyData.zipcode }
+                className="w-[33.5%] p-1 border border-gray-300 outline-[#1890FF]"
+                // value={companyData.zipcode !== undefined ? companyData.zipcode : "" || companyData.zipcode }
+                value={company.zipcode || ''}
               />
             </div>
           </div>
@@ -193,7 +212,7 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
             </div>
           </div>
 
-          <button className="w-[70%] h-8 bg-[#1890FF] text-white hover:bg-blue-600" onClick={()=>{console.log("world"),handleCompanySubmit(),setStep(step+1)}}>
+          <button className="w-[70%] h-8 border bg-[#1890FF] text-white hover:text-[#1890FF] hover:border-[#1890FF] hover:bg-white" onClick={()=>{console.log("world"),handleCompanySubmit()}}>
             Next
           </button>
         </div>
@@ -202,4 +221,4 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
   );
 };
 
-export default CompanyDetails;
+export default CompanyDetails;  

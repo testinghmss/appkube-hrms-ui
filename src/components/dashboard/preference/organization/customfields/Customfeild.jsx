@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Editcustomfields from "./Editcustomfields";
+import Editcustomfield from "./Editcustomfield";
 import { GoPlus } from "react-icons/go";
 
-const Customfeilds = () => {
+const Customfeild = () => {
   const HandleEdit = () => {
     console.log("cliked edit");
     setEdit(!edit);
@@ -16,7 +16,7 @@ const Customfeilds = () => {
             <span>
               <h2 className="font-semibold text-lg">Custom Field</h2>
               <p>
-                Define supplementary information that can be added to workers
+                Define supplementary information that can be added to workers &apos;
                 personal profiles or contracts.
               </p>
             </span>
@@ -76,10 +76,10 @@ const Customfeilds = () => {
           </table>
         </div>
       ) : (
-        <Editcustomfields />
+        <Editcustomfield />
       )}
     </>
   );
 };
 
-export default Customfeilds;
+export default Customfeild;
