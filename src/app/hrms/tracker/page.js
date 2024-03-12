@@ -22,17 +22,19 @@ import axios from "@/api/axios"
 
     const fetchData = async ()=>{
       try{
+        console.log('fetching')
         const response = await axios.get('/employee/tracker');
         console.log('tracker data',response)
         setData(response.data.employees)
       }
       catch(error){
-        console.log('error',error)
+        console.log('error of tracker',error)
       }
 
     }
     useEffect(()=>{
       fetchData();
+      console.log('in use effect')
     },[])
 
 
@@ -382,13 +384,13 @@ return (
     <div className="flex justify-end mt-5">
       <Pagination
         size="large"
-        total={filteredData.length}
+        // total={filteredData.length}
         total={100}
         current={currentPage}
         pageSize={pageSize}
         showTotal={(total) => `Total ${total} items`}
         onChange={handlePageChange}
-        showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+        // showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
       />
     </div>
   </div>
