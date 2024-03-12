@@ -23,12 +23,12 @@ const Organizationdetails = () => {
 
   return (
     <div>
-      
+
       <Tabs
         tabPosition={tabPosition}
         activeKey={activeTab}
         onTabClick={(key) => changeActiveTab(key)}
-       
+
         tabBarStyle={{ width: '15%' }}
       >
         <Tabs.items tabBarStyle={{color:'red'}} tab={

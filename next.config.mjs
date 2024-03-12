@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
-export default {
-    // Your Next.js configuration options
-    images: {
-      unoptimized: true,
-    },
-  };
+const nextConfig = {
+  output: 'export',
+  images: {
+      unoptimized: true, // Disable Image Optimization
+  },
+};
+
+export default nextConfig;

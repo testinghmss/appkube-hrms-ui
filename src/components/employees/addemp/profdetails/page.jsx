@@ -88,24 +88,36 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   return (
     <div>
       <Form
+      
         requiredMark={false}
         style={{
           padding: "50px",
-          border: "2px solid #eee",
-          borderRadius: "none",
+          text:"start"
         }}
+        initialValues={professionalDetails}
+        labelAlign="left"
+      
+        labelCol={{
+          span: 5,
+        }}
+         labelWrap
         className="m-20 w-[90%] rounded-none"
         onFinish={handleSubmit}
       >
+        <Col span="3xl">
         <Form.Item
-          className="w-[49.3rem] rounded-none "
+          className="rounded-none "
           label="Designation"
           name="designation"
+          
+          labelWrap
+
+
           rules={[{ required: true, message: "Please select a designation." }]}
+          
         >
           <Select
             showSearch
-            style={{ width: 611, marginLeft: 95 }}
             className="rounded-none"
             onChange={handleDesig}
             value={selectedDesignation}
@@ -126,9 +138,12 @@ const ProfessionalInfo = ({ tab, setTab }) => {
             ))}
           </Select>
         </Form.Item>
+        </Col>
 
-        <Row gutter={16}>
-          <Col span={10}>
+        <Row gutter={30}
+        >
+        <Col span={12}>
+          
             <Form.Item
               label="PF No (Optional)"
               name="pfNumber"
@@ -139,21 +154,27 @@ const ProfessionalInfo = ({ tab, setTab }) => {
                   message: "Please enter at least 5 digits for PF number.",
                 },
               ]}
+              labelCol={{ span:10}}
+              
             >
               <Input
                 placeholder="Enter your PF number"
-                className="ml-[70px] w-[250px] "
+
+             
                 type="text"
                 value={professionalDetails.pfNumber}
-                onChange={(e) => handleChange("uanNumber", e.target.value)}
+                style={{width:"100%", marginLeft:"3%"}}
+                onChange={(e) => handleChange("pfNumber", e.target.value)}
               />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item
+            
               label="UAN No (Optional)"
               name="uanNumber"
-              className="ml-[20px]"
+              // className="ml-20"
+              style={{ marginLeft: '30px' }}
               rules={[
                 { message: "Enter Your UAN Number" },
                 {
@@ -161,17 +182,20 @@ const ProfessionalInfo = ({ tab, setTab }) => {
                   message: "Please enter at least 5 digits for UAN number.",
                 },
               ]}
+              labelCol={{ span: 8}}
             >
               <Input
+                
                 placeholder="Enter Your UAN Number"
-                className="w-[205px] "
+              
                 type="text"
                 value={professionalDetails.uanNumber}
-                onChange={(e) => handleChange("pfNumber", e.target.value)}
+                onChange={(e) => handleChange("uanNumber", e.target.value)}
               />
             </Form.Item>
           </Col>
         </Row>
+        <Col span="3xl">
         <Form.Item
           label="Employee ID (Optional)"
           name="employeeId"
@@ -185,21 +209,23 @@ const ProfessionalInfo = ({ tab, setTab }) => {
         >
           <Input
             placeholder="Enter Your Employee ID"
-            className="w-[611px] ml-[30px]"
+            
             type="text"
             value={professionalDetails.employeeId}
             onChange={(e) => handleChange("employeeId", e.target.value)}
           />
         </Form.Item>
+        </Col>
+        <Col span="3xl">
         <Form.Item
-          className="w-[49rem] rounded-none"
+          className="rounded-none"
           label="Department"
           name="department"
           rules={[{ required: true, message: "Please select a department." }]}
         >
           <Select
             showSearch
-            style={{ width: 611, marginLeft: 100, borderRadius: 0 }}
+            style={{ borderRadius: 0 }}
             className="rounded-none"
             onChange={handleSelectChange}
             value={selectedDepartment}
@@ -216,8 +242,9 @@ const ProfessionalInfo = ({ tab, setTab }) => {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item
-          className="w-[54rem]"
+        </Col>
+        <Col span="3xl">        <Form.Item
+    
           label=" Direct Reporting Manager"
           name="reportingManager"
           rules={[
@@ -226,7 +253,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
         >
           <Select
             showSearch
-            style={{ width: 611, marginLeft: 15, borderRadius: 0 }}
+            style={{borderRadius: 0 }}
             className="rounded-none"
             onChange={handlReportk}
             value={selectedReportingMngr}
@@ -243,8 +270,10 @@ const ProfessionalInfo = ({ tab, setTab }) => {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item
-          className="w-[50rem]"
+        </Col>
+        <Col span="3xl">   
+          <Form.Item
+        
           label="Work Location"
           name="workLocation"
           rules={[
@@ -253,7 +282,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
         >
           <Select
             showSearch
-            style={{ width: 611, marginLeft: 85, borderRadius: 0 }}
+            style={{ borderRadius: 0 }}
             className="rounded-none"
             onChange={handlework}
             value={selectedworkLocation}
@@ -270,29 +299,61 @@ const ProfessionalInfo = ({ tab, setTab }) => {
             ))}
           </Select>
         </Form.Item>
+        </Col>
+       <Col span="3xl">
         <Form.Item
-          className="w-[700px]"
+          
           label="Started Date"
           name="Date"
           rules={[{ message: "Please select a  Date" }]}
+         
         >
-          <Space direction="vertical">
+          <Space direction="vertical"
+           style={{ width:"100%"}}>
             <DatePicker
+             style={{ width:"100%"}}
+          
               onChange={handleDateChange}
               value={selectedDate}
-              className=" w-[611px] ml-[98px]"
+            
+              
             />
           </Space>
         </Form.Item>
-        <Form.Item>
-          <button
-            onClick={()=>{setTab(tab+1)}}
+        </Col>
+       
+        {/* <Form.Item
+        style={{display:"flex" , justifyContent:"center"}}>
+          <Col span={24}>
+          <Button
+            type="primary"
             htmlType="submit"
-            className="rounded-md w-[418px] ml-80 h-[40px] bg-[#1890FF] text-white hover:bg-white hover:text-[#1890FF] border hover:border-[#1890FF]"
+            className=" bg-[#1890ff]"
+            style={{borderRadius:"0" , height:"40px", width:"500%",marginLeft:"20%"}}
           >
             Next
-          </button>
-        </Form.Item>
+          </Button>
+          </Col>
+         
+        </Form.Item> */}
+            <Row gutter={16}>
+      {/* Other columns */}
+      <Col span={18}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="bg-[#1890ff]"
+          style={{ borderRadius: "0", height: "40px", width: "80%",display:"flex", justifyContent:"center", marginLeft:"40%"}}
+          onClick={()=>{setTab(tab+1)}}
+          >
+        
+          Next
+        </Button>
+      </Col>
+    </Row>
+        
+
+
         {/* <Form.Item>
           <Button
             type="primary"
