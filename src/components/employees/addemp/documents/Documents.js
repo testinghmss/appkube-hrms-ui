@@ -1,21 +1,18 @@
 // "use server"
-"use client"
-import React from 'react'
-import Upload from './upload'
+"use client";
+import React from "react";
+import Upload from "./upload";
 import { FaRegFileAlt } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
-import {Progress, Table} from "antd"
+import { Progress, Table } from "antd";
 // import { AiFillDelete } from "react-icons/ai";
 // import Delete from './Table';
 // import FileTable from './FileTable';
-import FileTable from './FileTable';
+import FileTable from "./FileTable";
 
-
-
-const Documents = ({tab,setTab}) => {
-
+const Documents = ({ tab, setTab }) => {
   return (
-    <div className="w-full h-full p-10 flex flex-col ">
+    <div className="w-full h-full p-10 flex flex-col bg-white ">
       <div>
         <Upload />
       </div>
@@ -50,6 +47,6 @@ const Documents = ({tab,setTab}) => {
       </button>
     </div>
   );
-}
+};
 
-export default Documents
+export default Documents;

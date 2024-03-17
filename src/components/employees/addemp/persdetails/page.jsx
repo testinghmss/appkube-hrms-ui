@@ -72,9 +72,9 @@ const PersonalInformation = ({tab,setTab}) => {
 
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", gap: "100px" }}>
+    <div style={{ display: "flex", justifyContent: "center", gap: "100px",backgroundColor:"white" }} className="py-10">
       {/* "Choose an image" section */}
-      <div className="image-upload-container">
+      <div className="image-upload-container ">
         <div
           style={{
             border: "2px dashed gray ",
