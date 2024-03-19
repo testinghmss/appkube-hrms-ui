@@ -8,12 +8,14 @@
   import { AddEquipment } from "@/redux/slices/Equipment";
   
   import axios from "@/api/axios";
-import Image from "next/image";
+  import getAccessTokenFromCookie from "@/utils/getAccessToken";
+  
+  import Image from "next/image";
   const { TextArea } = Input;
-
-
-
-
+  
+  
+  
+  
   const Equipments = ({ tab, setTab }) => {
     const [owner , setOwner] = useState(null);
     const [Device, setDevice] = useState("");
@@ -26,6 +28,7 @@ import Image from "next/image";
     const dispatch = useDispatch();
     const details = useSelector((state) => state.EquipmentDetails);
     const [provideBy, setProvideBy] = useState("org");
+    const accessToken = getAccessTokenFromCookie();
     const handleProvideByChange = (e) => {
       setOwner(e.target.value)
       setProvideBy(e.target.value);
@@ -70,7 +73,11 @@ import Image from "next/image";
       ]
       try{
       console.log("stored data:",details.equipment)
-      const response = await axios.put("/employee/equipmentInfo", data);
+      const response = await axios.put("/employee/equipmentInfo", data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       console.log("response",response);
     }
     catch(error){

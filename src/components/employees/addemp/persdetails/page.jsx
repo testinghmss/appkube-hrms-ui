@@ -8,10 +8,13 @@ import { Button, Form, Input, Row, Col, Select, Radio, DatePicker } from "antd";
 import { useRouter } from "next/navigation";
 import axios from "@/api/axios";
 import Image from "next/image";
+import getAccessTokenFromCookie from "@/utils/getAccessToken";
+
 // import axios from "axios";
 const { Option } = Select;
 
 const PersonalInformation = ({tab,setTab}) => {
+  const accessToken = getAccessTokenFromCookie();
   const router = useRouter();
   // const dispatch = useDispatch();
   // const [form] = Form.useForm();
@@ -58,7 +61,11 @@ const PersonalInformation = ({tab,setTab}) => {
     };
     try {
       console.log("data", data.emp_type);
-      const response = await axios.post("/employee/personalInfo", data);
+      const response = await axios.post("/employee/personalInfo", data, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
       console.log("response", response);
     } catch (error) {
       console.log("error", error);

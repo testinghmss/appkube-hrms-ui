@@ -9,6 +9,8 @@ import { useForm } from "antd/lib/form/Form";
 
 import { useRouter } from "next/navigation";
 import axios from "@/api/axios";
+import getAccessTokenFromCookie from "@/utils/getAccessToken";
+
 import {
   updateProfessionalDetails,
   selectProfessionalDetails,
@@ -56,6 +58,9 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   const prof1 = ["option1", "option2", "option3"];
   const prof = ["option1", "option2", "option3"];
 
+
+   const accessToken = getAccessTokenFromCookie();
+
   const putting = async (values) => {
     let data = {
       // designation_id: values.selectedDesignation,
@@ -73,7 +78,11 @@ const ProfessionalInfo = ({ tab, setTab }) => {
 
     try {
       console.log("stored data", data);
-      const response = await axios.put("/employee/professionalInfo", data);
+      const response = await axios.put("/employee/professionalInfo", data,{
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
       console.log("success", response);
     } catch (error) {
       console.log("error", error);

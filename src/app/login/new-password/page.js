@@ -54,7 +54,7 @@ const page = () => {
         console.log("response", response);
         console.log(response.message);
         //     if (response.status == 200) {
-        // router.push("/login/reset");
+        router.push("/login/reset");
         // setTimeout(() => {
         //   console.log(reset);
         // }, 5000);

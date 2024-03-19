@@ -49,7 +49,7 @@ const Page = () => {
         // Set the access token in a cookie
         setCookie("accessToken", accessToken, 1);
         if (
-          response.data.Result.email == "" &&
+          response.data.Result.email == "" ||
           response.data.Result.work_email == ""
         ) {
           router.push("/onboarding");
