@@ -71,6 +71,8 @@
           "emp_id": "fd7cbfe2-167c-4f7d-98ca-d4c778721d6e"
         }
       ]
+
+      
       try{
       console.log("stored data:",details.equipment)
       const response = await axios.put("/employee/equipmentInfo", data, {
