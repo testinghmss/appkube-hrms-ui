@@ -118,7 +118,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
               <span>91+{personalData.number}</span>
             </div>
             <div className="flex flex-col gap-1  border-b-2 border-gray-200 w-full">
-              <span className="text-gray-400 "> Date of Birth</span>
+              <span className="text-gray-400 "> Date Of Birth</span>
               <span>{personalData.dob}</span>
             </div>
           </div>
