@@ -10,15 +10,22 @@ import { useRouter } from "next/navigation";
 import signup from "@/../public/assets/photos/signup/signuphero1.svg";
 import hrmslogo from "@/../public/assets/photos/signup/hrmslogo.svg";
 import axios from "@/api/axios";
+import { useDispatch } from "react-redux";
+import { setEmail } from "@/redux/slices/resetPasswordSlice";
+import { CiLight } from "react-icons/ci";
 
 const Signup = () => {
   const router = useRouter();
   const email = useRef();
+  const [emails, setemails] = useState("");
+
+  const dispatch = useDispatch();
   // const password = useRef();
   // const passwordConfirm = useRef();
 
   const [valid, setValid] = useState(true);
   const [passMatch, setPassMatch] = useState();
+  const [errMessage, setErrMessage] = useState("");
 
   const signupDetails = async (values) => {
     console.log("in finish");
@@ -39,6 +46,7 @@ const Signup = () => {
         console.log("response", response);
         console.log(response.message);
         if (response.status == 200) {
+          dispatch(setEmail(emails));
           router.push("/signup/confirm-mail");
         } else {
           setValid(false);
@@ -47,6 +55,13 @@ const Signup = () => {
       } catch (error) {
         // console.log("error", error.response.data.message);
         console.log(error);
+        console.log(emails);
+        router.push("/signup/confirm-mail", { email: emails });
+
+        dispatch(setEmail(emails));
+
+        console.log(error.response.data.message);
+        setErrMessage(error.response.data.message);
         setValid(false);
       }
     } else {
@@ -138,6 +153,7 @@ const Signup = () => {
                 required={true}
                 onChange={(e) => {
                   email.current.value = e.target.value;
+                  setemails(e.target.value);
                 }}
               />
             </Form.Item>
@@ -219,9 +235,10 @@ const Signup = () => {
             {/* </Link> */}
           </Form>
           <br />
+          {errMessage && <p className="-mt-5 text-red-500">{errMessage}</p>}
           <span className="">
             Have an account ?{" "}
-            <Link href="login" className="text-[#1890FF]">
+            <Link href="/login" className="text-[#1890FF]">
               Sign in
             </Link>
           </span>

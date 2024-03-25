@@ -1,15 +1,22 @@
-import React from 'react'
-import Image from 'next/image';
+"use client";
+import React from "react";
+import Image from "next/image";
 import Link from "next/link";
-import updateImage from '@/../../public/assets/login/updatesucessfull/update3.jpg'
-
+import updateImage from "@/../../public/assets/login/updatesucessfull/update3.jpg";
+// import { useSelector } from "react-redux";
 
 const page = () => {
+  // const reset = useSelector((state) => state.resetPassword);
+  // console.log(reset);
   return (
     <>
       <div className="flex justify-center items-center bg-gray-200  h-screen ">
         <div className="shadow-lg w-[400px] bg-white  p-9 flex flex-col justify-center items-center">
-          <Image src={updateImage} className="self-center w-[12vw]" alt='update img'/>
+          <Image
+            src={updateImage}
+            className="self-center w-[12vw]"
+            alt="update img"
+          />
           {/* <p className=' flex justify-center'>image ?????</p> */}
           <p className="font-bold  text-2xl  text-center">
             Password Update <br /> successfully
@@ -26,6 +33,6 @@ const page = () => {
       </div>
     </>
   );
-}
+};
 
-export default page
+export default page;

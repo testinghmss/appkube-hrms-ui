@@ -4,6 +4,7 @@ import Image from "next/image";
 import { IoChevronBackOutline } from "react-icons/io5";
 import ImageUp from "@/../public/assets/onboarding/OnbordingImg.svg";
 import Logout from "@/../public/assets/onboarding/Logout.svg";
+import { removeAccessToken } from "@/utils/getAccessToken";
 import UploadImg from "./UploadImg";
 import { setCompanyData } from '@/redux/slices/Onboardingpersdetails';
 // import { createUser } from "@/redux/slices/personalDetails";
@@ -67,7 +68,12 @@ const companyData = useSelector((state) => state.Onboardingpersdetails.companyDa
       </div>
 
       <div className="w-[50vw] h-[96vh] -mt-7 flex flex-col relative">
-        <Link href="/login">
+        <Link href="/login" onClick={
+          ()=>{
+            removeAccessToken();
+
+          }
+        }>
           <div className="flex  items-center p-1 gap-1 border border-[#1890FF] hover:bg-blue-100 transition-all btn btn-primary w-[100px] absolute right-2 top-8 cursor-pointer">
             <Image width={15} height={15} src={Logout}  alt="logout"/>
             <button className="">Logout</button>

@@ -1,11 +1,14 @@
 import React , { useState,useEffect} from "react";
 import axios from "@/api/axios"
-const PersonalInfo = () => {
+import getAccessTokenFromCookie from "@/utils/getAccessToken";
 
+const PersonalInfo = () => {
+  
   const [data, setData] = useState({})
   
-
-
+  
+  
+  const accessToken = getAccessTokenFromCookie();
   useEffect(()=>{
     const fetchData = async ()=>{
       try{

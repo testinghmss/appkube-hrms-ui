@@ -1,4 +1,3 @@
-
 "use client";
 // import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -11,12 +10,18 @@ import LoginImage from "../../../public/assets/login/login2.svg";
 import synectiksImage from "../../../public/assets/login/synectiks.svg";
 import welcomeImage from "../../../public/assets/login/hand.jpg";
 import { useRouter } from "next/navigation";
+// import { useSelector } from "react-redux";
+
 import axios from "@/api/axios";
 // import unionImage from "../../../public/assets/login/Union.svg";
 
 const Page = () => {
   const router = useRouter();
   const [valid, setValid] = useState(true);
+  const [emailVerified, setEmailVerified] = useState(true);
+
+  // const reset = useSelector((state) => state.resetPassword);
+  // console.log(reset);
 
   const setCookie = (name, value, expiresInDays) => {
     const date = new Date();
@@ -29,11 +34,10 @@ const Page = () => {
     const data = {
       email: values.email,
       password: values.password,
-// {
-//   "email": "user@example.com",
-//   "password": "string@S123"
-// }
-
+      // {
+      //   "email": "user@example.com",
+      //   "password": "string@S123"
+      // }
     };
     try {
       console.log("data", data.emp_type);
@@ -41,17 +45,31 @@ const Page = () => {
       console.log("response", response);
       if (response.status == 200) {
         //getting accesstoken from response
-        const accessToken = response.accessToken;
-
+        const accessToken = response.data.AccessToken;
         // Set the access token in a cookie
         setCookie("accessToken", accessToken, 1);
-        router.push("/onboarding");
+        if (
+          response.data.Result.email == "" ||
+          response.data.Result.work_email == ""
+        ) {
+          router.push("/onboarding");
+        } else {
+          router.push("/hrms");
+        }
       } else {
         setValid(false);
       }
     } catch (error) {
       console.log("error", error);
-      setValid(false);
+      console.log(error.response?.data?.message);
+      console.log(error.request.status);
+      if (error.request.status == 403) {
+        setEmailVerified(false);
+        setValid(true);
+      } else {
+        setValid(false);
+        setEmailVerified(true);
+      }
     }
   };
 
@@ -151,6 +169,9 @@ const Page = () => {
                 </div>
                 {!valid && (
                   <p className="text-red-700">Invalid email or Password</p>
+                )}
+                {!emailVerified && (
+                  <p className="text-red-700">Please Verify your Email First</p>
                 )}
               </div>
             </Form.Item>
