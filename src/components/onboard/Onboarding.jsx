@@ -4,6 +4,7 @@ import UploadImg from "./UploadImg";
 import { useRouter } from "next/navigation";
 import OnBoardingImg from '@/../public/assets/onboarding/OnbordingImg.svg'
 import Logout from '@/../public/assets/onboarding/Logout.svg'
+import { removeAccessToken } from "@/utils/getAccessToken";
 // import { Progress, Flex, Segmented,Form , Select, Option, Input,InputNumber} from "antd";
 import {
   Flex,
@@ -84,6 +85,7 @@ const Onboarding = ({ step, setStep }) => {
         <div className="flex  items-center p-1  border border-[#1890FF] hover:bg-white hover:text-[#1890FF] transition-all btn btn-primary w-[100px] absolute right-2 top-10 cursor-pointer">
           <Image width={15} height={15} src={Logout} alt="logout"/>
           <button className="" onClick={()=>{
+            removeAccessToken();
             router.push("/login")
           }}>Logout</button>
         </div>

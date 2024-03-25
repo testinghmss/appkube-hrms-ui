@@ -1,13 +1,22 @@
 // "use server"
-"use client"
-import React from 'react'
-// import Upload from './upload'
+
+"use client";
+import React from "react";
+import Upload from "./upload";
+
 import { FaRegFileAlt } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
-import {Progress, Table} from "antd"
+import { Progress, Table } from "antd";
 // import { AiFillDelete } from "react-icons/ai";
 // import Delete from './Table';
 // import FileTable from './FileTable';
+// <<<<<<< asif
+// import FileTable from "./FileTable";
+
+// const Documents = ({ tab, setTab }) => {
+//   return (
+//     <div className="w-full h-full p-10 flex flex-col bg-white ">
+// =======
 import axios from 'axios';
 import FileTable from './FileTable';
 import { useState } from 'react';
@@ -140,6 +149,7 @@ console.log(Attachments)
 
   return (
     <div className="w-full h-full p-10 flex flex-col " >
+
       <div>
         <Upload />
       </div>
@@ -174,6 +184,6 @@ console.log(Attachments)
       </button>
     </div>
   );
-}
+};
 
-export default Documents
+export default Documents;

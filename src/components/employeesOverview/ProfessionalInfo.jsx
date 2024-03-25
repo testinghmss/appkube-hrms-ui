@@ -1,6 +1,9 @@
 import React from 'react'
+import getAccessTokenFromCookie from "@/utils/getAccessToken";
+
 
 const ProfessionalInfo = () => {
+  const accessToken = getAccessTokenFromCookie();
   return (
     <div className="grid grid-cols-2 grid-rows-3 ">
       {/* first row  */}

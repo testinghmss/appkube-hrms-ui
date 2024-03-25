@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 // import Avatar from "@/../public/assets/empDetails/Avatar1.svg";
 // import axios from 'axios'
 import axios from "@/api/axios";
+import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { FiPlus } from "react-icons/fi";
 
 export const SendEmp = (emp) => {
@@ -30,11 +31,17 @@ const Page = () => {
   };
 
   const [employees, setEmployees] = useState([]);
+  
+  const accessToken = getAccessTokenFromCookie();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const values = await axios.get("/employee?page=1");
+        const values = await axios.get("/employee?page=1", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         console.log("response", values.data.employees);
         setEmployees(values.data.employees);
         // console.log("data",employees)

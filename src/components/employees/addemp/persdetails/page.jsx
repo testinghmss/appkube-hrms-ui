@@ -13,6 +13,16 @@ import {
 } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import axios from "@/api/axios";
+// <<<<<<< asif
+import Image from "next/image";
+import getAccessTokenFromCookie from "@/utils/getAccessToken";
+
+// import axios from "axios";
+const { Option } = Select;
+
+const PersonalInformation = ({tab,setTab}) => {
+  const accessToken = getAccessTokenFromCookie();
+// =======
 
 const beforeUpload = (file) => {
   const isPng = file.type === "image/png";
@@ -28,6 +38,7 @@ const beforeUpload = (file) => {
 const PersonalInformation = () => {
   const accessToken = getAccessTokenFromCookie();
   const persDetails = useSelector((state) => state.Details); 
+// >>>>>>> main
   const router = useRouter();
   const [req, setReq] = useState(
     { fileName: '', data: '' }
@@ -139,10 +150,12 @@ const PersonalInformation = () => {
     try {
       console.log("data", data.emp_type);
       const response = await axios.post("/employee/personalInfo", data, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
       console.log("response", response);
       if (response.status === 200) {
         console.log("response data", response.data)
@@ -187,6 +200,33 @@ const PersonalInformation = () => {
 
   }
   return (
+// <<<<<<< asif
+    <div style={{ display: "flex", justifyContent: "center", gap: "100px",backgroundColor:"white" }} className="py-10">
+      {/* "Choose an image" section */}
+      <div className="image-upload-container ">
+        <div
+          style={{
+            border: "2px dashed gray ",
+            padding: "12px",
+            height: "20vh",
+            width: "8vw",
+          }}
+        >
+          <div style={{ cursor: "pointer" }}>
+            <input
+              id="image-upload-input"
+              type="file"
+              onChange={handleImageChange}
+              ref={hiddenFileInput}
+              style={{ display: "none" }}
+            />
+            {image ? (
+              <Image
+                src={URL.createObjectURL(image)}
+                alt="upload image"
+                className="img-display-after"
+                style={{ width: "100px", height: "116px" }}
+// =======
     <Provider store={store}>
       <div className="gap-[100px] w-[100%] md:flex">
         <div className="image-upload-container">
@@ -206,6 +246,7 @@ const PersonalInformation = () => {
                 style={{
                   width: "100%",
                 }}
+// >>>>>>> mai
               />
             ) : (
               uploadButton
