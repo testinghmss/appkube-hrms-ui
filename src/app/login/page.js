@@ -1,11 +1,14 @@
-
-import Login from  '../../components/login/page'
+// "use client";
+import Login from "../../components/login/page";
+// import { useSelector } from "react-redux";
 const page = () => {
+  // const reset = useSelector((state) => state.resetPassword);
+  // console.log(reset);
   return (
     <div>
-        <Login/>
+      <Login />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

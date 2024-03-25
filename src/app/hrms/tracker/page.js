@@ -4,6 +4,8 @@ import { Table, Tag, Pagination, Input, Select, Dropdown, Menu, Button, Drawer, 
 import { DownOutlined, CloseOutlined, SendOutlined } from '@ant-design/icons';
 import Popup  from './Modal';
 import axios from "@/api/axios"
+import getAccessTokenFromCookie from "@/utils/getAccessToken";
+
   const { Search } = Input;
   const { Option } = Select;
 
@@ -20,10 +22,16 @@ import axios from "@/api/axios"
     const [selectedEmployeesForReminder, setSelectedEmployeesForReminder] = useState([]);
     const [showCheckboxes, setShowCheckboxes] = useState(false);
 
+   const accessToken = getAccessTokenFromCookie();
+
     const fetchData = async ()=>{
       try{
         console.log('fetching')
-        const response = await axios.get('/employee/tracker');
+        const response = await axios.get("/employee/tracker", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         console.log('tracker data',response)
         setData(response.data.employees)
       }

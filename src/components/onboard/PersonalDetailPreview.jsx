@@ -9,18 +9,20 @@ import Link from "next/link";
 import {useDispatch,useSelector} from "react-redux"
 import { createUser } from "@/redux/slices/Onboardingpersdetails";
 import { createCompany } from "@/redux/slices/Onboardingpersdetails";
+import { removeAccessToken } from "@/utils/getAccessToken";
+
 
 import {  Progress } from "antd";
 const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
-
+  
   const personalData = useSelector((state) => state.Onboardingpersdetails.personalData);
   const companyData = useSelector((state) => state.Onboardingpersdetails.companyData);
-
+  
   const dispatch = useDispatch()
-
+  
   // const handleSubmit = async () => {
-  //   // e.preventDefault();
-  //   // console.log("company...", companyData);
+    //   // e.preventDefault();
+    //   // console.log("company...", companyData);
 
   //      const combinedData = {"482d8374-fca3-43ff-a638-02c8a425c492",...companyData, };
   
@@ -29,29 +31,32 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
   //     //  console.log(combinedData);
   
   // };
-
+  
   const handleSubmit = async () => {
     const orgId = "482d8374-fca3-43ff-a638-02c8a425c492"; // Replace with your actual orgId value
-  
+    
     // Combine orgId with companyData
     const combinedData = { orgId, ...companyData };
-  
+    
     // Dispatch actions with the modified data
     dispatch(createUser(personalData));
     dispatch(createCompany(combinedData));
-  
+    
     // console.log(combinedData);
   };
-
+  
   // console.log(personalData.name);
-
+  
   return (
     <div className="flex justify-center items-center gap-16 w-[100%] h-[100vh] p-10 ">
       <div className="md:w-[70vw] h-[88vh] rounded-2xl bg-[#E6F7FF] flex justify-center items-center">
         <Image width={100} height={100} src={Onboard} className="w-[60%]  "  alt="onboard"/>
       </div>
       <div className="flex flex-col gap-5 items-center  w-[50vw] h-[85vh] relative">
-        <Link href="/login">
+        <Link href="/login" onClick={()=>{
+    removeAccessToken();
+
+        }}>
           <div
             className="flex  items-center p-1 gap-1 border border-[#1890FF] text-black group btn hover:bg-white transition w-[100px] absolute rounded-sm
          right-2 -top-5 cursor-pointer"

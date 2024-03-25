@@ -2,16 +2,26 @@
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from '@/api/axios';
+import getAccessTokenFromCookie from '@/utils/getAccessToken';
 
+const accessToken = getAccessTokenFromCookie();
 export const createUser = createAsyncThunk('createUser', async (data, { rejectWithValue }) => {
+
   try {
-    const response = await axios.post('/employee/personalInfo', data);
+    const response = await axios.post('/employee/personalInfo', data,{
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
     
     console.log(response);
     // return response.data; 
-    const hrDetails = await axios.get(`/employee/${response.data.id}`,{
-      params:{userId:response.data.id}}
-    );
+    const hrDetails = await axios.get(`/employee/${response.data.id}`, {
+      params: { userId: response.data.id },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     console.log("hr data",hrDetails.data);
 
     return hrDetails.data
@@ -29,7 +39,11 @@ export const createUser = createAsyncThunk('createUser', async (data, { rejectWi
 
 export const createCompany = createAsyncThunk('createCompany', async (data, { rejectWithValue }) => {
   try {
-    const response = await axios.put('https://bwppdwpoab.execute-api.us-east-1.amazonaws.com/dev/organization', data);
+    const response = await axios.put('https://bwppdwpoab.execute-api.us-east-1.amazonaws.com/dev/organization', data,{
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
     
     console.log(response);
     // return response.data; 
