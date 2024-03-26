@@ -6,6 +6,7 @@ import personalDetails from "../slices/personalDetails";
 import Onboardingpersdetails from "../slices/Onboardingpersdetails";
 import EquipmentDetails from "../slices/Equipment";
 import resetPasswordSlice from "../slices/resetPasswordSlice";
+import { DetailSlice } from "../slices/Details";
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     resetPassword: resetPasswordSlice,
     Onboardingpersdetails: Onboardingpersdetails,
     EquipmentDetails: EquipmentDetails,
+    DetailSlice:DetailSlice,
   },
 });
