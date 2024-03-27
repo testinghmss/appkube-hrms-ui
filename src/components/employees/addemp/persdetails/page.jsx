@@ -2,8 +2,8 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { setpersonalDetails } from "@/redux/slices/Details";
-import { Provider } from "react-redux";
-import { store } from "@/redux/store/store";
+// import { Provider } from "react-redux";
+// import { store } from "@/redux/store/store";
 import { Form, Input, Row, Col, Select, Radio, Upload, DatePicker } from "antd";
 const { Option } = Select;
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
@@ -12,18 +12,8 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
-import axios from "@/api/axios";
-// <<<<<<< asif
-import Image from "next/image";
-import getAccessTokenFromCookie from "@/utils/getAccessToken";
-
-// import axios from "axios";
-const { Option } = Select;
-
-const PersonalInformation = ({tab,setTab}) => {
-  const accessToken = getAccessTokenFromCookie();
-// =======
-
+import Mainaxios from "@/api/axios";
+import axios from 'axios'
 const beforeUpload = (file) => {
   const isPng = file.type === "image/png";
   if (!isPng) {
@@ -35,10 +25,9 @@ const beforeUpload = (file) => {
   }
   return isLt2M;
 };
-const PersonalInformation = () => {
+const PersonalInformation = ({ tab, setTab }) => {
   const accessToken = getAccessTokenFromCookie();
   const persDetails = useSelector((state) => state.Details); 
-// >>>>>>> main
   const router = useRouter();
   const [req, setReq] = useState(
     { fileName: '', data: '' }
@@ -85,25 +74,27 @@ const PersonalInformation = () => {
   const [imageUrl, setImageUrl] = useState();
 
 
-  const handleChange = (info) => {
-    if (info.file.status === "uploading") {
+  const handleChange =(info) => {
+    // if (info.file.status === "uploading") {
+    //   console.log(info, 'info')
       setLoading(true);
-      // return;
-    }
-    if (info.file.status === "done") {
+    //   return;
+    // }
+    // if (info.file.status === "done") {
       const file = info.file.originFileObj;
       if (file) {
+        setLoading(false)
         const reader = new FileReader();
         reader.onloadend = () => {
           const base64 = reader.result;
           setReq({ fileName: file.name, data: base64 });
           setfileuploaded(true)
-
+          setImageUrl(base64)
 
         };
         reader.readAsDataURL(file);
       }
-    }
+    // }
   };
   const uploadButton = (
     <button
@@ -149,17 +140,17 @@ const PersonalInformation = () => {
     }
     try {
       console.log("data", data.emp_type);
-      const response = await axios.post("/employee/personalInfo", data, {
-
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
+      const response = await Mainaxios.post("/employee/personalInfo", data, 
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       console.log("response", response);
       if (response.status === 200) {
         console.log("response data", response.data)
         dispatch(setpersonalDetails(response.data));
+        setTab(tab + 1)
       }
     } catch (error) {
       console.log("error", error);
@@ -167,6 +158,7 @@ const PersonalInformation = () => {
   };
   const uploadFile = async () => {
 
+    console.log('uploading')
 
     try {
 
@@ -194,40 +186,15 @@ const PersonalInformation = () => {
 
 
   }
+  console.log(req)
   if (fileuploaded) {
+    setfileuploaded(true)
     uploadFile(),
       setfileuploaded(false)
 
   }
   return (
-// <<<<<<< asif
-    <div style={{ display: "flex", justifyContent: "center", gap: "100px",backgroundColor:"white" }} className="py-10">
-      {/* "Choose an image" section */}
-      <div className="image-upload-container ">
-        <div
-          style={{
-            border: "2px dashed gray ",
-            padding: "12px",
-            height: "20vh",
-            width: "8vw",
-          }}
-        >
-          <div style={{ cursor: "pointer" }}>
-            <input
-              id="image-upload-input"
-              type="file"
-              onChange={handleImageChange}
-              ref={hiddenFileInput}
-              style={{ display: "none" }}
-            />
-            {image ? (
-              <Image
-                src={URL.createObjectURL(image)}
-                alt="upload image"
-                className="img-display-after"
-                style={{ width: "100px", height: "116px" }}
-// =======
-    <Provider store={store}>
+  
       <div className="gap-[100px] w-[100%] md:flex">
         <div className="image-upload-container">
           <Upload
@@ -235,8 +202,8 @@ const PersonalInformation = () => {
             listType="picture-card"
             className="avatar-uploader"
             showUploadList={false}
-            action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-            beforeUpload={beforeUpload}
+            // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+            // beforeUpload={beforeUpload}
             onChange={handleChange}
           >
             {imageUrl ? (
@@ -245,8 +212,8 @@ const PersonalInformation = () => {
                 alt="avatar"
                 style={{
                   width: "100%",
+                  height:"100%"
                 }}
-// >>>>>>> mai
               />
             ) : (
               uploadButton
@@ -592,7 +559,7 @@ const PersonalInformation = () => {
           </div>
         </Form>
       </div>
-    </Provider>
+   
   );
 };
 export default PersonalInformation;

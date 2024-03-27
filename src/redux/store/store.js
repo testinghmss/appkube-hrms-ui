@@ -9,6 +9,7 @@ import EquipmentDetails from "../slices/Equipment";
 import formSlice from "../slices/Details"; 
 
 import resetPasswordSlice from "../slices/resetPasswordSlice";
+import { DetailSlice } from "../slices/Details";
 
 
 export const store = configureStore({
@@ -19,5 +20,6 @@ export const store = configureStore({
     resetPassword: resetPasswordSlice,
     Onboardingpersdetails: Onboardingpersdetails,
     EquipmentDetails: EquipmentDetails,
+    DetailSlice:DetailSlice,
   },
 });
