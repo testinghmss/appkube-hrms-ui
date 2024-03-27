@@ -396,9 +396,9 @@ return (
         total={100}
         current={currentPage}
         pageSize={pageSize}
-        showTotal={(total) => `Total ${total} items`}
+        //showTotal={(total) => `Total ${total} items`}
         onChange={handlePageChange}
-        // showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+        showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
       />
     </div>
   </div>
