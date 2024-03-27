@@ -148,12 +148,14 @@ const PersonalInformation = ({ tab, setTab }) => {
       });
       console.log("response", response);
       if (response.status === 200) {
+        
         console.log("response data", response.data)
         dispatch(setpersonalDetails(response.data));
         setTab(tab + 1)
       }
     } catch (error) {
       console.log("error", error);
+   
     }
   };
   const uploadFile = async () => {

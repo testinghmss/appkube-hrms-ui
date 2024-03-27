@@ -70,10 +70,10 @@ const ProfessionalInfo = ({ tab, setTab }) => {
       // department_id: values.selectedDepartment,
       department_id: 5,
       // reporting_manager_id: values.selectedReportingMngr,
-      reporting_manager_id: "61a6b732-1597-444a-afcc-10eeafbacc63",
+      reporting_manager_id: "f81cce0a-84fb-4eb4-b0ec-74b5f2a9fdb7",
       work_location: values.selectedworkLocation,
       start_date: values.selectedDate,
-      emp_id: values.employeeId,
+      emp_id: "f81cce0a-84fb-4eb4-b0ec-74b5f2a9fdb7",
     };
 
     try {
@@ -84,6 +84,9 @@ const ProfessionalInfo = ({ tab, setTab }) => {
     }
   });
       console.log("success", response);
+      if(response.status === 200){
+        setTab(tab + 1);
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -348,9 +351,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
                 justifyContent: "center",
                 marginLeft: "40%",
               }}
-              onClick={() => {
-                setTab(tab + 1);
-              }}
+             
             >
               Next
             </Button>

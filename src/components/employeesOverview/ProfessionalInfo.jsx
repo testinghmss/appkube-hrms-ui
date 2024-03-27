@@ -1,9 +1,11 @@
 import React from 'react'
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
+import { useSelector } from 'react-redux';
 
 
 const ProfessionalInfo = () => {
   const accessToken = getAccessTokenFromCookie();
+  const persDetails = useSelector((state) => state.DetailSlice); 
   return (
     <div className="grid grid-cols-2 grid-rows-3 ">
       {/* first row  */}

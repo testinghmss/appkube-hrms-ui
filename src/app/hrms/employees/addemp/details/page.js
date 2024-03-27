@@ -64,7 +64,7 @@ const Page = () => {
         defaultActiveKey="1"
         activeKey={`${activeTab}`}
         // activeKey="1"
-        onTabClick={(key) => setActiveTab(key)}
+        // onTabClick={(key) => setActiveTab(key)}
         className="pl-3 pt-2"
         items={items}
         onChange={onChange}

@@ -6,8 +6,8 @@ const initialState = {
     equipDetails: [], 
     documentDetails: [], 
   };
-export const formSlice = createSlice({
-  name: "Details",
+export const DetailSlice = createSlice({
+  name: "DetailSlice",
   
   initialState,
   reducers: {
@@ -26,9 +26,9 @@ export const formSlice = createSlice({
   },
 });
 
-export const { setpersonalDetails} = formSlice.actions;
-export const { setprofessionalDetails} = formSlice.actions;
-export const { setequipDetails} = formSlice.actions;
-export const {setdocumentDetails} = formSlice.actions;
+export const { setpersonalDetails} = DetailSlice.actions;
+export const { setprofessionalDetails} = DetailSlice.actions;
+export const { setequipDetails} = DetailSlice.actions;
+export const {setdocumentDetails} = DetailSlice.actions;
 
-export default formSlice.reducer;
+export default DetailSlice.reducer;
