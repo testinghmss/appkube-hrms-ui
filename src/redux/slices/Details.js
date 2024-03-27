@@ -6,13 +6,13 @@ const initialState = {
     equipDetails: [], 
     documentDetails: [], 
   };
-export const DetailSlice = createSlice({
-  name: "DetailSlice",
+export const formSlice = createSlice({
+  name: "Details",
+  
   initialState,
   reducers: {
     setpersonalDetails: (state, action) => {
       state.personalDetails = { ...state.personalDetails, ...action.payload };
-      console.log('disp[atching details',action.payload)
     },
     setprofessionalDetails: (state, action) => {
       state.professionalDetails = { ...state.professionalDetails, ...action.payload };
@@ -26,8 +26,9 @@ export const DetailSlice = createSlice({
   },
 });
 
-export const { setpersonalDetails, setprofessionalDetails, setequipDetails, setdocumentDetails} = DetailSlice.actions;
+export const { setpersonalDetails} = formSlice.actions;
+export const { setprofessionalDetails} = formSlice.actions;
+export const { setequipDetails} = formSlice.actions;
+export const {setdocumentDetails} = formSlice.actions;
 
-
-
-export default DetailSlice.reducer;
+export default formSlice.reducer;
