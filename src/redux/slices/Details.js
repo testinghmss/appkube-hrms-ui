@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    personalDetails: [], 
+    personalDetails: {}, 
     professionalDetails: [], 
     equipDetails: [], 
     documentDetails: [], 
@@ -12,7 +12,9 @@ export const DetailSlice = createSlice({
   initialState,
   reducers: {
     setpersonalDetails: (state, action) => {
-      state.personalDetails = { ...state.personalDetails, ...action.payload };
+      // state.personalDetails = { ...state.personalDetails, ...action.payload };
+      state.personalDetails = action.payload
+      console.log('added personal data in redux',action.payload)
     },
     setprofessionalDetails: (state, action) => {
       state.professionalDetails = { ...state.professionalDetails, ...action.payload };

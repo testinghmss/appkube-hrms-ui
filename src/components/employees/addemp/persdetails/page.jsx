@@ -54,7 +54,7 @@ const PersonalInformation = ({ tab, setTab }) => {
 
 
   const [formData, setFormData] = useState({
-    id: "",
+    
     email: "",
     work_email: "",
     first_name: "",
@@ -63,7 +63,7 @@ const PersonalInformation = ({ tab, setTab }) => {
     dob: "",
     emergency_number: "",
     highest_qualification: "",
-    image: null,
+    image: '',
     landmark: "",
     country: "",
     state: "",
@@ -90,7 +90,7 @@ const PersonalInformation = ({ tab, setTab }) => {
           setReq({ fileName: file.name, data: base64 });
           setfileuploaded(true)
           setImageUrl(base64)
-
+          setFormData({...formData,image: Attachments})
         };
         reader.readAsDataURL(file);
       }
@@ -139,6 +139,7 @@ const PersonalInformation = ({ tab, setTab }) => {
       image: Attachments,
     }
     try {
+      dispatch(setpersonalDetails(data));
       console.log("data", data.emp_type);
       const response = await Mainaxios.post("/employee/personalInfo", data, 
       {
