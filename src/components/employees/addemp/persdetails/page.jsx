@@ -76,8 +76,7 @@ const PersonalInformation = () => {
 
   const handleChange = (info) => {
     if (info.file.status === "uploading") {
-      setLoading(true);
-      // return;
+      // setLoading(true);
     }
     if (info.file.status === "done") {
       const file = info.file.originFileObj;
@@ -86,14 +85,16 @@ const PersonalInformation = () => {
         reader.onloadend = () => {
           const base64 = reader.result;
           setReq({ fileName: file.name, data: base64 });
-          setfileuploaded(true)
-
-
+          setfileuploaded(true);
+          // Set the imageUrl state with the URL of the uploaded image
+          setImageUrl(base64); 
+          // setLoading(false)// Assuming base64 is the URL of the uploaded image
         };
         reader.readAsDataURL(file);
       }
     }
   };
+  
   const uploadButton = (
     <button
       style={{
@@ -170,6 +171,7 @@ const PersonalInformation = () => {
       console.log(response.data);
       alert('Image uploaded successfully!');
       setAttachments(response.data.link)
+      
 
     }
 
