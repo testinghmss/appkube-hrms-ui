@@ -1,10 +1,11 @@
 "use client";
 import { Table } from "antd";
-import React from "react";
-
+//import React from "react";
+import React, { useEffect,useState } from 'react';
 import Link from "next/link";
 import Image from "next/image";
-
+import getAccessTokenFromCookie from "@/utils/getAccessToken";
+import axios from "@/api/axios";
 // import Plus from "../../../public/assets/homeicons/Union.svg";
 
 import AccountImg from "../../../public/assets/homeicons/EmployeesImg/AccountImg.svg";
@@ -12,10 +13,36 @@ import Person from "../../../public/assets/homeicons/EmployeesImg/Account.svg";
 import Circle from "../../../public/assets/homeicons/EmployeesImg/circle.svg";
 import { FiPlus } from "react-icons/fi";
 const page = () => {
+  const accessToken = getAccessTokenFromCookie();
+  const [empData,setEmpData]=useState([])
+  const fetchData = async ()=>{
+    try{
+      console.log('fetching')
+      const response = await axios.get("/dashboard/dashboardStats", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log('dashboard data',response)
+      setEmpData(response.data)
+      console.log("employee data fetched",empData)
+    }
+    catch(error){
+      console.log('error of dashboard',error)
+    }
+
+  }
+  useEffect(()=>{
+    fetchData();
+    console.log('in use effect')
+  },[])
+
+
   const columns = [
     {
       title: "Employee Name",
       dataIndex: "name",
+      
     },
     {
       title: "Employee ID",
@@ -58,65 +85,9 @@ const page = () => {
       },
     },
   ];
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      empId: 60,
-      email: "email@gmail.com",
-      english: 70,
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      empId: 55,
-      email: "email@gmail.com",
-      english: 89,
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      empId: "1545454",
-      email: "email@gmail.com",
-      english: 70,
-    },
-    {
-      key: "4",
-      name: "Jim Red",
-      empId: 123526,
-      email: "email@gmail.com",
-      english: 89,
-    },
 
-    {
-      key: "1",
-      name: "John Brown",
-      empId: 143414,
-      email: "email@gmail.com",
-      english: 70,
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      empId: 2421432,
-      email: "email@gmail.com",
-      english: 89,
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      empId: 3242,
-      email: "email@gmail.com",
-      english: 70,
-    },
-    {
-      key: "4",
-      name: "Jim Red",
-      empId: 233244,
-      email: "email@gmail.com",
-      english: 89,
-    },
-  ];
+
+
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
@@ -142,7 +113,7 @@ const page = () => {
             <Image src={Person} alt="person"/>
             <div>
               <h2>Total Employees</h2>
-              <h3 className="text-2xl">82</h3>
+              <h3 className="text-2xl"></h3>
             </div>
           </div>
 
@@ -150,7 +121,7 @@ const page = () => {
             <Image src={Circle} alt="circle"/>
             <div>
               <h2>Total Projects</h2>
-              <h3 className="text-2xl">07</h3>
+              <h3 className="text-2xl">{empData.Totalemployees}</h3>
             </div>
           </div>
         </div>
@@ -165,7 +136,7 @@ const page = () => {
           </button>
         </Link>
       </div>
-      <Table columns={columns} dataSource={data} onChange={onChange} />
+      <Table columns={columns} onChange={onChange} />
     </div>
   );
 };
