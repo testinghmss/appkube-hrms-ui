@@ -3,12 +3,71 @@ import EquipmentCard from "@/components/employeesOverview/EquipmentCard";
 import EquipmentDetails from "@/components/employeesOverview/EquipmentDetails";
 import PersonalInfo from "@/components/employeesOverview/PersonalInfo";
 import ProfessionalInfo from "@/components/employeesOverview/ProfessionalInfo";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { RiEditFill } from "react-icons/ri";
 import Image from "next/image";
 import ProfImg from "@/../public/assets/empDetails/Avatar1.svg";
 import Invite from "./invite/Invite";
+import getAccessTokenFromCookie from "@/utils/getAccessToken";
+import { useSelector } from "react-redux";
+import axios from "@/api/axios"
 const page = ({ tab, setTab }) => {
+
+  const [fetchedData , setFetchData] = useState({
+    equipment:[],
+    documents:[],
+  })
+  const accessToken = getAccessTokenFromCookie();
+  // const empId =  localStorage.getItem('empId')
+  // console.log('emmpid from localstorage',empId)
+  useEffect(()=>{
+    console.log('in useeffect')
+    const fetchData = async ()=>{
+      const id = await localStorage.getItem('empId')
+      // setEmpId(id)
+      try{
+        console.log('employee id from local storage',id)
+        const response = await axios.get(`/employee/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+        console.log("response of employee id for equipments",response.data.equipment)
+        setFetchData({...fetchedData,equipment:response.data.equipment});
+        // console.log("data",employees)
+        const response2 = await axios.get(`/employee/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+        console.log("response of employee id for documents",response2.data.documents)
+        setFetchData({...fetchedData,documents:response2.data.documents});
+      }
+      catch(error){
+        console.log('error fetching employee data',error);
+      }
+    }
+    fetchData()
+  },[])
+
+  const reduxEquipmentData = useSelector(state => state.EquipmentDetails)
+  console.log('redux data for equipments ',reduxEquipmentData)
+  console.log('fetched data by id for equipments ',fetchedData.equipment)
+  // setData(reduxData)
+  const equipmenData = reduxEquipmentData.length > 0 ? reduxEquipmentData : fetchedData.equipment;
+  console.log("data ofequipments details",equipmenData)
+
+  const reduxDocumentsData = useSelector(state => state.professionalDetails)
+  console.log('redux data for equipments ',reduxDocumentsData)
+  console.log('fetched data by id for equipments ',fetchedData.equipment)
+  // setData(reduxData)
+  const documentsData = reduxDocumentsData.length > 0 ? reduxDocumentsData : fetchedData.equipment;
+  console.log("data ofequipments details",documentsData)
+
+
+
+
+
   return (
     <div className="p-10 bg-gray-200">
       <div className="w-full mb-5 p-5 bg-white">

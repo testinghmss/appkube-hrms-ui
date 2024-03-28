@@ -17,6 +17,7 @@
   
   
   const Equipments = ({ tab, setTab }) => {
+    const empId = localStorage.getItem('empId');
     const [owner , setOwner] = useState(null);
     const [Device, setDevice] = useState("");
     const [Manufacturer, setManufacturer] = useState("");
@@ -69,7 +70,7 @@
           "serial_number": SerialNumber,
           "note": Notes,
           "supply_date": supplydate,
-          "emp_id": "fd7cbfe2-167c-4f7d-98ca-d4c778721d6e"
+          "emp_id": empId,
 
       }]
       // data = 

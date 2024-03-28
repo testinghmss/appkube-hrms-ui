@@ -149,9 +149,19 @@ const PersonalInformation = ({ tab, setTab }) => {
       });
       console.log("response", response);
       if (response.status === 200) {
-        
         console.log("response data", response.data)
         dispatch(setpersonalDetails(response.data));
+        const id = localStorage.getItem('empId')
+        if(id){
+          console.log('previouse id of local storage present',id)
+          localStorage.removeItem('empId')
+          console.log('id deleted from local storage',localStorage.getItem('empId'))
+          localStorage.setItem('empId',response.data.id)
+          console.log('new id',localStorage.getItem('empId'))
+        }
+        else{
+          localStorage.setItem('empId',response.data.id)
+        }
         setTab(tab + 1)
       }
     } catch (error) {

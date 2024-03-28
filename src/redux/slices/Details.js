@@ -7,7 +7,7 @@ const initialState = {
     documentDetails: [], 
   };
 export const DetailSlice = createSlice({
-  name: "DetailSlice",
+  name: "Details",
   
   initialState,
   reducers: {

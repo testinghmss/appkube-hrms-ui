@@ -4,33 +4,44 @@ import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { useSelector } from "react-redux";
 
 const PersonalInfo = () => {
+        // const [empId,setEmpId] = useState('')
+        const accessToken = getAccessTokenFromCookie();
+        const [fetchedData , setFetchData] = useState({})
   
   // const [data, setData] = useState({})
-  
   // setData(useSelector(state => state.DetailSlice.personalDetails))
-  const data =  useSelector(state => state.DetailSlice?.personalDetails)
-  console.log("data of personal details from redux",data)
+  // const data =  useSelector(state => state.DetailSlice?.personalDetails)
+  // console.log("data of personal details from redux",data)
   
-  const accessToken = getAccessTokenFromCookie();
-  // useEffect(()=>{
-    // const fetchData = async ()=>{
-    //   try{
-    //     const values = await axios.get('/employee/fd7cbfe2-167c-4f7d-98ca-d4c778721d6e');
-    //     console.log("response",values.data.personal_information        )
+  useEffect(()=>{
+    console.log('in useeffect')
+    const fetchData = async ()=>{
+      const id = await localStorage.getItem('empId')
+      // setEmpId(id)
+      try{
+        console.log('employee id from local storage',id)
+        const response = await axios.get(`/employee/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+        console.log("response of employee id",response.data.personal_information)
+        setFetchData(response.data.personal_information);
+        // console.log("data",employees)
+      }
+      catch(error){
+        console.log('error fetching employee',error);
+      }
+    }
+    fetchData()
+  },[])
 
-        // setData(values.data.personal_information);
-    //     // console.log("data",employees)
-
-    //   }
-    //   catch(error){
-    //     console.log('error',error);
-    //   }
-    // }
-    // fetchData()
-    // setData(useSelector(state => state.DetailSlice.personalDetails))
-    // console.log("data of personal details from redux",data)
-  // },[])
-
+  const reduxData = useSelector(state => state.Details?.personalDetails)
+  console.log('redux data for personal info',reduxData)
+  console.log('fetched data by id for personal info',fetchedData)
+  // setData(reduxData)
+  const data = reduxData.length > 0 ? reduxData : fetchedData;
+  console.log("data of personal details",data)
 
   // {
   //   "id": "7a015bd2-58d0-4a48-8849-e2dadb70c8fb",
@@ -65,6 +76,8 @@ const PersonalInfo = () => {
   //   "start_date": "2024-02-21T18:30:00.000Z",
   //   "emp_type_name": "Permanent"
   // }
+
+  // condition Object.keys(fetchData).length > 0 
   return (
     <div className="grid grid-cols-2 grid-rows-9 ">
       <span className="mb-4">

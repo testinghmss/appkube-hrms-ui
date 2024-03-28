@@ -3,7 +3,7 @@
 "use client";
 import React from "react";
 // import Upload from "./upload";
-
+import axios1 from '@/api/axios'
 import { FaRegFileAlt } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { Progress, Table } from "antd";
@@ -43,7 +43,7 @@ const Documents = ({tab,setTab}) => {
 
 
   
-  
+  const empId = localStorage.getItem('empId');
 const [req, setReq] = useState(
   {fileName:'' , data: '' }
 );
@@ -93,7 +93,7 @@ const response = await axios.post( 'https://i3mdnxvgrf.execute-api.us-east-1.ama
 
     );
 
-    console.log(response.data);
+    console.log("uploaded image response",response.data);
     alert('Image uploaded successfully!');
     // setAttachments(response.data.link);
     setAttachments([...Attachments, response.data.link])
@@ -151,6 +151,37 @@ console.log(Attachments)
 );
 
   }
+// data format {
+//   "emp_id": "4e585c37-66ab-47a4-9985-2161e125a61c",
+//   "documents": [
+//     {
+//       "name": "adhar",
+//       "url": "https://example.com/image.jpg"
+//     },
+//     {
+//       "name": "newdoc",
+//       "url": "https://example.com/image.jpg"
+//     }
+//   ]
+// }
+  const HandleDocuments = async ()=>{
+    const data = {
+      emp_id : empId,
+      documents:Attachments,
+    }
+   try{
+    console.log('data to put',data)
+    const response = await axios1.put('/employee/document',data,{
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    console.log('response of documemnst',response)
+   }
+   catch(error){
+    console.log('error uploading document',error)
+   }
+  }
 
   return (
     <div className="w-full h-full p-10 flex flex-col " >
@@ -181,9 +212,7 @@ console.log(Attachments)
 
       <button
         className="w-[30%]  bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white  border hover:border-[#1890FF] m-auto h-9 "
-        onClick={() => {
-          setTab(tab + 1);
-        }}
+        onClick={HandleDocuments}
       >
         Next
       </button>

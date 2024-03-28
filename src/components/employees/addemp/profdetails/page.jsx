@@ -24,6 +24,8 @@ import {
 const numberRegex = /^[0-9]{5,}$/; // Ensure at least 5 digits
 
 const ProfessionalInfo = ({ tab, setTab }) => {
+  const empId = localStorage.getItem('empId');
+  console.log('id from localstorage',empId)
   const handleSelectChange = (value) => {
     dispatch(setDropdownOption(value));
   };
@@ -73,7 +75,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
       reporting_manager_id: "f81cce0a-84fb-4eb4-b0ec-74b5f2a9fdb7",
       work_location: values.selectedworkLocation,
       start_date: values.selectedDate,
-      emp_id: "f81cce0a-84fb-4eb4-b0ec-74b5f2a9fdb7",
+      emp_id: empId,
     };
 
     try {

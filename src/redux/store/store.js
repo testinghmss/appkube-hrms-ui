@@ -9,17 +9,16 @@ import EquipmentDetails from "../slices/Equipment";
 import formSlice from "../slices/Details"; 
 
 import resetPasswordSlice from "../slices/resetPasswordSlice";
-import { DetailSlice } from "../slices/Details";
-
+import Details from "../slices/Details";
 
 export const store = configureStore({
   reducer: {
     professionalDetails: professionalDetails,
     formDetails: formSlice,
-    personalDetails: personalDetails,
+    // personalDetails: personalDetails,
     resetPassword: resetPasswordSlice,
     Onboardingpersdetails: Onboardingpersdetails,
     EquipmentDetails: EquipmentDetails,
-    DetailSlice:DetailSlice,
+    Details:Details,
   },
 });
