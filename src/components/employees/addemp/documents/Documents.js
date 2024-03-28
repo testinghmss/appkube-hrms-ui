@@ -2,7 +2,7 @@
 
 "use client";
 import React from "react";
-import Upload from "./upload";
+// import Upload from "./upload";
 
 import { FaRegFileAlt } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
@@ -20,7 +20,7 @@ import { Progress, Table } from "antd";
 import axios from 'axios';
 import FileTable from './FileTable';
 import { useState } from 'react';
-
+import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { Upload } from "antd";
 import Image from 'next/image';
 import { InboxOutlined } from '@ant-design/icons';
@@ -49,7 +49,7 @@ const [req, setReq] = useState(
 );
 
 const [fileuploaded, setfileuploaded] = useState(false)
-
+const accessToken = getAccessTokenFromCookie();
 const handleFileChange = (info) => {
   const file = info.file.originFileObj; // Access the selected file object
   console.log("THis is file",file)
@@ -84,7 +84,12 @@ const uploadFile = async () => {
 
 const response = await axios.post( 'https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/docUpload' ,
 
-      req,
+      req,{
+
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
 
     );
 

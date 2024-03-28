@@ -34,6 +34,7 @@
       setProvideBy(e.target.value);
       
     };
+    console.log('details',details)
 
     const isSupplyDateVisible = () => provideBy === true;
     
@@ -47,46 +48,53 @@
     };
 
     const StoreEquipment = async () => {
-      dispatch(
-        AddEquipment({
-          Owner: owner,
-          DeviceType:Device,
-          ManufacturerName: Manufacturer,
-          SerialNumber: SerialNumber,
-          Notes: Notes,
-          SupplyDate: supplydate,
-        })
-        );
+     
+ 
         
-        
-        
-        let data = 
-        [ {
-          "owner": details.equipment[0].Owner,
-          "device_type_id": 1,
-          "manufacturer": details.equipment[0].ManufacturerName,
-          "serial_number": details.equipment[0].SerialNumber,
-          "note": details.equipment[0].Notes,
-          "supply_date": details.equipment[0].SupplyDate,
+        let data =  
+        //  {
+        //   "owner": details.equipment[0].Owner,
+        //   "device_type_id": details.equipment[0].device_type_id,
+        //   "manufacturer": details.equipment[0].ManufacturerName,
+        //   "serial_number": details.equipment[0].SerialNumber,
+        //   "note": details.equipment[0].Notes,
+        //   "supply_date": details.equipment[0].SupplyDate,
+        //   "emp_id": "fd7cbfe2-167c-4f7d-98ca-d4c778721d6e"
+        // }
+      
+    [  {
+        "owner": owner,
+          "device_type_id":1,
+          "manufacturer": Manufacturer,
+          "serial_number": SerialNumber,
+          "note": Notes,
+          "supply_date": supplydate,
           "emp_id": "fd7cbfe2-167c-4f7d-98ca-d4c778721d6e"
-        }
-      ]
 
+      }]
+      // data = 
       
       try{
-      console.log("stored data:",details.equipment)
-      const response = await axios.put("/employee/equipmentInfo", data, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log("response",response);
+        console.log("stored data:",data)
+        const response = await axios.put("/employee/equipmentInfo", JSON.stringify(data), {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log("response",response);
+        console.log("response", response);
+        if (response.status === 200) {
+        
+        console.log("response data", response.data)
+        dispatch(
+          AddEquipment(data)
+          );
+        setTab(tab + 1)
+      }
     }
     catch(error){
       console.log('error',error)
-    }
-    
-    
+    }    
     }
 
     
@@ -181,8 +189,9 @@
                     type="text"
                     placeholder="Laptop"
                     // value={formState.devicetype}
-                    onChange={(value) => {
-                      setDevice(value);
+                    onChange={(e) => {
+                      setDevice(e.target.value)
+                      console.log('ddeivce',Device);
                     }}
                   />
                 </div>
@@ -275,7 +284,7 @@
                     className="rounded-md  h-8 w-36 text-base bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white  border hover:border-[#1890FF]"
                     onClick={() => {
                         StoreEquipment();
-                        setTab(tab + 1)
+                        // setTab(tab + 1)
                     }}
                   >
                     Next
