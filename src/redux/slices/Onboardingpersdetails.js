@@ -39,7 +39,7 @@ export const createUser = createAsyncThunk('createUser', async (data, { rejectWi
 
 export const createCompany = createAsyncThunk('createCompany', async (data, { rejectWithValue }) => {
   try {
-    const response = await axios.put('https://bwppdwpoab.execute-api.us-east-1.amazonaws.com/dev/organization', data,{
+    const response = await axios.put('/organization', data,{
     headers: {
       'Authorization': `Bearer ${accessToken}`
     }
@@ -74,6 +74,8 @@ export const Onboardingpersdetails = createSlice({
   initialState: {
     personalData:{},
     companyData:{},
+    onboardingImg:"",
+    companyImg:"",
     OnboardingData:null,
     loading: false,
     error: null,
@@ -84,6 +86,12 @@ export const Onboardingpersdetails = createSlice({
     },
     setCompanyData:(state,action) => {
       state.companyData = action.payload
+    },
+    setonboardingImg:(state,action) => {
+      state.onboardingImg = action.payload
+    },
+    setcompanyImg:(state,action) => {
+      state.companyImg = action.payload
     }
 
   },
@@ -108,5 +116,5 @@ export const Onboardingpersdetails = createSlice({
   },
 });
 
-export const { setPersonalData, setCompanyData } = Onboardingpersdetails.actions;
+export const { setPersonalData, setCompanyData, setonboardingImg, setcompanyImg } = Onboardingpersdetails.actions;
 export default Onboardingpersdetails.reducer;
