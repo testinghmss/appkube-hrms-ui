@@ -1,4 +1,4 @@
-import PersonalInformation from "@/components/employees/addemp/persdetails/page";
+import PersonalInformation from "@/components/employees/addemp/persdetails/Personal";
 
 
 import React from 'react'

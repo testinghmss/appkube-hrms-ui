@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    personalDetails: [], // Define your initial state here
+    personalDetails: {}, // Define your initial state here
   };
 export const personalDetails = createSlice({
   name: "personalDetails",
   initialState,
   reducers: {
     setpersonalDetails: (state, action) => {
-      state.personalDetails.push(action.payload)
+      state.personalDetails = action.payload
     },
   },
 });

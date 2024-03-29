@@ -1,11 +1,12 @@
   'use client'
 
-  import React, { useState } from "react";
+  import React, { useState, useEffect } from "react";
   import { Button } from "antd";
   import { useRouter } from "next/navigation";
   import { Checkbox, DatePicker, Input, Radio, Select } from "antd";
   import { useDispatch, useSelector } from "react-redux";
   import { AddEquipment } from "@/redux/slices/Equipment";
+
   
   import axios from "@/api/axios";
   import getAccessTokenFromCookie from "@/utils/getAccessToken";
@@ -16,7 +17,16 @@
   
   
   
-  const Equipments = ({ tab, setTab }) => {
+  const Equipment = ({ tab, setTab }) => {
+
+    useEffect(() => {
+      // Accessing location object inside useEffect
+      if (typeof window !== 'undefined') {
+        // Access location object here
+        console.log(window.location.href);
+      }
+    }, []);
+
     const [owner , setOwner] = useState(null);
     const [Device, setDevice] = useState("");
     const [Manufacturer, setManufacturer] = useState("");
@@ -367,4 +377,4 @@
     );
   };
 
-  export default Equipments;
+  export default Equipment;

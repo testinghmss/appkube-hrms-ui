@@ -1,37 +1,21 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Breadcrumb } from "antd";
-// import Image from "next/image";
-// import Link from "next/link";
-// import Plus from "../../../../public/assets/homeicons/Union.svg";
 import { useRouter } from "next/navigation";
-// import Avatar from "@/../public/assets/empDetails/Avatar1.svg";
-// import axios from 'axios'
 import axios from "@/api/axios";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { FiPlus } from "react-icons/fi";
 
 export const SendEmp = (emp) => {
-  if(emp===undefined){
-    console.log('')
+  if (emp === undefined) {
+    console.log('');
   }
-    console.log(emp);
-  
+  console.log(emp);
 };
+
 const Page = () => {
-
   const router = useRouter();
-  const AddEmployees = ()=>{
-
-    router.push('/hrms/employees/addemp')
-  }
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
-    router.push("/hrms/employees/employeesOverView");
-  };
-
   const [employees, setEmployees] = useState([]);
-  
   const accessToken = getAccessTokenFromCookie();
 
   useEffect(() => {
@@ -44,19 +28,22 @@ const Page = () => {
         });
         console.log("response", values.data.employees);
         setEmployees(values.data.employees);
-        // console.log("data",employees)
       } catch (error) {
         console.log("error", error);
       }
     };
     fetchData();
-  }, []);
+  }, [accessToken]); // Ensure useEffect runs only when accessToken changes
 
-  const stylestable = {
-    width: "100%",
-    borderCollapse: "collapse",
-    padding: "0",
+  const AddEmployees = () => {
+    router.push('/hrms/employees/addemp');
   };
+
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log("params", pagination, filters, sorter, extra);
+    router.push("/hrms/employees/employeesOverView");
+  };
+
   return (
     <div>
       <div className="flex justify-between p-4">
@@ -74,9 +61,9 @@ const Page = () => {
           <h2 className="text-xl font-semibold">All Employees</h2>
         </div>
         
-          <button onClick={AddEmployees} className="bg-[#1890FF] hover:text-[#1890FF] border hover:bg-white hover:border-[#1890FF] text-white flex p-4 gap-3 justify-center items-center">
-            <FiPlus /> Add New Employees
-          </button>
+        <button onClick={AddEmployees} className="bg-[#1890FF] hover:text-[#1890FF] border hover:bg-white hover:border-[#1890FF] text-white flex p-4 gap-3 justify-center items-center">
+          <FiPlus /> Add New Employees
+        </button>
        
       </div>
       {employees.length > 0 ? (

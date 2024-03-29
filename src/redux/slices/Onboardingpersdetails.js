@@ -74,7 +74,10 @@ export const Onboardingpersdetails = createSlice({
   initialState: {
     personalData:{},
     companyData:{},
-    OnboardingData:null,
+    OnboardingData: 
+    //  null
+    {id:1},
+    // ,
     loading: false,
     error: null,
   },

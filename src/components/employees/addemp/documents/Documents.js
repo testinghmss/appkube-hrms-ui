@@ -50,6 +50,12 @@ const [req, setReq] = useState(
 
 const [fileuploaded, setfileuploaded] = useState(false)
 const accessToken = getAccessTokenFromCookie();
+
+
+
+
+
+
 const handleFileChange = (info) => {
   const file = info.file.originFileObj; // Access the selected file object
   console.log("THis is file",file)

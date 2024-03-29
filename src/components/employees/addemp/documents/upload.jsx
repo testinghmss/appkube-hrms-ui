@@ -109,7 +109,7 @@ console.log(Attachments)
     banned files.
   </p>
 </Dragger>
-<div>{Attachments.map((e)=>{return  <Image src={e} alt="Uploaded images" height={50} width={50}/>})}</div>
+<div>{Attachments.map((e,index)=>{return  <Image key={index} src={e} alt="Uploaded images" height={50} width={50}/>})}</div>
 
 </>
 );
