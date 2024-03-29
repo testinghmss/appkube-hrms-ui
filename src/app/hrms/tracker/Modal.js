@@ -28,7 +28,7 @@ const Popup = () => {
 
   return (
     <>
-      <Button type="primary" onClick={showModal} className='bg-blue-600 rounded-none mt-7'>
+      <Button type="primary" onClick={showModal} className="bg-[#1890FF] hover:text-[#1890FF] border hover:bg-white hover:border-[#1890FF] text-white flex p-4 gap-3 justify-center items-center ml-12 rounded-none mt-6">
         Manage Invite
       </Button>
       <Modal
@@ -64,7 +64,7 @@ const Popup = () => {
             </div>
           </div>
           <div style={{ textAlign: 'center' }} className='mt-6'>
-            <Button type="primary" onClick={handleContinue} className='w-60'>
+            <Button type="primary" className="bg-[#1890FF] hover:text-[#1890FF] border hover:bg-white hover:border-[#1890FF] text-white flex p-4 gap-3 justify-center items-center ml-12 rounded-none w-60" onClick={handleContinue}>
             Continue
           </Button></div>
         </div>

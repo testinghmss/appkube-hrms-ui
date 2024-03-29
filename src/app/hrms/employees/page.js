@@ -26,7 +26,6 @@ const Page = () => {
   const [employees, setEmployees] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [currentPage, setCurrentPage] = useState(1); 
-  const [pageSize, setPageSize] = useState(10); 
   const accessToken = getAccessTokenFromCookie();
 
   useEffect(() => {
@@ -58,7 +57,7 @@ const Page = () => {
     },
     {
       title: "Employee Id",
-      dataIndex: "employee_id",
+      dataIndex: "id",
       key: "employee_id",
     },
     {
@@ -70,6 +69,9 @@ const Page = () => {
       title: "Email Address",
       dataIndex: "email",
       key: "email",
+      sorter: {
+        compare: (a, b) => a.email - b.email,
+        multiple: 2,}
     },
     {
       title: "Designation",
@@ -85,11 +87,19 @@ const Page = () => {
       title: "Department",
       dataIndex: "department",
       key: "department",
+      sorter: {
+        compare: (a, b) => a.english - b.english,
+        multiple: 1,
+      },
     },
     {
       title: "Start Date",
       dataIndex: "start_date",
       key: "start_date",
+      sorter: {
+        compare: (a, b) => a.english - b.english,
+        multiple: 1,
+      },
     },
   ];
 
@@ -168,7 +178,6 @@ const Page = () => {
             size="large"
             total={100} 
             current={currentPage}
-            pageSize={pageSize}
             showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
             onChange={handlePageChange}
           />
