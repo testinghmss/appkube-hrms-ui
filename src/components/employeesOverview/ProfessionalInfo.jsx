@@ -31,7 +31,7 @@ const ProfessionalInfo = () => {
     fetchData()
   },[])
 
-  const reduxData = useSelector(state => state.professionalDetails)
+  const reduxData = useSelector(state => state.Details?.professionalDetails)
   console.log('redux data for professional info',reduxData)
   console.log('fetched data by id for professional info',fetchedData)
   // setData(reduxData)

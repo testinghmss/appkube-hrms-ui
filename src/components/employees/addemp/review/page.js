@@ -50,14 +50,14 @@ const page = ({ tab, setTab }) => {
     fetchData()
   },[])
 
-  const reduxEquipmentData = useSelector(state => state.EquipmentDetails)
+  const reduxEquipmentData = useSelector(state => state.Details?.equipDetails)
   console.log('redux data for equipments ',reduxEquipmentData)
   console.log('fetched data by id for equipments ',fetchedData.equipment)
   // setData(reduxData)
   const equipmenData = reduxEquipmentData.length > 0 ? reduxEquipmentData : fetchedData.equipment;
   console.log("data ofequipments details",equipmenData)
 
-  const reduxDocumentsData = useSelector(state => state.professionalDetails)
+  const reduxDocumentsData = useSelector(state => state.Details?.documentDetails)
   console.log('redux data for equipments ',reduxDocumentsData)
   console.log('fetched data by id for equipments ',fetchedData.equipment)
   // setData(reduxData)

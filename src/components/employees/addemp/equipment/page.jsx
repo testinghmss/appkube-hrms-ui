@@ -11,6 +11,7 @@
   import getAccessTokenFromCookie from "@/utils/getAccessToken";
   
   import Image from "next/image";
+import { setEquipmentDetails } from "@/redux/slices/Details";
   const { TextArea } = Input;
   
   
@@ -82,14 +83,13 @@
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log("response",response);
-        console.log("response", response);
+        console.log("success response",response.data);
+        // console.log("response", response);
         if (response.status === 200) {
         
-        console.log("response data", response.data)
-        dispatch(
-          AddEquipment(data)
-          );
+        console.log("response data to dispatch", response.data)
+        // dispatch(AddEquipment(response.data));
+        dispatch(setEquipmentDetails(response.data))
         setTab(tab + 1)
       }
     }
