@@ -10,6 +10,7 @@ import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import {
   LoadingOutlined,
   PlusOutlined,
+  CameraFilled
 } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import axios from "@/api/axios";
@@ -103,13 +104,13 @@ const PersonalInformation = () => {
       }}
       type="button"
     >
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      {loading ? <LoadingOutlined /> : <div className="w-[100%]"><CameraFilled className="text-black w-full" /></div>}
       <div
         style={{
           marginTop: 8,
         }}
       >
-        Upload
+        
       </div>
     </button>
   );
@@ -190,7 +191,7 @@ const PersonalInformation = () => {
   }
   return (
     <Provider store={store}>
-      <div className="gap-[100px] w-[100%] md:flex">
+      <div className="gap-[30px] w-[100%] md:flex">
         <div className="image-upload-container">
           <Upload
             name="image"
