@@ -55,7 +55,7 @@ const Onboarding = ({ step, setStep }) => {
   const [imageUrl, setImageUrl] = useState();
 
   const personalData = useSelector((state) => state.Onboardingpersdetails.personalData);
-
+  
 
   const { Option } = Select;
   const router = useRouter();
@@ -64,9 +64,15 @@ const Onboarding = ({ step, setStep }) => {
   const dispatch = useDispatch()
 
   const getUserData = (e) => {
-    setPersonal({ ...personal, [e.target.name]: e.target.value })
-    // console.log(personal);
-  }
+    const { name, value } = e.target;
+    // Trim the value to 10 digits if it's the phone number field
+    if (name === "number") {
+      const trimmedValue = value.slice(0, 10);
+      setPersonal({ ...personal, [name]: trimmedValue });
+    } else {
+      setPersonal({ ...personal, [name]: value });
+    }
+  };
 
   const handleGenderChange = (selectedValue) => {
     setPersonal({ ...personal, gender: selectedValue });
@@ -80,7 +86,8 @@ const Onboarding = ({ step, setStep }) => {
 
   const handleSubmit = async () => {
     // e.preventDefault();
-    if (!personal.first_name || !personal.last_name || !personal.gender || !personal.dob || !personal.number) {
+    console.log("Current state:", personal);
+    if (!personal.first_name || !personal.last_name || !personal.gender || !personal.dob || !personal.number || personal.number.length !== 10) {
       console.log("Please fill in all the required fields");
       // alert("fill All the input fields")
       openNotification();
@@ -347,7 +354,9 @@ const Onboarding = ({ step, setStep }) => {
                 name="number"
                 type="number"
                 className="w-full h-9 p-2 border-gray-300 outline-[#1890FF]"
+                maxLength="10"
                 onChange={getUserData}
+                pattern="\d{10}"
                 // value={personal.number !== undefined ? personal.number : "" || personalData.number }
                 value={personal.number || ''}
               />

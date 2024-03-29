@@ -1,10 +1,11 @@
 
 import { Select } from 'antd';
 import { State ,Country} from 'country-state-city';
-// import { useState,useEffect} from 'react';
+import { useState} from 'react';
 
-const StateComponent = ({ countryCode,changeState,onChange }) => {
+const StateComponent = ({ countryCode,value,onChange }) => {
     // console.log("it the country code",countryCode);
+    const [selectedstate, setSelectedstate] = useState(value);
     
     const Countrydata = Country.getAllCountries().map((country) => ({
       value: country.name,
@@ -33,11 +34,12 @@ const StateComponent = ({ countryCode,changeState,onChange }) => {
   }));
 
   const handleStateChange = (value) => {
+    setSelectedstate(value)
     onChange(value);
   };
 
   return (
-    <Select placeholder="Select the state" onChange={
+    <Select placeholder="Select the state" value={selectedstate} onChange={
       handleStateChange
       // ,console.log("it is the call back",value);
      }>

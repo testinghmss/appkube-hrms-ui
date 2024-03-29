@@ -58,9 +58,20 @@ const CompanyDetails = ({ step, setStep  }) => {
   // console.log(personalData);
   const dispatch = useDispatch();
 
+  // const getCompanyData = (e) => {
+  //   setCompany({ ...company, [e.target.name]: e.target.value });
+  //   // console.log(company);
+  // };
+
   const getCompanyData = (e) => {
-    setCompany({ ...company, [e.target.name]: e.target.value });
-    // console.log(company);
+    const { name, value } = e.target;
+    // Trim the value to 10 digits if it's the phone number field
+    if (name === "number") {
+      const trimmedValue = value.slice(0, 10);
+      setCompany({ ...company, [name]: trimmedValue });
+    } else {
+      setCompany({ ...company, [name]: value });
+    }
   };
 
   const openNotification = () => {
@@ -76,12 +87,14 @@ const CompanyDetails = ({ step, setStep  }) => {
       !company.name ||
       !company.email ||
       !company.number ||
+      company.number.length !== 10 ||
       !company.address_line_1 ||
       !company.address_line_2 ||
-      // !company.country ||
-      // !company.state ||
-      // !company.city ||
-      !company.zipcode
+      !company.country ||
+      !company.state ||
+      !company.city ||
+      !company.zipcode ||
+      company.zipcode.length !==6
     ) {
       console.log("Please fill in all the required fields");
       openNotification();
@@ -180,7 +193,7 @@ console.log(req)
       setAttachments(response.data.link);
       setImageUrl(response.data.link);
       setfileuploaded(false); // Reset to false after successful upload
-      setCompany({ ...company, image: response.data.link });
+      setCompany({ ...company, logo: response.data.link });
     } catch (error) {
       console.error(error);
       alert('Error uploading image. Please try again.');
@@ -268,6 +281,7 @@ console.log("image state",company );
                 type="number"
                 placeholder="Phone Number"
                 className="w-full h-9 p-2 border-gray-300 outline-[#1890FF]"
+                maxLength="10"
                 // value={companyData.number !== undefined ? companyData.number : "" || companyData.number }
                 value={company.number || ""}
               />

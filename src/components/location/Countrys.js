@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Country} from "country-state-city";
 
 
-const CountryComponent = ({ value, onChange, data }) => {
+const CountryComponent = ({ value, onChange }) => {
   const [selectedCountry, setSelectedCountry] = useState(value);
 
   const handleCountryChange = (value) => {

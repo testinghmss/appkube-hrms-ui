@@ -1,10 +1,11 @@
 
 import { Select } from 'antd';
 import { State,City,Country } from 'country-state-city';
+import { useState } from 'react';
 
-const CityComponent = ({ countryCode , stateCode,onChange}) => {
+const CityComponent = ({ countryCode , stateCode,onChange,value}) => {
 
-
+  const [selectedCity,setSelectedCity] = useState(value)
   // for the country isocode
   // console.log("country in the citys",countryCode);
   // console.log(" states in the citys",stateCode);
@@ -50,11 +51,12 @@ const [isoCode] = filtercountry.map(e => e.displayValue.slice(-2));
     }))
 
     const handleCityChange = (value) => {
+      setSelectedCity(value)
       onChange(value);
     };
 
   return (
-    <Select placeholder="Select the city" onChange={handleCityChange}>
+    <Select placeholder="Select the city" value={selectedCity} onChange={handleCityChange}>
       <Select.Option key={-1} value="" disabled>
         -- Select the city --
       </Select.Option>
