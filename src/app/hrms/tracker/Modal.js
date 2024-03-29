@@ -1,10 +1,11 @@
 'use client';
 import React, { useState } from 'react';
-import { Button, Modal, Radio } from 'antd';
+import { Button, Modal, Radio, Input } from 'antd';
 
 const Popup = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [showInput, setShowInput] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -24,6 +25,11 @@ const Popup = () => {
 
   const handleRadioChange = (e) => {
     setSelectedOption(e.target.value);
+    if (e.target.value === 1) {
+      setShowInput(true);
+    } else {
+      setShowInput(false);
+    }
   };
 
   return (
@@ -50,17 +56,20 @@ const Popup = () => {
           <div><p className='font-semibold mt-4 text-base justify-center text-center'>Select Method</p></div>
 
           <div className='mt-6'>
-            <div className='bg-slate-50 h-14'>
-              <Radio value={1} className='font-semibold'> <p>Reschedule Invite</p></Radio>
-              <p className='text-xs ml-6 mt-1'>Currently scheduled for 18 feb.</p>
+            <div className='bg-slate-50 h-14 rounded-lg'>
+              <Radio value={1} className='font-semibold mt-3 ml-2' onChange={handleRadioChange}> <p>Send Now</p></Radio>
+              <p className='text-xs ml-8'>Employee will receive an invitation email now.</p>
+              {showInput && (
+                <Input className="mt-2 ml-6" placeholder="Select Date" />
+              )}
             </div>
-            <div className='bg-slate-50 h-14 mt-2'>
-              <Radio value={2} className='font-semibold'><p>Send now</p></Radio>
-              <p className='text-xs ml-6 mt-1'>Workers will receive an invitation email now.</p>
+            <div className='bg-slate-50 h-14 mt-2 rounded-lg'>
+              <Radio value={2} className='font-semibold mt-3 ml-2' onChange={handleRadioChange}><p>Send later</p></Radio>
+              <p className='text-xs ml-8'>Workers will receive an invitation email now.</p>
             </div>
-            <div className='bg-slate-50 h-14 mt-2'>
-              <Radio value={3} className='font-semibold'><p>Cancel Invite</p></Radio>
-              <p className='text-xs ml-6 mt-1'>You can schedule an invite at a later time</p>
+            <div className='bg-slate-50 h-14 mt-2 rounded-lg'>
+              <Radio value={3} className='font-semibold mt-3 ml-2' onChange={handleRadioChange}><p>Cancel Invite</p></Radio>
+              <p className='text-xs ml-8'>You can schedule an invite at a later time</p>
             </div>
           </div>
           <div style={{ textAlign: 'center' }} className='mt-6'>
