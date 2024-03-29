@@ -15,6 +15,10 @@ import {
 import { useRouter } from "next/navigation";
 import Mainaxios from "@/api/axios";
 import axios from 'axios'
+import CountryComponent from "@/components/location/Countrys";
+import StateComponent from "@/components/location/States";
+import CityComponent from "@/components/location/city";
+
 const beforeUpload = (file) => {
   const isPng = file.type === "image/png";
   if (!isPng) {
@@ -38,6 +42,8 @@ const PersonalInformation = ({ tab, setTab }) => {
 
   const accessToken = getAccessTokenFromCookie();
   const persDetails = useSelector((state) => state.Details); 
+  const [selectedCountry, setSelectedCountry] = useState();
+  const [selectedState, setselectedState] = useState();
   const router = useRouter();
   const [req, setReq] = useState(
     { fileName: '', data: '' }
@@ -124,7 +130,7 @@ const PersonalInformation = ({ tab, setTab }) => {
       </div>
     </button>
   );
-
+console.log("object")
   const handleAddItemButtonClick = async () => {
     console.log(formData, "hitting api");
     console.log("imagr", imageUrl);
@@ -149,21 +155,24 @@ const PersonalInformation = ({ tab, setTab }) => {
       image: Attachments,
     }
     try {
-      console.log("data", data.emp_type);
-      const response = await Mainaxios.post("/employee/personalInfo", data, 
-      {
+      console.log("data", data);
+      console.log("assTo",accessToken)
+      const response = await Mainaxios.post("/employee/personalInfo", 
+      data,{
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
       console.log("response", response);
       if (response.status === 200) {
+        
         console.log("response data", response.data)
         dispatch(setpersonalDetails(response.data));
-        setTab(tab + 1)
+       
       }
     } catch (error) {
       console.log("error", error);
+      setTab(tab + 1)
     }
   };
   const uploadFile = async () => {
@@ -497,11 +506,12 @@ const PersonalInformation = ({ tab, setTab }) => {
                   },
                 ]}
               >
-                <Select placeholder="Select Your Country" name="country" onChange={(value) => handleDropDownChange("country", value)}>
+                <CountryComponent onChange={(value) => {handleDropDownChange("country", value) , setSelectedCountry(value);}}/>
+                {/* <Select placeholder="Select Your Country" name="country" onChange={(value) => handleDropDownChange("country", value)}>
                   <Option value="option1" name="country">Option 1</Option>
                   <Option value="option2" name="country">Option 2</Option>
                   <Option value="option3" name="country">Option 3</Option>
-                </Select>
+                </Select> */}
               </Form.Item>
             </Col>
           </Row>
@@ -518,11 +528,12 @@ const PersonalInformation = ({ tab, setTab }) => {
                   },
                 ]}
               >
-                <Select placeholder="Select State" name="state" onChange={(value) => handleDropDownChange("state", value)}>
+                <StateComponent countryCode={selectedCountry} onChange={(value) => {handleDropDownChange("state", value) , setselectedState(value)}}/>
+                {/* <Select placeholder="Select State" name="state" onChange={(value) => handleDropDownChange("state", value)}>
                   <Option value="option1">Option 1</Option>
                   <Option value="option2">Option 2</Option>
                   <Option value="option3">Option 3</Option>
-                </Select>
+                </Select> */}
               </Form.Item>
             </Col>
 
@@ -538,11 +549,12 @@ const PersonalInformation = ({ tab, setTab }) => {
                   },
                 ]}
               >
-                <Select placeholder="Select City" name="city" onChange={(value) => handleDropDownChange("city", value)}>
+                <CityComponent  countryCode={selectedCountry} stateCode={selectedState} onChange={(value) => handleDropDownChange("city", value)}/>
+                {/* <Select placeholder="Select City" name="city" onChange={(value) => handleDropDownChange("city", value)}>
                   <Option value="option1">Option 1</Option>
                   <Option value="option2">Option 2</Option>
                   <Option value="option3">Option 3</Option>
-                </Select>
+                </Select> */}
               </Form.Item>
             </Col>
           </Row>

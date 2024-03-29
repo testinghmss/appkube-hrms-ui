@@ -1,13 +1,20 @@
-"use client";
+'use client';
 import React, { useState, useEffect } from "react";
+<<<<<<< HEAD
 import { Breadcrumb } from "antd";
 import { useRouter } from "next/navigation";
+=======
+import { Breadcrumb, Table, Input, Pagination, Dropdown, Menu } from "antd";
+import { FiPlus } from "react-icons/fi";
+>>>>>>> 046985626613e416468af8c11dc67362d087f14c
 import axios from "@/api/axios";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
-import { FiPlus } from "react-icons/fi";
+import { useRouter } from "next/navigation";
+import { DownOutlined } from '@ant-design/icons';
 
 export const SendEmp = (emp) => {
   if (emp === undefined) {
+<<<<<<< HEAD
     console.log('');
   }
   console.log(emp);
@@ -16,6 +23,25 @@ export const SendEmp = (emp) => {
 const Page = () => {
   const router = useRouter();
   const [employees, setEmployees] = useState([]);
+=======
+    console.log("");
+  }
+  console.log(emp);
+};
+const { Search } = Input;
+
+const Page = () => {
+  const router = useRouter();
+  const [selectedStatus, setSelectedStatus] = useState(null);
+
+  const AddEmployees = () => {
+    router.push("/hrms/employees/addemp");
+  };
+
+  const [employees, setEmployees] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [currentPage, setCurrentPage] = useState(1); 
+>>>>>>> 046985626613e416468af8c11dc67362d087f14c
   const accessToken = getAccessTokenFromCookie();
 
   useEffect(() => {
@@ -33,6 +59,7 @@ const Page = () => {
       }
     };
     fetchData();
+<<<<<<< HEAD
   }, [accessToken]); // Ensure useEffect runs only when accessToken changes
 
   const AddEmployees = () => {
@@ -42,6 +69,83 @@ const Page = () => {
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
     router.push("/hrms/employees/employeesOverView");
+=======
+  }, [accessToken]);
+
+  const filteredEmployees = employees.filter((employee) =>
+    employee.employee_name.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  const columns = [
+    {
+      title: "Employee Name",
+      dataIndex: "employee_name",
+      key: "employee_name",
+    },
+    {
+      title: "Employee Id",
+      dataIndex: "id",
+      key: "employee_id",
+    },
+    {
+      title: "Project",
+      dataIndex: "project",
+      key: "project",
+    },
+    {
+      title: "Email Address",
+      dataIndex: "email",
+      key: "email",
+      sorter: {
+        compare: (a, b) => a.email - b.email,
+        multiple: 2,}
+    },
+    {
+      title: "Designation",
+      dataIndex: "designation",
+      key: "designation",
+    },
+    {
+      title: "Employee Type",
+      dataIndex: "employee_type",
+      key: "employee_type",
+    },
+    {
+      title: "Department",
+      dataIndex: "department",
+      key: "department",
+      sorter: {
+        compare: (a, b) => a.english - b.english,
+        multiple: 1,
+      },
+    },
+    {
+      title: "Start Date",
+      dataIndex: "start_date",
+      key: "start_date",
+      sorter: {
+        compare: (a, b) => a.english - b.english,
+        multiple: 1,
+      },
+    },
+  ];
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const statusMenu = (
+    <Menu>
+      <Menu.Item key="All">All</Menu.Item>
+      <Menu.Item key="Active">Permanent</Menu.Item>
+      <Menu.Item key="Scheduled">Consultant</Menu.Item>
+    </Menu>
+  );
+
+  const handleSearch = (value) => {
+    setCurrentPage(1);
+    setSearchText(value);
+>>>>>>> 046985626613e416468af8c11dc67362d087f14c
   };
 
   return (
@@ -60,50 +164,61 @@ const Page = () => {
           />
           <h2 className="text-xl font-semibold">All Employees</h2>
         </div>
+<<<<<<< HEAD
         
         <button onClick={AddEmployees} className="bg-[#1890FF] hover:text-[#1890FF] border hover:bg-white hover:border-[#1890FF] text-white flex p-4 gap-3 justify-center items-center">
           <FiPlus /> Add New Employees
         </button>
        
+=======
       </div>
-      {employees.length > 0 ? (
-        <table className="leading-10 gap-5">
-          <thead>
-            <tr>
-              <th>Employee Name</th>
-              <th>Employee Id</th>
-              <th>Project</th>
-              <th>Email Address</th>
-              <th>Designation</th>
-              <th>Employee Type</th>
-              <th>Department</th>
-              <th>Start Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {employees.map((emp) => (
-              <tr
-                key={emp.employee_id}
-                onClick={() => {
-                  SendEmp(emp);
-                }}
-                className="!p-10 "
-              >
-                <td>{emp.employee_name}</td>
-                <td>{emp.employee_id}</td>
-                <td>appkube</td>
-                <td>{emp.email}</td>
-                <td>{emp.designation}</td>
-                <td>{emp.employee_type}</td>
-                <td>{emp.department}</td>
-                <td>{emp.start_date}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <h2>...Loading or Empty State Message</h2>
-      )}
+
+      <div className="bg-white w-full px-8 py-4 ml-4 flex justify-between">
+      <Search
+          className="w-80 mt-4"
+          placeholder="Search Employee"
+          onSearch={handleSearch}
+        />
+        <div className="flex items-center">
+          <Dropdown overlay={statusMenu} trigger={['click']} className='mr-2 text-sm'>
+            <a onClick={(e) => e.preventDefault()}>
+              {selectedStatus || 'All'} <DownOutlined />
+            </a>
+          </Dropdown>
+          <button
+            onClick={AddEmployees}
+            className="bg-[#1890FF] hover:text-[#1890FF] border hover:bg-white hover:border-[#1890FF] text-white flex p-4 gap-3 justify-center items-center ml-4"
+          >
+            <FiPlus /> Add New Employees
+          </button>
+        </div>
+      </div>
+
+      <div className="bg-white w-full px-8 py-4 ml-4">
+        <Table
+          columns={columns}
+          dataSource={filteredEmployees}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                SendEmp(record);
+              },
+            };
+            
+          }}
+          pagination={false}
+        />
+        <div className="flex justify-end mt-6">
+          <Pagination
+            size="large"
+            total={100} 
+            current={currentPage}
+            showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+            onChange={handlePageChange}
+          />
+        </div>
+>>>>>>> 046985626613e416468af8c11dc67362d087f14c
+      </div>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-
 const getAccessTokenFromCookie = () => {
   // Check if document is defined (running in the client-side context)
   if (typeof document !== 'undefined') {

@@ -23,6 +23,7 @@ const Page = () => {
     {
       key: "3",
       label: "Equipment Details",
+      
       children: <Equipment tab={activeTab} setTab={setActiveTab} />,
     },
     {
