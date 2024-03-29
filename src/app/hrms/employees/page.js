@@ -1,12 +1,7 @@
 'use client';
 import React, { useState, useEffect } from "react";
-<<<<<<< HEAD
-import { Breadcrumb } from "antd";
-import { useRouter } from "next/navigation";
-=======
 import { Breadcrumb, Table, Input, Pagination, Dropdown, Menu } from "antd";
 import { FiPlus } from "react-icons/fi";
->>>>>>> 046985626613e416468af8c11dc67362d087f14c
 import axios from "@/api/axios";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { useRouter } from "next/navigation";
@@ -14,16 +9,6 @@ import { DownOutlined } from '@ant-design/icons';
 
 export const SendEmp = (emp) => {
   if (emp === undefined) {
-<<<<<<< HEAD
-    console.log('');
-  }
-  console.log(emp);
-};
-
-const Page = () => {
-  const router = useRouter();
-  const [employees, setEmployees] = useState([]);
-=======
     console.log("");
   }
   console.log(emp);
@@ -41,7 +26,6 @@ const Page = () => {
   const [employees, setEmployees] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [currentPage, setCurrentPage] = useState(1); 
->>>>>>> 046985626613e416468af8c11dc67362d087f14c
   const accessToken = getAccessTokenFromCookie();
 
   useEffect(() => {
@@ -59,17 +43,6 @@ const Page = () => {
       }
     };
     fetchData();
-<<<<<<< HEAD
-  }, [accessToken]); // Ensure useEffect runs only when accessToken changes
-
-  const AddEmployees = () => {
-    router.push('/hrms/employees/addemp');
-  };
-
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
-    router.push("/hrms/employees/employeesOverView");
-=======
   }, [accessToken]);
 
   const filteredEmployees = employees.filter((employee) =>
@@ -145,7 +118,6 @@ const Page = () => {
   const handleSearch = (value) => {
     setCurrentPage(1);
     setSearchText(value);
->>>>>>> 046985626613e416468af8c11dc67362d087f14c
   };
 
   return (
@@ -164,13 +136,6 @@ const Page = () => {
           />
           <h2 className="text-xl font-semibold">All Employees</h2>
         </div>
-<<<<<<< HEAD
-        
-        <button onClick={AddEmployees} className="bg-[#1890FF] hover:text-[#1890FF] border hover:bg-white hover:border-[#1890FF] text-white flex p-4 gap-3 justify-center items-center">
-          <FiPlus /> Add New Employees
-        </button>
-       
-=======
       </div>
 
       <div className="bg-white w-full px-8 py-4 ml-4 flex justify-between">
@@ -217,7 +182,6 @@ const Page = () => {
             onChange={handlePageChange}
           />
         </div>
->>>>>>> 046985626613e416468af8c11dc67362d087f14c
       </div>
     </div>
   );
