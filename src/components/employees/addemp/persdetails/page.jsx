@@ -2,18 +2,21 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { setpersonalDetails } from "@/redux/slices/Details";
-import { Provider } from "react-redux";
-import { store } from "@/redux/store/store";
+// import { Provider } from "react-redux";
+// import { store } from "@/redux/store/store";
 import { Form, Input, Row, Col, Select, Radio, Upload, DatePicker } from "antd";
 const { Option } = Select;
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import {
   LoadingOutlined,
   PlusOutlined,
-  CameraFilled
 } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
-import axios from "@/api/axios";
+import Mainaxios from "@/api/axios";
+import axios from 'axios'
+import CountryComponent from "@/components/location/Countrys";
+import StateComponent from "@/components/location/States";
+import CityComponent from "@/components/location/city";
 
 const beforeUpload = (file) => {
   const isPng = file.type === "image/png";
@@ -26,9 +29,11 @@ const beforeUpload = (file) => {
   }
   return isLt2M;
 };
-const PersonalInformation = () => {
+const PersonalInformation = ({ tab, setTab }) => {
   const accessToken = getAccessTokenFromCookie();
   const persDetails = useSelector((state) => state.Details); 
+  const [selectedCountry, setSelectedCountry] = useState();
+  const [selectedState, setselectedState] = useState();
   const router = useRouter();
   const [req, setReq] = useState(
     { fileName: '', data: '' }
@@ -75,27 +80,28 @@ const PersonalInformation = () => {
   const [imageUrl, setImageUrl] = useState();
 
 
-  const handleChange = (info) => {
-    if (info.file.status === "uploading") {
-      // setLoading(true);
-    }
-    if (info.file.status === "done") {
+  const handleChange =(info) => {
+    // if (info.file.status === "uploading") {
+    //   console.log(info, 'info')
+      setLoading(true);
+    //   return;
+    // }
+    // if (info.file.status === "done") {
       const file = info.file.originFileObj;
       if (file) {
+        setLoading(false)
         const reader = new FileReader();
         reader.onloadend = () => {
           const base64 = reader.result;
           setReq({ fileName: file.name, data: base64 });
-          setfileuploaded(true);
-          // Set the imageUrl state with the URL of the uploaded image
-          setImageUrl(base64); 
-          // setLoading(false)// Assuming base64 is the URL of the uploaded image
+          setfileuploaded(true)
+          setImageUrl(base64)
+
         };
         reader.readAsDataURL(file);
       }
-    }
+    // }
   };
-  
   const uploadButton = (
     <button
       style={{
@@ -104,17 +110,17 @@ const PersonalInformation = () => {
       }}
       type="button"
     >
-      {loading ? <LoadingOutlined /> : <div className="w-[100%]"><CameraFilled className="text-black w-full" /></div>}
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
       <div
         style={{
           marginTop: 8,
         }}
       >
-        
+        Upload
       </div>
     </button>
   );
-
+console.log("object")
   const handleAddItemButtonClick = async () => {
     console.log(formData, "hitting api");
     console.log("imagr", imageUrl);
@@ -139,23 +145,29 @@ const PersonalInformation = () => {
       image: Attachments,
     }
     try {
-      console.log("data", data.emp_type);
-      const response = await axios.post("/employee/personalInfo", data, {
+      console.log("data", data);
+      console.log("assTo",accessToken)
+      const response = await Mainaxios.post("/employee/personalInfo", 
+      data,{
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
       console.log("response", response);
       if (response.status === 200) {
+        
         console.log("response data", response.data)
         dispatch(setpersonalDetails(response.data));
+       
       }
     } catch (error) {
       console.log("error", error);
+      setTab(tab + 1)
     }
   };
   const uploadFile = async () => {
 
+    console.log('uploading')
 
     try {
 
@@ -172,7 +184,6 @@ const PersonalInformation = () => {
       console.log(response.data);
       alert('Image uploaded successfully!');
       setAttachments(response.data.link)
-      
 
     }
 
@@ -184,22 +195,24 @@ const PersonalInformation = () => {
 
 
   }
+  console.log(req)
   if (fileuploaded) {
+    setfileuploaded(true)
     uploadFile(),
       setfileuploaded(false)
 
   }
   return (
-    <Provider store={store}>
-      <div className="gap-[30px] w-[100%] md:flex">
+  
+      <div className="gap-[100px] w-[100%] md:flex">
         <div className="image-upload-container">
           <Upload
             name="image"
             listType="picture-card"
             className="avatar-uploader"
             showUploadList={false}
-            action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-            beforeUpload={beforeUpload}
+            // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+            // beforeUpload={beforeUpload}
             onChange={handleChange}
           >
             {imageUrl ? (
@@ -208,6 +221,7 @@ const PersonalInformation = () => {
                 alt="avatar"
                 style={{
                   width: "100%",
+                  height:"100%"
                 }}
               />
             ) : (
@@ -482,11 +496,12 @@ const PersonalInformation = () => {
                   },
                 ]}
               >
-                <Select placeholder="Select Your Country" name="country" onChange={(value) => handleDropDownChange("country", value)}>
+                <CountryComponent onChange={(value) => {handleDropDownChange("country", value) , setSelectedCountry(value);}}/>
+                {/* <Select placeholder="Select Your Country" name="country" onChange={(value) => handleDropDownChange("country", value)}>
                   <Option value="option1" name="country">Option 1</Option>
                   <Option value="option2" name="country">Option 2</Option>
                   <Option value="option3" name="country">Option 3</Option>
-                </Select>
+                </Select> */}
               </Form.Item>
             </Col>
           </Row>
@@ -503,11 +518,12 @@ const PersonalInformation = () => {
                   },
                 ]}
               >
-                <Select placeholder="Select State" name="state" onChange={(value) => handleDropDownChange("state", value)}>
+                <StateComponent countryCode={selectedCountry} onChange={(value) => {handleDropDownChange("state", value) , setselectedState(value)}}/>
+                {/* <Select placeholder="Select State" name="state" onChange={(value) => handleDropDownChange("state", value)}>
                   <Option value="option1">Option 1</Option>
                   <Option value="option2">Option 2</Option>
                   <Option value="option3">Option 3</Option>
-                </Select>
+                </Select> */}
               </Form.Item>
             </Col>
 
@@ -523,11 +539,12 @@ const PersonalInformation = () => {
                   },
                 ]}
               >
-                <Select placeholder="Select City" name="city" onChange={(value) => handleDropDownChange("city", value)}>
+                <CityComponent  countryCode={selectedCountry} stateCode={selectedState} onChange={(value) => handleDropDownChange("city", value)}/>
+                {/* <Select placeholder="Select City" name="city" onChange={(value) => handleDropDownChange("city", value)}>
                   <Option value="option1">Option 1</Option>
                   <Option value="option2">Option 2</Option>
                   <Option value="option3">Option 3</Option>
-                </Select>
+                </Select> */}
               </Form.Item>
             </Col>
           </Row>
@@ -554,7 +571,7 @@ const PersonalInformation = () => {
           </div>
         </Form>
       </div>
-    </Provider>
+   
   );
 };
 export default PersonalInformation;

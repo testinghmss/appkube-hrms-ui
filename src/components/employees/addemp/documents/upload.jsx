@@ -1,6 +1,7 @@
 "use client"
 import React from 'react';
 import { useState } from 'react';
+<<<<<<< HEAD
 import { InboxOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Image from 'next/image';
@@ -18,6 +19,23 @@ const { Dragger } = Upload;
 
 
 const UploadFile = () => {
+=======
+// import { InboxOutlined } from '@ant-design/icons';
+import axios from 'axios';
+import Image from 'next/image';
+
+import { Upload } from "antd";
+
+import { InboxOutlined } from '@ant-design/icons';
+const { Dragger } = Upload;
+
+const UploadFiles = () => {
+
+
+  const [req, setReq] = useState(
+    { fileName: '', data: '' }
+  );
+>>>>>>> ee4e684502f9ff83e8dc1b948fa8bb244fb09274
 
 
   const [req, setReq] = useState(
@@ -115,4 +133,8 @@ const UploadFile = () => {
   );
 
 }
+<<<<<<< HEAD
 export default UploadFile;
+=======
+export default UploadFiles;
+>>>>>>> ee4e684502f9ff83e8dc1b948fa8bb244fb09274
