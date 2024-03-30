@@ -20,7 +20,7 @@ const Profile1 = ({ step, setStep }) => {
     console.log("radio checked", e.target.value);
   };
 
-  const {id, work_email, number} = useSelector((state)=>state.personalDetails.personalDetails)
+  const {id, work_email, number} = useSelector((state)=>state.SendpersonalDetails.personalDetails)
   
 
   console.log(id, work_email, number)

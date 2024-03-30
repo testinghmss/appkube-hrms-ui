@@ -24,26 +24,28 @@ import getAccessTokenFromCookie from "@/utils/getAccessToken";
 
    const accessToken = getAccessTokenFromCookie();
 
-    const fetchData = async ()=>{
-      try{
-        console.log('fetching')
+   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log('fetching');
         const response = await axios.get("/employee/tracker", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log('tracker data',response)
-        setData(response.data.employees)
+        console.log('tracker data', response);
+        setData(response.data.employees);
+      } catch (error) {
+        console.log('error of tracker', error);
       }
-      catch(error){
-        console.log('error of tracker',error)
-      }
-
-    }
-    useEffect(()=>{
-      fetchData();
-      console.log('in use effect')
-    },[])
+    };
+  
+    fetchData(); // Call fetchData here
+  
+    console.log('in use effect');
+  }, [accessToken, setData]); // Include dependencies accessToken and setData
+  
+  
 
 
 

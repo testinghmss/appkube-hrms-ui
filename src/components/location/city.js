@@ -22,6 +22,7 @@ const CityComponent = ({ countryCode , stateCode,onChange,value}) => {
     return Country.value == countryCode
   })
 
+
 //  console.log("filter country in citys",filtercountry)
 //  console.log('code',filtercountry.map(e => e.displayValue.slice(3,2)))
 // console.log('code', filtercountry.map(e => e.displayValue.slice(-2)));
@@ -29,6 +30,7 @@ const CityComponent = ({ countryCode , stateCode,onChange,value}) => {
 
 const [isoCode] = filtercountry.map(e => e.displayValue.slice(-2));
 // console.log('code in citys', isoCode);
+
 
 
   // for the state isocode
@@ -47,6 +49,7 @@ const [isoCode] = filtercountry.map(e => e.displayValue.slice(-2));
 
     const data = City.getCitiesOfState(isoCode, stateIsoCode).map(city => ({
         value: city.name,
+
         displayValue: city.name
     }))
 

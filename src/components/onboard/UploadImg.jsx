@@ -4,8 +4,8 @@ import { message, Upload } from 'antd';
 import Image from 'next/image';
 import axios from 'axios'; 
 import {useDispatch} from "react-redux"
-import { setPersonalData } from '@/redux/slices/Onboardingpersdetails';
-import { setonboardingImg } from '@/redux/slices/Onboardingpersdetails';
+// import { setPersonalData } from '@/redux/slices/Onboardingpersdetails';
+// import { setonboardingImg } from '@/redux/slices/Onboardingpersdetails';
 
 
 const getBase64 = (img, callback) => {
@@ -55,7 +55,7 @@ const App = () => {
           // console.log(response.data.link,"this is for image url");
            
           // dispatch(uploadData(response.data.link ));
-          console.log(dispatch(setonboardingImg({image:response.data.link} )));
+          // console.log(dispatch(setonboardingImg({image:response.data.link} )));
 
         } catch (error) {
           console.error(error);

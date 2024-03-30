@@ -17,12 +17,20 @@ const Page = () => {
   const dispatch = useDispatch();
   const reset = useSelector((state) => state.resetPassword);
 
+  // useEffect(() => {
+  //   // Create refs for each OTP input
+  //   for (let i = 0; i < otp.length; i++) {
+  //     inputRefs.current.push(React.createRef());
+  //   }
+  // }, []);
+
   useEffect(() => {
     // Create refs for each OTP input
     for (let i = 0; i < otp.length; i++) {
       inputRefs.current.push(React.createRef());
     }
-  }, []);
+  }, [otp]); // eslint-disable-next-line react-hooks/exhaustive-deps
+  
 
   const handleInputChange = (index, value) => {
     const newOtp = [...otp];

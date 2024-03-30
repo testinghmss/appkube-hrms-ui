@@ -202,9 +202,14 @@ export default function RootLayout({ children }) {
                       trigger={["click"]}
                     >
                       <button>
+                        <div>
                         <Image src={Account} alt="account" />
+
+                        </div>
                       </button>
                     </Dropdown>
+                    
+
                   </div>
                 </div>
               </Header>
