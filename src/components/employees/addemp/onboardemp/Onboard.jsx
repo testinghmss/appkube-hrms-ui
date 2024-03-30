@@ -10,13 +10,12 @@ import { useRouter } from "next/navigation";
 
 const Onboarding = () => {
 
-  // useEffect(() => {
-    // Accessing location object inside useEffect
-  //   if (typeof window !== 'undefined') {
-  //     // Access location object here
-  //     console.log(window.location.href);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Access location object here
+      console.log(window.location.href);
+    }
+  }, []);
 
   const router = useRouter();
   return (

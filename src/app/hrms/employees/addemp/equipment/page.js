@@ -1,12 +1,12 @@
 import React from 'react'
 // import Equipments from '@/components/employees/addemp/equipment/Equipment'
-import Equipment from '@/components/employees/addemp/equipment/Equipment'
+import Equipments from '@/components/employees/addemp/equipment/page'
 
 const Page = () => {
   return (
     <div>
     
- <Equipment/>
+ <Equipments/>
     </div>
   )
 }

@@ -17,6 +17,7 @@ import axios from 'axios'
 import CountryComponent from "@/components/location/Countrys";
 import StateComponent from "@/components/location/States";
 import CityComponent from "@/components/location/city";
+import Image from "next/image";
 
 const beforeUpload = (file) => {
   const isPng = file.type === "image/png";
@@ -216,7 +217,7 @@ console.log("object")
             onChange={handleChange}
           >
             {imageUrl ? (
-              <img
+              <Image
                 src={imageUrl}
                 alt="avatar"
                 style={{
