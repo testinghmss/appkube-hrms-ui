@@ -43,7 +43,7 @@ import getAccessTokenFromCookie from "@/utils/getAccessToken";
     useEffect(()=>{
       fetchData();
       console.log('in use effect')
-    },[fetchData])
+    },[])
 
 
 

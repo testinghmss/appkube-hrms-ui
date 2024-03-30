@@ -8,7 +8,6 @@ const initialState = {
   };
 export const formSlice = createSlice({
   name: "Details",
-  
   initialState,
   reducers: {
     setpersonalDetails: (state, action) => {
@@ -30,5 +29,6 @@ export const { setpersonalDetails} = formSlice.actions;
 export const { setprofessionalDetails} = formSlice.actions;
 export const { setequipDetails} = formSlice.actions;
 export const {setdocumentDetails} = formSlice.actions;
+
 
 export default formSlice.reducer;

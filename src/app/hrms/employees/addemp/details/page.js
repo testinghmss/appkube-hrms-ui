@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { Breadcrumb, Tabs } from "antd";
 import Documents from "@/components/employees/addemp/documents/Documents";
-import Equipment from "@/components/employees/addemp/equipment/Equipment";
-import Personal from "@/components/employees/addemp/persdetails/Personal";
-import Professional from "@/components/employees/addemp/profdetails/Profesional";
+import Equipment from "@/components/employees/addemp/equipment/page";
+import Personal from "@/components/employees/addemp/persdetails/page";
+import Professional from "@/components/employees/addemp/profdetails/page";
 import Review from "@/components/employees/addemp/review/page";
 
 const Page = () => {

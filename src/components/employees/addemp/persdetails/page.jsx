@@ -1,8 +1,7 @@
 "use client"
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-// import { setpersonalDetails } from "@/redux/slices/Details";
-import { setpersonalDetails } from "@/redux/slices/personalDetails";
+import { setpersonalDetails } from "@/redux/slices/Details";
 // import { Provider } from "react-redux";
 // import { store } from "@/redux/store/store";
 import { Form, Input, Row, Col, Select, Radio, Upload, DatePicker } from "antd";
@@ -31,15 +30,6 @@ const beforeUpload = (file) => {
   return isLt2M;
 };
 const PersonalInformation = ({ tab, setTab }) => {
-  useEffect(() => {
-    // Accessing location object inside useEffect
-    if (typeof window !== 'undefined') {
-      // Access location object here
-      console.log(window.location.href);
-    }
-  }, []);
-  
-
   const accessToken = getAccessTokenFromCookie();
   const persDetails = useSelector((state) => state.Details); 
   const [selectedCountry, setSelectedCountry] = useState();
@@ -207,7 +197,7 @@ console.log("object")
   }
   console.log(req)
   if (fileuploaded) {
-    // setfileuploaded(true)
+    setfileuploaded(true)
     uploadFile(),
       setfileuploaded(false)
 
