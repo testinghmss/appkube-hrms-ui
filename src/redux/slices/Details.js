@@ -27,7 +27,7 @@ export const DetailSlice = createSlice({
       console.log('storing data of equipments in redux',action.payload[0])
     },
     setDocumentDetails: (state, action) => {
-      state.documentDetails = { ...state.documentDetails, ...action.payload };
+      state.documentDetails = action.payload 
     },
   },
 });
