@@ -1,13 +1,14 @@
 import React from 'react'
-import Equipments from '@/components/employees/addemp/equipment/page'
+// import Equipments from '@/components/employees/addemp/equipment/Equipment'
+import Equipment from '@/components/employees/addemp/equipment/Equipment'
 
-const page = () => {
+const Page = () => {
   return (
     <div>
     
- <Equipments/>
+ <Equipment/>
     </div>
   )
 }
 
-export default page
+export default Page

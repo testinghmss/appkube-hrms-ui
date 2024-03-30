@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ProfessionalInfo from '@/components/employees/addemp/profdetails/page'
+import ProfessionalInfo from '@/components/employees/addemp/profdetails/Profesional'
 
 const page = () => {
   return (
