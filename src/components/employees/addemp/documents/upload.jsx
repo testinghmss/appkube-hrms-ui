@@ -19,18 +19,21 @@ const { Dragger } = Upload;
 
 const UploadFile = () => {
 // import { InboxOutlined } from '@ant-design/icons';
-// import axios from 'axios';
-// import Image from 'next/image';
+import axios from 'axios';
+import Image from 'next/image';
 
-// import { Upload } from "antd";
+import { Upload } from "antd";
 
-// import { InboxOutlined } from '@ant-design/icons';
-// const { Dragger } = Upload;
+import { InboxOutlined } from '@ant-design/icons';
+const { Dragger } = Upload;
 
-// const UploadFiles = () => {
+const UploadFiles = () => {
 
 
- 
+  const [req, setReq] = useState(
+    { fileName: '', data: '' }
+  );
+
 
 
   const [req, setReq] = useState(
@@ -130,3 +133,6 @@ const UploadFile = () => {
 }
 
 export default UploadFile;
+
+export default UploadFiles;
+
