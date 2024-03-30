@@ -10,7 +10,7 @@ import LoginImage from "../../../public/assets/login/login2.svg";
 import synectiksImage from "../../../public/assets/login/synectiks.svg";
 import welcomeImage from "../../../public/assets/login/hand.jpg";
 import { useRouter } from "next/navigation";
-import { setemployeId } from "@/redux/slices/Onboardingpersdetails";
+import {setemployeId} from "@/redux/slices/Onboardingpersdetails";
 
 import { useDispatch } from "react-redux";
 
@@ -34,10 +34,10 @@ const Page = () => {
     document.cookie = name + "=" + value + ";" + expires + ";path=/";
   };
 
-  const dispatchfun = (id) => {
-    dispatch(setemployeId(id))
+ const dispatchfun = (id)=> {
+  dispatch(setemployeId(id))
 
-  }
+ }
 
   const signinCheck = async (values) => {
     const data = {
@@ -52,11 +52,11 @@ const Page = () => {
       console.log("data", data.emp_type);
       const response = await axios.post("/signin", data);
       console.log("response", response);
-
+      
       if (response.status == 200) {
         //getting accesstoken from response
         const accessToken = response.data.AccessToken;
-        console.log("employe Id", response.data.Result.id);
+        console.log("employe Id",response.data.Result.id);
         dispatchfun(response.data.Result.id)
         // Set the access token in a cookie
         setCookie("accessToken", accessToken, 1);
