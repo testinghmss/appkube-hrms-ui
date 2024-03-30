@@ -50,7 +50,7 @@ const Page = () => {
       }
     };
     fetchData();
-  }, []);
+  }, accessToken);
 
   const stylestable = {
     width: "100%",

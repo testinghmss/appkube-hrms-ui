@@ -12,7 +12,7 @@ import Person from "../../../public/assets/homeicons/EmployeesImg/Account.svg";
 import Circle from "../../../public/assets/homeicons/EmployeesImg/circle.svg";
 import { FiPlus } from "react-icons/fi";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
-const page = () => {
+const Page = () => {
   const accessToken = getAccessTokenFromCookie();
   const [data , setData] = useState([])
   const [info,setInfo] = useState([])
@@ -149,7 +149,7 @@ const page = () => {
       }
     }
     fetchData()
-  },[])
+  },accessToken)
 
   return (
     <div className="">
@@ -200,4 +200,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

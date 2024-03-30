@@ -185,7 +185,7 @@ const PersonalInformation = ({ tab, setTab }) => {
 
       );
 
-      console.log(response.data);
+      console.log('image uploaded',response.data);
       alert('Image uploaded successfully!');
       setAttachments(response.data.link)
 

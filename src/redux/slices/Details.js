@@ -26,7 +26,7 @@ export const DetailSlice = createSlice({
       state.equipDetails.push(action.payload[0])
       console.log('storing data of equipments in redux',action.payload[0])
     },
-    setdocumentDetails: (state, action) => {
+    setDocumentDetails: (state, action) => {
       state.documentDetails = { ...state.documentDetails, ...action.payload };
     },
   },
@@ -35,6 +35,6 @@ export const DetailSlice = createSlice({
 export const { setpersonalDetails} = DetailSlice.actions;
 export const { setprofessionalDetails} = DetailSlice.actions;
 export const { setEquipmentDetails} = DetailSlice.actions;
-export const {setdocumentDetails} = DetailSlice.actions;
+export const {setDocumentDetails} = DetailSlice.actions;
 
 export default DetailSlice.reducer;
