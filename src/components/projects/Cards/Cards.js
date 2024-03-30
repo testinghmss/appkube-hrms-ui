@@ -4,7 +4,6 @@ import { CheckCircleOutlined, IssuesCloseOutlined, ClockCircleOutlined, StopOutl
 import axios from 'axios';
 const { Title, Paragraph, Text } = Typography;
 const { Meta } = Card;
-// import api from '@/api';
 import api from '@/api/workflow';
 
 
@@ -47,6 +46,7 @@ const DashCards = () => {
               <Title level={5} className='mb-0'>Progress {data.percentage_completed}%</Title>
               <span className='border '></span>
               <Paragraph className='py-2'>Total Task {data.total_tasks}</Paragraph>
+
             </div>
           </Card>
         </Col>

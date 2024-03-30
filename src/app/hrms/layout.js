@@ -126,7 +126,7 @@ export default function RootLayout({ children }) {
 
   const items = [
     getItem(<Link href={"/hrms"}>Dashboard</Link>, "1", <DashboardOutlined />),
-    getItem(<Link href={"/projects"}>Project</Link>, "2", <FormOutlined />),
+    getItem(<Link href={"/hrms/projects"}>Project</Link>, "2", <FormOutlined />),
     getItem(
       <Link href={"/hrms/employees"}>Employees</Link>,
       "3",
