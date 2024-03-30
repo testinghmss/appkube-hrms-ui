@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, Typography, Button, Progress, Radio } from 'antd';
 import axios from 'axios';
 const { Title, Paragraph, Text } = Typography;
-// import { InProgress, Completed, Unassigned } from '@/Components/projects/Badges/index';
 import { InProgress, Completed, Unassigned } from '@/Components/projects/Badges/index';
 
 import api from '@/api/workflow';

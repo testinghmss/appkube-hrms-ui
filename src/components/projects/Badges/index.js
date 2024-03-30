@@ -1,11 +1,13 @@
 export const InProgress = () => {
 
     return (
-        <div className="w-fit bg-white rounded-md border border-[#91D5FF] text-center text-[#1890FF] text-xs font-normal font-['Roboto'] leading-tight px-3 py-2">
+
+        <div className="w-fit bg-white rounded-md border border-[#91D5FF] text-center text-[rgb(24,144,255)] text-xs font-normal font-['Roboto'] leading-tight px-3 py-2">
             In-Progress
         </div>
     )
 }
+
 
 export const Completed = () => {
 
