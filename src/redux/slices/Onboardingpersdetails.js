@@ -82,15 +82,8 @@ export const Onboardingpersdetails = createSlice({
   initialState: {
     personalData:{},
     companyData:{},
-<<<<<<< HEAD
-    OnboardingData: 
-    //  null
-    {id:1},
-    // ,
-=======
     employeId:null,
     OnboardingData:null,
->>>>>>> 046985626613e416468af8c11dc67362d087f14c
     loading: false,
     error: null,
   },
