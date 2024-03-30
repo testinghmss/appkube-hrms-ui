@@ -151,24 +151,24 @@ export default function RootLayout({ children }) {
   };
   // if (accessToken && fetchData()) {
   //   if (onBoarded.OnboardingData) {
-      return (
-        <html lang="en">
-          <body>
-            <Provider store={store}>
-              <Header
-                style={{
-                  position: "sticky",
-                  top: 0,
-                  zIndex: 1,
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  alignContent: "center",
-                }}
-              >
-                {/* <div className="logo" /> */}
-                {/* <Menu
+  return (
+    <html lang="en">
+      <body>
+        <Provider store={store}>
+          <Header
+            style={{
+              position: "sticky",
+              top: 0,
+              zIndex: 1,
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              alignContent: "center",
+            }}
+          >
+            {/* <div className="logo" /> */}
+            {/* <Menu
         theme="dark"
         // mode="horizontal"
         // defaultSelectedKeys={['2']}
@@ -177,44 +177,44 @@ export default function RootLayout({ children }) {
         //   label: nav ${index + 1},
         // }))}
       /> */}
-                <div>
-                  <h2 className="text-white uppercase">Synectiks</h2>
-                </div>
+            <div>
+              <h2 className="text-white uppercase">Synectiks</h2>
+            </div>
 
-                <div className="flex">
-                  <div className="flex justify-center items-center bg-white border rounded-md">
-                    <Search
-                      placeholder="input search text"
-                      onSearch={onSearch}
-                      style={{
-                        width: 200,
-                        borderRadius: 9,
-                      }}
-                    />
-                  </div>
-                  <div className="flex w-full gap-4 justify-evenly px-4">
-                    <Image src={Vector2} alt="vector" />
-                    <Image className="text-white" src={Bell} alt="bell" />
-                    <Dropdown
-                      menu={menu}
-                      placement="bottomRight"
-                      arrow={{ pointAtCenter: true }}
-                      trigger={["click"]}
-                    >
-                      <button>
-                        <div>
-                        <Image src={Account} alt="account" />
+            <div className="flex">
+              <div className="flex justify-center items-center bg-white border rounded-md">
+                <Search
+                  placeholder="input search text"
+                  onSearch={onSearch}
+                  style={{
+                    width: 200,
+                    borderRadius: 9,
+                  }}
+                />
+              </div>
+              <div className="flex w-full gap-4 justify-evenly px-4">
+                <Image src={Vector2} alt="vector" />
+                <Image className="text-white" src={Bell} alt="bell" />
+                <Dropdown
+                  overlay={menu}
+                  placement="bottomRight"
+                  arrow={{ pointAtCenter: true }}
+                  trigger={["click"]}
+                >
+                  <button>
+                    <div>
+                      <Image src={Account} alt="account" />
 
-                        </div>
-                      </button>
-                    </Dropdown>
-                    
+                    </div>
+                  </button>
+                </Dropdown>
 
-                  </div>
-                </div>
-              </Header>
 
-              {/* <Layout hasSider>
+              </div>
+            </div>
+          </Header>
+
+          {/* <Layout hasSider>
             <Sider
               style={{
                 overflow: "auto",
@@ -231,10 +231,10 @@ export default function RootLayout({ children }) {
               collapsible
               collapsed={collapsed}
             > */}
-              {/* <div className="logo" /> */}
-              {/* <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} /> */}
+          {/* <div className="logo" /> */}
+          {/* <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} /> */}
 
-              {/* <div className="container flex flex-col justify-center items-center text-black">
+          {/* <div className="container flex flex-col justify-center items-center text-black">
                 <Link
                   href={"/hrms"}
                   className="text-black w-full py-3 hover:bg-cyan-50 px-2 flex justify-between items-start"
@@ -319,31 +319,31 @@ export default function RootLayout({ children }) {
               </Content>
             </Layout>
           </Layout> */}
-              <Layout style={{ minHeight: "100vh" }}>
-                <Sider
-                  // style={siderStyle}
-                  collapsible
-                  collapsed={collapsed}
-                  onCollapse={(value) => setCollapsed(value)}
-                  style={{
-                    overflow: "auto",
-                    height: "100vh",
-                    position: "fixed",
-                    marginTop: "10vh",
-                    left: 0,
-                    top: 0,
-                    bottom: 0,
-                  }}
-                >
-                  <div />
-                  <Menu
-                    theme="light"
-                    defaultSelectedKeys={["1"]}
-                    mode="inline"
-                    style={{ height: "100%" }}
-                    items={items}
-                  >
-                    {/* <Menu.Item key="1" icon={<DashboardOutlined />}>
+          <Layout style={{ minHeight: "100vh" }}>
+            <Sider
+              // style={siderStyle}
+              collapsible
+              collapsed={collapsed}
+              onCollapse={(value) => setCollapsed(value)}
+              style={{
+                overflow: "auto",
+                height: "100vh",
+                position: "fixed",
+                marginTop: "10vh",
+                left: 0,
+                top: 0,
+                bottom: 0,
+              }}
+            >
+              <div />
+              <Menu
+                theme="light"
+                defaultSelectedKeys={["1"]}
+                mode="inline"
+                style={{ height: "100%" }}
+                items={items}
+              >
+                {/* <Menu.Item key="1" icon={<DashboardOutlined />}>
               <Link href="/dashboard">
                 <a>Dashboard</a>
               </Link>
@@ -368,52 +368,52 @@ export default function RootLayout({ children }) {
                 <a>Compliance</a>
               </Link>
             </Menu.Item> */}
-                  </Menu>
-                </Sider>
-                <Layout className="site-layout flex flex-col">
-                  <Content
+              </Menu>
+            </Sider>
+            <Layout className="site-layout flex flex-col">
+              <Content
+                style={{
+                  // margin: '24px 16px 0',
+
+                  // overflow: 'initial',
+
+                  // display:"flex",
+                  // flexDirection:"column"
+                  paddingLeft: 10,
+                }}
+              >
+                <div
+                  className={collapsed ? "ml-[80px]" : "ml-[200px]"}
+                  style={
+                    {
+                      // padding: 24,
+                      // textAlign: 'center',
+                      // position:"absolute",
+                      // left:"13%",
+                      // top:"2%",
+                      // width:"85%"
+                      // marginLeft: 200,
+                      // padding:'10px',
+                    }
+                  }
+                >
+
+                  {children}
+
+                  <Footer
                     style={{
-                      // margin: '24px 16px 0',
-
-                      // overflow: 'initial',
-
-                      // display:"flex",
-                      // flexDirection:"column"
-                      paddingLeft: 10,
+                      // textAlign: 'center',
+                      marginLeft: 200,
                     }}
-                  >
-                    <div
-  className={collapsed ? "ml-[80px]" : "ml-[200px]"}
-  style={
-    {
-      // padding: 24,
-      // textAlign: 'center',
-      // position:"absolute",
-      // left:"13%",
-      // top:"2%",
-      // width:"85%"
-      // marginLeft: 200,
-      // padding:'10px',
-    }
-  }
->
-
-                      {children}
-
-                      <Footer
-                        style={{
-                          // textAlign: 'center',
-                          marginLeft: 200,
-                        }}
-                      ></Footer>
-                    </div>
-                  </Content>
-                </Layout>
-              </Layout>
-            </Provider>
-          </body>
-        </html>
-      );
+                  ></Footer>
+                </div>
+              </Content>
+            </Layout>
+          </Layout>
+        </Provider>
+      </body>
+    </html>
+  );
   //   } else {
   //     router.push("/onboarding");
   //     return null;
