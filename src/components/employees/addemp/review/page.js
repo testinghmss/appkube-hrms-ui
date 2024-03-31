@@ -12,7 +12,7 @@ import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { useSelector } from "react-redux";
 import axios from "@/api/axios"
 const page = ({ tab, setTab }) => {
-
+  //  created usestate for storing redux data into same variable
   const [fetchedData , setFetchData] = useState({
     equipment:[],
     documents:[],
@@ -23,24 +23,32 @@ const page = ({ tab, setTab }) => {
   useEffect(()=>{
     console.log('in useeffect')
     const fetchData = async ()=>{
+          // getting employee id from local storage 
+
       const id = await localStorage.getItem('empId')
       // setEmpId(id)
       try{
         console.log('employee id from local storage',id)
+        // fetching data by employee id in case of data not found in redux
         const response = await axios.get(`/employee/${id}`,{
           headers: {
             'Authorization': `Bearer ${accessToken}`
           }
         });
         console.log("response of employee id for equipments",response.data.equipment)
+        // storing equipment data intto usestate
         setFetchData({...fetchedData,equipment:response.data.equipment});
         // console.log("data",employees)
+
+        // fetching data by employee id in case of data not found in redux
         const response2 = await axios.get(`/employee/${id}`,{
           headers: {
             'Authorization': `Bearer ${accessToken}`
           }
         });
         console.log("response of employee id for documents",response2.data.documents)
+        // storing equipment data intto usestate
+
         setFetchData({...fetchedData,documents:response2.data.documents});
       }
       catch(error){
@@ -49,18 +57,24 @@ const page = ({ tab, setTab }) => {
     }
     fetchData()
   },[])
-
+  // getting data from redux using useselector
   const reduxEquipmentData = useSelector(state => state.Details?.equipDetails)
   console.log('redux data for equipments ',reduxEquipmentData)
   console.log('fetched data by id for equipments ',fetchedData.equipment)
   // setData(reduxData)
+  // condittionally trendering the data eitther from redux or from fetched  data by id 
   const equipmenData = reduxEquipmentData.length > 0 ? reduxEquipmentData : fetchedData.equipment;
   console.log("data ofequipments details",equipmenData)
+ 
+    // getting data from redux using useselector
 
   const reduxDocumentsData = useSelector(state => state.Details?.documentDetails)
   console.log('redux data for equipments ',reduxDocumentsData)
   console.log('fetched data by id for equipments ',fetchedData.equipment)
   // setData(reduxData)
+
+    // condittionally trendering the data eitther from redux or from fetched  data by id 
+
   const documentsData = reduxDocumentsData.length > 0 ? reduxDocumentsData : fetchedData.equipment;
   console.log("data ofequipments details",documentsData)
 

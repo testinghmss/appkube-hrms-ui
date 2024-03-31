@@ -11,16 +11,22 @@ const ProfessionalInfo = () => {
   useEffect(()=>{
     console.log('in useeffect')
     const fetchData = async ()=>{
+          // getting employee id from local storage 
+
       const id = await localStorage.getItem('empId')
       // setEmpId(id)
       try{
         console.log('employee id from local storage',id)
+                // fetching data by employee id in case of data not found in redux
+
         const response = await axios.get(`/employee/${id}`,{
           headers: {
             'Authorization': `Bearer ${accessToken}`
           }
         });
         console.log("response of employee id",response.data.professional_information)
+                // storing  data intto usestate
+
         setFetchData(response.data.professional_information);
         // console.log("data",employees)
       }
@@ -31,10 +37,17 @@ const ProfessionalInfo = () => {
     fetchData()
   },[])
 
+
+    // getting data from redux using useselector
+
+
   const reduxData = useSelector(state => state.Details?.professionalDetails)
   console.log('redux data for professional info',reduxData)
   console.log('fetched data by id for professional info',fetchedData)
   // setData(reduxData)
+
+    // condittionally rendering the data eitther from redux or from fetched  data by id 
+
   const data = reduxData.length > 0 ? reduxData : fetchedData;
   console.log("data of profesional details",data)
   return (

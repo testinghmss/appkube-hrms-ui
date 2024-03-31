@@ -16,16 +16,22 @@ const PersonalInfo = () => {
   useEffect(()=>{
     console.log('in useeffect')
     const fetchData = async ()=>{
+          // getting employee id from local storage 
+
       const id = await localStorage.getItem('empId')
       // setEmpId(id)
       try{
         console.log('employee id from local storage',id)
+                // fetching data by employee id in case of data not found in redux
+
         const response = await axios.get(`/employee/${id}`,{
           headers: {
             'Authorization': `Bearer ${accessToken}`
           }
         });
         console.log("response of employee id",response.data.personal_information)
+                // storing  data intto usestate
+
         setFetchData(response.data.personal_information);
         // console.log("data",employees)
       }
@@ -36,10 +42,16 @@ const PersonalInfo = () => {
     fetchData()
   },[])
 
+
+    // getting data from redux using useselector
+
   const reduxData = useSelector(state => state.Details?.personalDetails)
   console.log('redux data for personal info',reduxData)
   console.log('fetched data by id for personal info',fetchedData)
   // setData(reduxData)
+
+    // condittionally trendering the data eitther from redux or from fetched  data by id 
+
   const data = reduxData.length > 0 ? reduxData : fetchedData;
   console.log("data of personal details",data)
 

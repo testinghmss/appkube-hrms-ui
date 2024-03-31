@@ -29,9 +29,11 @@ import { setDocumentDetails } from "@/redux/slices/Details";
 import { useDispatch } from "react-redux";
 
 const Documents = ({ tab, setTab }) => {
+  // getting employee id from local storage
   const empId = localStorage.getItem("empId");
+  // updated usestate as required for backend
   const [req, setReq] = useState({ name: "", url: "" });
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [fileuploaded, setfileuploaded] = useState(false);
   const accessToken = getAccessTokenFromCookie();
   const handleFileChange = (info) => {
@@ -52,10 +54,10 @@ const Documents = ({ tab, setTab }) => {
     }
   };
 
-  console.log('req data',req);
+  console.log("req data", req);
 
   const [Attachments, setAttachments] = useState([]);
-  console.log('attachmemnts data',Attachments)
+  console.log("attachmemnts data", Attachments);
   const uploadFile = async () => {
     try {
       const response = await axios.post(
@@ -70,14 +72,16 @@ const Documents = ({ tab, setTab }) => {
       );
 
       console.log("uploaded image response", response.data);
-      setReq({...req,url:response.data.link})
+      // storing response link as url in usestate
+      setReq({ ...req, url: response.data.link });
       alert("Image uploaded successfully!");
       // setAttachments(response.data.link);
       // setAttachments([...Attachments, response.data.link]);
-      Attachments.push(req)
-      console.log('attachments',Attachments)
+      // pushing object req with name and url of document
+      Attachments.push(req);
+      console.log("attachments", Attachments);
     } catch (error) {
-      console.error('error uploading image',error);
+      console.error("error uploading image", error);
       // console.log(error);
       alert("Error uploading image. Please try again.");
     }
@@ -149,6 +153,7 @@ const Documents = ({ tab, setTab }) => {
   //   ]
   // }
   const HandleDocuments = async () => {
+    // creating variable data for hitting api as per format with empid and documents
     const data = {
       emp_id: empId,
       documents: Attachments,
@@ -161,9 +166,11 @@ const Documents = ({ tab, setTab }) => {
         },
       });
       console.log("response of documemnst", response);
-      if(response.status === 200){
-        dispatch(setDocumentDetails(response.data))
-        setTab(tab + 1)
+      if (response.status === 200) {
+        // storing the response in redux
+        dispatch(setDocumentDetails(response.data));
+        // changing the tab
+        setTab(tab + 1);
       }
     } catch (error) {
       console.log("error uploading document", error);
