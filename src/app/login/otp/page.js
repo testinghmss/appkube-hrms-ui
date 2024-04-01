@@ -12,10 +12,11 @@ import { CiLight } from "react-icons/ci";
 
 const Page = () => {
   const router = useRouter();
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [otp, setotp] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef([]);
   const dispatch = useDispatch();
   const reset = useSelector((state) => state.resetPassword);
+  
 
   // useEffect(() => {
   //   // Create refs for each OTP input
@@ -24,18 +25,18 @@ const Page = () => {
   //   }
   // }, []);
 
-  useEffect(() => {
-    // Create refs for each OTP input
-    for (let i = 0; i < otp.length; i++) {
-      inputRefs.current.push(React.createRef());
-    }
-  }, [otp]); // eslint-disable-next-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   // Create refs for each OTP input
+  // }, [otp]); // eslint-disable-next-line react-hooks/exhaustive-deps
+  for (let i = 0; i < otp.length; i++) {
+    inputRefs.current.push(React.createRef());
+  }
   
 
   const handleInputChange = (index, value) => {
     const newOtp = [...otp];
     newOtp[index] = value;
-    setOtp(newOtp);
+    setotp(newOtp);
 
     // Focus on the next input if the current one is full and not the last
     if (value.length === 1 && index < otp.length - 1) {
@@ -61,7 +62,7 @@ const Page = () => {
     // Clear the input value when it is focused
     const newOtp = [...otp];
     newOtp[index] = "";
-    setOtp(newOtp);
+    setotp(newOtp);
   };
 
   return (
