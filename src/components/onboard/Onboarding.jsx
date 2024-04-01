@@ -191,6 +191,7 @@ const Onboarding = ({ step, setStep }) => {
 
 
   const [Attachments, setAttachments] = useState([])
+  console.log(Attachments,)
 
 
   const uploadFile = async () => {
@@ -376,9 +377,9 @@ const Onboarding = ({ step, setStep }) => {
                   // beforeUpload={beforeUpload}
                   onChange={handleFileChange}
                 >
-                  {imageUrl ? (
+                  {Attachments ? (
                     <Image
-                      src={imageUrl}
+                      src={Attachments}
                       alt="avatar"
                       width={100}
                       height={100}
