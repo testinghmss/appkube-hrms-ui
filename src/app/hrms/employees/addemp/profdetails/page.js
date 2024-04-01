@@ -1,13 +1,12 @@
 import React from 'react'
 
-// import ProfessionalInfo from '@/components/employees/addemp/profdetails/Profesional'
-// import ProfessionalInfo from '@/components/employees/addemp/profdetails/Profesional'
-import Equipments from '@/components/employees/addemp/equipment/page'
+import ProfessionalInfo from '@/components/employees/addemp/profdetails/Profesional'
+
 const Page = () => {
   return (
     <div>
      
-     <Equipments/>
+     <ProfessionalInfo/>
 
 
     </div>

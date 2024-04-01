@@ -1,373 +1,373 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from "react";
-import { Button } from "antd";
-import { useRouter } from "next/navigation";
-import { Checkbox, DatePicker, Input, Radio, Select } from "antd";
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+// ProfessionalForm.js
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AddEquipment, deleteequipement } from "@/redux/slices/Equipment";
 
+import { Form, Input, Button, Select, Col, Row, DatePicker, Space } from "antd";
+
+import { setprofessionalDetails } from "@/redux/slices/Details";
+import { useForm } from "antd/lib/form/Form";
 import axios from "@/api/axios";
+
+import { useRouter } from "next/navigation";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 
-import Image from "next/image";
-const { TextArea } = Input;
 
-const Equipments = ({ tab, setTab }) => {
-  const [owner, setOwner] = useState(null);
-  const [Device, setDevice] = useState("");
-  const [Manufacturer, setManufacturer] = useState("");
-  const [SerialNumber, setSerialNumber] = useState("");
-  const [Notes, setNotes] = useState("");
-  const [supplydate, setSupplyDate] = useState("");
+const numberRegex = /^[0-9]{5,}$/; // Ensure at least 5 digits
+
+const ProfessionalInfo = ({ tab, setTab }) => {
+  const empId = localStorage.getItem('empId');
+  console.log('id from localstorage',empId)
+    const dispatch = useDispatch();
+    const accessToken = getAccessTokenFromCookie();
+  // const professionalDetails = useSelector(selectProfessionalDetails);
+  const [form] = useForm();
+  const [formData, setFormData] = useState({}); 
+
+  const handleSubmit = async () => {
+    let data = {
+      designation_id: 4,
+      pf: formData.pf,
+      uan: formData.uan,
+      department_id:5,
+      reporting_manager_id: "f81cce0a-84fb-4eb4-b0ec-74b5f2a9fdb7",
+      work_location: formData.work_location,
+      start_date: formData.start_date,
+      emp_id:empId,
+    };
+
+    try {
+      console.log("stored data of from in usestate", data);
+      const response = await axios.put("/employee/professionalInfo", data,{
+      headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
+      console.log("success", response.data);
+      if(response.status === 200){
+        dispatch(setprofessionalDetails(response.data))
+        setTab(tab + 1);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+    
+  };
   const router = useRouter();
-  const [collapsed, setCollapsed] = useState(false);
-  const dispatch = useDispatch();
-  const [provideBy, setProvideBy] = useState("org");
-  const accessToken = getAccessTokenFromCookie();
-  const handleProvideByChange = (e) => {
-    setOwner(e.target.value)
-    setProvideBy(e.target.value);
-    console.log(owner)
+  const prof1 = ["option1", "option2", "option3"];
+  const prof = ["option1", "option2", "option3"];
 
+
+
+  // const putting = async (values) => {
+  //   let data = {
+  //     // designation_id: values.selectedDesignation,
+  //     designation_id: 4,
+  //     pf: values.pfNumber,
+  //     uan: values.uanNumber,
+  //     // department_id: values.selectedDepartment,
+  //     department_id: 5,
+  //     // reporting_manager_id: values.selectedReportingMngr,
+  //     reporting_manager_id: "f81cce0a-84fb-4eb4-b0ec-74b5f2a9fdb7",
+  //     work_location: values.selectedworkLocation,
+  //     start_date: values.selectedDate,
+  //     emp_id: empId,
+  //   };
+
+  //   try {
+  //     console.log("stored data", data);
+  //     const response = await axios.put("/employee/professionalInfo", data,{
+  //   headers: {
+  //     'Authorization': `Bearer ${accessToken}`
+  //   }
+  // });
+  //     console.log("success", response);
+  //     if(response.status === 200){
+  //       setTab(tab + 1);
+  //     }
+  //   } catch (error) {
+  //     console.log("error", error);
+  //   }
+  // };
+
+  // const selectedDepartment = useSelector((state) => state.selectedDepartment);
+  // const selectedDesignation = useSelector((state) => state.selectedDesignation);
+  // const selectedReportingMngr = useSelector(
+  //   (state) => state.selectedReportingMngr
+  // );
+  // const selectedworkLocation = useSelector(
+  //   (state) => state.selectedworkLocation
+  // );
+  // const selectedDate = useSelector((state) => state.selectedDate);
+  const handleDropDownChange = (name, value) => {
+    setFormData({ ...formData, [name]: value });
+    console.log(name, value, "change");
   };
-  const details = useSelector((state) => state.Equipment);
-  console.log(details)
-  const organizationDetails = details.organization
-  console.log(organizationDetails,'organizationDetails')
-
-  const isSupplyDateVisible = () => provideBy === true;
-
-  const handleDateChange = (date, dateString) => {
-    console.log('Selected Date:', dateString);
-    setSupplyDate(dateString)
+  const dateHandle = (name, value) => {
+    const dateValue = value ? value.format("YYYY-MM-DD") : "";
+    setFormData({ ...formData, [name]: dateValue });
+    console.log(name, dateValue, "change");
   };
 
-  const sendData = () => {
-    const data = {
-      owner: owner,
-      Device: Device,
-      Manufacturer: Manufacturer,
-      SerialNumber: SerialNumber,
-      Notes: Notes,
-      Date: supplydate
-    }
-    console.log(data)
-    dispatch(AddEquipment(data))
-  }
-
-  const handledelete = (id) => {
-    console.log(id)
-    dispatch(deleteequipement(id))
-  }
-
-  const [formState, setformstate] = useState()
-
-  const handleedit = (data) => {
-    setformstate(data)
-  }
-
-  const callApi = () => {
-    if (organizationDetails && organizationDetails.length > 0) {
-      organizationDetails.forEach(item => {
-        let formattedData = {
-          "owner": item.owner,
-          "device_type_id": 1,
-          "manufacturer": item.Manufacturer,
-          "serial_number": item.SerialNumber,
-          "note": item.Notes,
-          "supply_date": item.Date,
-          "emp_id": "6fc51d98-931a-480d-9ef1-495ae930a340"
-        };
-
-        let jsonData = JSON.stringify(formattedData);
-
-        let config = {
-          method: 'put',
-          maxBodyLength: Infinity,
-          url: 'https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/employee/equipmentInfo',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-          data: jsonData
-        };
-
-        axios.request(config)
-          .then((response) => {
-            console.log(JSON.stringify(response.data));
-            setTab(tab + 1)
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      });
-    }
-  }
-
+  const handleInputChange = (e) => {
+    console.log("form data", formData);
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    console.log(name, value, "change");
+  };
+  console.log('form data',formData)
+  const professionalDetails = useSelector((state) => state.Details.professionalDetails); 
+ 
   return (
     <div>
-      <div
-        style={{
-          padding: 24,
-          minHeight: 100,
-          background: "white",
-          marginTop: 30,
-          marginLeft: 10,
-        }}
-      >
-        <div className=" flex gap-5">
-          <div>
-            <Image
-              src="https://cdn-icons-png.flaticon.com/512/68/68792.png"
-              className="h-8 w-10"
-              alt="nothing"
-              width={100}
-              height={100}
-            />
-          </div>
-          <div className="w-full">
-            <h1 className="text-xl">
-              <b>Equipment</b>
-            </h1>
-            <p className="text-gray-400 mt-1.5">
-              Provide your own equipment and keep track of it for seamless work
-              experiences
-            </p>
-          </div>
-          <div>
-            <Button type="primary" className="bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white  border hover:border-[#1890FF] rounded-none mt-3 p-2 ">
-              Add Equipment
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      <div
-        style={{
-          padding: 24,
-          minHeight: 300,
-          background: "white",
-          marginTop: 30,
-          marginLeft: 10,
-        }}
-      >
-
-        <div className="flex flex-col items-center justify-center min-h-96">
-          <form
-            className="w-8/12 mt-0"
-
+    <Form
+      requiredMark={false}
+      initialValues={professionalDetails}
+      style={{
+        padding: "50px",
+        width: "auto",
+        text: "start",
+        backgroundColor: "white",
+      }}
+      labelAlign="left"
+      labelCol={{
+        span: 5,
+      }}
+      labelWrap
+      className="m-20 w-[90%] rounded-none"
+      onFinish={handleSubmit}
+    >
+      <Col span="3xl">
+        <Form.Item
+          className="rounded-none "
+          label="Designation"
+          name="designation_id"
+          labelWrap
+          
+          rules={[
+            { required: true, message: "Please select a designation." },
+          ]}
           >
-            <div className="mb-4 flex items-center">
-              <label className="text-sm font-medium w-32 min-w-44">
-                Device Provide by:
-              </label>
-              <div className="flex ml-2 mb-2">
-                <Radio.Group
-                  onChange={handleProvideByChange}
-                  value={provideBy}
-                >
-                  <Radio value={true} className="font-medium">
-                    Own by organization
-                  </Radio>
-                  <Radio value={false} className="font-medium">
-                    Own by worker
-                  </Radio>
-                </Radio.Group>
-              </div>
-            </div>
-
-            <div className="mb-6 flex items-center">
-              <label
-                className="text-sm font-medium w-32 min-w-44 mb-2"
-                htmlFor="deviceType"
+          <Select
+            onChange={(value) => handleDropDownChange("designation_id", value)}
+            showSearch
+            name="designation_id"
+            className="rounded-none"
+            placeholder="Select Designation"
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {prof1.map((option) => (
+              <Select.Option
+                key={option}
+                value={option}
+                className="rounded-none"
               >
-                Device Type:
-              </label>
-              <Input
-                style={{ width: "100%" }}
-                className="border py-2 px-3 hover:border-sky-600 ml-2 mb-2 h-8"
-                name="devicetype"
-                type="text"
-                placeholder="Laptop"
-                onChange={(e) => {
-                  setDevice(e.target.value)
-                }}
+                {option}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+      </Col>
+
+      <Row gutter={30}>
+        <Col span={12}>
+          <Form.Item
+            label="PF No (Optional)"
+            name="pf"
+            onChange={handleInputChange}
+            rules={[
+              { message: "Enter Your PF Number" },
+              {
+                pattern: numberRegex,
+                message: "Please enter at least 5 digits for PF number.",
+              },
+            ]}
+            labelCol={{ span: 10 }}
+          >
+            <Input
+              placeholder="Enter your PF number"
+              name="pf"
+              type="text"
+              style={{ width: "100%", marginLeft: "3%" }}
+
+            />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label="UAN No (Optional)"
+            name="uan"
+            // className="ml-20"
+            style={{ marginLeft: "30px" }}
+            onChange={handleInputChange}
+            rules={[
+              { message: "Enter Your UAN Number" },
+              {
+                pattern: numberRegex,
+                message: "Please enter at least 5 digits for UAN number.",
+              },
+            ]}
+            labelCol={{ span: 8 }}
+          >
+            <Input
+              placeholder="Enter Your UAN Number"
+              type="text"
+              name="uan"
               />
-            </div>
-            <div className="mb-6 flex items-center">
-              <label
-                className="text-sm font-medium w-32 min-w-44 mb-2"
-                htmlFor="manufacturerName"
-                id="manufacturername"
-              >
-                Manufacturer Name:
-              </label>
-              <Input
-                style={{ width: "100%" }}
-                className="border  hover:border-sky-600 py-2 px-3 mb-3 h-8 ml-2"
-                name="manufacturerName"
-                type="text"
-                placeholder="Hp Laptop"
-                onChange={(e) => {
-                  setManufacturer(e.target.value);
-                }}
-              />
-            </div>
-            <div className="mb-6 flex items-center">
-              <label
-                className="text-sm font-medium w-32 min-w-44 mb-2"
-                htmlFor="serialnumber"
-                id="serialnumber"
-              >
-                Serial number:
-              </label>
-              <Input
-                style={{ width: "100%" }}
-                className="border hover:border-sky-600 py-2 px-3 mb-2 h-8 ml-2"
-                name="serialnumber"
-                type="text"
-                placeholder="First Name"
-                onChange={(e) => {
-                  setSerialNumber(e.target.value);
-                }}
-              />
-            </div>
-            <div className="mb-6 flex items-center">
-              <label
-                className="text-sm font-medium w-32 min-w-44"
-                htmlFor="notes"
-              >
-                Notes:
-              </label>
-              <TextArea
-                style={{ width: "100%" }}
-                className="border  hover:border-sky-600 py-2 px-3 mb-2 ml-2"
-                name="notes"
-                placeholder="Design"
-                rows={4}
-                onChange={(e) => {
-                  setNotes(e.target.value);
-                }}
-              />
-            </div>
+          </Form.Item>
+        </Col>
+      </Row>
+      <Col span="3xl">
+        <Form.Item
+          label="Employee ID (Optional)"
+          onChange={handleInputChange}
+          name="emp_id"
+          rules={[
+            { message: "Enter Your Employee ID" },
+            {
+              // pattern: numberRegex,
+              message: "Please enter at least 5 digits for UAN number.",
+            },
+          ]}
+          >
+          <Input
+            name="emp_id"
+            placeholder="Enter Your Employee ID"
+             />
+            </Form.Item>
+          
+      </Col>
+      <Col span="3xl">
+        <Form.Item
+          className="rounded-none"
+          label="Department"
+          name="department_id"
+          rules={[{ required: true, message: "Please select a department." }]}
+          >
+          <Select
+            onChange={(value) => handleDropDownChange("department", value)}
+            name="department_id"
+            showSearch
+            style={{ borderRadius: 0 }}
+            className="rounded-none"
+            placeholder="Select Department "
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            >
+            {prof.map((option) => (
+              <Select.Option key={option} value={option}>
+                {option}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+      </Col>
+      <Col span="3xl">
+        {" "}
+        <Form.Item
+          label=" Direct Reporting Manager"
+          name="reporting_manager_id"
+          rules={[
+            { required: true, message: "Please select a reporting manager." },
+          ]}
+          >
+          <Select
+            onChange={(value) => handleDropDownChange("reportingManager", value)}           
+            showSearch
+            style={{ borderRadius: 0 }}
+            className="rounded-none"
+            placeholder="Select Reporting Manager "
+            optionFilterProp="children"
+            name="reporting_manager_id"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {prof.map((option) => (
+              <Select.Option key={option} value={option}>
+                {option}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+      </Col>
+      <Col span="3xl">
+        <Form.Item
+          label="Work Location"
+          name="work_location"
+          rules={[
+            { required: true, message: "Please select a work location." },
+          ]}
+        >
+          <Select
+            showSearch
+            onChange={(value) => handleDropDownChange("work_location", value)}              
+            name="work_location"
+            style={{ borderRadius: 0 }}
+            className="rounded-none"
+            placeholder=" Select Work Location "
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {prof.map((option) => (
+              <Select.Option key={option} value={option}>
+                {option}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+      </Col>
+      <Col span="3xl">
+        <Form.Item
+          label="Started Date"
+          onChange={(value) => dateHandle("Date", value)}
+          name="start_date"
+          rules={[{ message: "Please select a  Date" }]}
+          >
+          <Space direction="vertical" style={{ width: "100%" }}>
+            <DatePicker
+              style={{ width: "100%" }}
+              name="start_date"
+              onChange={(value) => dateHandle("start_date", value)}
+            />
+          </Space>
+        </Form.Item>
+      </Col>
+      <Row gutter={16}>
+        {/* Other columns */}
+        <Col span={18}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="bg-[#1890ff]"
+            style={{
+              borderRadius: "0",
+              height: "40px",
+              width: "80%",
+              display: "flex",
+              justifyContent: "center",
+              marginLeft: "40%",
+            }}
+            onClick={() => {
+              setTab(tab + 1);
+            }}
+          >
+            Next
+          </Button>
+        </Col>
+      </Row>
 
-            {isSupplyDateVisible() && (
-              <div className="mb-6 flex items-center">
-                <label
-                  className="text-sm font-medium w-32 min-w-44 mb-2"
-                  htmlFor="supplyDate"
-                >
-                  Supply Date:
-                </label>
-                <DatePicker
-                  name="supplyDate"
-                  className="border flex-1 hover:border-sky-600 ml-2 mb-2"
-                  placeholder="Select date"
-                  onChange={handleDateChange}
-                />
-              </div>
-            )}
-
-            <div className="flex justify-center gap-4 mt-10 ml-32">
-              <Button
-                type="dashed"
-                className="border-dashed border border-cyan-600 text-cyan-600 h-8 w-36 text-base"
-                onClick={sendData}
-              >
-                Add Items
-              </Button>
-              <Button
-                type="primary"
-                className="rounded-md  h-8 w-36 text-base bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white  border hover:border-[#1890FF]"
-                onClick={callApi}
-              >
-                Next
-              </Button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <div
-        style={{
-          padding: 24,
-          minHeight: 120,
-          background: "white",
-          marginTop: 30,
-          marginLeft: 10,
-        }}
-      >
-        <div className="">
-          {organizationDetails && organizationDetails.map((data, index) => (
-            <div className="flex flex-col gap-5 mt-5" key={index}>
-              {index === index && (
-                <div>
-                  {data.owner === true ? (
-                    <h1 className="text-center font-semibold text-xl">Own by Organization</h1>
-                  ) : (
-                    <h1 className="text-center font-semibold text-xl">Own by Worker</h1>
-                  )}
-                </div>
-              )}
-              <div className="flex gap-5 mt-5">
-                <div className="bg-cyan-400 h-12 w-16 rounded-full">
-                  <Image
-                    src="https://www.iconpacks.net/icons/1/free-keyboard-icon-1405-thumb.png"
-                    className="rounded-xl h-6 w-6 ml-2.5 mt-3"
-                    alt="Equipment Icon"
-                    width={100}
-                    height={100}
-                  />
-                </div>
-                <div className="w-full">
-                  <h1 className="text-xl">
-                    <b></b>
-                  </h1>
-                  <h4 className="text-gray-400 mt-1.5 flex" id="output1">
-                    Manufacturer Name: <p className="text-black ml-1">{data.Manufacturer}</p>
-                  </h4>
-                  <h4 className="text-gray-400 mt-1.5 flex" id="output2">
-                    Serial number: <p className="text-black ml-1">{data.SerialNumber}</p>
-                  </h4>
-                  {(data.owner === true) && (
-                    <h4 className="text-gray-400 mt-1.5 flex" id="output3">
-                      Supply Date: <p className="text-black ml-1">{data.Date}</p>
-                    </h4>
-                  )}
-                  <h4 className="text-gray-400 mt-1.5 flex" id="output4">
-                    Notes: <p className="text-black ml-1">{data.Notes}</p>
-                  </h4>
-                </div>
-
-                <div className="flex gap-4">
-                  <Button
-                    type="editbtn"
-                    className="text-black rounded-none mt-3  h-8 w-24 flex items-center hover:text-blue-600 hover:border-blue-600 border-gray-300 font-semibold text-base"
-                    icon={<EditOutlined />}
-                  >
-                    Edit
-                  </Button>
-
-                  <Button
-                    type="danger"
-                    className="text-white rounded-none mt-3 flex items-center bg-red-500 hover:text- hover:border-red-600 border-gray-300 font-semibold h-8 w-24 "
-                    onClick={() => handledelete(data.SerialNumber)}
-                    style={{ background: "rgb(245, 0, 0)", color: "white" }}
-                    icon={<DeleteOutlined />}
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    </Form>
+  </div>
   );
 };
 
-export default Equipments;
+export default ProfessionalInfo;
