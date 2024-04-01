@@ -4,7 +4,7 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import Onboard from "@/../public/assets/onboarding/OnbordingImg.svg";
 import Logout from "@/../public/assets/onboarding/Logout.svg";
 // import Company from "@/../public/assets/onboarding/company.svg";
-import Profile from "@/../public/assets/onboarding/profile.svg";
+import Profile from "@/../public/assets/onboarding/userIcon.png";
 import Link from "next/link";
 import {useDispatch,useSelector} from "react-redux"
 import { createUser } from "@/redux/slices/Onboardingpersdetails";
@@ -104,7 +104,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
           </div>
         </div>
         <div className="self-start rounded-md w-full p-2 h-full flex flex-col gap-5">
-          <Image src={Profile} width={100} height={100} alt="profile"/>
+          <Image src={personalData.image || Profile} width={100} height={100} alt="profile"/>
           <div className="flex flex-col gap-2">
             <div className="flex  justify-start gap-40 border-b-2 -mt-2  border-gray-200 w-full">
               <span className="  flex flex-col gap-1 ">

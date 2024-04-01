@@ -39,7 +39,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
       // const personalDatawithID = { id:employeId, ...personalData };
       
       // Dispatch actions with the modified data
-      dispatch(createUser());
+      dispatch(createUser);
       dispatch(createCompany(companyData));
       
       // console.log(combinedData);
@@ -103,7 +103,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
         <div className="self-start rounded-md w-full p-2 h-full flex flex-col gap-2">
           <div className="w-[7vw] h-[8vh] bg-white rounded-md">
             <Image
-              src={Company}
+              src={companyData.logo || Company}
               width={100}
               height={100}
               className="w-[80%] h-[80%] border "
