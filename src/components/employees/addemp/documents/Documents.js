@@ -149,7 +149,9 @@ console.log(Attachments)
   <div className='flex flex-row gap-4 p-4'> 
 
   
-  {Attachments.map((e, index)=>{return  <Image key={index} src={e} alt="Uploaded images" height={50} width={50}/>})}
+  {Attachments && Attachments.map((e, index)=>{return  <Image key={index} src={e} alt="uploaded image" height={50} width={50}/>})}
+  
+   {/* {Attachments && <Image src={Attachments} alt="uploaded Image" width={'100%'} height={'100%'}/>} */}
   </div>
   </div>
 
