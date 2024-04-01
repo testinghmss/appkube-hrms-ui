@@ -47,7 +47,7 @@ const Signup = () => {
         console.log(response.message);
         if (response.status == 200) {
           dispatch(setEmail(emails));
-          router.push("/signup/confirm-mail");
+        router.push("/signup/confirm-mail", { email: emails });
         } else {
           setValid(false);
           console.log(response);
@@ -56,7 +56,6 @@ const Signup = () => {
         // console.log("error", error.response.data.message);
         console.log(error);
         console.log(emails);
-        router.push("/signup/confirm-mail", { email: emails });
 
         dispatch(setEmail(emails));
 
