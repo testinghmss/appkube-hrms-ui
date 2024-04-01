@@ -81,7 +81,7 @@ const Page = () => {
                 console.log(reset);
                 dispatch(setEmail(email));
                 try {
-                  const response = await axios.post("/forgotpassword", {
+                  const response = await axios.post("/forgotPassword", {
                     email: email,
                   });
                   console.log(response);
