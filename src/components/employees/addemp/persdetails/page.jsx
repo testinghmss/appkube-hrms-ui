@@ -68,9 +68,9 @@ const PersonalInformation = ({ tab, setTab }) => {
 
   const handleChange = (info) => {
     // if (info.file.status === "uploading") {
-    //   console.log(info, 'info')
-    setLoading(true);
-    //   return;
+      // console.log(info, 'info')
+    // setLoading(true);
+      // return;
     // }
     // if (info.file.status === "done") {
     const file = info.file.originFileObj;

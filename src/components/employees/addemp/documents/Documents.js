@@ -1,9 +1,10 @@
+// "use client";
 // "use server"
 
-"use client";
+import Image from "next/image";
 import React from "react";
 // import Upload from "./upload";
-import axios1 from "@/api/axios";
+import axios from "@/api/axios";
 import { FaRegFileAlt } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { Progress, Table } from "antd";
@@ -17,14 +18,14 @@ import { Progress, Table } from "antd";
 //   return (
 //     <div className="w-full h-full p-10 flex flex-col bg-white ">
 // =======
-import axios from "axios";
+// import axios from "axios";
 import FileTable from "./FileTable";
 import { useState } from "react";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
-import { Upload } from "antd";
-import Image from "next/image";
+// import { Upload } from "antd";
+import { Upload as AntUpload } from "antd"
 import { InboxOutlined } from "@ant-design/icons";
-const { Dragger } = Upload;
+const { Dragger } = AntUpload;
 import { setDocumentDetails } from "@/redux/slices/Details";
 import { useDispatch } from "react-redux";
 
@@ -36,10 +37,11 @@ const Documents = ({ tab, setTab }) => {
   const dispatch = useDispatch();
   const [fileuploaded, setfileuploaded] = useState(false);
   const accessToken = getAccessTokenFromCookie();
+  const [Attachments, setAttachments] = useState([]);
   const handleFileChange = (info) => {
     const file = info.file.originFileObj; // Access the selected file object
     console.log("THis is file", file);
-    console.log("This is info file", info.file);
+    console.log("This is info file", info.file,'and',info.file.originFileObj);
     console.log(info.file, info.fileList, "these are lists of files ");
     console.log(info.fileList, "THis is inof multiple ");
 
@@ -56,14 +58,15 @@ const Documents = ({ tab, setTab }) => {
 
   console.log("req data", req);
 
-  const [Attachments, setAttachments] = useState([]);
   console.log("attachmemnts data", Attachments);
   const uploadFile = async () => {
+    // const data = {amar:req.url}
     try {
+      console.log('uploadinf file',req)
       const response = await axios.post(
-        "https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/docUpload",
-
-        req,
+        "/docUpload",
+        // data,
+       req,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -78,7 +81,7 @@ const Documents = ({ tab, setTab }) => {
       // setAttachments(response.data.link);
       // setAttachments([...Attachments, response.data.link]);
       // pushing object req with name and url of document
-      Attachments.push(req);
+      // Attachments.push(req);
       console.log("attachments", Attachments);
     } catch (error) {
       console.error("error uploading image", error);
@@ -89,11 +92,12 @@ const Documents = ({ tab, setTab }) => {
 
   if (fileuploaded) {
     // useEffect(()=>{
-    uploadFile(), setfileuploaded(false);
+    uploadFile()
+    setfileuploaded(false);
   }
   console.log(Attachments);
 
-  const Upload = () => {
+  const MyUploads = () => {
     return (
       // <Dragger {...props}>
       //   <p className="ant-upload-drag-icon ">
@@ -127,7 +131,7 @@ const Documents = ({ tab, setTab }) => {
               return (
                 <Image
                   key={index}
-                  src={e}
+                  src={e.url}
                   alt="Uploaded images"
                   height={50}
                   width={50}
@@ -160,7 +164,7 @@ const Documents = ({ tab, setTab }) => {
     };
     try {
       console.log("data to put", data);
-      const response = await axios1.put("/employee/document", data, {
+      const response = await axios.put("/employee/document", data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -180,7 +184,7 @@ const Documents = ({ tab, setTab }) => {
   return (
     <div className="w-full h-full p-10 flex flex-col ">
       <div>
-        <Upload />
+        <MyUploads />
       </div>
 
       <div className="mt-10 border border-gray-400 p-4 rounded-xl">
