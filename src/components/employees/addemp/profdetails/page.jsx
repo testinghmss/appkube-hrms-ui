@@ -1,7 +1,7 @@
 "use client";
 
 // ProfessionalForm.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Form, Input, Button, Select, Col, Row, DatePicker, Space } from "antd";
@@ -24,14 +24,22 @@ import {
 const numberRegex = /^[0-9]{5,}$/; // Ensure at least 5 digits
 
 const ProfessionalInfo = ({ tab, setTab }) => {
+  const [designationOptions, setDesignationOptions] = useState([]);
+  const [selectedDesignations, setSelectedDesignations] = useState("");
+  const [departmentData, setDepartmentData] = useState([]);
+  const [selectedDepartments, setSelectedDepartments] = useState("");
+
   const handleSelectChange = (value) => {
     dispatch(setDropdownOption(value));
+    setSelectedDepartments(value)
+    
   };
   const handlework = (value) => {
     dispatch(setDropdownOptionwork(value));
   };
   const handleDesig = (value) => {
     dispatch(setDropdownOptionDesig(value));
+    setSelectedDesignations(value);
   };
   const handlReportk = (value) => {
     dispatch(setDropdownOptionReport(value));
@@ -99,6 +107,51 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   );
   const selectedDate = useSelector((state) => state.selectedDate);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/designation",
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        setDesignationOptions(response.data); // Set fetched data to state
+      } catch (error) {
+        console.error("Error fetching designation data:", error);
+      }
+    };
+
+    fetchData(); // Call fetchData function
+  }, [accessToken]); 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/department',
+        headers: { 
+          'Accept': 'application/json', 
+          'Authorization': `Bearer ${accessToken}`,
+        }
+      };
+
+      try {
+        const response = await axios.request(config);
+        setDepartmentData(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+
+  }, [accessToken]);
+
   return (
     <div>
       <Form
@@ -132,22 +185,26 @@ const ProfessionalInfo = ({ tab, setTab }) => {
               showSearch
               className="rounded-none"
               onChange={handleDesig}
-              value={selectedDesignation}
+              value={setSelectedDesignations}
               placeholder="Select Designation"
               optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
+              // filterOption={(input, option) =>
+              //   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              // }
             >
-              {prof1.map((option) => (
-                <Select.Option
-                  key={option}
-                  value={option}
-                  className="rounded-none"
-                >
-                  {option}
-                </Select.Option>
-              ))}
+              {designationOptions.map(
+                (
+                  option // Map over fetched options
+                ) => (
+                  <Select.Option
+                    key={option.id} // Assuming each option has a unique id
+                    value={option.designation} // Use the designation property as the option value
+                    className="rounded-none"
+                  >
+                    {option.designation} {/* Render the designation property */}
+                  </Select.Option>
+                )
+              )}
             </Select>
           </Form.Item>
         </Col>
@@ -231,17 +288,21 @@ const ProfessionalInfo = ({ tab, setTab }) => {
               style={{ borderRadius: 0 }}
               className="rounded-none"
               onChange={handleSelectChange}
-              value={selectedDepartment}
+              value={setSelectedDepartments}
               placeholder="Select Department "
               optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
+              // filterOption={(input, option) =>
+              //   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              // }
             >
               {prof.map((option) => (
-                <Select.Option key={option} value={option}>
-                  {option}
-                </Select.Option>
+                <Select.Option
+                key={option.id} // Assuming each option has a unique id
+                value={option.id} // Use the designation property as the option value
+                className="rounded-none"
+              >
+                {option.department} 
+              </Select.Option>
               ))}
             </Select>
           </Form.Item>

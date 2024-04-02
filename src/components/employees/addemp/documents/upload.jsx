@@ -18,9 +18,9 @@ const UploadFiles = () => {
   );
 
 
-  const [req, setReq] = useState(
-    { fileName: '', data: '' }
-  );
+  // const [req, setReq] = useState(
+  //   { fileName: '', data: '' }
+  // );
 
   const [fileuploaded, setfileuploaded] = useState(false)
 

@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { setpersonalDetails } from "@/redux/slices/Details";
+import { setId, setpersonalDetails } from "@/redux/slices/Details";
 // import { Provider } from "react-redux";
 // import { store } from "@/redux/store/store";
 import { Form, Input, Row, Col, Select, Radio, Upload, DatePicker } from "antd";
@@ -29,11 +29,22 @@ const beforeUpload = (file) => {
   }
   return isLt2M;
 };
-const PersonalInformation = ({ tab, setTab }) => {
+const PersonalInformation = ({
+  tab,
+  setTab,
+  setPersonalInfoFilled,
+  visible,
+}) => {
   const accessToken = getAccessTokenFromCookie();
   const persDetails = useSelector((state) => state.Details); 
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setselectedState] = useState();
+  const Tab = useSelector((state) => state.Details)
+  const tabs = Tab.tab
+  const Id = Tab.id
+  console.log(tabs)
+  console.log(Id)
+
   const router = useRouter();
   const [req, setReq] = useState(
     { fileName: '', data: '' }
@@ -42,6 +53,7 @@ const PersonalInformation = ({ tab, setTab }) => {
   const [Attachments, setAttachments] = useState('')
   const dispatch = useDispatch();
 
+  
   const handleInputChange = (e) => {
     console.log("form data", formData);
     const { name, value } = e.target;
@@ -121,7 +133,8 @@ const PersonalInformation = ({ tab, setTab }) => {
     </button>
   );
 console.log("object")
-  const handleAddItemButtonClick = async () => {
+const handleAddItemButtonClick = async () => {
+  if (tabs === false) {
     console.log(formData, "hitting api");
     console.log("imagr", imageUrl);
     const data = {
@@ -145,26 +158,70 @@ console.log("object")
       image: Attachments,
     }
     try {
-      console.log("data", data);
-      console.log("assTo",accessToken)
-      const response = await Mainaxios.post("/employee/personalInfo", 
-      data,{
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      console.log("data", data.emp_type);
+      const response = await Mainaxios.post("/employee/personalInfo", data,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
       console.log("response", response);
       if (response.status === 200) {
-        
         console.log("response data", response.data)
         dispatch(setpersonalDetails(response.data));
-       
+        dispatch(setId(response.data.id))
+        setTab(tab + 1)
+        setPersonalInfoFilled(true);
       }
     } catch (error) {
       console.log("error", error);
-      setTab(tab + 1)
     }
-  };
+  } else if (tabs === true) {
+    const axios = require('axios');
+    const data = {
+      first_name: formData.first_name,
+      last_name: formData.last_name,
+      email: formData.email,
+      work_email: formData.work_email,
+      gender: formData.gender,
+      dob: formData.dob,
+      number: formData.number,
+      emergency_number: formData.emergency_number,
+      highest_qualification: formData.highest_qualification,
+      address_line_1: formData.address_line_1,
+      address_line_2: formData.address_line_2,
+      landmark: formData.landmark,
+      country: formData.country,
+      state: formData.state,
+      city: formData.city,
+      zipcode: formData.zipcode,
+      emp_type: 1,
+      image: Attachments,
+    }
+
+    try {
+      console.log("data", data.emp_type);
+      const response = await Mainaxios.put(`/employee/${Id}`, data,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+      console.log("response", response);
+      if (response.status === 200) {
+        console.log("response data", response.data)
+        dispatch(setpersonalDetails(response.data));
+
+        setTab(tab + 1)
+        setPersonalInfoFilled(true);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+};
   const uploadFile = async () => {
 
     console.log('uploading')
