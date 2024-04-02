@@ -136,7 +136,7 @@ const Page = () => {
         </div>
         <div className="w-[50%]">
           <div className="ml-5 mb-14">
-            <p className="font-semibold text-2xl">HR Portal</p>
+            <p className="font-semibold text-2xl">Employee Information Portal</p>
             <Image
               src={synectiksImage}
               className="w-[100px]"
