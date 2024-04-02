@@ -15,7 +15,7 @@ const Page = () => {
   const router = useRouter();
   const [valid, setValid] = useState(true);
   const [passMatch, setPassMatch] = useState();
-  const [password,setPassword] = useState('')
+  const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
   const reset = useSelector((state) => state.resetPassword);
@@ -26,9 +26,11 @@ const Page = () => {
       email: reset.email,
       otp: reset.otp,
       newPassword:
-        (values.password === values.confirmpassword &&
+        values.password === values.confirmpassword &&
         values.password != "" &&
-        values.confirmpassword != "")?password:""
+        values.confirmpassword != ""
+          ? password
+          : "",
     };
     // //       {
     // //   "email": "<email>",
@@ -59,12 +61,13 @@ const Page = () => {
         //   console.log(reset);
         // }, 5000);
         //     } else {
-        setValid(false);
+        // setValid(false);
         //       console.log(response);
         //   }
       } catch (error) {
         //     // console.log("error", error.response.data.message);
         console.log(error);
+        console.log(error?.response?.data?.message);
         setValid(false);
       }
     } else {
@@ -148,7 +151,9 @@ const Page = () => {
                 style={{ fontSize: "1.1rem", borderRadius: "3px" }}
                 size="large"
                 required={true}
-                onChange={(e)=>{setPassword(e.target.value)}}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
               />
             </Form.Item>
 
@@ -187,6 +192,11 @@ const Page = () => {
               />
             </Form.Item>
             {/* <Link href="/signup/confirm-mail"> */}
+            {!valid && (
+              <p className="text-red-500 font-semibold text-[14px] -mt-3 mb-3">
+                Invalid verification code provided, please try again.
+              </p>
+            )}
             <button
               className="w-full "
               // type="primary"
