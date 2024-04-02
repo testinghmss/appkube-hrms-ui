@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "antd";
 import { useRouter } from "next/navigation";
 import { Checkbox, DatePicker, Input, Radio, Select } from "antd";
@@ -15,7 +15,7 @@ import { setEquipmentDetails } from "@/redux/slices/Details";
 const { TextArea } = Input;
 
 const Equipments = ({ tab, setTab }) => {
-  const empId = localStorage.getItem("empId");
+  // const empId = localStorage.getItem("empId");
   // getting employee id from local storage
   const [owner, setOwner] = useState(null);
   const [Device, setDevice] = useState("");
@@ -29,6 +29,7 @@ const Equipments = ({ tab, setTab }) => {
   const details = useSelector((state) => state.EquipmentDetails);
   const [provideBy, setProvideBy] = useState("org");
   const accessToken = getAccessTokenFromCookie();
+  const [isClient, setIsClient] = useState(false);
   const handleProvideByChange = (e) => {
     setOwner(e.target.value);
     setProvideBy(e.target.value);
@@ -44,58 +45,67 @@ const Equipments = ({ tab, setTab }) => {
 
     setSupplyDate(dateString);
   };
-
+ useEffect(()=>{
+  setIsClient(true)
+ },[isClient])
   const StoreEquipment = async () => {
+
+   if(isClient){
+  // const empId = localStorage.getItem("empId");
+  const empId = localStorage.getItem("empId");
+  console.log("id from localstorage", empId);
+
     let data =
-      //  {
-      //   "owner": details.equipment[0].Owner,
-      //   "device_type_id": details.equipment[0].device_type_id,
-      //   "manufacturer": details.equipment[0].ManufacturerName,
-      //   "serial_number": details.equipment[0].SerialNumber,
-      //   "note": details.equipment[0].Notes,
-      //   "supply_date": details.equipment[0].SupplyDate,
-      //   "emp_id": "fd7cbfe2-167c-4f7d-98ca-d4c778721d6e"
-      // }
+    //  {
+    //   "owner": details.equipment[0].Owner,
+    //   "device_type_id": details.equipment[0].device_type_id,
+    //   "manufacturer": details.equipment[0].ManufacturerName,
+    //   "serial_number": details.equipment[0].SerialNumber,
+    //   "note": details.equipment[0].Notes,
+    //   "supply_date": details.equipment[0].SupplyDate,
+    //   "emp_id": "fd7cbfe2-167c-4f7d-98ca-d4c778721d6e"
+    // }
 
-      [
-        {
-          owner: owner,
-          device_type_id: 1,
-          manufacturer: Manufacturer,
-          serial_number: SerialNumber,
-          note: Notes,
-          supply_date: supplydate,
-          emp_id: empId,
+    [
+      {
+        owner: owner,
+        device_type_id: 1,
+        manufacturer: Manufacturer,
+        serial_number: SerialNumber,
+        note: Notes,
+        supply_date: supplydate,
+        emp_id: empId,
+      },
+    ];
+  // making data into format to hit api
+
+  try {
+    console.log("stored data:", data);
+    const response = await axios.put(
+      "/employee/equipmentInfo",
+      JSON.stringify(data),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
-      ];
-    // making data into format to hit api
-
-    try {
-      console.log("stored data:", data);
-      const response = await axios.put(
-        "/employee/equipmentInfo",
-        JSON.stringify(data),
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      console.log("success response", response.data);
-      // console.log("response", response);
-      if (response.status === 200) {
-        console.log("response data to dispatch", response.data);
-        // dispatch(AddEquipment(response.data));
-        // storing the response in redux
-        dispatch(setEquipmentDetails(response.data));
-        // changing the tab
-        setTab(tab + 1);
       }
-    } catch (error) {
-      console.log("error", error);
+    );
+    console.log("success response", response.data);
+    // console.log("response", response);
+    if (response.status === 200) {
+      console.log("response data to dispatch", response.data);
+      // dispatch(AddEquipment(response.data));
+      // storing the response in redux
+      dispatch(setEquipmentDetails(response.data));
+      // changing the tab
+      setTab(tab + 1);
     }
+  } catch (error) {
+    console.log("error", error);
+  }
+   }
   };
 
   return (

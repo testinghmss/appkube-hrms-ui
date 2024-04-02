@@ -40,7 +40,7 @@ const PersonalInfo = () => {
       }
     }
     fetchData()
-  },[])
+  },[accessToken])
 
 
     // getting data from redux using useselector

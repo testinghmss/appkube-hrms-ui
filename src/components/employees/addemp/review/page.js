@@ -11,7 +11,7 @@
   import getAccessTokenFromCookie from "@/utils/getAccessToken";
   import { useSelector } from "react-redux";
   import axios from "@/api/axios"
-  const page = ({ tab, setTab }) => {
+  const Page = ({ tab, setTab }) => {
     //  created usestate for storing redux data into same variable
     const [fetchedData , setFetchData] = useState({
       equipment:[],
@@ -56,7 +56,7 @@
         }
       }
       fetchData()
-    },[])
+    },[accessToken,fetchedData])
     // getting data from redux using useselector
     const reduxEquipmentData = useSelector(state => state.Details?.equipDetails)
     console.log('redux data for equipments ',reduxEquipmentData)
@@ -151,4 +151,4 @@
     );
   };
 
-  export default page;
+  export default Page;

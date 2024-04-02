@@ -1,7 +1,7 @@
 "use client";
 
 // ProfessionalForm.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Form, Input, Button, Select, Col, Row, DatePicker, Space } from "antd";
@@ -30,8 +30,7 @@ const numberRegex = /^[0-9]{5,}$/; // Ensure at least 5 digits
 
 const ProfessionalInfo = ({ tab, setTab }) => {
   // getting employee id from local storage
-  const empId = localStorage.getItem("empId");
-  console.log("id from localstorage", empId);
+ 
   // const handleSelectChange = (value) => {
   //   dispatch(setDropdownOption(value));
   // };
@@ -50,6 +49,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   // };
   const dispatch = useDispatch();
   const accessToken = getAccessTokenFromCookie();
+  const [isClient, setIsClient] = useState(false);
   // const professionalDetails = useSelector(selectProfessionalDetails);
   const [form] = useForm();
 
@@ -58,7 +58,9 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   //   dispatch(updateProfessionalDetails({ [name]: value }));
   // };
   const [formData, setFormData] = useState({});
-
+ useEffect(()=>{
+  setIsClient(true)
+ },[isClient])
   const handleSubmit = async () => {
     // let data = {
     //   // designation_id: values.selectedDesignation,
@@ -74,7 +76,9 @@ const ProfessionalInfo = ({ tab, setTab }) => {
     //   emp_id: empId,
     // };
     // making data into format to hit api
-
+    if(isClient){
+      const empId = localStorage.getItem("empId");
+    console.log("id from localstorage", empId);
     let data = {
       designation_id: 4,
       pf: formData.pf,
@@ -104,6 +108,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
       }
     } catch (error) {
       console.log("error", error);
+    }
     }
   };
   const router = useRouter();

@@ -31,7 +31,7 @@ import { useDispatch } from "react-redux";
 
 const Documents = ({ tab, setTab }) => {
   // getting employee id from local storage
-  const empId = localStorage.getItem("empId");
+  // const empId = localStorage.getItem("empId");
   // updated usestate as required for backend
   const [req, setReq] = useState({ fileName: "", data: "" });
   const [docs , setDocs] = useState({name:'' ,url : ''})
@@ -39,6 +39,12 @@ const Documents = ({ tab, setTab }) => {
   const [fileuploaded, setfileuploaded] = useState(false);
   const accessToken = getAccessTokenFromCookie();
   const [Attachments, setAttachments] = useState([]);
+  const [isClient, setIsClient] = useState(false);
+
+ 
+
+  // Wrap the client-only code inside this conditional
+  
   const handleFileChange = (info) => {
     const file = info.file.originFileObj; // Access the selected file object
     console.log("THis is file", file);
@@ -104,11 +110,12 @@ const Documents = ({ tab, setTab }) => {
 
   useEffect(() => {
     // Check if both name and url are truthy
+    setIsClient(true);
     if (docs.name && docs.url) {
       // Push the docs object into Attachments
       setAttachments(prevAttachments => [...prevAttachments, docs]);
     }
-  }, [docs]);
+  }, [docs,isClient]);
   const MyUploads = () => {
     return (
       // <Dragger {...props}>
@@ -170,6 +177,13 @@ const Documents = ({ tab, setTab }) => {
   // }
   const HandleDocuments = async () => {
     // creating variable data for hitting api as per format with empid and documents
+    if (isClient) {
+      // Access localStorage only in the client-side context
+      // const empId = localStorage.getItem("empId");
+      const empId = localStorage.getItem("empId");
+      console.log("id from localstorage", empId);
+      // Your remaining client-side code here...
+    
     const data = {
       emp_id: empId,
       documents: Attachments,
@@ -191,6 +205,7 @@ const Documents = ({ tab, setTab }) => {
     } catch (error) {
       console.log("error uploading document", error);
     }
+  }
   };
 
   return (

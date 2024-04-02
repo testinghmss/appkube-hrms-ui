@@ -30,7 +30,7 @@ const EquipmentDetails = () => {
       }
     }
     fetchData()
-  },[])
+  },[accessToken])
 
   const reduxData = useSelector(state => state.professionalDetails)
   console.log('redux data for equipments ',reduxData)

@@ -5,35 +5,47 @@ import getAccessTokenFromCookie from '@/utils/getAccessToken'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import axios from "@/api/axios"
+import { loadBindings } from 'next/dist/build/swc'
 const Page = () => {
-  const searchParams = useSearchParams();
-  const userId =  searchParams.get('id')
-  console.log('id from  params',userId)
+  // const [searchParams, setSearchParams] = useState(null);
+  // const searchParams = useSearchParams();
+  // const userId =  searchParams?.get('id')
+  // console.log('id from  params',userId)
   const [fetchedData , setFetchData] = useState({})
   const accessToken = getAccessTokenFromCookie();
-  
+  const [isClient, setIsClient] = useState(false);
+  useEffect(()=>{
+    // setSearchParams(useSearchParams());
+    setIsClient(true)
+  },[])
   useEffect(()=>{
     console.log('in useffect')
-    const fetchData = async ()=>{
-      // setEmpId(id)
-      try{
-        // const id = await localStorage.getItem('empId')
-        console.log('employee id from local storage',userId)
-        const response = await axios.get(`/employee/${userId}`,{
-          headers: {
-            'Authorization': `Bearer ${accessToken}`
-          }
-        });
-        console.log("response of employee data for overview",response.data)
-        setFetchData(response.data);
-        // console.log("data",employees)
+    if( isClient){
+      // const searchParams = useSearchParams();
+      // const userId =  searchParams.get('id')
+      const userId = 'kasjdak'
+      console.log('id from  params',userId)
+      const fetchData = async ()=>{
+        // setEmpId(id)
+        try{
+          // const id = await localStorage.getItem('empId')
+          console.log('employee id from local storage',userId)
+          const response = await axios.get(`/employee/${userId}`,{
+            headers: {
+              'Authorization': `Bearer ${accessToken}`
+            }
+          });
+          console.log("response of employee data for overview",response.data)
+          setFetchData(response.data);
+          // console.log("data",employees)
+        }
+        catch(error){
+          console.log('error fetching employee data',error);
+        }
       }
-      catch(error){
-        console.log('error fetching employee data',error);
-      }
+      fetchData()
     }
-    fetchData()
-  },[setFetchData])
+  },[setFetchData,accessToken,isClient])
 
   // const reduxData = useSelector(state => state.professionalDetails)
   // console.log('redux data for equipments ',reduxData)
@@ -42,10 +54,13 @@ const Page = () => {
   // const data = reduxData.length > 0 ? reduxData : fetchedData;
   console.log("data of employee details",data)
   return (
+    // <React.Suspense fallback={<div>Loading...</div>}>
+
     <div >
         <TopEmpDt  empData={fetchedData}/>
         <LeftNav  empData={fetchedData}/>
     </div>
+  
   )
   
 }
