@@ -38,7 +38,7 @@ const Popup = () => {
         Manage Invite
       </Button>
       <Modal
-        visible={isModalOpen}
+        open={isModalOpen}
         onCancel={handleModalClose}
         footer={null}
         closable={false}
@@ -73,7 +73,7 @@ const Popup = () => {
             </div>
           </div>
           <div style={{ textAlign: 'center' }} className='mt-6'>
-            <Button type="primary" className="bg-[#1890FF] hover:text-[#1890FF] border hover:bg-white hover:border-[#1890FF] text-white flex p-4 gap-3 justify-center items-center ml-12 rounded-none w-60" onClick={handleContinue}>
+            <Button type="primary" className="bg-[#1890FF] hover:text-[#1890FF] border hover:bg-white hover:border-[#1890FF] text-white flex p-4 gap-3 justify-center items-center rounded-none w-60" onClick={handleContinue}>
             Continue
           </Button></div>
         </div>
