@@ -12,9 +12,13 @@ import axios from "@/api/axios";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 
 import Image from "next/image";
+import { setEquipmentDetails } from "@/redux/slices/Details";
+
 const { TextArea } = Input;
 
 const Equipments = ({ tab, setTab }) => {
+  // const empId = localStorage.getItem("empId") || "defaultEmpId";
+  const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
   const [owner, setOwner] = useState(null);
   const [Device, setDevice] = useState("");
   const [Manufacturer, setManufacturer] = useState("");
@@ -78,6 +82,57 @@ const Equipments = ({ tab, setTab }) => {
   //     console.log('error', error)
   //   }
   // }
+
+  const StoreEquipment = async () => {
+    let data =
+      //  {
+      //   "owner": details.equipment[0].Owner,
+      //   "device_type_id": details.equipment[0].device_type_id,
+      //   "manufacturer": details.equipment[0].ManufacturerName,
+      //   "serial_number": details.equipment[0].SerialNumber,
+      //   "note": details.equipment[0].Notes,
+      //   "supply_date": details.equipment[0].SupplyDate,
+      //   "emp_id": "fd7cbfe2-167c-4f7d-98ca-d4c778721d6e"
+      // }
+
+      [
+        {
+          owner: owner,
+          device_type_id: 1,
+          manufacturer: Manufacturer,
+          serial_number: SerialNumber,
+          note: Notes,
+          supply_date: supplydate,
+          emp_id: empId ? empId : null,
+        },
+      ];
+    // making data into format to hit api
+
+    try {
+      console.log("stored data:", data);
+      const response = await axios.put(
+        "/employee/equipmentInfo",
+        JSON.stringify(data),
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log("success response", response.data);
+      // console.log("response", response);
+      if (response.status === 200) {
+        console.log("response data to dispatch", response.data);
+        // dispatch(AddEquipment(response.data));
+        // storing the response in redux
+        dispatch(setEquipmentDetails(response.data));
+        // changing the tab
+        setTab(tab + 1);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   const sendData = () => {
     const data = {
@@ -322,6 +377,7 @@ const Equipments = ({ tab, setTab }) => {
                   className="rounded-md h-8 w-36 text-base bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white border hover:border-[#1890FF]"
                   onClick={() => {
                     callApi();
+                    StoreEquipment();
                   }}
                 >
                   Next

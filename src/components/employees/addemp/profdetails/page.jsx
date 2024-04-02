@@ -41,7 +41,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
       console.log("stored data of from in usestate", data);
       const response = await axios.put("/employee/professionalInfo", data,{
       headers: {
-      'Authorization': `Bearer ${accessToken}`
+      Authorization: `Bearer ${accessToken}`
     }
   });
       console.log("success", response.data);
@@ -356,9 +356,9 @@ const ProfessionalInfo = ({ tab, setTab }) => {
               justifyContent: "center",
               marginLeft: "40%",
             }}
-            onClick={() => {
-              setTab(tab + 1);
-            }}
+            // onClick={() => {
+            //   setTab(tab + 1);
+            // }}
           >
             Next
           </Button>

@@ -1,18 +1,28 @@
 import React , { useState,useEffect} from "react";
 import axios from "@/api/axios"
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
-
+import { useParams } from "next/navigation";
 const PersonalInfo = () => {
   
   const [data, setData] = useState({})
   
-  
+
+  const {id} = useParams()
+
+  console.log(id, 'Getting id from employee')
   
   const accessToken = getAccessTokenFromCookie();
   useEffect(()=>{
+  const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
+console.log(empId, 'from localStorage')
     const fetchData = async ()=>{
       try{
-        const values = await axios.get('/employee/fd7cbfe2-167c-4f7d-98ca-d4c778721d6e');
+        const values = await axios.get(`/employee/${empId}`,{
+
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         console.log("response",values.data.personal_information        )
         setData(values.data.personal_information);
         // console.log("data",employees)

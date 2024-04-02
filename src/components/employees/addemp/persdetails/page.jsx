@@ -156,14 +156,35 @@ console.log("object")
       });
       console.log("response", response);
       if (response.status === 200) {
-        
+        localStorage.setItem('empId', response.data.id)
         console.log("response data", response.data)
         dispatch(setpersonalDetails(response.data));
        
       }
-    } catch (error) {
+
+      const id = localStorage.getItem("empId");
+      //  checking tthe existance of employee id
+      if (id) {
+        console.log("previouse id of local storage present", id);
+        // if id is existing then we will remote it from local storage
+        localStorage.removeItem("empId");
+        console.log(
+          "id deleted from local storage",
+          localStorage.getItem("empId")
+        );
+        // seting new empid for its information update
+        localStorage.setItem("empId", response.data.id);
+        console.log("new id", localStorage.getItem("empId"));
+      } else {
+        localStorage.setItem("empId", response.data.id);
+      }
+      // changing tab
+      setTab(tab + 1);
+    }
+
+     catch (error) {
       console.log("error", error);
-      setTab(tab + 1)
+      // setTab(tab + 1)
     }
   };
   const uploadFile = async () => {

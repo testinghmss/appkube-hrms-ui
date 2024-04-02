@@ -3,14 +3,82 @@ import EquipmentCard from "@/components/employeesOverview/EquipmentCard";
 import EquipmentDetails from "@/components/employeesOverview/EquipmentDetails";
 import PersonalInfo from "@/components/employeesOverview/PersonalInfo";
 import ProfessionalInfo from "@/components/employeesOverview/ProfessionalInfo";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { RiEditFill } from "react-icons/ri";
 import Image from "next/image";
 import ProfImg from "@/../public/assets/empDetails/Avatar1.svg";
 import Invite from "./invite/Invite";
-import axios from "axios";
-import { useSelector } from 'react-redux'
-const page = ({ tab, setTab }) => {
+import getAccessTokenFromCookie from "@/utils/getAccessToken";
+import { useSelector } from "react-redux";
+import axios from "@/api/axios"
+
+
+const Page = ({ tab, setTab }) => {
+
+  const [fetchedData , setFetchData] = useState({
+    equipment:[],
+    documents:[],
+  })
+  const accessToken = getAccessTokenFromCookie();
+  // const empId =  localStorage.getItem('empId')
+  // console.log('emmpid from localstorage',empId)
+  useEffect(()=>{
+    console.log('in useeffect')
+    const fetchData = async ()=>{
+          // getting employee id from local storage 
+
+      const id = await localStorage.getItem('empId')
+      // setEmpId(id)
+      try{
+        console.log('employee id from local storage',id)
+        // fetching data by employee id in case of data not found in redux
+        const response = await axios.get(`/employee/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+        console.log("response of employee id for equipments",response.data.equipment)
+        // storing equipment data intto usestate
+        setFetchData({...fetchedData,equipment:response.data.equipment});
+        // console.log("data",employees)
+
+        // fetching data by employee id in case of data not found in redux
+        const response2 = await axios.get(`/employee/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+        console.log("response of employee id for documents",response2.data.documents)
+        // storing equipment data intto usestate
+
+        setFetchData({...fetchedData,documents:response2.data.documents});
+      }
+      catch(error){
+        console.log('error fetching employee data',error);
+      }
+    }
+    fetchData()
+  },[])
+  // getting data from redux using useselector
+  const reduxEquipmentData = useSelector(state => state.Details?.equipDetails)
+  console.log('redux data for equipments ',reduxEquipmentData)
+  console.log('fetched data by id for equipments ',fetchedData.equipment)
+  // setData(reduxData)
+  // condittionally trendering the data eitther from redux or from fetched  data by id 
+  const equipmenData = reduxEquipmentData.length > 0 ? reduxEquipmentData : fetchedData.equipment;
+  console.log("data ofequipments details",equipmenData)
+ 
+    // getting data from redux using useselector
+
+  const reduxDocumentsData = useSelector(state => state.Details?.documentDetails)
+  console.log('redux data for equipments ',reduxDocumentsData)
+  console.log('fetched data by id for equipments ',fetchedData.equipment)
+  // setData(reduxData)
+
+    // condittionally trendering the data eitther from redux or from fetched  data by id 
+
+  const documentsData = reduxDocumentsData.length > 0 ? reduxDocumentsData : fetchedData.equipment;
+  console.log("data ofequipments details",documentsData)
 
   return (
     <div className="p-10 bg-gray-200">
@@ -59,6 +127,8 @@ const page = ({ tab, setTab }) => {
         </div>
         <div className="flex gap-4">
           <EquipmentCard />
+          <EquipmentCard />
+
         </div>
       </div>
 
@@ -81,4 +151,4 @@ const page = ({ tab, setTab }) => {
   );
 };
 
-export default page;
+export default Page;

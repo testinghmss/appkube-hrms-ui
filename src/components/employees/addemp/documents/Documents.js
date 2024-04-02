@@ -103,8 +103,12 @@ const response = await axios.post( 'https://i3mdnxvgrf.execute-api.us-east-1.ama
     alert('Image uploaded successfully!');
     // setAttachments(response.data.link);
     setAttachments([...Attachments, response.data.link])
+    if(response.status===200){
+       setTab(tab + 1)
+    }
 
   } 
+  
 
 catch (error) {
     console.error(error);
@@ -189,9 +193,9 @@ console.log(Attachments)
 
       <button
         className="w-[30%]  bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white  border hover:border-[#1890FF] m-auto h-9 "
-        onClick={() => {
-          setTab(tab + 1);
-        }}
+        // onClick={() => {
+        //   // setTab(tab + 1);
+        // }}
       >
         Next
       </button>
