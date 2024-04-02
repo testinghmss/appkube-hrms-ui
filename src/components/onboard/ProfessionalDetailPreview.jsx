@@ -39,7 +39,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
       // const personalDatawithID = { id:employeId, ...personalData };
       
       // Dispatch actions with the modified data
-      dispatch(createUser);
+      dispatch(createUser(personalData));
       dispatch(createCompany(companyData));
       
       // console.log(combinedData);

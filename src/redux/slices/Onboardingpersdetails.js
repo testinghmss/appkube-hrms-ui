@@ -11,18 +11,18 @@ export const createUser = createAsyncThunk('createUser', async (data, {getState,
       const state = getState();
       // Extract the employeId from the state
       const employeId = state.Onboardingpersdetails.employeId;
-      const employePersonalData = state.Onboardingpersdetails.personalData;
-      console.log("the employePersonalData",employePersonalData);
+      // const employePersonalData = state.Onboardingpersdetails.personalData;
+      // console.log("the employePersonalData",employePersonalData);
 
-      console.log("employeId",employeId);
+      console.log("employeId in the url",employeId);
 
-    const response = await axios.put(`/employee/${employeId}`, employePersonalData,{
+    const response = await axios.put(`/employee/${employeId}`,data,{
     headers: {
       'Authorization': `Bearer ${accessToken}`
     }
   });
     
-    console.log("personal",response);
+    console.log("personal data",response);
     return response.data; 
     // const hrDetails = await axios.get(`/employee/${response.data.id}`, {
     //   params: { userId: response.data.id },
@@ -37,9 +37,9 @@ export const createUser = createAsyncThunk('createUser', async (data, {getState,
 
   } catch (error) {
     console.log("error personal",error);
-    console.log("error of the axios",error.message);
+    console.log("error of the axios personal",error.message);
     
-    return rejectWithValue(error.message);
+    return rejectWithValue("error in personal",error.message);
     
   }
 }
