@@ -59,7 +59,7 @@ const [isoCode] = filtercountry.map(e => e.displayValue.slice(-2));
     };
 
   return (
-    <Select placeholder="Select the city" value={selectedCity} onChange={handleCityChange}>
+    <Select showSearch placeholder="Select the city" className='w-[45%]' value={selectedCity} onChange={handleCityChange}>
       <Select.Option key={-1} value="" disabled>
         -- Select the city --
       </Select.Option>

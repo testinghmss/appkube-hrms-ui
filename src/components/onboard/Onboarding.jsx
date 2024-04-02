@@ -15,10 +15,11 @@ import {
   Select,
   notification,
   message,
+  DatePicker,
   Upload
 } from "antd";
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-
+import moment from "moment";
 
 // import { UserOutlined } from "@ant-design/icons";
 import { useState, useEffect } from "react"
@@ -65,12 +66,39 @@ const Onboarding = ({ step, setStep }) => {
 
   const getUserData = (e) => {
     const { name, value } = e.target;
-    // Trim the value to 10 digits if it's the phone number field
+
     if (name === "number") {
-      const trimmedValue = value.slice(0, 10);
+      // Allow only digits
+      const onlyNums = value.replace(/\D/g, '');
+
+      // Trim the value to 10 digits
+      const trimmedValue = onlyNums.slice(0, 10);
       setPersonal({ ...personal, [name]: trimmedValue });
     } else {
       setPersonal({ ...personal, [name]: value });
+    }
+};
+
+
+
+  const handleNameInput = (event) => {
+    // Using regular expression to allow only alphabetic characters and space
+    const regex = /^[A-Za-z ]*$/;
+    if (regex.test(event.target.value)) {
+      // If input is valid, update the state
+      setPersonal({ ...personal, [event.target.name]: event.target.value });
+    }
+    // Optionally, handle feedback for invalid input
+  };
+  
+
+
+  const handleDateChange = (date) => {
+    if (date) {
+      const formattedDate = moment(date).format('YYYY/MM/DD');
+      setPersonal({...personal,dob:formattedDate});
+    } else {
+      setPersonal({...personal, dob:null});
     }
   };
 
@@ -230,6 +258,8 @@ const Onboarding = ({ step, setStep }) => {
   console.log(Attachments)
   console.log("image state", personal);
 
+  const datetoshow = moment(personal.dob).format('DD/MM/YYYY');
+
   return (
     // <form onSubmit={} >
     <div className="flex justify-center items-center gap-16 w-[100%] h-[100vh] p-10 ">
@@ -269,7 +299,7 @@ const Onboarding = ({ step, setStep }) => {
             name="first_name"
             placeholder="First name"
             className="p-1 mb-3 border border-gray-300 outline-[#1890FF] w-[70%] "
-            onChange={getUserData}
+            onChange={handleNameInput}
             // value={personal.first_name !== undefined ? personal.first_name : "" || personalData.first_name }
             value={personal.first_name || ''}
           />
@@ -277,7 +307,7 @@ const Onboarding = ({ step, setStep }) => {
             name="last_name"
             placeholder="Last name"
             className="p-1 mb-3 border border-gray-300 outline-[#1890FF] w-[70%]"
-            onChange={getUserData}
+            onChange={handleNameInput}
             // value={personal.last_name !== undefined ? personal.last_name : "" || personalData.last_name }
             value={personal.last_name || ''}
           />
@@ -335,15 +365,24 @@ const Onboarding = ({ step, setStep }) => {
             </Flex>
           </div>
 
-          <input
+         {/* <input
             name="dob"
-            type="date"
-            placeholder="Date of birth"
+            type="text"
+            placeholder="DD/MM/YYYY"
             className="p-1 mb-2 border border-gray-300 outline-[#1890FF] w-[70%]"
-            onChange={getUserData}
-            // value={personal.dob !== undefined ? personal.dob : "" || personalData.dob }
+            onChange={handleDateBlur}
+            // onBlur={handleDateBlur}
             value={personal.dob || ''}
-          />
+          /> */}
+          <div className=" mb-2 border border-gray-300 border-none outline-none w-[70%] rounded-none">
+            <DatePicker
+              selected={datetoshow}
+              onChange={handleDateChange}
+              placeholderText="dd/mm/yyyy"
+              className="p-1 mb-2 border border-gray-300 outline-none w-[100%] rounded-none border-none"
+              format="DD/MM/YYYY"
+            />
+          </div>
 
           <div>
             <Form className="flex border w-[70%]">
@@ -353,7 +392,7 @@ const Onboarding = ({ step, setStep }) => {
               </select>
               <input
                 name="number"
-                type="number"
+                type="text"
                 className="w-full h-9 p-2 border-gray-300 outline-[#1890FF]"
                 maxLength="10"
                 onChange={getUserData}
@@ -365,7 +404,7 @@ const Onboarding = ({ step, setStep }) => {
           </div>
 
           {/* this is from the uploadin the image  */}
-          <div className="flex items-center gap-5 h-20 mt-4">
+          <div className="flex items-center h-20 mt-4">
             <div className="">
               {/* <UploadImg /> */}
               <div className='scale-[60%]'>
@@ -377,9 +416,9 @@ const Onboarding = ({ step, setStep }) => {
                   // beforeUpload={beforeUpload}
                   onChange={handleFileChange}
                 >
-                  {Attachments ? (
+                  {imageUrl ? (
                     <Image
-                      src={Attachments}
+                      src={imageUrl}
                       alt="avatar"
                       width={100}
                       height={100}
@@ -393,12 +432,12 @@ const Onboarding = ({ step, setStep }) => {
 
             </div>
             <div>
-              <h2 className="border border-gray-300 p-1 pl-3">
+              {/* <h2 className="border border-gray-300 p-1 pl-3">
                 Upload Profile
-              </h2>
+              </h2> */}
               <p className="font-sm font-light">upload your profile picture</p>
             </div>
-          </div>
+          </div>  
 
           <button
             type="submit"
