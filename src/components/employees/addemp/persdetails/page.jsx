@@ -221,14 +221,16 @@ console.log("object")
           >
             {imageUrl ? (
               <Image
-                src={imageUrl}
+                src={Attachments}
                 alt="avatar"
+
                 width={100}
                 height={100}
                 style={{
                   width: "100%",
                   height:"100%"
                 }}
+
               />
             ) : (
               uploadButton

@@ -205,6 +205,8 @@ const Documents = ({ tab, setTab }) => {
     } catch (error) {
       console.log("error uploading document", error);
     }
+
+
   }
   };
 
