@@ -170,7 +170,7 @@ const Signup = () => {
               ]}
             >
               <Input.Password
-                placeholder="Password(6 digits at least, case sensitive)"
+                placeholder="Password(8 digits at least, case sensitive)"
                 style={{ fontSize: "1.1rem" }}
                 size="large"
                 required={true}
