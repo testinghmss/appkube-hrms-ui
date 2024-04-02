@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 
 const EquipmentCard = () => {
-    const details = useSelector((state) => state.Equipment);
-    const organizationDetails = details.organization
-    const workerDetails = details.worker
+    const details = useSelector((state) => state?.Equipment);
+    const organizationDetails = details?.organization
+    const workerDetails = details?.worker
 
     return (
         <div className='w-full flex overflow-x-auto'>
 
-            {organizationDetails.map((data, index) => (
+            {organizationDetails?.map((data, index) => (
                 <div key={index} className='flex flex-col justify-between  border border-gray-300 p-4 ml-5' style={{ width: '900px' }} >
                     <span className='flex gap-5 mb-4 items-center justify-between'>
                         <span className='flex items-center gap-3'>

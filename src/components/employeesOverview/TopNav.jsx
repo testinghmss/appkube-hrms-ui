@@ -10,23 +10,23 @@ const items = [
   {
     key: '1',
     label: 'Personal Information',
-    children:<PersonalInfo/>,
+    children:<PersonalInfo />,
   },
   {
     key: '2',
     label: 'Professional Information',
-    children: <ProfessionalInfo/>,
+    children: <ProfessionalInfo />,
   },
   {
     key: '3',
     label: 'Equipment Details',
-    children: <EquipmentDetails/>,
+    children: <EquipmentDetails />,
   },
   {
     key: '4',
     label: 'Document',
-    children:  <Document/>,
+    children:  <Document />,
   },
 ];
-const TopNav = () => <Tabs defaultActiveKey="1" items={items} />;
+const TopNav = ({empData}) => <Tabs defaultActiveKey="1" items={items} empData={empData}/>;
 export default TopNav;

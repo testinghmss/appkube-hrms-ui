@@ -14,27 +14,32 @@ const Page = () => {
       key: "1",
       label: "Personal Information",
       children: <Personal tab={activeTab} setTab={setActiveTab} />,
+      disabled: activeTab !== 1 && true,
     },
     {
       key: "2",
       label: "Professional Information",
       children: <Professional tab={activeTab} setTab={setActiveTab} />,
+      disabled: activeTab !== 2 && true,
     },
     {
       key: "3",
       label: "Equipment Details",
       
       children: <Equipment tab={activeTab} setTab={setActiveTab} />,
+      disabled: activeTab !== 3 && true,
     },
     {
       key: "4",
       label: "Document",
       children: <Documents tab={activeTab} setTab={setActiveTab} />,
+      disabled: activeTab !== 4 && true,
     },
     {
       key: "5",
       label: "Review",
       children: <Review tab={activeTab} setTab={setActiveTab} />,
+      disabled: activeTab !== 5 && true,
     },
   ];
   const onChange = (key) => {
@@ -65,7 +70,7 @@ const Page = () => {
         defaultActiveKey="1"
         activeKey={`${activeTab}`}
         // activeKey="1"
-        onTabClick={(key) => setActiveTab(key)}
+        onTabClick={console.log('cant move forward')}
         className="pl-3 pt-2"
         items={items}
         onChange={onChange}

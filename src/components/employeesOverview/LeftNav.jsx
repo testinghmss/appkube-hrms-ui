@@ -8,7 +8,7 @@ import Image from "next/image";
 import ProjectIcon from "@/../../public/assets/empDetails/Projects.svg";
 import AllProjects from "./AllProjects";
 
-const LeftNav = () => {
+const LeftNav = ({empData}) => {
 
   useEffect(() => {
     // Accessing location object inside useEffect
@@ -21,8 +21,8 @@ const LeftNav = () => {
   const [activeTab, setActiveTab] = useState("1");
 
   const tabContents = {
-    1: <TopNav />,
-    2: <AllProjects />,
+    1: <TopNav empData={empData}/>,
+    2: <AllProjects empData={empData}/>,
   };
 
   const changeActiveTab = (key) => {
