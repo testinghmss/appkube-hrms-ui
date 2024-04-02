@@ -1,6 +1,8 @@
 "use client";
-import { Table } from "antd";
+import { Table, Pagination, Input, Dropdown, Menu } from "antd";
 import React, { useEffect, useState } from "react";
+import { DownOutlined } from '@ant-design/icons';
+
 
 import Link from "next/link";
 import Image from "next/image";
@@ -12,18 +14,27 @@ import Person from "../../../public/assets/homeicons/EmployeesImg/Account.svg";
 import Circle from "../../../public/assets/homeicons/EmployeesImg/circle.svg";
 import { FiPlus } from "react-icons/fi";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
+
+const { Search } = Input;
+
 const Page = () => {
   const accessToken = getAccessTokenFromCookie();
+  const [currentPage, setCurrentPage] = useState(1);
   const [data , setData] = useState([])
   const [info,setInfo] = useState([])
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [searchText, setSearchText] = useState("");
+
+
+
   const columns = [
     {
       title: "Employee Name",
-      dataIndex: "name",
+      dataIndex: "employee_name",
     },
     {
       title: "Employee ID",
-      dataIndex: "empId",
+      dataIndex: "id",
       sorter: {
         compare: (a, b) => a.empId - b.empId,
         multiple: 3,
@@ -39,7 +50,7 @@ const Page = () => {
     },
     {
       title: "Designation",
-      dataIndex: "english",
+      dataIndex: "designation",
       sorter: {
         compare: (a, b) => a.english - b.english,
         multiple: 1,
@@ -47,7 +58,7 @@ const Page = () => {
     },
     {
       title: "Employee type",
-      dataIndex: "english",
+      dataIndex: "employee_type",
       sorter: {
         compare: (a, b) => a.english - b.english,
         multiple: 1,
@@ -149,14 +160,36 @@ const Page = () => {
       }
     }
     fetchData()
-  },accessToken)
+  },[accessToken])
+
+  const statusMenu = (
+    <Menu>
+      <Menu.Item key="All">All</Menu.Item>
+      <Menu.Item key="Active">Permanent</Menu.Item>
+      <Menu.Item key="Scheduled">Consultant</Menu.Item>
+    </Menu>
+  );
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleSearch = (value) => {
+    setCurrentPage(1);
+    setSearchText(value);
+  };
+
+  
+  const filteredData = data.filter((employee) =>
+  employee.employee_name.toLowerCase().includes(searchText.toLowerCase())
+);
 
   return (
     <div className="">
       {/* <header className='text-black w-full flex justify-center items-start'>
         Dashboard
        </header> */}
-      <div className="w-full  px-4 py-3 bg-[#E6F7FF] pb-5 ">
+      <div className="w-full px-4 py-3 bg-[#E6F7FF] pb-5 ">
         <h2>Dashboard</h2>
 
         <div className="flex gap-4 justify-center items-center">
@@ -187,17 +220,43 @@ const Page = () => {
       </div>
 
       <div className="flex justify-between p-4">
-        <h2>Employees</h2>
-        <Link href={"/hrms/employees/addemp"}>
+        {/* <h2>Employees</h2> */}
+      </div>
+      <div className="bg-white w-full px-8 py-4 ml-4">
+      <div className="mb-5 flex justify-between">
+      <Search
+          className="w-80 mt-4 rounded-none"
+          placeholder="Search Employee"
+          onSearch={handleSearch}
+        /> 
+        <div className="flex items-center">
+          <Dropdown overlay={statusMenu} trigger={['click']} className='mr-2 text-sm'>
+            <a onClick={(e) => e.preventDefault()}>
+              {selectedStatus || 'All'} <DownOutlined />
+            </a>
+          </Dropdown>
+          <Link href={"/hrms/employees/addemp"}>
           <button className="bg-[#1890FF] text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] flex p-4 gap-3 justify-center items-center">
              <FiPlus />
              Add New Employees
           </button>
         </Link>
-      </div>
-      <Table columns={columns} dataSource={data} onChange={onChange} />
+        </div>
+        </div>
+      <Table columns={columns} dataSource={filteredData} onChange={onChange} pagination={false} />
+<div className="flex justify-end mt-5">
+  <Pagination
+    size="large"
+    total={100}
+    current={currentPage}
+    showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+    onChange={handlePageChange}
+  />
+</div>
+    </div>
     </div>
   );
 };
 
 export default Page;
+

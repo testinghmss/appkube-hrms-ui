@@ -20,7 +20,7 @@ import { Progress, Table } from "antd";
 // =======
 // import axios from "axios";
 import FileTable from "./FileTable";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 // import { Upload } from "antd";
 import { Upload as AntUpload } from "antd"
@@ -33,7 +33,8 @@ const Documents = ({ tab, setTab }) => {
   // getting employee id from local storage
   const empId = localStorage.getItem("empId");
   // updated usestate as required for backend
-  const [req, setReq] = useState({ name: "", url: "" });
+  const [req, setReq] = useState({ fileName: "", data: "" });
+  const [docs , setDocs] = useState({name:'' ,url : ''})
   const dispatch = useDispatch();
   const [fileuploaded, setfileuploaded] = useState(false);
   const accessToken = getAccessTokenFromCookie();
@@ -49,7 +50,7 @@ const Documents = ({ tab, setTab }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64 = reader.result;
-        setReq({ name: file.name, url: base64 });
+        setReq({ fileName: file.name, data: base64 });
         setfileuploaded(true);
       };
       reader.readAsDataURL(file);
@@ -63,8 +64,7 @@ const Documents = ({ tab, setTab }) => {
     // const data = {amar:req.url}
     try {
       console.log('uploadinf file',req)
-      const response = await axios.post(
-        "/docUpload",
+      const response = await axios.post("/docUpload",
         // data,
        req,
         {
@@ -76,12 +76,16 @@ const Documents = ({ tab, setTab }) => {
 
       console.log("uploaded image response", response.data);
       // storing response link as url in usestate
-      setReq({ ...req, url: response.data.link });
+      // setReq({ ...req, url: response.data.link });
+      setDocs({name:req.fileName,url:response.data.link})
       alert("Image uploaded successfully!");
+      console.log('docs to push',docs)
       // setAttachments(response.data.link);
       // setAttachments([...Attachments, response.data.link]);
       // pushing object req with name and url of document
-      // Attachments.push(req);
+      // if(docs.name && docs.url){
+      //   Attachments.push(docs);
+      // }
       console.log("attachments", Attachments);
     } catch (error) {
       console.error("error uploading image", error);
@@ -97,6 +101,14 @@ const Documents = ({ tab, setTab }) => {
   }
   console.log(Attachments);
 
+
+  useEffect(() => {
+    // Check if both name and url are truthy
+    if (docs.name && docs.url) {
+      // Push the docs object into Attachments
+      setAttachments(prevAttachments => [...prevAttachments, docs]);
+    }
+  }, [docs]);
   const MyUploads = () => {
     return (
       // <Dragger {...props}>
@@ -187,7 +199,7 @@ const Documents = ({ tab, setTab }) => {
         <MyUploads />
       </div>
 
-      <div className="mt-10 border border-gray-400 p-4 rounded-xl">
+      {/* <div className="mt-10 border border-gray-400 p-4 rounded-xl">
         <div className="flex justify-between">
           <div className="flex gap-2">
             <div className="bg-[#E6F7FF] w-10 h-10 flex items-center justify-center rounded-full">
@@ -202,7 +214,7 @@ const Documents = ({ tab, setTab }) => {
         </div>
 
         <Progress percent={20} showInfo={true} className="ml-12 w-[96%] " />
-      </div>
+      </div> */}
 
       <p className="mt-6 font-semibold text-lg">Attach Files</p>
       <FileTable />

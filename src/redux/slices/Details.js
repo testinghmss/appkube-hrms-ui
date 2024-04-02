@@ -37,4 +37,5 @@ export const { setprofessionalDetails} = DetailSlice.actions;
 export const { setEquipmentDetails} = DetailSlice.actions;
 export const {setDocumentDetails} = DetailSlice.actions;
 
+
 export default DetailSlice.reducer;

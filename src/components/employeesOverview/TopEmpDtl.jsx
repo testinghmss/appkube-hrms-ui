@@ -1,11 +1,22 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import Image from "next/image"
 import empImg from "@/../../public/assets/empDetails/employeesOverview.svg";
 import bag from "@/../../public/assets/empDetails/OfficeBag.svg";
 import { CiMail } from "react-icons/ci";
 import { AiFillEdit } from "react-icons/ai";
+import { useEffect } from 'react';
+const TopEmpDt = ({empData}) => {
+  console.log('data of overview from props',empData)
 
-const TopEmpDtl = () => {
+  useEffect(() => {
+    // Accessing location object inside useEffect
+    if (typeof window !== 'undefined') {
+      // Access location object here
+      console.log(window.location.href);
+    }
+  }, []);
+
   return (
     <div className='h-full flex justify-between items-center p-5'>
         <div className='flex gap-6'>
@@ -23,4 +34,4 @@ const TopEmpDtl = () => {
   )
 }
 
-export default TopEmpDtl
+export default TopEmpDt

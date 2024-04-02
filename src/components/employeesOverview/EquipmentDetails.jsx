@@ -1,7 +1,8 @@
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import EquipmentCard from './EquipmentCard'
 import getAccessTokenFromCookie from '@/utils/getAccessToken';
+import { useSelector } from 'react-redux';
 
 const EquipmentDetails = () => {
   const [fetchedData , setFetchData] = useState({})

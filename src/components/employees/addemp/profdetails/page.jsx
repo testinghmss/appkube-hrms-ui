@@ -7,8 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form, Input, Button, Select, Col, Row, DatePicker, Space } from "antd";
 
 import { setprofessionalDetails } from "@/redux/slices/Details";
+
+// import { setprofessionalDetails } from "@/redux/slices/Details";
 import { useForm } from "antd/lib/form/Form";
 import axios from "@/api/axios";
+// import axios from "@/api/axios";
 
 import { useRouter } from "next/navigation";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
@@ -403,9 +406,9 @@ const ProfessionalInfo = ({ tab, setTab }) => {
                 justifyContent: "center",
                 marginLeft: "40%",
               }}
-              onClick={() => {
-                setTab(tab + 1);
-              }}
+              // onClick={() => {
+              //   setTab(tab + 1);
+              // }}
             >
               Next
             </Button>

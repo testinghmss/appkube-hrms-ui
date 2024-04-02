@@ -4,23 +4,11 @@ const EquipmentDetails = createSlice({
     name: "EquipmentDetails",
     initialState: {
         Device: {},
-        equipment: [{}
-        //     {
-        //     Owner:true,
-        //     device_type_id: '',
-        //     ManufacturerName: '',
-        //     SerialNumber: '',
-        //     Notes: '',
-        //     SupplyDate: ''
-        // }
-    ],
-
-
+        "organization": [],
+        "editdata": []
     },
-
-
-
     reducers: {
+
         AddEquipment: (state, action) => {
             console.log('dispatching payload of equipments',action.payload)
             // const {Owner,device_type_id, ManufacturerName, SerialNumber, Notes, SupplyDate ,...noting} = action.payload;
@@ -41,5 +29,5 @@ const EquipmentDetails = createSlice({
     }
 })
 
-export const { AddEquipment } = EquipmentDetails.actions;
+export const { AddEquipment, deleteequipement } = EquipmentDetails.actions;
 export default EquipmentDetails.reducer;

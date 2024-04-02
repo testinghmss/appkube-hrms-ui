@@ -1,22 +1,23 @@
-"use client";
+'use client'
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "antd";
 import { useRouter } from "next/navigation";
 import { Checkbox, DatePicker, Input, Radio, Select } from "antd";
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from "react-redux";
-import { AddEquipment } from "@/redux/slices/Equipment";
+import { AddEquipment, deleteequipement } from "@/redux/slices/Equipment";
 
 import axios from "@/api/axios";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 
 import Image from "next/image";
-import { setEquipmentDetails } from "@/redux/slices/Details";
 const { TextArea } = Input;
 
+
+
+
 const Equipments = ({ tab, setTab }) => {
-  const empId = localStorage.getItem("empId");
-  // getting employee id from local storage
   const [owner, setOwner] = useState(null);
   const [Device, setDevice] = useState("");
   const [Manufacturer, setManufacturer] = useState("");
@@ -26,77 +27,127 @@ const Equipments = ({ tab, setTab }) => {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
-  const details = useSelector((state) => state.EquipmentDetails);
   const [provideBy, setProvideBy] = useState("org");
   const accessToken = getAccessTokenFromCookie();
   const handleProvideByChange = (e) => {
-    setOwner(e.target.value);
+    setOwner(e.target.value)
     setProvideBy(e.target.value);
+    console.log(owner)
+
   };
-  console.log("details", details);
+  const details = useSelector((state) => state.Equipments);
+  const organizationDetails = details.organization
 
   const isSupplyDateVisible = () => provideBy === true;
 
   const handleDateChange = (date, dateString) => {
-    // const isoString = new Date(dateString).toISOString();
-
-    console.log("Selected Date:", dateString);
-
-    setSupplyDate(dateString);
+    console.log('Selected Date:', dateString);
+    setSupplyDate(dateString)
   };
 
-  const StoreEquipment = async () => {
-    let data =
-      //  {
-      //   "owner": details.equipment[0].Owner,
-      //   "device_type_id": details.equipment[0].device_type_id,
-      //   "manufacturer": details.equipment[0].ManufacturerName,
-      //   "serial_number": details.equipment[0].SerialNumber,
-      //   "note": details.equipment[0].Notes,
-      //   "supply_date": details.equipment[0].SupplyDate,
-      //   "emp_id": "fd7cbfe2-167c-4f7d-98ca-d4c778721d6e"
-      // }
 
-      [
-        {
-          owner: owner,
-          device_type_id: 1,
-          manufacturer: Manufacturer,
-          serial_number: SerialNumber,
-          note: Notes,
-          supply_date: supplydate,
-          emp_id: empId,
-        },
-      ];
-    // making data into format to hit api
+  // const StoreEquipment = async () => {
+  //   let data =
+  //   {
+  //     "owner": owner,
+  //     "device_type_id": 1,
+  //     "manufacturer": Manufacturer,
+  //     "serial_number": SerialNumber,
+  //     "note": Notes,
+  //     "supply_date": supplydate,
+  //     "emp_id": "fd7cbfe2-167c-4f7d-98ca-d4c778721d6e"
 
-    try {
-      console.log("stored data:", data);
-      const response = await axios.put(
-        "/employee/equipmentInfo",
-        JSON.stringify(data),
-        {
+  //   }
+  //   console.log(data)
+
+  //   try {
+  //     console.log("stored data:", data)
+  //     const response = await axios.put("/employee/equipmentInfo", JSON.stringify(data), {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     });
+  //     console.log("response", response);
+  //     console.log("response", response);
+  //     if (response.status === 200) {
+  //       console.log("response data", response.data)
+
+  //       setTab(tab + 1)
+  //     }
+  //   }
+  //   catch (error) {
+  //     console.log('error', error)
+  //   }
+  // }
+
+
+
+
+
+  const sendData = () => {
+    const data = {
+      owner: owner,
+      Device: Device,
+      Manufacturer: Manufacturer,
+      SerialNumber: SerialNumber,
+      Notes: Notes,
+      Date: supplydate
+    }
+    console.log(data)
+    dispatch(AddEquipment(data))
+
+  }
+
+  const handledelete = (id) => {
+    console.log(id)
+    dispatch(deleteequipement(id))
+  }
+  const [formState, setformstate] = useState()
+  const handleedit = (data) => {
+    setformstate(data)
+  }
+  console.log(formState)
+
+
+  const callApi = () => {
+    if (organizationDetails?.length > 0) {
+      organizationDetails.forEach(item => {
+        let formattedData = {
+          "owner": item.owner,
+          "device_type_id": 1,
+          "manufacturer": item.Manufacturer,
+          "serial_number": item.SerialNumber,
+          "note": item.Notes,
+          "supply_date": item.Date,
+          "emp_id": "6fc51d98-931a-480d-9ef1-495ae930a340"
+        };
+
+        let jsonData = JSON.stringify(formattedData);
+
+        let config = {
+          method: 'put',
+          maxBodyLength: Infinity,
+          url: 'https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/employee/equipmentInfo',
           headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
             Authorization: `Bearer ${accessToken}`,
           },
-        }
-      );
-      console.log("success response", response.data);
-      // console.log("response", response);
-      if (response.status === 200) {
-        console.log("response data to dispatch", response.data);
-        // dispatch(AddEquipment(response.data));
-        // storing the response in redux
-        dispatch(setEquipmentDetails(response.data));
-        // changing the tab
-        setTab(tab + 1);
-      }
-    } catch (error) {
-      console.log("error", error);
+          data: jsonData
+        };
+
+        axios.request(config)
+          .then((response) => {
+            console.log(JSON.stringify(response.data));
+            setTab(tab + 1)
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
     }
-  };
+
+  }
 
   return (
     <div>
@@ -129,10 +180,7 @@ const Equipments = ({ tab, setTab }) => {
             </p>
           </div>
           <div>
-            <Button
-              type="primary"
-              className="bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white  border hover:border-[#1890FF] rounded-none mt-3 p-2 "
-            >
+            <Button type="primary" className="bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white  border hover:border-[#1890FF] rounded-none mt-3 p-2 ">
               Add Equipment
             </Button>
           </div>
@@ -148,14 +196,21 @@ const Equipments = ({ tab, setTab }) => {
           marginLeft: 10,
         }}
       >
+
         <div className="flex flex-col items-center justify-center min-h-96">
-          <form className="w-8/12 mt-0">
+          <form
+            className="w-8/12 mt-0"
+
+          >
             <div className="mb-4 flex items-center">
               <label className="text-sm font-medium w-32 min-w-44">
                 Device Provide by:
               </label>
               <div className="flex ml-2 mb-2">
-                <Radio.Group onChange={handleProvideByChange} value={provideBy}>
+                <Radio.Group
+                  onChange={handleProvideByChange}
+                  value={provideBy}
+                >
                   <Radio value={true} className="font-medium">
                     Own by organization
                   </Radio>
@@ -165,6 +220,12 @@ const Equipments = ({ tab, setTab }) => {
                 </Radio.Group>
               </div>
             </div>
+
+
+
+
+
+
             <div className="mb-6 flex items-center">
               <label
                 className="text-sm font-medium w-32 min-w-44 mb-2"
@@ -178,10 +239,9 @@ const Equipments = ({ tab, setTab }) => {
                 name="devicetype"
                 type="text"
                 placeholder="Laptop"
-                // value={formState.devicetype}
+                // value={formState.Device}
                 onChange={(e) => {
-                  setDevice(e.target.value);
-                  console.log("ddeivce", Device);
+                  setDevice(e.target.value)
                 }}
               />
             </div>
@@ -244,6 +304,8 @@ const Equipments = ({ tab, setTab }) => {
                 }}
               />
             </div>
+
+
             {isSupplyDateVisible() && (
               <div className="mb-6 flex items-center">
                 <label
@@ -261,27 +323,34 @@ const Equipments = ({ tab, setTab }) => {
                 />
               </div>
             )}
+
+
             <div className="flex justify-center gap-4 mt-10 ml-32">
               <Button
                 type="dashed"
                 // onClick={handleFormSubmit}
                 className="border-dashed border border-cyan-600 text-cyan-600 h-8 w-36 text-base"
+                onClick={sendData}
               >
                 Add Items
               </Button>
-              <Button
-                type="primary"
-                className="rounded-md  h-8 w-36 text-base bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white  border hover:border-[#1890FF]"
-                onClick={() => {
-                  StoreEquipment();
-                  // setTab(tab + 1)
-                }}
-              >
-                Next
-              </Button>
+              {organizationDetails ? (
+      <Button
+        type="primary"
+        className="rounded-md h-8 w-36 text-base bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white border hover:border-[#1890FF]"
+        onClick={() => {
+          callApi();
+        }}
+      >
+        Next
+      </Button>
+    ) : (
+      <div>Loading...</div>
+    )}
             </div>
           </form>
         </div>
+
       </div>
 
       <div
@@ -293,7 +362,20 @@ const Equipments = ({ tab, setTab }) => {
           marginLeft: 10,
         }}
       >
-        <div className=" flex gap-5">
+      <div className="">
+  {organizationDetails ? (
+    organizationDetails.map((data, index) => (
+      <div className="flex flex-col gap-5 mt-5" key={index}>
+        {index === index && (
+          <div>
+            {data.owner === true ? (
+              <h1 className="text-center font-semibold text-xl">Own by Organization</h1>
+            ) : (
+              <h1 className="text-center font-semibold text-xl">Own by Worker</h1>
+            )}
+          </div>
+        )}
+        <div className="flex gap-5 mt-5">
           <div className="bg-cyan-400 h-12 w-16 rounded-full">
             <Image
               src="https://www.iconpacks.net/icons/1/free-keyboard-icon-1405-thumb.png"
@@ -308,49 +390,49 @@ const Equipments = ({ tab, setTab }) => {
               <b></b>
             </h1>
             <h4 className="text-gray-400 mt-1.5 flex" id="output1">
-              Manufacturer Name: <p className="text-black ml-1"></p>
+              Manufacturer Name: <p className="text-black ml-1">{data.Manufacturer}</p>
             </h4>
             <h4 className="text-gray-400 mt-1.5 flex" id="output2">
-              Serial number: <p className="text-black ml-1"></p>
+              Serial number: <p className="text-black ml-1">{data.SerialNumber}</p>
             </h4>
-            <h4 className="text-gray-400 mt-1.5 flex" id="output3">
-              Supply Date: <p className="text-black ml-1"></p>
-            </h4>
+            {data.owner === true && (
+              <h4 className="text-gray-400 mt-1.5 flex" id="output3">
+                Supply Date: <p className="text-black ml-1">{data.Date}</p>
+              </h4>
+            )}
             <h4 className="text-gray-400 mt-1.5 flex" id="output4">
-              Notes: <p className="text-black ml-1"></p>
+              Notes: <p className="text-black ml-1">{data.Notes}</p>
             </h4>
           </div>
+
           <div className="flex gap-4">
             <Button
               type="editbtn"
-              className="text-black rounded-none mt-3 flex h-8 w-24 hover:text-blue-600 hover:border-blue-600 border-gray-300 font-semibold text-base"
+              className="text-black rounded-none mt-3  h-8 w-24 flex items-center hover:text-blue-600 hover:border-blue-600 border-gray-300 font-semibold text-base"
+              icon={<EditOutlined />}
             >
-              <Image
-                src="https://w7.pngwing.com/pngs/613/900/png-transparent-computer-icons-editing-delete-button-miscellaneous-angle-logo.png"
-                className="h-4 w-4 mt-1 ml-2"
-                alt="Edit Icon"
-                width={100}
-                height={100}
-              />
-              <p className="ml-1"> Edit</p>
+              Edit
             </Button>
 
             <Button
-              type="dltbtn"
-              className="text-white rounded-none mt-3 bg-red-500 hover:text- hover:border-red-600 border-gray-300 font-semibold text- flex h-8 w-24 justify-center"
+              type="danger"
+              className="text-white rounded-none mt-3 flex items-center bg-red-500 hover:text- hover:border-red-600 border-gray-300 font-semibold h-8 w-24 "
+              onClick={() => handledelete(data.SerialNumber)}
+              style={{ background: "rgb(245, 0, 0)", color: "white" }}
+              icon={<DeleteOutlined />}
             >
-              <Image
-                src="https://cdn-icons-png.flaticon.com/512/3687/3687412.png"
-                className="h-6 w-6 bg-transparent hover:text-cyan-600"
-                alt="Delete Icon"
-                width={100}
-                height={100}
-              />
-              <p className="ml-1"> Delete</p>
+              Delete
             </Button>
           </div>
         </div>
       </div>
+    ))
+  ) : (
+    <div>Loading...</div>
+  )}
+</div>
+
+      </div> 
     </div>
   );
 };
