@@ -17,6 +17,7 @@ import axios from 'axios'
 import CountryComponent from "@/components/location/Countrys";
 import StateComponent from "@/components/location/States";
 import CityComponent from "@/components/location/city";
+import Image from "next/image";
 
 const beforeUpload = (file) => {
   const isPng = file.type === "image/png";
@@ -273,13 +274,12 @@ const handleAddItemButtonClick = async () => {
             onChange={handleChange}
           >
             {imageUrl ? (
-              <img
-                src={imageUrl}
+              <Image
+                src={Attachments}
                 alt="avatar"
-                style={{
-                  width: "100%",
-                  height:"100%"
-                }}
+                width={'100%'}
+                height={'100%'}
+                
               />
             ) : (
               uploadButton

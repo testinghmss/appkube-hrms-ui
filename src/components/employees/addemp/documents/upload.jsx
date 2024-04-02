@@ -1,14 +1,31 @@
 "use client"
 import React from 'react';
 import { useState } from 'react';
-// import { InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Image from 'next/image';
 
 import { Upload } from "antd";
 
-import { InboxOutlined } from '@ant-design/icons';
+// import { InboxOutline  d } from '@ant-design/icons';
 const { Dragger } = Upload;
+
+
+
+
+
+
+
+
+// const UploadFile = () => {
+// // import { InboxOutlined } from '@ant-design/icons';
+// import axios from 'axios';
+// import Image from 'next/image';
+
+// import { Upload } from "antd";
+
+// import { InboxOutlined } from '@ant-design/icons';
+// const { Dragger } = Upload;
 
 const UploadFiles = () => {
 
@@ -18,9 +35,14 @@ const UploadFiles = () => {
   );
 
 
+<<<<<<< HEAD
   // const [req, setReq] = useState(
   //   { fileName: '', data: '' }
   // );
+=======
+
+  
+>>>>>>> ccb4f446e019a712fc7fa22e15197351cb13a8dc
 
   const [fileuploaded, setfileuploaded] = useState(false)
 
@@ -107,10 +129,13 @@ const UploadFiles = () => {
           banned files.
         </p>
       </Dragger>
-      <div>{Attachments.map((e) => { return <Image src={e} alt="Uploaded images" height={50} width={50} /> })}</div>
+      <div>{Attachments.map((e, index) => { return <Image  key={index} src={e} alt="Uploaded images" height={50} width={50} /> })}</div>
 
     </>
   );
 
-}
+  }
+
+// export default UploadFile;
 export default UploadFiles;
+

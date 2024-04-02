@@ -1,13 +1,22 @@
 "use client";
 
 import React from "react";
-import { Button } from "antd";
+import { useEffect } from "react";
+// import { Button } from "antd";
 import { BsPersonAdd } from "react-icons/bs";
 import { RiContractRightFill } from "react-icons/ri";
-import Link from "next/link";
+// import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const Onboardemp = () => {
+const Onboarding = () => {
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Access location object here
+      console.log(window.location.href);
+    }
+  }, []);
+
   const router = useRouter();
   return (
     <div className=" !w-full min-h-full h-dvh relative flex flex-col justify-center items-center gap-3 bg-gray-100 border ">
@@ -60,4 +69,4 @@ const Onboardemp = () => {
   );
 };
 
-export default Onboardemp;
+export default Onboarding;

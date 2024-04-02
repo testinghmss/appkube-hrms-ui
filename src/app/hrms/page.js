@@ -17,7 +17,7 @@ import getAccessTokenFromCookie from "@/utils/getAccessToken";
 
 const { Search } = Input;
 
-const page = () => {
+const Page = () => {
   const accessToken = getAccessTokenFromCookie();
   const [currentPage, setCurrentPage] = useState(1);
   const [data , setData] = useState([])
@@ -160,7 +160,7 @@ const page = () => {
       }
     }
     fetchData()
-  },[])
+  },[accessToken])
 
   const statusMenu = (
     <Menu>
@@ -258,4 +258,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

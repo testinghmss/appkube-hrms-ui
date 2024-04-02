@@ -1,7 +1,7 @@
 "use client";
 
 // ProfessionalForm.js
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Form, Input, Button, Select, Col, Row, DatePicker, Space } from "antd";
@@ -24,20 +24,24 @@ import {
 const numberRegex = /^[0-9]{5,}$/; // Ensure at least 5 digits
 
 const ProfessionalInfo = ({ tab, setTab }) => {
+
+  const selectedDate = useSelector((state) => state.selectedDate);
   const [designationOptions, setDesignationOptions] = useState([]);
   const [selectedDesignations, setSelectedDesignations] = useState("");
   const [departmentData, setDepartmentData] = useState([]);
   const [selectedDepartments, setSelectedDepartments] = useState("");
 
+ 
   const handleSelectChange = (value) => {
+    console.log(value)
     dispatch(setDropdownOption(value));
     setSelectedDepartments(value)
-    
   };
   const handlework = (value) => {
     dispatch(setDropdownOptionwork(value));
   };
   const handleDesig = (value) => {
+    console.log("value",value)
     dispatch(setDropdownOptionDesig(value));
     setSelectedDesignations(value);
   };
@@ -45,7 +49,6 @@ const ProfessionalInfo = ({ tab, setTab }) => {
     dispatch(setDropdownOptionReport(value));
   };
   const handleDateChange = (date, dateString) => {
-    // Dispatch the action to update the selectedDate in the Redux store
     dispatch(setSelectedDate(dateString));
   };
   const dispatch = useDispatch();
@@ -66,8 +69,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   const prof1 = ["option1", "option2", "option3"];
   const prof = ["option1", "option2", "option3"];
 
-
-   const accessToken = getAccessTokenFromCookie();
+  const accessToken = getAccessTokenFromCookie();
 
   const putting = async (values) => {
     let data = {
@@ -86,11 +88,11 @@ const ProfessionalInfo = ({ tab, setTab }) => {
 
     try {
       console.log("stored data", data);
-      const response = await axios.put("/employee/professionalInfo", data,{
-    headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
-  });
+      const response = await axios.put("/employee/professionalInfo", data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       console.log("success", response);
     } catch (error) {
       console.log("error", error);
@@ -105,7 +107,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   const selectedworkLocation = useSelector(
     (state) => state.selectedworkLocation
   );
-  const selectedDate = useSelector((state) => state.selectedDate);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -198,7 +200,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
                 ) => (
                   <Select.Option
                     key={option.id} // Assuming each option has a unique id
-                    value={option.designation} // Use the designation property as the option value
+                    value={option.id} // Use the designation property as the option value
                     className="rounded-none"
                   >
                     {option.designation} {/* Render the designation property */}
