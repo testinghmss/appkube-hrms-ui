@@ -16,6 +16,10 @@ const Page = () => {
   const inputRefs = useRef([]);
   const dispatch = useDispatch();
   const reset = useSelector((state) => state.resetPassword);
+
+  useEffect(() => {
+    inputRefs.current[0].current.focus();
+  }, []);
   
 
   // useEffect(() => {
