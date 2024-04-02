@@ -111,14 +111,14 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
             />
           </div>
           <div className="flex flex-col gap-4">
-            <div className="flex  justify-start gap-40 border-b  border-gray-200 w-full">
-              <span className="  flex flex-col  ">
+            <div className="flex  justify-between border-b  border-gray-200 ">
+              <span className="  flex flex-col w-[50%]  ">
                 <span className="text-gray-400 text-xs">
                   Legal Company Name
                 </span>
                 <span className="text-xs">{companyData.name}</span>
               </span>
-              <span className="flex flex-col  pl-4">
+              <span className="flex flex-col w-[50%]  pl-4">
                 <span className="text-gray-400 text-xs">
                   Company Email Address
                 </span>
@@ -127,8 +127,8 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
             </div>
             <div className="flex flex-col   border-b border-gray-200 w-full">
               <span className="text-gray-400 text-xs">Phone Number</span>
-              <span className="text-xs">91+{companyData.number}</span>
-            </div>
+              <span className="text-xs">+91 {companyData.number}</span>
+            </div> 
             <div className="flex flex-col   border-b border-gray-200 w-full">
               <span className="text-gray-400 text-xs">Address Line 1</span>
               <span className="text-xs">{companyData.address_line_1}</span>

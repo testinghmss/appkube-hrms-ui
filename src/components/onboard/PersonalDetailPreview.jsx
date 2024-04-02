@@ -13,6 +13,7 @@ import { removeAccessToken } from "@/utils/getAccessToken";
 
 
 import {  Progress } from "antd";
+import moment from "moment";
 const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
   
   const personalData = useSelector((state) => state.Onboardingpersdetails.personalData);
@@ -47,6 +48,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
     // console.log(combinedData);
   };
   
+  const datetoshow = moment(personalData.dob).format('DD/MM/YYYY');
   // console.log(personalData.name);
   
   return (
@@ -89,7 +91,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
             <span className="text-[#4F7396] text-sm -mb-2 ">step 3 of 3</span>
           </div>
           <h2 className="text-xl font-bold -mb-3">Preview</h2>
-          <div className="flex gap-8 -mb-2">
+          <div className="flex gap-8 ">
             <div className=" border-b-2 border-[#1890FF] text-[#1890FF] font-medium cursor-pointer hover:scale-105 transition-all">
               Personal Details
             </div>
@@ -103,30 +105,30 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
             </div>
           </div>
         </div>
-        <div className="self-start rounded-md w-full p-2 h-full flex flex-col gap-5">
+        <div className="self-start rounded-md w-full p-2 h-full flex flex-col gap-10">
           <Image src={personalData.image || Profile} width={100} height={100} alt="profile"/>
           <div className="flex flex-col gap-2">
             <div className="flex  justify-start gap-40 border-b-2 -mt-2  border-gray-200 w-full">
-              <span className="  flex flex-col gap-1 ">
+              <span className="  flex flex-col gap-1 text-sm">
                 <span className="text-gray-400 ">First Name</span>
                 <span>{personalData.first_name}</span>
               </span>
-              <span className="flex flex-col gap-1 pl-4">
+              <span className="flex flex-col gap-1 pl-4 text-sm">
                 <span className="text-gray-400 ">Last Name</span>
                 <span>{personalData.last_name}</span>
               </span>
             </div>
-            <div className="flex flex-col gap-1  border-b-2 border-gray-200 w-full">
+            <div className="flex flex-col gap-1  border-b-2 border-gray-200 w-full text-sm">
               <span className="text-gray-400 ">Gender</span>
               <span>{personalData.gender}</span>
             </div>
-            <div className="flex flex-col gap-1  border-b-2 border-gray-200 w-full">
+            <div className="flex flex-col gap-1  border-b-2 border-gray-200 w-full text-sm">
               <span className="text-gray-400 ">Phone Number</span>
-              <span>91+{personalData.number}</span>
+              <span>+91 {personalData.number}</span>
             </div>
-            <div className="flex flex-col gap-1  border-b-2 border-gray-200 w-full">
+            <div className="flex flex-col gap-1  border-b-2 border-gray-200 w-full text-sm">
               <span className="text-gray-400 "> Date of Birth</span>
-              <span>{personalData.dob}</span>
+              <span>{datetoshow}</span>
             </div>
           </div>
         </div>
