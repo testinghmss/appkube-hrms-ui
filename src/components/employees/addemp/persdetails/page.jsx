@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { setId, setpersonalDetails } from "@/redux/slices/Details";
+import { setId, setTabs, setpersonalDetails } from "@/redux/slices/Details";
 // import { Provider } from "react-redux";
 // import { store } from "@/redux/store/store";
 import { Form, Input, Row, Col, Select, Radio, Upload, DatePicker } from "antd";
@@ -17,7 +17,6 @@ import axios from 'axios'
 import CountryComponent from "@/components/location/Countrys";
 import StateComponent from "@/components/location/States";
 import CityComponent from "@/components/location/city";
-import Image from "next/image";
 
 const beforeUpload = (file) => {
   const isPng = file.type === "image/png";
@@ -156,7 +155,7 @@ const handleAddItemButtonClick = async () => {
       city: formData.city,
       zipcode: formData.zipcode,
       emp_type: 1,
-      image: Attachments,
+      image: JSON.stringify(Attachments),
     }
     try {
       console.log("data", data.emp_type);
@@ -197,7 +196,7 @@ const handleAddItemButtonClick = async () => {
       city: formData.city,
       zipcode: formData.zipcode,
       emp_type: 1,
-      image: Attachments,
+      image: JSON.stringify(Attachments),
     }
 
     try {
@@ -214,9 +213,9 @@ const handleAddItemButtonClick = async () => {
       if (response.status === 200) {
         console.log("response data", response.data)
         dispatch(setpersonalDetails(response.data));
-
         setTab(tab + 1)
         setPersonalInfoFilled(true);
+        dispatch(setTabs(false))
       }
     } catch (error) {
       console.log("error", error);
@@ -274,12 +273,13 @@ const handleAddItemButtonClick = async () => {
             onChange={handleChange}
           >
             {imageUrl ? (
-              <Image
-                src={Attachments}
+              <img
+                src={imageUrl}
                 alt="avatar"
-                width={'100%'}
-                height={'100%'}
-                
+                style={{
+                  width: "100%",
+                  height:"100%"
+                }}
               />
             ) : (
               uploadButton

@@ -8,6 +8,8 @@ const PersonalInfo = () => {
   const accessToken = getAccessTokenFromCookie();
   const [fetchedData, setFetchData] = useState({});
   const id = useSelector((state) => state.Details.id) 
+  const idTabs = useSelector((state) => state.Details.tab) 
+
 
   // const [data, setData] = useState({})
   // setData(useSelector(state => state.DetailSlice.personalDetails))
@@ -21,7 +23,7 @@ const PersonalInfo = () => {
       
       // setEmpId(id)
       try {
-        console.log("employee id from local storage", id);
+        console.log("employee id ", id);
         // fetching data by employee id in case of data not found in redux
         const config = {
           headers: {
@@ -44,7 +46,7 @@ const PersonalInfo = () => {
       };
       
       fetchData();
-  }, [accessToken]);
+  }, [accessToken, idTabs]);
 
   // getting data from redux using useselector
 

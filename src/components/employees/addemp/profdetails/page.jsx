@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import axios from "@/api/axios";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 
+
 import {
   updateProfessionalDetails,
   selectProfessionalDetails,
@@ -24,7 +25,7 @@ import {
 const numberRegex = /^[0-9]{5,}$/; // Ensure at least 5 digits
 
 const ProfessionalInfo = ({ tab, setTab }) => {
-
+  const id = useSelector((state) => state.Details.id)
   const selectedDate = useSelector((state) => state.selectedDate);
   const [designationOptions, setDesignationOptions] = useState([]);
   const [selectedDesignations, setSelectedDesignations] = useState("");
@@ -42,7 +43,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   };
   const handleDesig = (value) => {
     console.log("value",value)
-    dispatch(setDropdownOptionDesig(value));
+    dispatch(setDropdownOptionDesig( value));
     setSelectedDesignations(value);
   };
   const handlReportk = (value) => {
@@ -53,6 +54,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   };
   const dispatch = useDispatch();
   const professionalDetails = useSelector(selectProfessionalDetails);
+  console.log(professionalDetails)
   const [form] = useForm();
 
   const handleChange = (name, value) => {
@@ -61,7 +63,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   };
 
   const handleSubmit = () => {
-    dispatch(updateProfessionalDetails(professionalDetails));
+    
     console.log(professionalDetails);
     putting(professionalDetails);
   };
@@ -74,26 +76,27 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   const putting = async (values) => {
     let data = {
       // designation_id: values.selectedDesignation,
-      designation_id: 4,
+      designation_id: values.selectedDesignation,
       pf: values.pfNumber,
       uan: values.uanNumber,
-      // department_id: values.selectedDepartment,
       department_id: 5,
       // reporting_manager_id: values.selectedReportingMngr,
       reporting_manager_id: "61a6b732-1597-444a-afcc-10eeafbacc63",
       work_location: values.selectedworkLocation,
       start_date: values.selectedDate,
-      emp_id: values.employeeId,
+      emp_id: id,
     };
+    console.log(data)
 
     try {
-      console.log("stored data", data);
+      console.log("stored data", JSON.stringify(data));
       const response = await axios.put("/employee/professionalInfo", data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
       console.log("success", response);
+      setTab(tab + 1)
     } catch (error) {
       console.log("error", error);
     }
@@ -122,6 +125,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
           }
         );
         setDesignationOptions(response.data); // Set fetched data to state
+       
       } catch (error) {
         console.error("Error fetching designation data:", error);
       }
@@ -200,8 +204,9 @@ const ProfessionalInfo = ({ tab, setTab }) => {
                 ) => (
                   <Select.Option
                     key={option.id} // Assuming each option has a unique id
-                    value={option.id} // Use the designation property as the option value
+                    value={option.id } // Use the designation property as the option value
                     className="rounded-none"
+                    
                   >
                     {option.designation} {/* Render the designation property */}
                   </Select.Option>
@@ -412,7 +417,8 @@ const ProfessionalInfo = ({ tab, setTab }) => {
                 marginLeft: "40%",
               }}
               onClick={() => {
-                setTab(tab + 1);
+                dispatch(updateProfessionalDetails(professionalDetails));
+                putting(professionalDetails)
               }}
             >
               Next

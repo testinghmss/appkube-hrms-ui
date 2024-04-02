@@ -16,6 +16,8 @@ const { TextArea } = Input;
 
 const Equipments = ({ tab, setTab }) => {
   const [owner, setOwner] = useState(null);
+  const Emp_Id = useSelector((state) => state.Details.id)
+
   const [Device, setDevice] = useState("");
   const [Manufacturer, setManufacturer] = useState("");
   const [SerialNumber, setSerialNumber] = useState("");
@@ -112,7 +114,7 @@ const Equipments = ({ tab, setTab }) => {
           serial_number: item.SerialNumber,
           note: item.Notes,
           supply_date: item.Date,
-          emp_id: "6fc51d98-931a-480d-9ef1-495ae930a340",
+          emp_id: Emp_Id,
         };
 
         let jsonData = JSON.stringify(formattedData);
