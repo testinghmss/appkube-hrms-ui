@@ -1,16 +1,13 @@
-"use client"
+"use client";
 import React, { useState, useRef } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { setpersonalDetails } from "@/redux/slices/Details";
 // import { Provider } from "react-redux";
 // import { store } from "@/redux/store/store";
 import { Form, Input, Row, Col, Select, Radio, Upload, DatePicker } from "antd";
 const { Option } = Select;
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
-import {
-  LoadingOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import Mainaxios from "@/api/axios";
 import axios from 'axios'
@@ -18,7 +15,6 @@ import CountryComponent from "@/components/location/Countrys";
 import StateComponent from "@/components/location/States";
 import CityComponent from "@/components/location/city";
 import Image from "next/image";
-
 const beforeUpload = (file) => {
   const isPng = file.type === "image/png";
   if (!isPng) {
@@ -33,15 +29,13 @@ const beforeUpload = (file) => {
 const PersonalInformation = ({ tab, setTab }) => {
   const accessToken = getAccessTokenFromCookie();
   const persDetails = useSelector((state) => state.Details); 
+  const router = useRouter();
+  const [req, setReq] = useState({ fileName: "", data: "" });
+  const [fileuploaded, setfileuploaded] = useState(false);
+  const [Attachments, setAttachments] = useState("");
+  const dispatch = useDispatch();
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setselectedState] = useState();
-  const router = useRouter();
-  const [req, setReq] = useState(
-    { fileName: '', data: '' }
-  );
-  const [fileuploaded, setfileuploaded] = useState(false)
-  const [Attachments, setAttachments] = useState('')
-  const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     console.log("form data", formData);
@@ -59,9 +53,7 @@ const PersonalInformation = ({ tab, setTab }) => {
     console.log(name, dateValue, "change");
   };
 
-
   const [formData, setFormData] = useState({
-    id: "",
     email: "",
     work_email: "",
     first_name: "",
@@ -70,7 +62,7 @@ const PersonalInformation = ({ tab, setTab }) => {
     dob: "",
     emergency_number: "",
     highest_qualification: "",
-    image: null,
+    image: "",
     landmark: "",
     country: "",
     state: "",
@@ -80,27 +72,26 @@ const PersonalInformation = ({ tab, setTab }) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
 
-
-  const handleChange =(info) => {
+  const handleChange = (info) => {
     // if (info.file.status === "uploading") {
-    //   console.log(info, 'info')
-      setLoading(true);
-    //   return;
+      // console.log(info, 'info')
+    // setLoading(true);
+      // return;
     // }
     // if (info.file.status === "done") {
-      const file = info.file.originFileObj;
-      if (file) {
-        setLoading(false)
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64 = reader.result;
-          setReq({ fileName: file.name, data: base64 });
-          setfileuploaded(true)
-          setImageUrl(base64)
-
-        };
-        reader.readAsDataURL(file);
-      }
+    const file = info.file.originFileObj;
+    if (file) {
+      setLoading(false);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result;
+        setReq({ fileName: file.name, data: base64 });
+        setfileuploaded(true);
+        setImageUrl(base64);
+        setFormData({ ...formData, image: Attachments });
+      };
+      reader.readAsDataURL(file);
+    }
     // }
   };
   const uploadButton = (
@@ -125,6 +116,7 @@ console.log("object")
   const handleAddItemButtonClick = async () => {
     console.log(formData, "hitting api");
     console.log("imagr", imageUrl);
+    // making data into format to hit api
     const data = {
       first_name: formData.first_name,
       last_name: formData.last_name,
@@ -144,7 +136,7 @@ console.log("object")
       zipcode: formData.zipcode,
       emp_type: 1,
       image: Attachments,
-    }
+    };
     try {
       console.log("data", data);
       console.log("assTo",accessToken)
@@ -159,7 +151,26 @@ console.log("object")
         localStorage.setItem('empId', response.data.id)
         console.log("response data", response.data)
         dispatch(setpersonalDetails(response.data));
-       
+        // getting employee id from local storage
+
+        const id = localStorage.getItem("empId");
+        //  checking tthe existance of employee id
+        if (id) {
+          console.log("previouse id of local storage present", id);
+          // if id is existing then we will remote it from local storage
+          localStorage.removeItem("empId");
+          console.log(
+            "id deleted from local storage",
+            localStorage.getItem("empId")
+          );
+          // seting new empid for its information update
+          localStorage.setItem("empId", response.data.id);
+          console.log("new id", localStorage.getItem("empId"));
+        } else {
+          localStorage.setItem("empId", response.data.id);
+        }
+        // changing tab
+        setTab(tab + 1);
       }
 
       const id = localStorage.getItem("empId");
@@ -188,41 +199,33 @@ console.log("object")
     }
   };
   const uploadFile = async () => {
-
-    console.log('uploading')
+    console.log("uploading");
 
     try {
+      const response = await axios.post(
+        "https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/docUpload",
 
-      const response = await axios.post('https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/docUpload',
-
-        req, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-
+        req,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
 
-      console.log(response.data);
-      alert('Image uploaded successfully!');
-      setAttachments(response.data.link)
-
-    }
-
-    catch (error) {
+      console.log("image uploaded", response.data);
+      alert("Image uploaded successfully!");
+      setAttachments(response.data.link);
+    } catch (error) {
       console.error(error);
-      console.log(error)
-      alert('Error uploading image. Please try again.');
+      console.log(error);
+      alert("Error uploading image. Please try again.");
     }
-
-
-  }
-  console.log(req)
+  };
+  console.log(req);
   if (fileuploaded) {
-    setfileuploaded(true)
-    uploadFile(),
-      setfileuploaded(false)
-
+    setfileuploaded(true);
+    uploadFile(), setfileuploaded(false);
   }
   return (
   
@@ -241,9 +244,14 @@ console.log("object")
               <Image
                 src={Attachments}
                 alt="avatar"
-                width={'100%'}
-                height={'100%'}
-                
+
+                width={100}
+                height={100}
+                style={{
+                  width: "100%",
+                  height:"100%"
+                }}
+
               />
             ) : (
               uploadButton
@@ -251,103 +259,108 @@ console.log("object")
           </Upload>
         </div>
 
-        {/* Form */}
-        <Form
-          requiredMark={false}
-          name="basic"
-          labelCol={{
-            span: 6,
-          }}
-          labelWrap
-          initialValues={persDetails}
-          style={{ text: "start" }}
-          labelAlign="left"
-          className="w-[70%] text-start"
-          autoComplete="off"
-
-
-        >
-
-          <Row gutter={20}>
-            <Col md={{ span: 12 }} xs={{ span: 24 }}>
-              <Form.Item
-                label="First Name"
-                name="first_name"
-                onChange={handleInputChange}
-                rules={[
-                  {
-                    pattern: /^[A-Za-z]+$/,
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input className="rounded-none" placeholder="First Name" name="first_name" />
-              </Form.Item>
-            </Col>
-            <Col md={{ span: 12 }} xs={{ span: 24 }} >
-              <Form.Item
-                label="Last Name"
-                name="last_name"
-                onChange={handleInputChange}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Last Name!",
-                  },
-                ]}
-              >
-                <Input className="rounded-none" placeholder="Last Name" name="last_name" />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Col span="3xl">
+      {/* Form */}
+      <Form
+        requiredMark={false}
+        name="basic"
+        labelCol={{
+          span: 6,
+        }}
+        labelWrap
+        initialValues={persDetails}
+        style={{ text: "start" }}
+        labelAlign="left"
+        className="w-[70%] text-start"
+        autoComplete="off"
+      >
+        <Row gutter={20}>
+          <Col md={{ span: 12 }} xs={{ span: 24 }}>
             <Form.Item
-              label="Email Address"
-              name="email"
+              label="First Name"
+              name="first_name"
               onChange={handleInputChange}
-              labelCol={{
-                span: 3,
-              }}
+              rules={[
+                {
+                  pattern: /^[A-Za-z]+$/,
+                  required: true,
+                  message: "Please input your username!",
+                },
+              ]}
+            >
+              <Input
+                className="rounded-none"
+                placeholder="First Name"
+                name="first_name"
+              />
+            </Form.Item>
+          </Col>
+          <Col md={{ span: 12 }} xs={{ span: 24 }}>
+            <Form.Item
+              label="Last Name"
+              name="last_name"
+              onChange={handleInputChange}
               rules={[
                 {
                   required: true,
-                  pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "Please input your Work Email Address!",
+                  message: "Please input your Last Name!",
                 },
               ]}
             >
               <Input
                 className="rounded-none"
-                placeholder="Enter Your Email Address"
-                name="email"
+                placeholder="Last Name"
+                name="last_name"
               />
             </Form.Item>
           </Col>
-          <Col span="3xl">
-            <Form.Item
-              label="Work Email :
+        </Row>
+        <Col span="3xl">
+          <Form.Item
+            label="Email Address"
+            name="email"
+            onChange={handleInputChange}
+            labelCol={{
+              span: 3,
+            }}
+            rules={[
+              {
+                required: true,
+                pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Please input your Work Email Address!",
+              },
+            ]}
+          >
+            <Input
+              className="rounded-none"
+              placeholder="Enter Your Email Address"
+              name="email"
+            />
+          </Form.Item>
+        </Col>
+        <Col span="3xl">
+          <Form.Item
+            label="Work Email :
               (Optional)"
-              onChange={handleInputChange}
-              labelCol={{
-                span: 3,
-              }}
+            onChange={handleInputChange}
+            labelCol={{
+              span: 3,
+            }}
+            name="work_email"
+            colon={false}
+            rules={[
+              {
+                pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Please input your Work Email Address!",
+              },
+            ]}
+          >
+            <Input
+              className="rounded-none"
+              placeholder="Enter Your Work Email Address"
               name="work_email"
-              colon={false}
-              rules={[
-                {
-                  pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "Please input your Work Email Address!",
-                },
-              ]}
-            >
-              <Input
-                className="rounded-none"
-                placeholder="Enter Your Work Email Address"
-                name="work_email"
-              />
-            </Form.Item>
-          </Col>
+            />
+          </Form.Item>
+        </Col>
 
           <div className="">
             <Row>
@@ -570,29 +583,35 @@ console.log("object")
             </Col>
           </Row>
 
-          <Col md={{ span: 12 }} xs={{ span: 24 }}>
-            <Form.Item
-              label="Zip Code"
+        <Col md={{ span: 12 }} xs={{ span: 24 }}>
+          <Form.Item
+            label="Zip Code"
+            name="zipcode"
+            onChange={handleInputChange}
+            rules={[
+              {
+                required: true,
+                message: "Please input your Zip code!",
+              },
+            ]}
+          >
+            <Input
+              className="rounded-none"
               name="zipcode"
-              onChange={handleInputChange}
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Zip code!",
-                },
-              ]}
-            >
-              <Input className="rounded-none" name="zipcode" placeholder="Enter Your Zip Code" />
-            </Form.Item>
-          </Col>
-          <div className="w-full flex justify-center h-[40px]">
-            <button className="bg-[#1890ff] w-[418px] text-white h-full rounded-none" onClick={handleAddItemButtonClick}>
-              Next
-            </button>
-          </div>
-        </Form>
-      </div>
-   
+              placeholder="Enter Your Zip Code"
+            />
+          </Form.Item>
+        </Col>
+        <div className="w-full flex justify-center h-[40px]">
+          <button
+            className="bg-[#1890ff] w-[418px] text-white h-full rounded-none"
+            onClick={handleAddItemButtonClick}
+          >
+            Next
+          </button>
+        </div>
+      </Form>
+    </div>
   );
 };
 export default PersonalInformation;

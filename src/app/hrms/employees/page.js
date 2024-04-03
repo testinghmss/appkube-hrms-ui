@@ -44,6 +44,7 @@ const Page = () => {
     };
     fetchData();
   }, [accessToken]);
+  // }, accessToken);
 
   const filteredEmployees = employees.filter((employee) =>
     employee.employee_name.toLowerCase().includes(searchText.toLowerCase())

@@ -1,12 +1,13 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import Image from "next/image"
 import empImg from "@/../../public/assets/empDetails/employeesOverview.svg";
 import bag from "@/../../public/assets/empDetails/OfficeBag.svg";
 import { CiMail } from "react-icons/ci";
 import { AiFillEdit } from "react-icons/ai";
 import { useEffect } from 'react';
-const TopEmpDt = () => {
+const TopEmpDt = ({empData}) => {
+  console.log('data of overview from props',empData)
 
   useEffect(() => {
     // Accessing location object inside useEffect

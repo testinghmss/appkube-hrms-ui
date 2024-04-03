@@ -1,3 +1,4 @@
+'use client'
 import DocumentCard from "@/components/employeesOverview/DocumentCard";
 import EquipmentCard from "@/components/employeesOverview/EquipmentCard";
 import EquipmentDetails from "@/components/employeesOverview/EquipmentDetails";

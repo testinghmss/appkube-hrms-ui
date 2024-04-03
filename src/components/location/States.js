@@ -39,7 +39,7 @@ const StateComponent = ({ countryCode,value,onChange }) => {
   };
 
   return (
-    <Select placeholder="Select the state" value={selectedstate} onChange={
+    <Select showSearch placeholder="Select the state" className='w-[45%]' value={selectedstate} onChange={
       handleStateChange
       // ,console.log("it is the call back",value);
      }>

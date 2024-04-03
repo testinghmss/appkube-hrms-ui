@@ -47,7 +47,7 @@ const Signup = () => {
         console.log(response.message);
         if (response.status == 200) {
           dispatch(setEmail(emails));
-          router.push("/signup/confirm-mail");
+          router.push("/signup/confirm-mail", { email: emails });
         } else {
           setValid(false);
           console.log(response);
@@ -56,12 +56,15 @@ const Signup = () => {
         // console.log("error", error.response.data.message);
         console.log(error);
         console.log(emails);
-        router.push("/signup/confirm-mail", { email: emails });
 
         dispatch(setEmail(emails));
 
         console.log(error.response.data.message);
-        setErrMessage(error.response.data.message);
+        if (error.response.data.message == "invalid request body") {
+          setErrMessage("Enter a valid Email and Password");
+        } else {
+          setErrMessage(error.response.data.message);
+        }
         setValid(false);
       }
     } else {
@@ -167,7 +170,7 @@ const Signup = () => {
               ]}
             >
               <Input.Password
-                placeholder="Password(6 digits at least, case sensitive)"
+                placeholder="Password(8 digits at least, case sensitive)"
                 style={{ fontSize: "1.1rem" }}
                 size="large"
                 required={true}
@@ -209,6 +212,12 @@ const Signup = () => {
               />
             </Form.Item>
             {/* <Link href="/signup/confirm-mail"> */}
+            {errMessage && (
+              <p className=" text-red-500 mt-4 mb-2 text-[14px]">
+                {errMessage}
+              </p>
+            )}
+
             <button
               className="w-full "
               // type="primary"
@@ -235,7 +244,6 @@ const Signup = () => {
             {/* </Link> */}
           </Form>
           <br />
-          {errMessage && <p className="-mt-5 text-red-500">{errMessage}</p>}
           <span className="">
             Have an account ?{" "}
             <Link href="/login" className="text-[#1890FF]">
