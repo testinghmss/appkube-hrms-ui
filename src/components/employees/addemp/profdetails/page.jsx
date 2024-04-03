@@ -17,7 +17,8 @@ import getAccessTokenFromCookie from "@/utils/getAccessToken";
 const numberRegex = /^[0-9]{5,}$/; // Ensure at least 5 digits
 
 const ProfessionalInfo = ({ tab, setTab }) => {
-  const empId = localStorage.getItem('empId');
+  const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
+
   console.log('id from localstorage',empId)
     const dispatch = useDispatch();
     const accessToken = getAccessTokenFromCookie();

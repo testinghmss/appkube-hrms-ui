@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import axios from '@/api/axios'
-import { useEffect,useState } from 'react';
 const ProfessionalInfo = () => {
   const [empdata, setempdata] = useState({})
  console.log(empdata,'this is empdata')
