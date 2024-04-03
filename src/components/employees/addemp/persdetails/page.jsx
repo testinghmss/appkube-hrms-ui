@@ -174,7 +174,7 @@ console.log("object")
       }
     } catch (error) {
       console.log("error", error);
-      setTab(tab + 1)
+      // setTab(tab + 1)
     }
   };
   const uploadFile = async () => {

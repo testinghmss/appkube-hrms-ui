@@ -2,10 +2,10 @@
 import LeftNav from '@/components/employeesOverview/LeftNav'
 import TopEmpDt from '@/components/employeesOverview/TopEmpDtl'
 import getAccessTokenFromCookie from '@/utils/getAccessToken'
-import { useSearchParams } from 'next/navigation'
+// import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import axios from "@/api/axios"
-import { loadBindings } from 'next/dist/build/swc'
+// import { loadBindings } from 'next/dist/build/swc'
 const Page = () => {
   // const [searchParams, setSearchParams] = useState(null);
   // const searchParams = useSearchParams();
@@ -52,7 +52,7 @@ const Page = () => {
   console.log('fetched data by id for overview ',fetchedData)
   // setData(reduxData)
   // const data = reduxData.length > 0 ? reduxData : fetchedData;
-  console.log("data of employee details",data)
+  // console.log("data of employee details",data)
   return (
     // <React.Suspense fallback={<div>Loading...</div>}>
 
