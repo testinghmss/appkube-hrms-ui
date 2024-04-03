@@ -2,7 +2,7 @@ import React , { useState,useEffect} from "react";
 import axios from "@/api/axios"
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { useSelector } from "react-redux";
-
+import { useParams } from "next/navigation";
 const PersonalInfo = () => {
         // const [empId,setEmpId] = useState('')
         const accessToken = getAccessTokenFromCookie();
@@ -12,28 +12,31 @@ const PersonalInfo = () => {
   // setData(useSelector(state => state.DetailSlice.personalDetails))
   // const data =  useSelector(state => state.DetailSlice?.personalDetails)
   // console.log("data of personal details from redux",data)
-  
+  const {id} = useParams()
+
+  console.log(id, 'Getting id from employee')
+
+  const [data, setdata] = useState({})
+
   useEffect(()=>{
-    console.log('in useeffect')
+    const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
+    console.log(empId, 'from localStorage')
     const fetchData = async ()=>{
           // getting employee id from local storage 
 
-      const id = await localStorage.getItem('empId')
-      // setEmpId(id)
-      try{
-        console.log('employee id from local storage',id)
-                // fetching data by employee id in case of data not found in redux
-
-        const response = await axios.get(`/employee/${id}`,{
-          headers: {
-            'Authorization': `Bearer ${accessToken}`
-          }
-        });
+          try{
+            const response = await axios.get(`/employee/${id}`,{
+    
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            });
         console.log("response of employee id",response.data.personal_information)
                 // storing  data intto usestate
 
         setFetchData(response.data.personal_information);
         // console.log("data",employees)
+        setdata(response.data.personal_information)
       }
       catch(error){
         console.log('error fetching employee',error);
@@ -52,8 +55,8 @@ const PersonalInfo = () => {
 
     // condittionally trendering the data eitther from redux or from fetched  data by id 
 
-  const data = reduxData.length > 0 ? reduxData : fetchedData;
-  console.log("data of personal details",data)
+  const datas = reduxData.length > 0 ? reduxData : fetchedData;
+  console.log("data of personal details",datas)
 
   // {
   //   "id": "7a015bd2-58d0-4a48-8849-e2dadb70c8fb",
@@ -94,7 +97,7 @@ const PersonalInfo = () => {
     <div className="grid grid-cols-2 grid-rows-9 ">
       <span className="mb-4">
         <h2 className="text-gray-400">First Name</h2>
-        <p className="font-semibold text-base">{data?.first_name
+        <p className="font-semibold text-base">{data.first_name
 }</p>
       </span>
       <span>

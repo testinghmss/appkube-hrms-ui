@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Input,
   Radio,
@@ -9,24 +9,86 @@ import {
   TimePicker,
 } from "antd";
 import dayjs from "dayjs";
-
+import axios from '@/api/axios'
 import {  useSelector } from "react-redux";
+import getAccessTokenFromCookie from "@/utils/getAccessToken";
 
 
+
+export const fetchData = async ()=>{
+
+const accessToken = getAccessTokenFromCookie()
+             
+  try{
+
+    const response = await axios.get(`/employee/${empId}`,{
+        headers: {
+            'Accept': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+
+          }}
+    );
+    console.log("empdetails",response.data)
+    // storing equipment data intto usestate
+  // setEmpData(...EmpData, response.data)
+  
+  
+    
+  }
+  catch(error){
+    console.log('error fetching employee data',error);
+  }
+}
+// fetchData()
 
 
 const Profile1 = ({ step, setStep }) => {
+
+ const [empdata, setempdata] = useState({})
+ console.log(empdata,'this is empdata')
+  
+const accessToken = getAccessTokenFromCookie()
+
+  useEffect(()=>{
+    const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
+  console.log(empId, 'from localStorage')
+      const fetchData = async ()=>{
+        try{
+          const empdetails = await axios.get(`/employee/${empId}`,{
+  
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+         
+          // console.log("data",employees)
+          setempdata(empdetails.data.personal_information)
+  
+        }
+        catch(error){
+          console.log('error',error);
+        }
+      }
+      fetchData()
+    },[])
+
+ 
+
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
   };
 
-  const {id, work_email, number} = useSelector((state)=>state.SendpersonalDetails.personalDetails)
+  // const id= useSelector((state)=>state.SendpersonalDetails.personalDetails)
   
 
-  console.log(id, work_email, number)
+  // console.log(id)
+  // const empId = localStorage.getItem("empId");
+  // console.log(empId,'empId')
 
+  // const id = useSelector(state => state.Details?.equipDetails.id)
+  // console.log(id)
 
-
+ 
 
   return (
     <>
@@ -34,9 +96,14 @@ const Profile1 = ({ step, setStep }) => {
         <p className="text-center font-medium text-2xl ">
           Create profile and invite
         </p>
-        <p className="text-center">
-          when do you want james harper to receive an invitation to join{" "}
-        </p>
+        {/* <p className="text-center">
+          when do you want {empdata.personal_information.first_name} to receive an invitation to join
+        </p> */}
+        {empdata.first_name && (
+  <p className="text-center">
+    when do you want {empdata.first_name} to receive an invitation to join
+  </p>
+)}
         <Radio.Group onChange={onChange} className="">
           <Space direction="vertical" className="mt-8">
             <div className=" border-1 w-[470px] p-2 rounded-md ">
@@ -71,6 +138,7 @@ const Profile1 = ({ step, setStep }) => {
                 onChange={() => {
                   if (step == 4) setStep(4);
                   else setStep(step + 3);
+                  fetchData()
                 }}
               >
                 Schedule invite

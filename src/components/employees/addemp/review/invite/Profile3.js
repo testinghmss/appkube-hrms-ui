@@ -1,6 +1,76 @@
 import React from 'react';
+import axios from '@/api/axios'
+import getAccessTokenFromCookie from '@/utils/getAccessToken';
+import { useEffect, useState } from 'react';
+import { fetchData } from './Profile1';
 
+export const SendEmail = async()=>{
+  const accessToken = getAccessTokenFromCookie();
+        
+    console.log('hello from invite')
+    const empId = localStorage.getItem("empId");
+    console.log(empId,'empId')
+    
+    
+    try {
+        const response = await axios.get(`/invite/${empId}`, {
+          headers: {
+            'Accept': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+
+          }
+        });
+        console.log(JSON.stringify(response.data));
+        if (response.status === 200) {
+            localStorage.setItem('empId', ''); // Set empId to an empty string
+          }
+          
+      } catch (error) {
+        console.log(error);
+      }
+      
+
+
+}
 const Profile3 = ({ step, setStep }) => {
+  const accessToken = getAccessTokenFromCookie();
+
+ 
+    const [EmpData, setEmpData] = useState([])
+
+    useEffect(()=>{
+    const empId = localStorage.getItem("empId");
+
+    fetchData()
+    console.log(fetchData, 'this is fetch data')
+      },[])
+
+
+
+
+    
+
+    // const SendEmail = async()=>{
+        
+    //     console.log('hello from invite')
+    //     const empId = localStorage.getItem("empId");
+    //     console.log(empId,'empId')
+        
+        
+    //     try {
+    //         const response = await axios.get(`{{baseUrl}}/invite/${empId}`, {
+    //           headers: {
+    //             'Accept': 'application/json'
+    //           }
+    //         });
+    //         console.log(JSON.stringify(response.data));
+    //       } catch (error) {
+    //         console.log(error);
+    //       }
+          
+
+
+    // }
     return (
         <>
             {/* <div className='flex flex-col items-center  bg-white w-[45vw] '> */}
@@ -23,7 +93,7 @@ const Profile3 = ({ step, setStep }) => {
                 <p className=' text-gray-400'>Invitation</p>
                 <p>Not Now</p>
             </div>
-            <button className='bg-[#1890FF] w-[100%] mb-5 h-9 rounded-sm text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF]' >Confirm and Continue</button>
+            <button className='bg-[#1890FF] w-[100%] mb-5 h-9 rounded-sm text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF]' onClick={()=>{SendEmail()}} >Confirm and Continue</button>
             <p className='mb-5 cursor-pointer text-center' onClick={() => { setStep(step - 2) }} >Back</p>
             {/* </div> */}
         </>
