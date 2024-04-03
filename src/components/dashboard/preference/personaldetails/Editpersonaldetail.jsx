@@ -1,10 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button, Radio, Input, Form, Select ,Option} from "antd";
 // import { AiFillEdit } from "react-icons/ai";
 import Link from "next/link";
 import { IoSaveSharp } from "react-icons/io5";
 import PersonalDetail from "./Personaldetail";
 import Image from "next/image";
+import getAccessTokenFromCookie from "@/utils/getAccessToken";
+import axios from "@/api/axios"
 const prefixSelector = (
   <Form.Item name="prefix" noStyle>
     <Select style={{ width: 70, backgroundColor: "gray" }} defaultValue="+91" options={[
@@ -23,8 +25,45 @@ const prefixSelector = (
 );
 
 
-const Editpersonaldetail = () => {
-  const [edit, setEdit] = useState(true);
+const Editpersonaldetail = ({hrData}) => {
+  const [edit, setEdit] = useState(false);
+  // const [isClient, setIsClient] = useState(false);
+  // const [fetchedData , setFetchData] = useState([])
+  const accessToken = getAccessTokenFromCookie();
+  // useEffect(() => {
+  //   // Check if both name and url are truthy
+  //   setIsClient(true);
+  // },[])
+  // useEffect(()=>{
+  //   console.log('in useffect')
+  //   if( isClient){
+  //     // const searchParams = useSearchParams();
+  //     // const userId =  searchParams.get('id')
+  //     const hrId = localStorage.getItem('hrId'); 
+  //     console.log('Hr id from  localstorage',hrId)
+  //     const fetchData = async ()=>{
+  //       // setEmpId(id)
+  //       try{
+  //         // const id = await localStorage.getItem('empId')
+  //         // console.log('employee id from local storage',userId)
+  //         const response = await axios.get(`/employee/${hrId}`,{
+  //           headers: {
+  //             'Authorization': `Bearer ${accessToken}`
+  //           }
+  //         });
+  //         console.log("response of employee data for overview",response.data)
+  //         setFetchData(response.data.personal_information);
+  //         // console.log("data",employees)
+  //       }
+  //       catch(error){
+  //         console.log('error fetching employee data',error);
+  //       }
+  //     }
+  //     fetchData()
+  //   }
+  // },[setFetchData,accessToken,isClient])
+  
+  // console.log('fetched hr data',fetchedData)
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     const imgname = event.target.files[0].name;
