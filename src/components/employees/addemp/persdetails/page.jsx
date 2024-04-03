@@ -148,6 +148,8 @@ console.log("object")
       });
       console.log("response", response);
       if (response.status === 200) {
+        // localStorage.setItem('empId', response.data.id)
+
         console.log("response data", response.data);
         // storing the response in redux
         dispatch(setpersonalDetails(response.data));
@@ -172,7 +174,28 @@ console.log("object")
         // changing tab
         setTab(tab + 1);
       }
-    } catch (error) {
+
+      const id = localStorage.getItem("empId");
+      //  checking tthe existance of employee id
+      if (id) {
+        console.log("previouse id of local storage present", id);
+        // if id is existing then we will remote it from local storage
+        localStorage.removeItem("empId");
+        console.log(
+          "id deleted from local storage",
+          localStorage.getItem("empId")
+        );
+        // seting new empid for its information update
+        localStorage.setItem("empId", response.data.id);
+        console.log("new id", localStorage.getItem("empId"));
+      } else {
+        localStorage.setItem("empId", response.data.id);
+      }
+      // changing tab
+      setTab(tab + 1);
+    }
+
+     catch (error) {
       console.log("error", error);
       // setTab(tab + 1)
     }
@@ -221,14 +244,16 @@ console.log("object")
           >
             {imageUrl ? (
               <Image
-                src={imageUrl}
+                src={Attachments}
                 alt="avatar"
+
                 width={100}
                 height={100}
                 style={{
                   width: "100%",
                   height:"100%"
                 }}
+
               />
             ) : (
               uploadButton

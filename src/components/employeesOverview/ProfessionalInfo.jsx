@@ -6,36 +6,33 @@ import axios from "@/api/axios"
 const ProfessionalInfo = () => {
   const [fetchedData , setFetchData] = useState({})
   const accessToken = getAccessTokenFromCookie();
-  // const empId =  localStorage.getItem('empId')
-  // console.log('emmpid from localstorage',empId)
-  useEffect(()=>{
-    console.log('in useeffect')
-    const fetchData = async ()=>{
-          // getting employee id from local storage 
+  
+  const [empdata, setempdata] = useState({})
+ console.log(empdata,'this is empdata')
 
-      const id = await localStorage.getItem('empId')
-      // setEmpId(id)
-      try{
-        console.log('employee id from local storage',id)
-                // fetching data by employee id in case of data not found in redux
+   useEffect(()=>{
+    const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
+  console.log(empId, 'from localStorage')
+      const fetchData = async ()=>{
+        try{
+          const empdetails = await axios.get(`/employee/${empId}`,{
 
-        const response = await axios.get(`/employee/${id}`,{
-          headers: {
-            'Authorization': `Bearer ${accessToken}`
-          }
-        });
-        console.log("response of employee id",response.data.professional_information)
-                // storing  data intto usestate
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
 
-        setFetchData(response.data.professional_information);
-        // console.log("data",employees)
+          // console.log("data",employees)
+          setempdata(empdetails.data.professional_information
+            )
+
+        }
+        catch(error){
+          console.log('error',error);
+        }
       }
-      catch(error){
-        console.log('error fetching employee',error);
-      }
-    }
-    fetchData()
-  },[accessToken])
+      fetchData()
+    },[])
 
 
     // getting data from redux using useselector
@@ -55,31 +52,31 @@ const ProfessionalInfo = () => {
       {/* first row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Designation</h2>
-        <p className="font-semibold text-base">{(data.emp_designation) ? (data.emp_designation) : 'no value'}</p>
+        <p className="font-semibold text-base">{(empdata.emp_designation) ? (empdata.emp_designation) : 'no value'}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Department</h2>
-        <p className="font-semibold text-base">{(data.department_name) ? (data.department_name) : 'no value'}</p>
+        <p className="font-semibold text-base">{(empdata.emp_designation) ? (empdata.emp_designation) : 'no value'}</p>
       </span>
 
       {/* second row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">PF Number</h2>
-        <p className="font-semibold text-base">{(data.emp_pf) ? (data.emp_pf) : 'no value'}</p>
+        <p className="font-semibold text-base">{(empdata.pf) ? (empdata.pf) : 'no value'}</p>
       </span>
       <span>
         <h2 className="text-gray-400">UAN Number</h2>
-        <p className="font-semibold text-base">{(data.uan) ? (data.uan) : 'no value'}</p>
+        <p className="font-semibold text-base">{(empdata.uan) ? (empdata.uan) : 'no value'}</p>
       </span>
 
       {/* third row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Direct Reporting Manager</h2>
-        <p className="font-semibold text-base">{(data.reporting_manager_last_name) ? (data.reporting_manager_first_name  ,data.reporting_manager_last_name) : 'no value'}</p>
+        <p className="font-semibold text-base">{(empdata.reporting_manager_first_name && empdata.reporting_manager_last_name) ? (empdata.reporting_manager_first_name && empdata.reporting_manager_last_name) : 'no value'}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Work location</h2>
-        <p className="font-semibold text-base">{(data.work_location) ? (data.work_location) : 'no value'}</p>
+        <p className="font-semibold text-base">{(empdata.work_location) ? (empdata.work_location) : 'no value'}</p>
       </span>
 
     </div>

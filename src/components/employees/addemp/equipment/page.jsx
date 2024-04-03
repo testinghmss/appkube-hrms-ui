@@ -17,6 +17,8 @@ const { TextArea } = Input;
 const Equipments = ({ tab, setTab }) => {
   // const empId = localStorage.getItem("empId");
   // getting employee id from local storage
+  const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
+
   const [owner, setOwner] = useState(null);
   const [Device, setDevice] = useState("");
   const [Manufacturer, setManufacturer] = useState("");
@@ -52,7 +54,7 @@ const Equipments = ({ tab, setTab }) => {
 
    if(isClient){
   // const empId = localStorage.getItem("empId");
-  const empId = localStorage.getItem("empId");
+  // const empId = localStorage.getItem("empId");
   console.log("id from localstorage", empId);
 
     let data =
@@ -74,7 +76,7 @@ const Equipments = ({ tab, setTab }) => {
         serial_number: SerialNumber,
         note: Notes,
         supply_date: supplydate,
-        emp_id: empId,
+        emp_id:  empId ? empId : null,
       },
     ];
   // making data into format to hit api

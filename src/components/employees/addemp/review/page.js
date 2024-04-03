@@ -1,3 +1,4 @@
+'use client'
   import DocumentCard from "@/components/employeesOverview/DocumentCard";
   import EquipmentCard from "@/components/employeesOverview/EquipmentCard";
   import EquipmentDetails from "@/components/employeesOverview/EquipmentDetails";
@@ -32,7 +33,7 @@
           // fetching data by employee id in case of data not found in redux
           const response = await axios.get(`/employee/${id}`,{
             headers: {
-              'Authorization': `Bearer ${accessToken}`
+              Authorization: `Bearer ${accessToken}`
             }
           });
           console.log("response of employee id for equipments",response.data.equipment)
@@ -129,6 +130,7 @@
           </div>
           <div className="flex gap-4">
             <EquipmentCard />
+
           </div>
         </div>
 

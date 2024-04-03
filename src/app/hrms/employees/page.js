@@ -11,7 +11,7 @@ export const SendEmp = (emp) => {
   if (emp === undefined) {
     console.log("");
   }
-  console.log(emp);
+  console.log('particular emp',emp);
 };
 const { Search } = Input;
 
@@ -164,14 +164,18 @@ const Page = () => {
         <Table
           columns={columns}
           dataSource={filteredEmployees}
-          onRow={(record) => {
+          onRow={
+            (record) => {
             return {
               onClick: () => {
                 SendEmp(record);
+                router.push(`/hrms/employees/employeesOverView/${record.id}`)
               },
             };
             
-          }}
+          }
+         
+          }
           pagination={false}
         />
         <div className="flex justify-end mt-6">
