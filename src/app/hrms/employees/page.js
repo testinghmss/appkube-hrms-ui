@@ -4,18 +4,25 @@ import { Breadcrumb, Table, Input, Pagination, Dropdown, Menu } from "antd";
 import { FiPlus } from "react-icons/fi";
 import axios from "@/api/axios";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
-import { useRouter } from "next/navigation";
+import { useRouter, useNavigate } from "next/navigation";
 import { DownOutlined } from '@ant-design/icons';
+import Link from "next/link";
+import { useSelector, useDispatch } from "react-redux";
+import {setParticularEmpid} from '@/redux/slices/Details'
 
 export const SendEmp = (emp) => {
-  if (emp === undefined) {
-    console.log("");
-  }
-  console.log('particular emp',emp);
+  // if (emp === undefined) {
+  //   console.log("");
+  // }
+  // console.log('particular emp',emp);
+  console.log('emp', emp)
+  return emp
 };
 const { Search } = Input;
 
 const Page = () => {
+
+  const dispatch = useDispatch()
   const router = useRouter();
   const [selectedStatus, setSelectedStatus] = useState(null);
 
@@ -44,7 +51,6 @@ const Page = () => {
     };
     fetchData();
   }, [accessToken]);
-  // }, accessToken);
 
   const filteredEmployees = employees.filter((employee) =>
     employee.employee_name.toLowerCase().includes(searchText.toLowerCase())
@@ -168,8 +174,11 @@ const Page = () => {
             (record) => {
             return {
               onClick: () => {
+                
                 SendEmp(record);
-                router.push(`/hrms/employees/employeesOverView/${record.id}`)
+              
+                router.push(`/hrms/employees/employeesOverView`)
+               dispatch(setParticularEmpid(record.id))
               },
             };
             

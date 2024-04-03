@@ -1,9 +1,15 @@
+'use client'
 import React , { useState,useEffect} from "react";
 import axios from "@/api/axios"
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { useSelector } from "react-redux";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
+
+
+
 const PersonalInfo = () => {
+
+  
         // const [empId,setEmpId] = useState('')
         const accessToken = getAccessTokenFromCookie();
         const [fetchedData , setFetchData] = useState({})
@@ -12,18 +18,32 @@ const PersonalInfo = () => {
   // setData(useSelector(state => state.DetailSlice.personalDetails))
   // const data =  useSelector(state => state.DetailSlice?.personalDetails)
   // console.log("data of personal details from redux",data)
-  const {id} = useParams()
+  // const {id} = useParams()
 
-  console.log(id, 'Getting id from employee')
+  // const searchParams = useSearchParams()
+  // const id = searchParams.get('id');
+  // console.log(id, 'Getting id from employee')
 
   const [data, setdata] = useState({})
+  const id = useSelector((state)=>state.Details.ParticularempId)
+
+
+  // useEffect(()=>{
+  //   const id = useSelector((state)=>state.Details.ParticularempId)
+  //   setId(id)
+
+  // })
 
   useEffect(()=>{
+   
     const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
     console.log(empId, 'from localStorage')
     const fetchData = async ()=>{
-          // getting employee id from local storage 
+  // const id = await SendEmp()
+  // console.log(id, 'this is id')
 
+          // getting employee id from local storage 
+ 
           try{
             const response = await axios.get(`/employee/${id}`,{
     
@@ -42,7 +62,11 @@ const PersonalInfo = () => {
         console.log('error fetching employee',error);
       }
     }
-    fetchData()
+  
+      fetchData()
+
+    
+    
   },[accessToken])
 
 
