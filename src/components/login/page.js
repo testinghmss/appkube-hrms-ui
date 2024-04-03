@@ -86,9 +86,12 @@ const Page = () => {
       if (response.status == 200) {
         //getting accesstoken from response
         const accessToken = response.data.AccessToken;
-        console.log("employe Id", response.data.Result.id);
-        dispatchfun(response.data.Result.id);
+
+        console.log("hr Id",response.data.Result.id);
+        dispatchfun(response.data.Result.id)
+
         // Set the access token in a cookie
+        localStorage.setItem('hrId',response.data.Result.id)
         setCookie("accessToken", accessToken, 1);
         if (
           response.data.Result.first_name == "" ||
