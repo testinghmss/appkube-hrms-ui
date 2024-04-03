@@ -12,7 +12,7 @@ import Editpersonaldetail from "./Editpersonaldetail";
 const PersonalDetail = ({fetchedData}) => {
   // const router = useRouter();
   const [edit, setEdit] = useState(false);
-  // console.log('hr data',fetchedData)
+  console.log('hr data',fetchedData)
 
   //   
 // address_line_1
@@ -77,7 +77,7 @@ const handleEdit = ()=>{
 // console.log(`edit value ${edit}`)
 return (
     <>
-      {!edit ? (
+      {/* {!edit ? (
         <div key='personal-details'  className="w-full h-full p-2 flex flex-col gap-10 shadow-sm">
           <div className="flex justify-between items-center  p-3 shadow-md">
             <h2 className="text-xl font-bold">Personal Details </h2>
@@ -132,9 +132,9 @@ return (
             </div>
           </div>
         </div>
-      ) : (
+      ) : ( */}
         <Editpersonaldetail key='edit-details' fetchedData={fetchedData}/>
-      )}
+      {/* )} */}
     </>
   );
 };
