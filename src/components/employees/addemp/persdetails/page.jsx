@@ -148,6 +148,8 @@ console.log("object")
       });
       console.log("response", response);
       if (response.status === 200) {
+        // localStorage.setItem('empId', response.data.id)
+
         console.log("response data", response.data);
         // storing the response in redux
         dispatch(setpersonalDetails(response.data));
