@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect } from 'react'
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { useSelector } from 'react-redux';

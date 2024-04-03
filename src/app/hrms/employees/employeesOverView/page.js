@@ -57,8 +57,10 @@ const Page = () => {
     // <React.Suspense fallback={<div>Loading...</div>}>
 
     <div >
-        <TopEmpDt  empData={fetchedData}/>
-        <LeftNav  empData={fetchedData}/>
+        {/* <TopEmpDt  empData={fetchedData}/> */}
+        {/* <LeftNav  empData={fetchedData}/> */}
+        <TopEmpDt/>
+        <LeftNav/>
     </div>
   
   )

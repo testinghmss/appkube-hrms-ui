@@ -5,6 +5,7 @@ const initialState = {
     professionalDetails: {}, 
     equipDetails: [], 
     documentDetails: [], 
+    ParticularempId:{}
   };
 export const DetailSlice = createSlice({
   name: "Details",
@@ -29,6 +30,9 @@ export const DetailSlice = createSlice({
     setDocumentDetails: (state, action) => {
       state.documentDetails = action.payload 
     },
+    setParticularEmpid:(state, action)=>{
+      state.ParticularempId= action.payload
+    }
   },
 });
 
@@ -36,6 +40,8 @@ export const { setpersonalDetails} = DetailSlice.actions;
 export const { setprofessionalDetails} = DetailSlice.actions;
 export const { setEquipmentDetails} = DetailSlice.actions;
 export const {setDocumentDetails} = DetailSlice.actions;
+export const {setParticularEmpid} = DetailSlice.actions;
+
 
 
 export default DetailSlice.reducer;
