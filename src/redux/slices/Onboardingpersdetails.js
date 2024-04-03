@@ -1,81 +1,49 @@
 
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import axios from '@/api/axios';
 import getAccessTokenFromCookie from '@/utils/getAccessToken';
+import {useDispatch} from "react-redux"
+
 
 const accessToken = getAccessTokenFromCookie();
-export const createUser = createAsyncThunk('createUser', async (data, {getState, rejectWithValue }) => {
+
+
+export const updateEmployee = async (dispatch,employeId, data) => {
 
   try {
-      // Access the current state
-      const state = getState();
-      // Extract the employeId from the state
-      const employeId = state.Onboardingpersdetails.employeId;
-      // const employePersonalData = state.Onboardingpersdetails.personalData;
-      // console.log("the employePersonalData",employePersonalData);
-
-      console.log("employeId in the url",employeId);
-
-    const response = await axios.put(`/employee/${employeId}`,data,{
-    headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
-  });
-    
-    console.log("personal data",response);
-    return response.data; 
-    // const hrDetails = await axios.get(`/employee/${response.data.id}`, {
-    //   params: { userId: response.data.id },
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`,
-    //   },
-    // });
-    // console.log("hr data",hrDetails.data);
-
-    // return hrDetails.data
-
-
+    const response = await axios.put(`/employee/${employeId}`, data, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+    console.log("personal data", response);
+    console.log("personal status",response.status);
+        dispatch(setPersonalStatus(response.status))
+    return response.data;
   } catch (error) {
-    console.log("error personal",error);
-    console.log("error of the axios personal",error.message);
-    
-    return rejectWithValue("error in personal",error.message);
-    
+    console.error("error personal", error);
+    throw error; // rethrow the error to handle it in the calling component
   }
-}
-);
+};
 
-export const createCompany = createAsyncThunk('createCompany', async (data, { rejectWithValue }) => {
+
+
+export const updateOrganization = async (dispatch,data) => {
   try {
-    const response = await axios.put('/organization', data,{
-    headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
-  });
-    
-    console.log(response);
-    // return response.data; 
-
+    const response = await axios.put('/organization', data, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+    console.log("company response", response);
+    console.log("personal status",response.status);
+        dispatch(setPersonalStatus(response.status))
+    return response.data;
   } catch (error) {
-    console.log("error company",error);
-    console.log("error of the axios company",error.message);
-    
-    // return rejectWithValue(error.message);
-
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.error('Error data:', error.response.data);
-      console.error('Error status:', error.response.status);
-      console.error('Error headers:', error.response.headers);
-
-      // Optionally, you can reject with custom error message or error response
-      // This is useful for providing more detailed feedback to your Redux store
-      return rejectWithValue(error.response.data);
-    
-    }
+    console.error("error company", error);
+    throw error; // rethrow the error to handle it in the calling component
   }
-});
+};
 
 export const Onboardingpersdetails = createSlice({
   name: 'Onboardingpersdetails',
@@ -83,6 +51,8 @@ export const Onboardingpersdetails = createSlice({
     personalData:{},
     companyData:{},
     employeId:null,
+    personalStatus:200,
+    companyStatus:200,
     OnboardingData:null,
     loading: false,
     error: null,
@@ -96,29 +66,16 @@ export const Onboardingpersdetails = createSlice({
     },
     setemployeId:(state,action) => {
       state.employeId = action.payload
+    },
+    setPersonalStatus:(state,action) => {
+      state.personalStatus = action.payload
+    },
+    setCompanyStatus:(state,action) => {
+      state.companyStatus = action.payload
     }
 
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(createUser.pending, (state) => {
-        state.loading = true;
-        state.status = 'loading';
-        state.error = null; // Clear any previous errors
-      })
-      .addCase(createUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.status = 'succeeded';
-        // state.OnboardingData.push(action.payload);
-        state.OnboardingData = action.payload
-      })
-      .addCase(createUser.rejected, (state, action) => {
-        state.loading = false;
-        state.status = 'failed';
-        state.error = action.payload;
-      });
-  },
 });
 
-export const { setPersonalData, setCompanyData, setemployeId } = Onboardingpersdetails.actions;
+export const { setPersonalData, setCompanyData, setemployeId, setPersonalStatus, setCompanyStatus } = Onboardingpersdetails.actions;
 export default Onboardingpersdetails.reducer;

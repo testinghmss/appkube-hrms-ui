@@ -12,7 +12,7 @@ import welcomeImage from "../../../public/assets/login/hand.jpg";
 import { useRouter } from "next/navigation";
 import { setemployeId } from "@/redux/slices/Onboardingpersdetails";
 
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 
 import axios from "@/api/axios";
 // import unionImage from "../../../public/assets/login/Union.svg";
@@ -23,6 +23,7 @@ const Page = () => {
   const [emailVerified, setEmailVerified] = useState(true);
 
   const dispatch = useDispatch();
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -96,7 +97,9 @@ const Page = () => {
         ) {
           router.push("/onboarding");
         } else {
-          router.push("/hrms");
+          router.push("/onboarding");
+
+          // router.push("/hrms");
         }
       } else {
         setValid(false);

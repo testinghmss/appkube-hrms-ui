@@ -8,7 +8,7 @@ import Profile from "@/../public/assets/onboarding/userIcon.png";
 import Link from "next/link";
 import {useDispatch,useSelector} from "react-redux"
 import { createUser } from "@/redux/slices/Onboardingpersdetails";
-import { createCompany } from "@/redux/slices/Onboardingpersdetails";
+import { setCompanyData ,setPersonalData, updateOrganization, updateEmployee} from "@/redux/slices/Onboardingpersdetails";
 import { removeAccessToken } from "@/utils/getAccessToken";
 
 
@@ -19,6 +19,9 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
   const personalData = useSelector((state) => state.Onboardingpersdetails.personalData);
   const companyData = useSelector((state) => state.Onboardingpersdetails.companyData);
   const employeId = useSelector((state) => state.Onboardingpersdetails.employeId);
+
+  const personalStatus = useSelector(state => state.Onboardingpersdetails.personalStatus)
+  const companyStatus = useSelector(state => state.Onboardingpersdetails.companyStatus)
   
   const dispatch = useDispatch()
   
@@ -33,6 +36,28 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
   //     //  console.log(combinedData);
   
   // };
+
+  const handleUpdateEmployee = async (data) => {
+    try {
+      const response = await updateEmployee(dispatch,employeId, data);
+      dispatch(setPersonalData(response));
+      // Set other state as needed
+    } catch (error) {
+      console.error(error);
+      // Handle error (e.g., show error message)
+    }
+  };
+
+  const handleUpdateOrganization = async (data) => {
+    try {
+      const response = await updateOrganization(dispatch,data);
+      dispatch(setCompanyData(response));
+      // Set other state as needed
+    } catch (error) {
+      console.error(error);
+      // Handle error
+    }
+  };
   
   const handleSubmit = async () => {
     // const orgId = "482d8374-fca3-43ff-a638-02c8a425c492"; // Replace with your actual orgId value
@@ -42,8 +67,21 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
     // const personalDatawithID = { id:employeId, ...personalData };
     
     // Dispatch actions with the modified data
-    dispatch(createUser(personalData));
-    dispatch(createCompany(companyData));
+    // dispatch(createUser(personalData));
+    // dispatch(createCompany(companyData));
+
+    await handleUpdateEmployee(personalData)
+    await handleUpdateOrganization(companyData)
+
+    console.log("redux status p",personalStatus);
+    console.log("redux status c",companyStatus);
+    
+    if(personalStatus == 200 && companyStatus == 200){
+      setStep(step + 1)
+    }
+    else{
+      setStep(1)
+    }
     
     // console.log(combinedData);
   };
@@ -136,7 +174,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
           className="w-[70%] lg:mt py-1 h-8 bg-[#1890FF] border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] transition-all text-white items-end"
           onClick={() => {
             handleSubmit()
-            ,setStep(step + 1)
+            // ,setStep(step + 1)
           }}
         >
           Complete
