@@ -2,93 +2,45 @@ import React , { useState,useEffect} from "react";
 import axios from "@/api/axios"
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { useSelector } from "react-redux";
-import { useParams } from "next/navigation";
+
 const PersonalInfo = () => {
         // const [empId,setEmpId] = useState('')
+        const accessToken = getAccessTokenFromCookie();
         const [fetchedData , setFetchData] = useState({})
   
-  const [data, setData] = useState({})
+  // const [data, setData] = useState({})
   // setData(useSelector(state => state.DetailSlice.personalDetails))
   // const data =  useSelector(state => state.DetailSlice?.personalDetails)
   // console.log("data of personal details from redux",data)
   
-  // useEffect(()=>{
-  //   console.log('in useeffect')
-  //   const fetchData = async ()=>{
-  //         // getting employee id from local storage 
+  useEffect(()=>{
+    console.log('in useeffect')
+    const fetchData = async ()=>{
+          // getting employee id from local storage 
 
-  //     const id = await localStorage.getItem('empId')
-  //     // setEmpId(id)
-  //     try{
-  //       console.log('employee id from local storage',id)
-  //               // fetching data by employee id in case of data not found in redux
+      const id = await localStorage.getItem('empId')
+      // setEmpId(id)
+      try{
+        console.log('employee id from local storage',id)
+                // fetching data by employee id in case of data not found in redux
 
-  //       const response = await axios.get(`/employee/${id}`,{
-  //         headers: {
-  //           'Authorization': `Bearer ${accessToken}`
-  //         }
-  //       });
-  //       console.log("response of employee id",response.data.personal_information)
-  //               // storing  data intto usestate
+        const response = await axios.get(`/employee/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+        console.log("response of employee id",response.data.personal_information)
+                // storing  data intto usestate
 
-  //       setFetchData(response.data.personal_information);
-  //       // console.log("data",employees)
-  //     }
-  //     catch(error){
-  //       console.log('error fetching employee',error);
-  //     }
-  //   }
-  //   fetchData()
-  // },[accessToken])
-
-
-  //   // getting data from redux using useselector
-
-  // const reduxData = useSelector(state => state.Details?.personalDetails)
-  // console.log('redux data for personal info',reduxData)
-  // console.log('fetched data by id for personal info',fetchedData)
-  // // setData(reduxData)
-
-  //   // condittionally trendering the data eitther from redux or from fetched  data by id 
-
-  // const data = reduxData.length > 0 ? reduxData : fetchedData;
-  // console.log("data of personal details",data)
-
-  
-
-
-  const {id} = useParams()
-
-  console.log(id, 'Getting id from employee')
-  
-  const accessToken = getAccessTokenFromCookie();
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let empId;
-        if (typeof window !== 'undefined' && window.localStorage) {
-          empId = localStorage.getItem('empId');
-          console.log(empId, 'from localStorage');
-        }
-
-        if (empId) {
-          const values = await axios.get(`/employee/${empId}`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
-          console.log('response', values.data.personal_information);
-          setData(values.data.personal_information);
-        } else {
-          console.log('Employee id not found in localStorage');
-        }
-      } catch (error) {
-        console.error('Error fetching employee data:', error);
+        setFetchData(response.data.personal_information);
+        // console.log("data",employees)
       }
-    };
-
-    fetchData();
-  }, [accessToken]);
+      catch(error){
+        console.log('error fetching employee',error);
+      }
+    }
+    fetchData()
+  },[accessToken])
 
 
     // getting data from redux using useselector
@@ -100,13 +52,8 @@ const PersonalInfo = () => {
 
     // condittionally trendering the data eitther from redux or from fetched  data by id 
 
-  // const data = reduxData.length > 0 ? reduxData : fetchedData;
-  // console.log("data of personal details",data)
-
-
-
-
-
+  const data = reduxData.length > 0 ? reduxData : fetchedData;
+  console.log("data of personal details",data)
 
   // {
   //   "id": "7a015bd2-58d0-4a48-8849-e2dadb70c8fb",

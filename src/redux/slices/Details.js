@@ -1,40 +1,3 @@
-// import { createSlice } from "@reduxjs/toolkit";
-
-// const initialState = {
-//     personalDetails: [], 
-//     professionalDetails: [], 
-//     equipDetails: [], 
-//     documentDetails: [], 
-//   };
-// export const formSlice = createSlice({
-//   name: "Details",
-//   initialState,
-//   reducers: {
-//     setpersonalDetails: (state, action) => {
-//       state.personalDetails = { ...state.personalDetails, ...action.payload };
-//     },
-//     setprofessionalDetails: (state, action) => {
-//       state.professionalDetails = { ...state.professionalDetails, ...action.payload };
-//     },
-//     setequipmentDetails: (state, action) => {
-//       state.equipDetails = { ...state.equipDetails, ...action.payload };
-//     },
-//     setdocumentDetails: (state, action) => {
-//       state.documentDetails = { ...state.documentDetails, ...action.payload };
-//     },
-//   },
-// });
-
-// export const { setpersonalDetails} = formSlice.actions;
-// export const { setprofessionalDetails} = formSlice.actions;
-// export const { setequipmentDetails} = formSlice.actions;
-// export const {setdocumentDetails} = formSlice.actions;
-
-
-// export default formSlice.reducer;
-
-
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -73,5 +36,6 @@ export const { setpersonalDetails} = DetailSlice.actions;
 export const { setprofessionalDetails} = DetailSlice.actions;
 export const { setEquipmentDetails} = DetailSlice.actions;
 export const {setDocumentDetails} = DetailSlice.actions;
+
 
 export default DetailSlice.reducer;

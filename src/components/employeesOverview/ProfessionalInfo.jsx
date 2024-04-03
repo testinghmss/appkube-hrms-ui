@@ -1,68 +1,85 @@
 import React, { useState, useEffect } from 'react'
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
-import axios from '@/api/axios'
+import { useSelector } from 'react-redux';
+import axios from "@/api/axios"
+
 const ProfessionalInfo = () => {
-  const [empdata, setempdata] = useState({})
- console.log(empdata,'this is empdata')
-  
-const accessToken = getAccessTokenFromCookie()
-
+  const [fetchedData , setFetchData] = useState({})
+  const accessToken = getAccessTokenFromCookie();
+  // const empId =  localStorage.getItem('empId')
+  // console.log('emmpid from localstorage',empId)
   useEffect(()=>{
-    const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
-  console.log(empId, 'from localStorage')
-      const fetchData = async ()=>{
-        try{
-          const empdetails = await axios.get(`/employee/${empId}`,{
-  
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
-         
-          // console.log("data",employees)
-          setempdata(empdetails.data.professional_information
-            )
-  
-        }
-        catch(error){
-          console.log('error',error);
-        }
+    console.log('in useeffect')
+    const fetchData = async ()=>{
+          // getting employee id from local storage 
+
+      const id = await localStorage.getItem('empId')
+      // setEmpId(id)
+      try{
+        console.log('employee id from local storage',id)
+                // fetching data by employee id in case of data not found in redux
+
+        const response = await axios.get(`/employee/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+        console.log("response of employee id",response.data.professional_information)
+                // storing  data intto usestate
+
+        setFetchData(response.data.professional_information);
+        // console.log("data",employees)
       }
-      fetchData()
-    },[])
+      catch(error){
+        console.log('error fetching employee',error);
+      }
+    }
+    fetchData()
+  },[accessToken])
 
 
+    // getting data from redux using useselector
+
+
+  const reduxData = useSelector(state => state.Details?.professionalDetails)
+  console.log('redux data for professional info',reduxData)
+  console.log('fetched data by id for professional info',fetchedData)
+  // setData(reduxData)
+
+    // condittionally rendering the data eitther from redux or from fetched  data by id 
+
+  const data = reduxData.length > 0 ? reduxData : fetchedData;
+  console.log("data of profesional details",data)
   return (
     <div className="grid grid-cols-2 grid-rows-3 ">
       {/* first row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Designation</h2>
-        <p className="font-semibold text-base">{empdata.emp_designation
-}</p>
+        <p className="font-semibold text-base">{(data.emp_designation) ? (data.emp_designation) : 'no value'}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Department</h2>
-        <p className="font-semibold text-base">{empdata.department_name}</p>
+        <p className="font-semibold text-base">{(data.department_name) ? (data.department_name) : 'no value'}</p>
       </span>
 
       {/* second row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">PF Number</h2>
-        <p className="font-semibold text-base">{empdata.pf}</p>
+        <p className="font-semibold text-base">{(data.emp_pf) ? (data.emp_pf) : 'no value'}</p>
       </span>
       <span>
         <h2 className="text-gray-400">UAN Number</h2>
-        <p className="font-semibold text-base"> {empdata.uan} </p>
+        <p className="font-semibold text-base">{(data.uan) ? (data.uan) : 'no value'}</p>
       </span>
 
       {/* third row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Direct Reporting Manager</h2>
-        <p className="font-semibold text-base">{empdata.reporting_manager_first_name && empdata.reporting_manager_last_name}</p>
+        <p className="font-semibold text-base">{(data.reporting_manager_last_name) ? (data.reporting_manager_first_name  ,data.reporting_manager_last_name) : 'no value'}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Work location</h2>
-        <p className="font-semibold text-base">{empdata.work_location}</p>
+        <p className="font-semibold text-base">{(data.work_location) ? (data.work_location) : 'no value'}</p>
       </span>
 
     </div>
