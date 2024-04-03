@@ -11,6 +11,7 @@ import formSlice from "../slices/Details";
 import resetPasswordSlice from "../slices/resetPasswordSlice";
 // import Details from "../slices/Details";
 import Details from "../slices/Details";
+import organizationSetupReducer, { setDesignations, setDepartments } from "../slices/organizationSetupSlice";
 
 export const store = configureStore({
   reducer: {
@@ -21,5 +22,6 @@ export const store = configureStore({
     Onboardingpersdetails: Onboardingpersdetails,
     EquipmentDetails: EquipmentDetails,
     Details:Details,
+    organizationSetup: organizationSetupReducer,
   },
 });
