@@ -1,4 +1,5 @@
 "use client";
+// import React, { useEffect, useState } from "react";
 import React, { useEffect, useState } from "react";
 import { Tabs } from "antd";
 import PersonalDetail from "./personaldetails/Personaldetail";
@@ -9,7 +10,7 @@ import Loading from "@/app/loading";
 
 const Preference = () => {
   const [isClient, setIsClient] = useState(false);
-  const [fetchedData, setFetchData] = useState([]);
+  const [fetchedData , setFetchData] = useState([])
   const accessToken = getAccessTokenFromCookie();
   const [loading, setLoading] = useState(false);
 
@@ -31,15 +32,15 @@ const Preference = () => {
               Authorization: `Bearer ${accessToken}`,
             },
           });
-          console.log("Response of employee data for overview", response.data);
+          console.log("response of employee data for overview",response.data)
           setFetchData(response.data);
         } catch (error) {
           console.log("Error fetching employee data", error);
         } finally {
           setLoading(false); // Set loading state to false after response or error is received
         }
-      };
-      fetchData();
+      }
+      fetchData()
     }
   }, [accessToken, isClient]);
 

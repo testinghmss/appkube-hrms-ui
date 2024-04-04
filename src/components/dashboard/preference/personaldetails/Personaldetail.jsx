@@ -1,4 +1,5 @@
 "use client";
+// import React, { useEffect, useState } from "react";
 import React, { useEffect, useState } from "react";
 // import { Button } from "antd";
 import Image from "next/image";
@@ -12,7 +13,7 @@ import Editpersonaldetail from "./Editpersonaldetail";
 const PersonalDetail = ({fetchedData}) => {
   // const router = useRouter();
   const [edit, setEdit] = useState(false);
-  // console.log('hr data',fetchedData)
+  console.log('hr data',fetchedData)
 
   //   
 // address_line_1
@@ -74,7 +75,7 @@ const handleEdit = ()=>{
   setEdit(true)
   console.log('changing value od edit',edit)
 }
-// console.log(edit value ${edit})
+// console.log(`edit value ${edit}`)
 return (
     <>
       {!edit ? (
