@@ -70,6 +70,9 @@ const Page = () => {
       },
     },
   ];
+
+  // const accessToken = getAccessTokenFromCookie();
+
   // const data = [
   //   {
   //     key: "1",
@@ -191,7 +194,8 @@ const Page = () => {
           <div className="flex w-full py-6">
             <Image src={AccountImg} className="" alt="acount image" />
             <div className=" flex flex-col pl-4">
-              <h1 className="text-2xl"> Welcome Ajay! </h1>
+              <h1 className="text-2xl"> Welcom Ajay! </h1>
+
               <h1 className="text-2xl">Have a nice day!</h1>
             </div>
           </div>
