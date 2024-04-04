@@ -1,9 +1,11 @@
 'use client'
-  import DocumentCard from "@/components/employeesOverview/DocumentCard";
-  import EquipmentCard from "@/components/employeesOverview/EquipmentCard";
-  import EquipmentDetails from "@/components/employeesOverview/EquipmentDetails";
-  import PersonalInfo from "@/components/employeesOverview/PersonalInfo";
-  import ProfessionalInfo from "@/components/employeesOverview/ProfessionalInfo";
+import DocumentCard from "./DetailsReviews/DocumentCard";
+import EquipmentCard from "./DetailsReviews/EquipmentCard";
+import EquipmentDetails from "./DetailsReviews/EquipmentDetails";
+import PersonalInfo from "./DetailsReviews/PersonalInfo";
+import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
+
+
   import React, { useEffect, useState } from "react";
   import { RiEditFill } from "react-icons/ri";
   import Image from "next/image";

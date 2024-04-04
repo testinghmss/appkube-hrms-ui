@@ -18,6 +18,7 @@ import getAccessTokenFromCookie from "@/utils/getAccessToken";
 export const fetchData = async ()=>{
 
 const accessToken = getAccessTokenFromCookie()
+    const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
              
   try{
 
