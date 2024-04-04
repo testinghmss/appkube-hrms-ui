@@ -95,12 +95,12 @@ const Page = () => {
         localStorage.setItem('hrId',response.data.Result.id)
         setCookie("accessToken", accessToken, 1);
         if (
-          response.data.Result.first_name == "" ||
-          response.data.Result.number == ""
+          response.data.Result.first_name ||
+          response.data.Result.number
         ) {
           router.push("/onboarding");
         } else {
-          router.push("/onboarding");
+          router.push("/hrms");
 
           // router.push("/hrms");
         }
