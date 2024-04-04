@@ -190,7 +190,7 @@ const Page = () => {
             >
               <Input
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Username"
+                placeholder="Email"
                 onChange={handleEmailChange}
                 size="large"
               />
