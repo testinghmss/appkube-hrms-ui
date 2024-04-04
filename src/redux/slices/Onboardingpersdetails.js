@@ -51,8 +51,8 @@ export const Onboardingpersdetails = createSlice({
     personalData:{},
     companyData:{},
     employeId:null,
-    personalStatus:200,
-    companyStatus:200,
+    personalStatus:null,
+    companyStatus:null,
     OnboardingData:null,
     loading: false,
     error: null,
@@ -60,9 +60,12 @@ export const Onboardingpersdetails = createSlice({
   reducers: {
     setPersonalData:(state,action) => {
       state.personalData = action.payload
+      state.personalStatus =200
+      
     },
     setCompanyData:(state,action) => {
       state.companyData = action.payload
+      state.companyStatus =200
     },
     setemployeId:(state,action) => {
       state.employeId = action.payload

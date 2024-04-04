@@ -10,6 +10,7 @@ import {useDispatch,useSelector} from "react-redux"
 import { createUser } from "@/redux/slices/Onboardingpersdetails";
 import { setCompanyData ,setPersonalData, updateOrganization, updateEmployee} from "@/redux/slices/Onboardingpersdetails";
 import { removeAccessToken } from "@/utils/getAccessToken";
+import { notification } from "antd";
 
 
 import {  Progress } from "antd";
@@ -19,24 +20,29 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
   const personalData = useSelector((state) => state.Onboardingpersdetails.personalData);
   const companyData = useSelector((state) => state.Onboardingpersdetails.companyData);
   const employeId = useSelector((state) => state.Onboardingpersdetails.employeId);
-
+  
   const personalStatus = useSelector(state => state.Onboardingpersdetails.personalStatus)
   const companyStatus = useSelector(state => state.Onboardingpersdetails.companyStatus)
   
   const dispatch = useDispatch()
   
+  const openNotification = () => {
+    notification.open({
+      message: "Something went wrong, please try again",
+    });
+  };
   // const handleSubmit = async () => {
     //   // e.preventDefault();
     //   // console.log("company...", companyData);
 
-  //      const combinedData = {"482d8374-fca3-43ff-a638-02c8a425c492",...companyData, };
+    //      const combinedData = {"482d8374-fca3-43ff-a638-02c8a425c492",...companyData, };
   
   //      dispatch(createUser(personalData))
   //      dispatch(createCompany(combinedData))
   //     //  console.log(combinedData);
   
   // };
-
+  
   const handleUpdateEmployee = async (data) => {
     try {
       const response = await updateEmployee(dispatch,employeId, data);
@@ -47,7 +53,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
       // Handle error (e.g., show error message)
     }
   };
-
+  
   const handleUpdateOrganization = async (data) => {
     try {
       const response = await updateOrganization(dispatch,data);
@@ -69,7 +75,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
     // Dispatch actions with the modified data
     // dispatch(createUser(personalData));
     // dispatch(createCompany(companyData));
-
+    
     await handleUpdateEmployee(personalData)
     await handleUpdateOrganization(companyData)
 
@@ -80,7 +86,8 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
       setStep(step + 1)
     }
     else{
-      setStep(1)
+      openNotification();
+      // setStep(1)
     }
     
     // console.log(combinedData);
