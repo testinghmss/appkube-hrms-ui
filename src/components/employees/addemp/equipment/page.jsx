@@ -241,7 +241,7 @@ const trueNotification = () => {
                 className="border hover:border-sky-600 py-2 px-3 mb-2 h-8 ml-2"
                 name="serialnumber"
                 type="text"
-                placeholder="First Name"
+                placeholder="add serial number of device"
                 // value={formState.serialnumber}
                 onChange={(e) => {
                   setSerialNumber(e.target.value);
@@ -259,7 +259,7 @@ const trueNotification = () => {
                 style={{ width: "100%" }}
                 className="border  hover:border-sky-600 py-2 px-3 mb-2 ml-2"
                 name="notes"
-                placeholder="Design"
+                placeholder="write a brief note about device"
                 rows={4}
                 // value={formState.notes}
                 onChange={(e) => {

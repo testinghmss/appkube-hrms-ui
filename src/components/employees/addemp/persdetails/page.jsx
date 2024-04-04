@@ -37,6 +37,7 @@ const PersonalInformation = ({ tab, setTab }) => {
   const dispatch = useDispatch();
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setselectedState] = useState();
+  const [imageUploadNotificationShown, setImageUploadNotificationShown] = useState(false);
   // const [status ,setStatus] = useState(null)
   // const [image,setImage] = useState(null)
 
@@ -59,9 +60,12 @@ const PersonalInformation = ({ tab, setTab }) => {
       );
     };
   const imageTrueNotification = () => {
+    // if (!imageUploadNotificationShown){
       notification.open(
         {message: 'Image uploaded successfully!',}
       );
+      // setImageUploadNotificationShown(true)
+    // }
     };
   const imageFalseNotification = () => {
       notification.open(
@@ -119,9 +123,11 @@ const PersonalInformation = ({ tab, setTab }) => {
       reader.onloadend = () => {
         const base64 = reader.result;
         setReq({ fileName: file.name, data: base64 });
-        setfileuploaded(true);
-        setImageUrl(base64);
-        setFormData({ ...formData, image: Attachments });
+        // setfileuploaded(true);
+    uploadFile()
+
+        // setImageUrl(base64);
+        // setFormData({ ...formData, image: Attachments });
       };
       reader.readAsDataURL(file);
     }
@@ -145,7 +151,7 @@ const PersonalInformation = ({ tab, setTab }) => {
       </div>
     </button>
   );
-console.log("object")
+// console.log("object")
   const handleAddItemButtonClick = async () => {
     console.log(formData, "hitting api");
     console.log("imagr", imageUrl);
@@ -168,7 +174,7 @@ console.log("object")
       city: formData.city,
       zipcode: formData.zipcode,
       emp_type: 1,
-      image: Attachments,
+      image: formData.image,
     };
     try {
       console.log("data", data);
@@ -255,21 +261,33 @@ console.log("object")
       // alert("Image uploaded successfully!");
       // setImage(true)
       // imageTrueNotification()
-      setAttachments(response.data.link);
+      // if (!imageUploadNotificationShown) {
+      //   notification.open({
+      //     message: 'Image uploaded successfully!',
+      //   });
+      //   setImageUploadNotificationShown(true);
+      // }
+      // setAttachments(response.data.link);
+        setFormData({ ...formData, image: response.data.link });
+
     } catch (error) {
       // console.error(error);
       console.log(error);
       // setImage(false)
-      imageFalseNotification()
+      // imageFalseNotification()
+      // if (!imageUploadNotificationShown) {
+      //   imageTrueNotification();
+      //   setImageUploadNotificationShown(true);
+      // }
       // alert("Error uploading image. Please try again.");
     }
   };
   console.log(req);
-  if (fileuploaded) {
+  // if (fileuploaded) {
     // setfileuploaded(true);
-    uploadFile()
-    setfileuploaded(false);
-  }
+    // uploadFile()
+    // setfileuploaded(false);
+  // }
   return (
   
       <div className="gap-[100px] w-[100%] md:flex">
@@ -283,9 +301,9 @@ console.log("object")
             // beforeUpload={beforeUpload}
             onChange={handleChange}
           >
-            {imageUrl ? (
+            {formData.image ? (
               <Image
-                src={Attachments}
+                src={formData.image}
                 alt="avatar"
 
                 width={100}
@@ -324,9 +342,9 @@ console.log("object")
               onChange={handleInputChange}
               rules={[
                 {
-                  pattern: /^[A-Za-z]+$/,
+                  pattern: /^[A-Za-z\s]+$/,
                   required: true,
-                  message: "Please input your username!",
+                  message: "Please input your first name!",
                 },
               ]}
             >
@@ -344,6 +362,7 @@ console.log("object")
               onChange={handleInputChange}
               rules={[
                 {
+                  pattern: /^[A-Za-z\s]+$/,
                   required: true,
                   message: "Please input your Last Name!",
                 },
@@ -369,7 +388,7 @@ console.log("object")
               {
                 required: true,
                 pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: "Please input your Work Email Address!",
+                message: "Please input your Email Address!",
               },
             ]}
           >
@@ -477,6 +496,7 @@ console.log("object")
                 onChange={handleInputChange}
                 rules={[
                   {
+                    // pattern: /^[A-Za-z\s]+$/,
                     required: true,
                     message: "Please input your Qualification!",
                   },
@@ -509,6 +529,7 @@ console.log("object")
                 onChange={handleInputChange}
                 rules={[
                   {
+                    pattern: /^[A-Za-z0-9\s\.,\-_!@#$%^&*()+=\/\[\]{}|\\?]*$/,
                     required: true,
                     message: "Please input you Address line 1!",
                   },
@@ -516,7 +537,7 @@ console.log("object")
               >
                 <Input
                   className="rounded-none"
-                  placeholder="Enter Your Address"
+                  placeholder="Enter Your first Address "
                   name="address_line_1"
                 />
               </Form.Item>
@@ -528,6 +549,7 @@ console.log("object")
                 onChange={handleInputChange}
                 rules={[
                   {
+                    pattern: /^[A-Za-z0-9\s\.,\-_!@#$%^&*()+=\/\[\]{}|\\?]*$/,
                     required: true,
                     message: "Please input your Address line 2!",
                   },
@@ -535,7 +557,7 @@ console.log("object")
               >
                 <Input
                   className="rounded-none"
-                  placeholder="Enter Your Address"
+                  placeholder="Enter Your second Address "
                   name="address_line_2"
                 />
               </Form.Item>
@@ -549,6 +571,7 @@ console.log("object")
                 onChange={handleInputChange}
                 rules={[
                   {
+                    pattern: /^[A-Za-z0-9\s\.,\-_!@#$%^&*()+=\/\[\]{}|\\?]*$/,
                     required: true,
                     message: "Please input your Landmark!",
                   },
@@ -633,6 +656,7 @@ console.log("object")
             onChange={handleInputChange}
             rules={[
               {
+                pattern: /^[0-9]{6}$/,
                 required: true,
                 message: "Please input your Zip code!",
               },
