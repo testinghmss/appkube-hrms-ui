@@ -18,7 +18,7 @@ const ProfessionalInfo = () => {
   console.log(empId, 'from localStorage')
       const fetchData = async ()=>{
         try{
-          const empdetails = await axios.get(`/employee/${id}`,{
+          const empdetails = await axios.get(`/employee/${empId}`,{
 
             headers: {
               Authorization: `Bearer ${accessToken}`,

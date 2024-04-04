@@ -3,19 +3,16 @@ import React, { useEffect, useState } from 'react'
 import EquipmentCard from './EquipmentCard'
 import getAccessTokenFromCookie from '@/utils/getAccessToken';
 import { useSelector } from 'react-redux';
-import axios from '@/api/axios'
 
 const EquipmentDetails = () => {
   const [fetchedData , setFetchData] = useState({})
   const accessToken = getAccessTokenFromCookie();
   // const empId =  localStorage.getItem('empId')
   // console.log('emmpid from localstorage',empId)
-  const id = useSelector((state)=>state.Details.ParticularempId)
-
   useEffect(()=>{
     console.log('in useeffect')
     const fetchData = async ()=>{
-      // const id = await localStorage.getItem('empId')
+      const id = await localStorage.getItem('empId')
       // setEmpId(id)
       try{
         console.log('employee id from local storage',id)
@@ -33,7 +30,7 @@ const EquipmentDetails = () => {
       }
     }
     fetchData()
-  },[id])
+  },[accessToken])
 
   const reduxData = useSelector(state => state.professionalDetails)
   console.log('redux data for equipments ',reduxData)
