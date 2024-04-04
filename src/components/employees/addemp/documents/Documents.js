@@ -7,7 +7,7 @@ import React from "react";
 import axios from "@/api/axios";
 import { FaRegFileAlt } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
-import { Progress, Table } from "antd";
+import { Progress, Table, notification } from "antd";
 // import { AiFillDelete } from "react-icons/ai";
 // import Delete from './Table';
 // import FileTable from './FileTable';
@@ -84,7 +84,8 @@ const Documents = ({ tab, setTab }) => {
       // storing response link as url in usestate
       // setReq({ ...req, url: response.data.link });
       setDocs({name:req.fileName,url:response.data.link})
-      alert("Image uploaded successfully!");
+      // alert("Image uploaded successfully!");
+      imageTrueNotification()
       console.log('docs to push',docs)
       // setAttachments(response.data.link);
       // setAttachments([...Attachments, response.data.link]);
@@ -96,7 +97,8 @@ const Documents = ({ tab, setTab }) => {
     } catch (error) {
       console.error("error uploading image", error);
       // console.log(error);
-      alert("Error uploading image. Please try again.");
+      // alert("Error uploading image. Please try again.");
+      imageFalseNotification()
     }
   };
 
@@ -200,16 +202,37 @@ const Documents = ({ tab, setTab }) => {
         // storing the response in redux
         dispatch(setDocumentDetails(response.data));
         // changing the tab
+        trueNotification()
         setTab(tab + 1);
       }
     } catch (error) {
       console.log("error uploading document", error);
+      falseNotification()
     }
 
 
   }
   };
-
+  const falseNotification = () => {
+    notification.open(
+      {message: 'please review the details and fill all fields with correct details',}
+    );
+  };
+const trueNotification = () => {
+    notification.open(
+      {message: 'documents information stored,redirected to Review screen',}
+    );
+  };
+  const imageTrueNotification = () => {
+    notification.open(
+      {message: 'Image uploaded successfully!',}
+    );
+  };
+const imageFalseNotification = () => {
+    notification.open(
+      {message: 'Error uploading image. Please try again.',}
+    );
+  };
   return (
     <div className="w-full h-full p-10 flex flex-col ">
       <div>

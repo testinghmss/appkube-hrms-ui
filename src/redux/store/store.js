@@ -1,7 +1,7 @@
 // any store// any store
 "use client";
 import { configureStore } from "@reduxjs/toolkit";
-import professionalDetails from "../slices/profDetails";
+// import professionalDetails from "../slices/profDetails";
 // import personalDetails from "../slices/personalDetails";
 import SendpersonalDetails from "../slices/SendpersonalDetails";
 import Onboardingpersdetails from "../slices/Onboardingpersdetails";
@@ -15,7 +15,7 @@ import organizationSetupReducer, { setDesignations, setDepartments } from "../sl
 
 export const store = configureStore({
   reducer: {
-    professionalDetails: professionalDetails,
+    // professionalDetails: professionalDetails,
     formDetails: formSlice,
     // personalDetails: personalDetails,
     resetPassword: resetPasswordSlice,

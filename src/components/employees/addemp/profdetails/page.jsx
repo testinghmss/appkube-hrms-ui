@@ -4,8 +4,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Form, Input, Button, Select, Col, Row, DatePicker, Space } from "antd";
-
+import { Form, Input, Button, Select, Col, Row, DatePicker, Space, notification } from "antd";
+// notification
 import { setprofessionalDetails } from "@/redux/slices/Details";
 
 // import { setprofessionalDetails } from "@/redux/slices/Details";
@@ -103,11 +103,13 @@ const ProfessionalInfo = ({ tab, setTab }) => {
 
         dispatch(setprofessionalDetails(response.data));
         // changing the tab
+        trueNotification()
 
         setTab(tab + 1);
       }
     } catch (error) {
       console.log("error", error);
+      falseNotification()
     }
     }
   };
@@ -215,6 +217,25 @@ const ProfessionalInfo = ({ tab, setTab }) => {
     (state) => state.Details.professionalDetails
   );
 
+
+  const falseNotification = () => {
+    notification.open(
+      {message: 'please review the details and fill all fields with correct details  ',
+      style: {
+        backgroundColor: 'white',
+        color:'red',// Set the background color
+      }}
+    );
+  };
+const trueNotification = () => {
+    notification.open(
+      {message: 'professional information stored,redirected to Equipments details form',
+      style: {
+        backgroundColor: 'white',
+        color:'blue',// Set the background color
+      },}
+    );
+  };
   return (
     <div>
       <Form

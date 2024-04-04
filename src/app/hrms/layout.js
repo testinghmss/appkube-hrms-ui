@@ -153,6 +153,9 @@ export default function RootLayout({ children }) {
   //   if (onBoarded.OnboardingData) {
   return (
     <html lang="en">
+      <head>
+        <title>HRMS</title>
+      </head>
       <body>
         <Provider store={store}>
           <Header

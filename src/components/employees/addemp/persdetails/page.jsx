@@ -10,10 +10,11 @@ import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import Mainaxios from "@/api/axios";
-import axios from 'axios'
+import axios from "axios";
 import CountryComponent from "@/components/location/Countrys";
 import StateComponent from "@/components/location/States";
 import CityComponent from "@/components/location/city";
+import { notification } from "antd";
 import Image from "next/image";
 const beforeUpload = (file) => {
   const isPng = file.type === "image/png";
@@ -36,6 +37,35 @@ const PersonalInformation = ({ tab, setTab }) => {
   const dispatch = useDispatch();
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setselectedState] = useState();
+  // const [status ,setStatus] = useState(null)
+  // const [image,setImage] = useState(null)
+
+  const falseNotification = () => {
+    notification.open({
+      message:
+        "please review the details and fill all fields with correct details, contact numbers and emails must be different",
+      style: {
+        backgroundColor: "white",
+        color: "red", // Set the background color
+      },
+    });
+  };
+  const trueNotification = () => {
+    notification.open({
+      message:
+        "personal information stored,redirected to professional details form",
+      style: {
+        backgroundColor: "white",
+        color: "blue", // Set the background color
+      },
+    });
+  };
+  const imageTrueNotification = () => {
+    notification.open({ message: "Image uploaded successfully!" });
+  };
+  const imageFalseNotification = () => {
+    notification.open({ message: "Error uploading image. Please try again." });
+  };
 
   const handleInputChange = (e) => {
     console.log("form data", formData);
@@ -122,7 +152,7 @@ const PersonalInformation = ({ tab, setTab }) => {
       </div>
     </button>
   );
-  console.log("object")
+  console.log("object");
   const handleAddItemButtonClick = async () => {
     console.log(formData, "hitting api");
     console.log("imagr", imageUrl);
@@ -149,15 +179,16 @@ const PersonalInformation = ({ tab, setTab }) => {
     };
     try {
       console.log("data", data);
-      console.log("assTo", accessToken)
-      const response = await Mainaxios.post("/employee/personalInfo",
-        data, {
+      console.log("assTo", accessToken);
+      const response = await Mainaxios.post("/employee/personalInfo", data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
       console.log("response", response);
       if (response.status === 200) {
+        // localStorage.setItem('empId', response.data.id)
+
         console.log("response data", response.data);
         // storing the response in redux
         dispatch(setpersonalDetails(response.data));
@@ -179,12 +210,34 @@ const PersonalInformation = ({ tab, setTab }) => {
         } else {
           localStorage.setItem("empId", response.data.id);
         }
+        // setStatus(true)
+        await trueNotification();
         // changing tab
         setTab(tab + 1);
       }
+
+      // const id = localStorage.getItem("empId");
+      // //  checking tthe existance of employee id
+      // if (id) {
+      //   console.log("previouse id of local storage present", id);
+      //   // if id is existing then we will remote it from local storage
+      //   localStorage.removeItem("empId");
+      //   console.log(
+      //     "id deleted from local storage",
+      //     localStorage.getItem("empId")
+      //   );
+      //   // seting new empid for its information update
+      //   localStorage.setItem("empId", response.data.id);
+      //   console.log("new id", localStorage.getItem("empId"));
+      // } else {
+      //   localStorage.setItem("empId", response.data.id);
+      // }
+      // // changing tab
+      // setTab(tab + 1);
     } catch (error) {
       console.log("error", error);
-      setTab(tab + 1)
+      await falseNotification();
+      // setTab(tab + 1)
     }
   };
   const uploadFile = async () => {
@@ -203,22 +256,26 @@ const PersonalInformation = ({ tab, setTab }) => {
       );
 
       console.log("image uploaded", response.data);
-      alert("Image uploaded successfully!");
+      // alert("Image uploaded successfully!");
+      // setImage(true)
+      // imageTrueNotification()
       setAttachments(response.data.link);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       console.log(error);
-      alert("Error uploading image. Please try again.");
+      // setImage(false)
+      imageFalseNotification();
+      // alert("Error uploading image. Please try again.");
     }
   };
   console.log(req);
   if (fileuploaded) {
-    setfileuploaded(true);
-    uploadFile(), setfileuploaded(false);
+    // setfileuploaded(true);
+    uploadFile();
+    setfileuploaded(false);
   }
   return (
-
-    <div className="gap-[100px] w-[100%] md:flex">
+    <div className="gap-[100px] w-[98%] md:flex bg-white pt-5 pl-5 mr-10">
       <div className="image-upload-container">
         <Upload
           name="image"
@@ -233,14 +290,12 @@ const PersonalInformation = ({ tab, setTab }) => {
             <Image
               src={Attachments}
               alt="avatar"
-
               width={100}
               height={100}
               style={{
                 width: "100%",
-                height: "100%"
+                height: "100%",
               }}
-
             />
           ) : (
             uploadButton
@@ -394,7 +449,6 @@ const PersonalInformation = ({ tab, setTab }) => {
                 className="rounded-none"
                 placeholder="Enter Your Contact No."
                 name="number"
-                maxLength={10}
               />
             </Form.Item>
           </Col>
@@ -412,7 +466,11 @@ const PersonalInformation = ({ tab, setTab }) => {
                 },
               ]}
             >
-              <Input className="rounded-none" placeholder="Emergency No." name="emergency_number" maxLength={10} />
+              <Input
+                className="rounded-none"
+                placeholder="Emergency No."
+                name="emergency_number"
+              />
             </Form.Item>
           </Col>
         </Row>
@@ -429,7 +487,11 @@ const PersonalInformation = ({ tab, setTab }) => {
                 },
               ]}
             >
-              <Input className="rounded-none" placeholder="BCA" name="highest_qualification" />
+              <Input
+                className="rounded-none"
+                placeholder="BCA"
+                name="highest_qualification"
+              />
             </Form.Item>
           </Col>
           <Col md={{ span: 12 }} xs={{ span: 24 }}>
@@ -444,7 +506,11 @@ const PersonalInformation = ({ tab, setTab }) => {
                 },
               ]}
             >
-              <DatePicker className="rounded-none w-[100%]" onChange={(value) => dateHandle("dob", value)} name="dob" />
+              <DatePicker
+                className="rounded-none w-[100%]"
+                onChange={(value) => dateHandle("dob", value)}
+                name="dob"
+              />
             </Form.Item>
           </Col>
         </Row>
@@ -520,7 +586,12 @@ const PersonalInformation = ({ tab, setTab }) => {
                 },
               ]}
             >
-              <CountryComponent onChange={(value) => { handleDropDownChange("country", value), setSelectedCountry(value); }} />
+              <CountryComponent
+                onChange={(value) => {
+                  handleDropDownChange("country", value),
+                    setSelectedCountry(value);
+                }}
+              />
               {/* <Select placeholder="Select Your Country" name="country" onChange={(value) => handleDropDownChange("country", value)}>
                   <Option value="option1" name="country">Option 1</Option>
                   <Option value="option2" name="country">Option 2</Option>
@@ -542,7 +613,12 @@ const PersonalInformation = ({ tab, setTab }) => {
                 },
               ]}
             >
-              <StateComponent countryCode={selectedCountry} onChange={(value) => { handleDropDownChange("state", value), setselectedState(value) }} />
+              <StateComponent
+                countryCode={selectedCountry}
+                onChange={(value) => {
+                  handleDropDownChange("state", value), setselectedState(value);
+                }}
+              />
               {/* <Select placeholder="Select State" name="state" onChange={(value) => handleDropDownChange("state", value)}>
                   <Option value="option1">Option 1</Option>
                   <Option value="option2">Option 2</Option>
@@ -563,7 +639,11 @@ const PersonalInformation = ({ tab, setTab }) => {
                 },
               ]}
             >
-              <CityComponent countryCode={selectedCountry} stateCode={selectedState} onChange={(value) => handleDropDownChange("city", value)} />
+              <CityComponent
+                countryCode={selectedCountry}
+                stateCode={selectedState}
+                onChange={(value) => handleDropDownChange("city", value)}
+              />
               {/* <Select placeholder="Select City" name="city" onChange={(value) => handleDropDownChange("city", value)}>
                   <Option value="option1">Option 1</Option>
                   <Option value="option2">Option 2</Option>

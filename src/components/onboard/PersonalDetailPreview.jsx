@@ -6,41 +6,64 @@ import Logout from "@/../public/assets/onboarding/Logout.svg";
 // import Company from "@/../public/assets/onboarding/company.svg";
 import Profile from "@/../public/assets/onboarding/userIcon.png";
 import Link from "next/link";
-import {useDispatch,useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { createUser } from "@/redux/slices/Onboardingpersdetails";
-import { setCompanyData ,setPersonalData, updateOrganization, updateEmployee} from "@/redux/slices/Onboardingpersdetails";
+import {
+  setCompanyData,
+  setPersonalData,
+  updateOrganization,
+  updateEmployee,
+  setCompanyStatus,
+  setPersonalStatus,
+} from "@/redux/slices/Onboardingpersdetails";
 import { removeAccessToken } from "@/utils/getAccessToken";
+import { notification } from "antd";
 
 
 import {  Progress,notification  } from "antd";
 import moment from "moment";
 const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
-  
-  const personalData = useSelector((state) => state.Onboardingpersdetails.personalData);
-  const companyData = useSelector((state) => state.Onboardingpersdetails.companyData);
-  const employeId = useSelector((state) => state.Onboardingpersdetails.employeId);
+  const personalData = useSelector(
+    (state) => state.Onboardingpersdetails.personalData
+  );
+  const companyData = useSelector(
+    (state) => state.Onboardingpersdetails.companyData
+  );
+  const employeId = useSelector(
+    (state) => state.Onboardingpersdetails.employeId
+  );
 
-  const personalStatus = useSelector(state => state.Onboardingpersdetails.personalStatus)
-  const companyStatus = useSelector(state => state.Onboardingpersdetails.companyStatus)
-  
-  const dispatch = useDispatch()
-  
+  const personalStatus = useSelector(
+    (state) => state.Onboardingpersdetails.personalStatus
+  );
+  const companyStatus = useSelector(
+    (state) => state.Onboardingpersdetails.companyStatus
+  );
+
+  const dispatch = useDispatch();
+
+  const openNotification = () => {
+    notification.open({
+      message: "Something went wrong, please try again",
+    });
+  };
   // const handleSubmit = async () => {
-    //   // e.preventDefault();
-    //   // console.log("company...", companyData);
+  //   // e.preventDefault();
+  //   // console.log("company...", companyData);
 
   //      const combinedData = {"482d8374-fca3-43ff-a638-02c8a425c492",...companyData, };
-  
+
   //      dispatch(createUser(personalData))
   //      dispatch(createCompany(combinedData))
   //     //  console.log(combinedData);
-  
+
   // };
 
   const handleUpdateEmployee = async (data) => {
     try {
-      const response = await updateEmployee(dispatch,employeId, data);
-      dispatch(setPersonalData(response));
+      const response = await updateEmployee(dispatch, employeId, data);
+      console.log("PU -- ",response);
+       if(response) {dispatch(setPersonalStatus());}
       // Set other state as needed
     } catch (error) {
       console.error(error);
@@ -50,8 +73,9 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
 
   const handleUpdateOrganization = async (data) => {
     try {
-      const response = await updateOrganization(dispatch,data);
-      dispatch(setCompanyData(response));
+      const response = await updateOrganization(dispatch, data);
+      console.log('UO -- ',response);
+      if(response?.id) {dispatch(setCompanyStatus());}
       // Set other state as needed
     } catch (error) {
       console.error(error);
@@ -68,17 +92,17 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
   
   const handleSubmit = async () => {
     // const orgId = "482d8374-fca3-43ff-a638-02c8a425c492"; // Replace with your actual orgId value
-    console.log("id for the employe",employeId);
-    
+    console.log("id for the employe", employeId);
+
     // Combine orgId with companyData
     // const personalDatawithID = { id:employeId, ...personalData };
-    
+
     // Dispatch actions with the modified data
     // dispatch(createUser(personalData));
     // dispatch(createCompany(companyData));
 
-    await handleUpdateEmployee(personalData)
-    await handleUpdateOrganization(companyData)
+    await handleUpdateEmployee(personalData);
+    await handleUpdateOrganization(companyData);
 
     console.log("redux status p",personalStatus);
     console.log("redux status c",companyStatus);
@@ -91,24 +115,32 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
       console.log("error");
       openNotification()
     }
-    
+
     // console.log(combinedData);
     
   };
-  
-  const datetoshow = moment(personalData.dob).format('DD/MM/YYYY');
+
+  const datetoshow = moment(personalData.dob).format("DD/MM/YYYY");
   // console.log(personalData.name);
-  
+
   return (
     <div className="flex justify-center items-center gap-16 w-[100%] h-[100vh] p-10 ">
       <div className="md:w-[70vw] h-[88vh] rounded-2xl bg-[#E6F7FF] flex justify-center items-center">
-        <Image width={100} height={100} src={Onboard} className="w-[60%]  "  alt="onboard"/>
+        <Image
+          width={100}
+          height={100}
+          src={Onboard}
+          className="w-[60%]  "
+          alt="onboard"
+        />
       </div>
       <div className="flex flex-col gap-5 items-center  w-[50vw] h-[85vh] relative">
-        <Link href="/login" onClick={()=>{
-    removeAccessToken();
-
-        }}>
+        <Link
+          href="/login"
+          onClick={() => {
+            removeAccessToken();
+          }}
+        >
           <div
             className="flex  items-center p-1 gap-1 border border-[#1890FF] text-black group btn hover:bg-white transition w-[100px] absolute rounded-sm
          right-2 -top-5 cursor-pointer"
@@ -154,7 +186,12 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
           </div>
         </div>
         <div className="self-start rounded-md w-full p-2 h-full flex flex-col gap-10">
-          <Image src={personalData.image || Profile} width={100} height={100} alt="profile"/>
+          <Image
+            src={personalData.image || Profile}
+            width={100}
+            height={100}
+            alt="profile"
+          />
           <div className="flex flex-col gap-2">
             <div className="flex  justify-start gap-40 border-b-2 -mt-2  border-gray-200 w-full">
               <span className="  flex flex-col gap-1 text-sm">
@@ -183,7 +220,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
         <button
           className="w-[70%] lg:mt py-1 h-8 bg-[#1890FF] border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] transition-all text-white items-end"
           onClick={() => {
-            handleSubmit()
+            handleSubmit();
             // ,setStep(step + 1)
           }}
         >

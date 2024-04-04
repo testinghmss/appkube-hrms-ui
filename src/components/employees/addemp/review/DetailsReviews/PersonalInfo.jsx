@@ -10,44 +10,25 @@ import { useParams, useSearchParams } from "next/navigation";
 const PersonalInfo = () => {
 
   
-        // const [empId,setEmpId] = useState('')
         const accessToken = getAccessTokenFromCookie();
         const [fetchedData , setFetchData] = useState({})
   
-  // const [data, setData] = useState({})
-  // setData(useSelector(state => state.DetailSlice.personalDetails))
-  // const data =  useSelector(state => state.DetailSlice?.personalDetails)
-  // console.log("data of personal details from redux",data)
-  // const {id} = useParams()
 
-  // const searchParams = useSearchParams()
-  // const id = searchParams.get('id');
-  // console.log(id, 'Getting id from employee')
 
   const [data, setdata] = useState({})
   const id = useSelector((state)=>state.Details.ParticularempId)
 
-  console.log(id, 'from redux')
 
-
-  // useEffect(()=>{
-  //   const id = useSelector((state)=>state.Details.ParticularempId)
-  //   setId(id)
-
-  // })
-
+  const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
+  
   // useEffect(()=>{
    
-  //   const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
   //   console.log(empId, 'from localStorage')
   //   const fetchData = async ()=>{
-  // // const id = await SendEmp()
-  // // console.log(id, 'this is id')
-
-  //         // getting employee id from local storage 
+  
  
   //         try{
-  //           const response = await axios.get(`/employee/${id}`,{
+  //           const response = await axios.get(`/employee/${empId}`,{
     
   //             headers: {
   //               Authorization: `Bearer ${accessToken}`,
@@ -69,31 +50,30 @@ const PersonalInfo = () => {
 
     
     
-  // },[accessToken])
-
+  // },[])
 
   useEffect(() => {
-    if (id) {
-      const fetchData = async () => {
+    if (!empId) return; // Don't fetch data if empId is not available
+
+    const fetchData = async () => {
         try {
-          const response = await axios.get(`/employee/${id}`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
-          console.log("response of employee id", response.data.personal_information);
-          setFetchData(response.data.personal_information);
-           setdata({})
-          setdata(response.data.personal_information);
+            const response = await axios.get(`/employee/${empId}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log("response of employee id", response.data.personal_information);
+            // storing  data into state
+            setFetchData(response.data.personal_information);
+            setdata(response.data.personal_information);
         } catch (error) {
-          console.log('error fetching employee', error);
+            console.log('error fetching employee', error);
         }
-      };
-  
-      fetchData();
-    }
-  }, [id]);
-  
+    };
+
+    fetchData();
+
+}, [empId, accessToken]); // Specify empId and accessToken as dependencies
 
 
     // getting data from redux using useselector
@@ -147,7 +127,8 @@ const PersonalInfo = () => {
     <div className="grid grid-cols-2 grid-rows-9 ">
       <span className="mb-4">
         <h2 className="text-gray-400">First Name</h2>
-        <p className="font-semibold text-base">{data.first_name}</p>
+        <p className="font-semibold text-base">{data.first_name
+}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Last Name</h2>

@@ -115,8 +115,9 @@ const CompanyDetails = ({ step, setStep  }) => {
       !company.country ||
       !company.state ||
       !company.city ||
-      !company.zipcode ||
-      company.zipcode.length !==6
+      !company.zipcode 
+      // ||
+      // company.zipcode.length !==6
     ) {
       console.log("Please fill in all the required fields");
       openNotification();
