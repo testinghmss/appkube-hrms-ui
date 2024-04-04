@@ -31,6 +31,8 @@ const PersonalInformation = ({ tab, setTab }) => {
   const accessToken = getAccessTokenFromCookie();
   const persDetails = useSelector((state) => state.Details); 
   const router = useRouter();
+  const [notificationShown, setNotificationShown] = useState(false);
+
   const [req, setReq] = useState({ fileName: "", data: "" });
   const [fileuploaded, setfileuploaded] = useState(false);
   const [Attachments, setAttachments] = useState("");
@@ -72,6 +74,24 @@ const PersonalInformation = ({ tab, setTab }) => {
         {message: 'Error uploading image. Please try again.',}
       );
     };
+  const showNotification = (message, color) => {
+    notification.open({
+      message: message,
+      style: {
+        backgroundColor: 'white',
+        color: color,
+      }
+    });
+  };
+
+  useEffect(() => {
+    // Check if image upload is successful and notification has not been shown
+    if (fileuploaded && !notificationShown) {
+      imageTrueNotification();
+      setNotificationShown(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fileuploaded, notificationShown]);
 
   const handleInputChange = (e) => {
 
