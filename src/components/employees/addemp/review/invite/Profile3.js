@@ -114,7 +114,7 @@ import { useRouter } from 'next/navigation';
 const Profile3 = ({ step, setStep }) => {
   const router = useRouter();
   const accessToken = getAccessTokenFromCookie();
-  const [EmpData, setEmpData] = useState([]);
+  const [EmpData, setempdata] = useState([]);
 
   const SendEmail = async () => {
     const empId = localStorage.getItem("empId");
@@ -126,6 +126,7 @@ const Profile3 = ({ step, setStep }) => {
         }
       });
       console.log(JSON.stringify(response.data));
+      setempdata(empdetails.data.personal_information)
       if (response.status === 200) {
         localStorage.setItem('empId', '');
         // Set empId to an empty string
@@ -144,7 +145,7 @@ const Profile3 = ({ step, setStep }) => {
   return (
     <>
       <h2 className='text-center font-semibold text-2xl mb-5'>Create profile and invite</h2>
-      <p className='text-center text-md font-medium mb-4'>When do you want James Harper to receive an invitation to join?</p>
+      <p className='text-center text-md font-medium mb-4'>When do you want {EmpData.first_name} to receive an invitation to join?</p>
       {/* Rest of your component */}
 
       <button className='bg-[#1890FF] w-[100%] mb-5 h-9 rounded-sm text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF]' onClick={handleConfirmAndContinue}>Confirm and Continue</button>

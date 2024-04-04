@@ -167,18 +167,6 @@ const ProfessionalInfo = ({ tab, setTab }) => {
     console.log(name, dateValue, "change");
   };
 
-  // const dateHandle = (name, value) => {
-  //   let dateValue = "";
-  //   if (value && typeof value.format === "function") {
-  //     // Check if value is a moment object
-  //     dateValue = value.format("YYYY-MM-DD"); // Format the date
-  //   } else if (value instanceof Date) {
-  //     // Check if value is a Date object
-  //     dateValue = value.toISOString().split('T')[0]; // Format the date
-  //   }
-  //   setFormData({ ...formData, [name]: dateValue });
-  //   console.log(name, dateValue, "change");
-  // };
   const handleInputChange = (e) => {
     console.log("form data", formData);
     const { name, value } = e.target;

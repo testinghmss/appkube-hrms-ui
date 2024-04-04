@@ -151,7 +151,10 @@ const accessToken = getAccessTokenFromCookie()
           <>
             <div className="bg-green-200 my-3 w-[100%] rounded-sm">
               <p className="pl-4 p-2">
-                James harper start date is feb 28th, 2024 !
+              {empdata.first_name} 
+              {/* start date is feb 28th, 2024 ! */}
+                
+
               </p>
             </div>
             <Form.Item>
