@@ -14,6 +14,7 @@ import axios from 'axios'
 import CountryComponent from "@/components/location/Countrys";
 import StateComponent from "@/components/location/States";
 import CityComponent from "@/components/location/city";
+import { notification } from 'antd';
 import Image from "next/image";
 const beforeUpload = (file) => {
   const isPng = file.type === "image/png";
@@ -36,8 +37,40 @@ const PersonalInformation = ({ tab, setTab }) => {
   const dispatch = useDispatch();
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setselectedState] = useState();
+  // const [status ,setStatus] = useState(null)
+  // const [image,setImage] = useState(null)
+
+  const falseNotification = () => {
+      notification.open(
+        {message: 'please review the details and fill all fields with correct details, contact numbers and emails must be different',
+        style: {
+          backgroundColor: 'white',
+          color:'red',// Set the background color
+        }}
+      );
+    };
+  const trueNotification = () => {
+      notification.open(
+        {message: 'personal information stored,redirected to professional details form',
+        style: {
+          backgroundColor: 'white',
+          color:'blue',// Set the background color
+        }}
+      );
+    };
+  const imageTrueNotification = () => {
+      notification.open(
+        {message: 'Image uploaded successfully!',}
+      );
+    };
+  const imageFalseNotification = () => {
+      notification.open(
+        {message: 'Error uploading image. Please try again.',}
+      );
+    };
 
   const handleInputChange = (e) => {
+
     console.log("form data", formData);
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -171,32 +204,35 @@ console.log("object")
         } else {
           localStorage.setItem("empId", response.data.id);
         }
+        // setStatus(true)
+        await trueNotification();
         // changing tab
         setTab(tab + 1);
       }
 
-      const id = localStorage.getItem("empId");
-      //  checking tthe existance of employee id
-      if (id) {
-        console.log("previouse id of local storage present", id);
-        // if id is existing then we will remote it from local storage
-        localStorage.removeItem("empId");
-        console.log(
-          "id deleted from local storage",
-          localStorage.getItem("empId")
-        );
-        // seting new empid for its information update
-        localStorage.setItem("empId", response.data.id);
-        console.log("new id", localStorage.getItem("empId"));
-      } else {
-        localStorage.setItem("empId", response.data.id);
-      }
-      // changing tab
-      setTab(tab + 1);
+      // const id = localStorage.getItem("empId");
+      // //  checking tthe existance of employee id
+      // if (id) {
+      //   console.log("previouse id of local storage present", id);
+      //   // if id is existing then we will remote it from local storage
+      //   localStorage.removeItem("empId");
+      //   console.log(
+      //     "id deleted from local storage",
+      //     localStorage.getItem("empId")
+      //   );
+      //   // seting new empid for its information update
+      //   localStorage.setItem("empId", response.data.id);
+      //   console.log("new id", localStorage.getItem("empId"));
+      // } else {
+      //   localStorage.setItem("empId", response.data.id);
+      // }
+      // // changing tab
+      // setTab(tab + 1);
     }
 
      catch (error) {
       console.log("error", error);
+      await falseNotification()
       // setTab(tab + 1)
     }
   };
@@ -216,18 +252,23 @@ console.log("object")
       );
 
       console.log("image uploaded", response.data);
-      alert("Image uploaded successfully!");
+      // alert("Image uploaded successfully!");
+      // setImage(true)
+      // imageTrueNotification()
       setAttachments(response.data.link);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       console.log(error);
-      alert("Error uploading image. Please try again.");
+      // setImage(false)
+      imageFalseNotification()
+      // alert("Error uploading image. Please try again.");
     }
   };
   console.log(req);
   if (fileuploaded) {
-    setfileuploaded(true);
-    uploadFile(), setfileuploaded(false);
+    // setfileuploaded(true);
+    uploadFile()
+    setfileuploaded(false);
   }
   return (
   

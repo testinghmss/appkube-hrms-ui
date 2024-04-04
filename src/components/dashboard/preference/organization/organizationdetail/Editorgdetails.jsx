@@ -7,7 +7,7 @@ import { IoSaveSharp } from "react-icons/io5";
 import Orgdetails from "./Orgdetails";
 import Image from "next/image";
 
-const Editorgdetails = () => {
+const Editorgdetails = ({hrData}) => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     const imgname = event.target.files[0].name;
@@ -60,7 +60,20 @@ const Editorgdetails = () => {
   const hiddenFileInput = useRef(null);
 
   const [edit, setEdit] = useState(true);
+ console.log('organisatin data to edit',hrData)
 
+ // "organization_details": {
+  //   "org_id": "482d8374-fca3-43ff-a638-02c8a425c492",
+  //   "org_name": "Gandhe",
+  //   "org_logo": "",
+  //   "org_address_line_1": "123 Main St",
+  //   "org_address_line_2": "Apt 101",
+  //   "org_contact": 1890,
+  //   "org_country": "USA",
+  //   "org_city": "San Francisco",
+  //   "org_state": "California",
+  //   "org_Zipcode": 1233445
+  // },
   return (
     <>
       {edit ? (
@@ -86,26 +99,30 @@ const Editorgdetails = () => {
           </div>
           <div className="w-full  flex gap-5 justify-between">
             <div className="p-3 flex flex-col gap-4 w-[65%] min-h-full bg-white shadow-md">
-              <h3 className="text-lg font-semibold">Personal Information </h3>
+              <h3 className="text-lg font-semibold">Organizational Information </h3>
 
               <form className="flex  flex-col gap-5">
                 <div className="w-full flex justify-between gap-5">
                   <input
                     type="text"
                     placeholder="Synectiks India Private LTD"
+                    value={hrData.org_name}
                     className=" border border-gray-400 p-2 w-[50%] placeholder:text-black outline-none bg-transparent"
                   />
                   <input
                     type="text"
                     placeholder="Last Name"
+                    // value={}
                     className=" border border-gray-400 p-2 w-[50%] placeholder:text-black outline-none bg-transparent"
                   />
                 </div>
                 <div className=" border border-gray-400 p-2 w-full bg-transparent ">
-                  Civa.30051@example.com
+                 
+                 
+                 {(hrData?.org_email ) ? (hrData?.org_email  ): (  "Civa.30051@example.com"  )}
                 </div>
                 <p className="text-sm">
-                  to change your email please{" "}
+                  to change your email pl ease{" "}
                   <Link href="abcd " className="text-blue-300">
                     Contact Support
                   </Link>{" "}
@@ -113,12 +130,14 @@ const Editorgdetails = () => {
                 <div className="w-full flex justify-between gap-5">
                   <input
                     type="text"
-                    placeholder="Level 6, Phase 2, N Heights"
+                    placeholder="040-4567823"
+                    value={hrData.org_contact}
                     className="w-[50%] p-2 outline-none  placeholder:text-black border border-gray-400 "
                   />
                   <input
                     type="text"
-                    placeholder="040-4567823"
+                    placeholder="Level 6, Phase 2, N Heights"
+                    value={hrData.org_address_line_1}
                     className="w-[50%] p-2 outline-none  placeholder:text-black border border-gray-400 "
                   />
                 </div>
@@ -126,6 +145,7 @@ const Editorgdetails = () => {
                   <input
                     type="text"
                     placeholder="Hitech City"
+                    value={hrData.org_address_line_2}
                     className="w-[50%] p-2 outline-none  placeholder:text-black border border-gray-400 "
                   />
 
@@ -134,7 +154,7 @@ const Editorgdetails = () => {
                     id=""
                     className="w-[50%] p-2 bg-transparent placeholder:text-black border border-gray-400 outline-none"
                   >
-                    <option value="India">India</option>
+                    <option value={hrData.org_country}>{hrData.org_country}</option>
                   </select>
                 </div>
                 <div className="w-full flex justify-between gap-5">
@@ -143,20 +163,21 @@ const Editorgdetails = () => {
                     id=""
                     className="w-[50%] p-2 bg-transparent placeholder:text-black border border-gray-400 outline-none"
                   >
-                    <option value="Hyderabad">Hyderabad</option>
+                    <option value={hrData.org_city}>{hrData.org_city}</option>
                   </select>
                   <select
                     name="state"
                     id=""
                     className="w-[50%] p-2 bg-transparent placeholder:text-black border border-gray-400 outline-none"
                   >
-                    <option value="Telangana">Telangana</option>
+                    <option value={hrData.org_state}>{hrData.org_state}</option>
                   </select>
                 </div>
                 <div className="w-full flex justify-between gap-5">
                   <input
                     type="text"
                     placeholder="500081"
+                    value={hrData.org_zipcode}
                     className="w-[50%] p-2 outline-none placeholder:text-black border border-gray-400 "
                   />
                 </div>
