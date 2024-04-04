@@ -33,7 +33,7 @@ const Page = () => {
       {step == 4 && router.push("/hrms")}
 
       {/* {(step == 4 && personalStatus == 200 && companyStatus == 200 ) ? router.push("/hrms") : router.push("/onboarding")} */}
-      {step === 4 && handleNavigation}
+      {/* {step === 4 && handleNavigation} */}
     </div>
   );
 };
