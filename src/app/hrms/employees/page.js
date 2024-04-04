@@ -127,6 +127,8 @@ const Page = () => {
     setSearchText(value);
   };
 
+  const rowClassName = () => "cursor-pointer";
+
   return (
     <div>
       <div className="flex justify-between p-4">
@@ -186,6 +188,7 @@ const Page = () => {
             };
           }}
           pagination={false}
+          rowClassName={rowClassName}
         />
         <div className="flex justify-end mt-6">
           <Pagination
