@@ -171,6 +171,9 @@ const Signup = () => {
                   }}
                 />
               </Form.Item>
+                <p className="text-gray-400">
+                  (8 digits at least, alphanumeric and case sensitive)
+                </p>
               <Form.Item
                 name="password"
                 rules={[
@@ -180,9 +183,6 @@ const Signup = () => {
                   },
                 ]}
               >
-                <p className="text-gray-400">
-                  (8 digits at least, alphanumeric and case sensitive)
-                </p>
                 <Input.Password
                   placeholder="Password"
                   style={{ fontSize: "1.1rem" }}
