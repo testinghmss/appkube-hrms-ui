@@ -56,7 +56,7 @@ const Onboarding = ({ step, setStep }) => {
   const [imageUrl, setImageUrl] = useState();
 
   const personalData = useSelector((state) => state.Onboardingpersdetails.personalData);
-  
+
 
   const { Option } = Select;
   const router = useRouter();
@@ -77,7 +77,7 @@ const Onboarding = ({ step, setStep }) => {
     } else {
       setPersonal({ ...personal, [name]: value });
     }
-};
+  };
 
 
 
@@ -90,8 +90,6 @@ const Onboarding = ({ step, setStep }) => {
     }
     // Optionally, handle feedback for invalid input
   };
-  
-
 
   const handleDateChange = (date) => {
     if (date) {
@@ -101,6 +99,7 @@ const Onboarding = ({ step, setStep }) => {
       setPersonal({...personal, dob:null});
     }
   };
+  const datetoshow = moment(personal.dob).format('DD/MM/YYYY');
 
   const handleGenderChange = (selectedValue) => {
     setPersonal({ ...personal, gender: selectedValue });
@@ -115,7 +114,15 @@ const Onboarding = ({ step, setStep }) => {
   const handleSubmit = async () => {
     // e.preventDefault();
     console.log("Current state:", personal);
-    if (!personal.first_name || !personal.last_name || !personal.gender || !personal.dob || !personal.number || personal.number.length !== 10) {
+
+    if(!personal.number || personal.number.length !== 10){
+      notification.open({
+        message: 'Please fill number correctly',
+      });
+      return;
+    }
+
+    if (!personal.first_name || !personal.last_name || !personal.gender || !personal.dob ) {
       console.log("Please fill in all the required fields");
       // alert("fill All the input fields")
       openNotification();
@@ -258,7 +265,7 @@ const Onboarding = ({ step, setStep }) => {
   console.log(Attachments)
   console.log("image state", personal);
 
-  const datetoshow = moment(personal.dob).format('DD/MM/YYYY');
+
 
   return (
     // <form onSubmit={} >
@@ -365,23 +372,14 @@ const Onboarding = ({ step, setStep }) => {
             </Flex>
           </div>
 
-         {/* <input
-            name="dob"
-            type="text"
-            placeholder="DD/MM/YYYY"
-            className="p-1 mb-2 border border-gray-300 outline-[#1890FF] w-[70%]"
-            onChange={handleDateBlur}
-            // onBlur={handleDateBlur}
-            value={personal.dob || ''}
-          /> */}
           <div className=" mb-2 border border-gray-300 border-none outline-none w-[70%] rounded-none">
             <DatePicker
               selected={datetoshow}
               onChange={handleDateChange}
               placeholderText="dd/mm/yyyy"
               className="p-1 mb-2 border border-gray-300 outline-none w-[100%] rounded-none border-none"
-              format="DD/MM/YYYY"
             />
+
           </div>
 
           <div>
@@ -437,7 +435,7 @@ const Onboarding = ({ step, setStep }) => {
               </h2> */}
               <p className="font-sm font-light">upload your profile picture</p>
             </div>
-          </div>  
+          </div>
 
           <button
             type="submit"

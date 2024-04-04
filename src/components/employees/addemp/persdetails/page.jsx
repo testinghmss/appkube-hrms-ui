@@ -28,7 +28,7 @@ const beforeUpload = (file) => {
 };
 const PersonalInformation = ({ tab, setTab }) => {
   const accessToken = getAccessTokenFromCookie();
-  const persDetails = useSelector((state) => state.Details); 
+  const persDetails = useSelector((state) => state.Details);
   const router = useRouter();
   const [req, setReq] = useState({ fileName: "", data: "" });
   const [fileuploaded, setfileuploaded] = useState(false);
@@ -40,9 +40,19 @@ const PersonalInformation = ({ tab, setTab }) => {
   const handleInputChange = (e) => {
     console.log("form data", formData);
     const { name, value } = e.target;
+
+    if(name === "zipcode"){
+
+      const onlyNums = value.replace(/\D/g, '');
+      setFormData({ ...formData, [name]: onlyNums });
+
+    }else{
+
     setFormData({ ...formData, [name]: value });
-    console.log(name, value, "change");
+  }
+  console.log(name, value, "change");
   };
+
   const handleDropDownChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
     console.log(name, value, "change");
@@ -74,9 +84,9 @@ const PersonalInformation = ({ tab, setTab }) => {
 
   const handleChange = (info) => {
     // if (info.file.status === "uploading") {
-      // console.log(info, 'info')
+    // console.log(info, 'info')
     // setLoading(true);
-      // return;
+    // return;
     // }
     // if (info.file.status === "done") {
     const file = info.file.originFileObj;
@@ -112,7 +122,7 @@ const PersonalInformation = ({ tab, setTab }) => {
       </div>
     </button>
   );
-console.log("object")
+  console.log("object")
   const handleAddItemButtonClick = async () => {
     console.log(formData, "hitting api");
     console.log("imagr", imageUrl);
@@ -139,9 +149,9 @@ console.log("object")
     };
     try {
       console.log("data", data);
-      console.log("assTo",accessToken)
-      const response = await Mainaxios.post("/employee/personalInfo", 
-      data,{
+      console.log("assTo", accessToken)
+      const response = await Mainaxios.post("/employee/personalInfo",
+        data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -207,36 +217,36 @@ console.log("object")
     uploadFile(), setfileuploaded(false);
   }
   return (
-  
-      <div className="gap-[100px] w-[100%] md:flex">
-        <div className="image-upload-container">
-          <Upload
-            name="image"
-            listType="picture-card"
-            className="avatar-uploader"
-            showUploadList={false}
-            // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-            // beforeUpload={beforeUpload}
-            onChange={handleChange}
-          >
-            {imageUrl ? (
-              <Image
-                src={Attachments}
-                alt="avatar"
 
-                width={100}
-                height={100}
-                style={{
-                  width: "100%",
-                  height:"100%"
-                }}
+    <div className="gap-[100px] w-[100%] md:flex">
+      <div className="image-upload-container">
+        <Upload
+          name="image"
+          listType="picture-card"
+          className="avatar-uploader"
+          showUploadList={false}
+          // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+          // beforeUpload={beforeUpload}
+          onChange={handleChange}
+        >
+          {imageUrl ? (
+            <Image
+              src={Attachments}
+              alt="avatar"
 
-              />
-            ) : (
-              uploadButton
-            )}
-          </Upload>
-        </div>
+              width={100}
+              height={100}
+              style={{
+                width: "100%",
+                height: "100%"
+              }}
+
+            />
+          ) : (
+            uploadButton
+          )}
+        </Upload>
+      </div>
 
       {/* Form */}
       <Form
@@ -341,226 +351,227 @@ console.log("object")
           </Form.Item>
         </Col>
 
-          <div className="">
-            <Row>
-              <Form.Item
-                label="Gender"
+        <div className="">
+          <Row>
+            <Form.Item
+              label="Gender"
+              name="gender"
+              onChange={handleInputChange}
+              style={{ marginBottom: 0 }}
+              rules={[{ required: true }]}
+            >
+              <Radio.Group
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginLeft: "38px",
+                }}
                 name="gender"
-                onChange={handleInputChange}
-                style={{ marginBottom: 0 }}
-                rules={[{ required: true }]}
               >
-                <Radio.Group
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    marginLeft: "38px",
-                  }}
-                  name="gender"
-                >
-                  <Radio.Button value="Male">Male</Radio.Button>
-                  <Radio.Button value="Female">Female</Radio.Button>
-                  <Radio.Button value="Other">Other</Radio.Button>
-                </Radio.Group>
-              </Form.Item>
-            </Row>{" "}
-            <br></br>{" "}
-          </div>
-          <Row gutter={20}>
-            <Col md={{ span: 12 }} xs={{ span: 24 }}>
-              <Form.Item
-                label="Contact no"
+                <Radio.Button value="Male">Male</Radio.Button>
+                <Radio.Button value="Female">Female</Radio.Button>
+                <Radio.Button value="Other">Other</Radio.Button>
+              </Radio.Group>
+            </Form.Item>
+          </Row>{" "}
+          <br></br>{" "}
+        </div>
+        <Row gutter={20}>
+          <Col md={{ span: 12 }} xs={{ span: 24 }}>
+            <Form.Item
+              label="Contact no"
+              name="number"
+              onChange={handleInputChange}
+              rules={[
+                {
+                  required: true,
+                  pattern: /^[0-9]{10}$/,
+                  message: "Please input you Contact no!",
+                },
+              ]}
+            >
+              <Input
+                className="rounded-none"
+                placeholder="Enter Your Contact No."
                 name="number"
-                onChange={handleInputChange}
-                rules={[
-                  {
-                    required: true,
-                    pattern: /^[0-9]{10}$/,
-                    message: "Please input you Contact no!",
-                  },
-                ]}
-              >
-                <Input
-                  className="rounded-none"
-                  placeholder="Enter Your Contact No."
-                  name="number"
-                />
-              </Form.Item>
-            </Col>
-            <Col md={{ span: 12 }} xs={{ span: 24 }}>
-              <Form.Item
-                label="Emergency Contact no :"
-                name="emergency_number"
-                onChange={handleInputChange}
-                colon={false}
-                rules={[
-                  {
-                    required: true,
-                    pattern: /^[0-9]{10}$/,
-                    message: "Please input your Emergency Contact no!",
-                  },
-                ]}
-              >
-                <Input className="rounded-none" placeholder="Emergency No." name="emergency_number" />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={20}>
-            <Col md={{ span: 12 }} xs={{ span: 24 }}>
-              <Form.Item
-                label="Qualification"
-                name="highest_qualification"
-                onChange={handleInputChange}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Qualification!",
-                  },
-                ]}
-              >
-                <Input className="rounded-none" placeholder="BCA" name="highest_qualification" />
-              </Form.Item>
-            </Col>
-            <Col md={{ span: 12 }} xs={{ span: 24 }}>
-              <Form.Item
-                label="Date of Birth"
-                name="dob"
-                onChange={handleInputChange}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Date of Birth!",
-                  },
-                ]}
-              >
-                <DatePicker className="rounded-none w-[100%]" onChange={(value) => dateHandle("dob", value)} name="dob" />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={20}>
-            <Col md={{ span: 12 }} xs={{ span: 24 }}>
-              <Form.Item
-                label="Address line 1"
+                maxLength={10}
+              />
+            </Form.Item>
+          </Col>
+          <Col md={{ span: 12 }} xs={{ span: 24 }}>
+            <Form.Item
+              label="Emergency Contact no :"
+              name="emergency_number"
+              onChange={handleInputChange}
+              colon={false}
+              rules={[
+                {
+                  required: true,
+                  pattern: /^[0-9]{10}$/,
+                  message: "Please input your Emergency Contact no!",
+                },
+              ]}
+            >
+              <Input className="rounded-none" placeholder="Emergency No." name="emergency_number" maxLength={10} />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={20}>
+          <Col md={{ span: 12 }} xs={{ span: 24 }}>
+            <Form.Item
+              label="Qualification"
+              name="highest_qualification"
+              onChange={handleInputChange}
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your Qualification!",
+                },
+              ]}
+            >
+              <Input className="rounded-none" placeholder="BCA" name="highest_qualification" />
+            </Form.Item>
+          </Col>
+          <Col md={{ span: 12 }} xs={{ span: 24 }}>
+            <Form.Item
+              label="Date of Birth"
+              name="dob"
+              onChange={handleInputChange}
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your Date of Birth!",
+                },
+              ]}
+            >
+              <DatePicker className="rounded-none w-[100%]" onChange={(value) => dateHandle("dob", value)} name="dob" />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={20}>
+          <Col md={{ span: 12 }} xs={{ span: 24 }}>
+            <Form.Item
+              label="Address line 1"
+              name="address_line_1"
+              onChange={handleInputChange}
+              rules={[
+                {
+                  required: true,
+                  message: "Please input you Address line 1!",
+                },
+              ]}
+            >
+              <Input
+                className="rounded-none"
+                placeholder="Enter Your Address"
                 name="address_line_1"
-                onChange={handleInputChange}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input you Address line 1!",
-                  },
-                ]}
-              >
-                <Input
-                  className="rounded-none"
-                  placeholder="Enter Your Address"
-                  name="address_line_1"
-                />
-              </Form.Item>
-            </Col>
-            <Col md={{ span: 12 }} xs={{ span: 24 }}>
-              <Form.Item
-                label="Address line 2"
+              />
+            </Form.Item>
+          </Col>
+          <Col md={{ span: 12 }} xs={{ span: 24 }}>
+            <Form.Item
+              label="Address line 2"
+              name="address_line_2"
+              onChange={handleInputChange}
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your Address line 2!",
+                },
+              ]}
+            >
+              <Input
+                className="rounded-none"
+                placeholder="Enter Your Address"
                 name="address_line_2"
-                onChange={handleInputChange}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Address line 2!",
-                  },
-                ]}
-              >
-                <Input
-                  className="rounded-none"
-                  placeholder="Enter Your Address"
-                  name="address_line_2"
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={20}>
-            <Col md={{ span: 12 }} xs={{ span: 24 }}>
-              <Form.Item
-                label="Landmark"
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={20}>
+          <Col md={{ span: 12 }} xs={{ span: 24 }}>
+            <Form.Item
+              label="Landmark"
+              name="landmark"
+              onChange={handleInputChange}
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your Landmark!",
+                },
+              ]}
+            >
+              <Input
+                className="rounded-none"
+                placeholder="Enter Your Landmark"
                 name="landmark"
-                onChange={handleInputChange}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Landmark!",
-                  },
-                ]}
-              >
-                <Input
-                  className="rounded-none"
-                  placeholder="Enter Your Landmark"
-                  name="landmark"
-                />
-              </Form.Item>
-            </Col>
-            <Col md={{ span: 12 }} xs={{ span: 24 }}>
-              <Form.Item
-                label="Select Country"
-                name="country"
-                onChange={(value) => handleDropDownChange("country", value)}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please Select Your Country!",
-                  },
-                ]}
-              >
-                <CountryComponent onChange={(value) => {handleDropDownChange("country", value) , setSelectedCountry(value);}}/>
-                {/* <Select placeholder="Select Your Country" name="country" onChange={(value) => handleDropDownChange("country", value)}>
+              />
+            </Form.Item>
+          </Col>
+          <Col md={{ span: 12 }} xs={{ span: 24 }}>
+            <Form.Item
+              label="Select Country"
+              name="country"
+              onChange={(value) => handleDropDownChange("country", value)}
+              rules={[
+                {
+                  required: true,
+                  message: "Please Select Your Country!",
+                },
+              ]}
+            >
+              <CountryComponent onChange={(value) => { handleDropDownChange("country", value), setSelectedCountry(value); }} />
+              {/* <Select placeholder="Select Your Country" name="country" onChange={(value) => handleDropDownChange("country", value)}>
                   <Option value="option1" name="country">Option 1</Option>
                   <Option value="option2" name="country">Option 2</Option>
                   <Option value="option3" name="country">Option 3</Option>
                 </Select> */}
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={20}>
-            <Col md={{ span: 12 }} xs={{ span: 24 }}>
-              <Form.Item
-                label="State"
-                name="state"
-                onChange={handleInputChange}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select an option!",
-                  },
-                ]}
-              >
-                <StateComponent countryCode={selectedCountry} onChange={(value) => {handleDropDownChange("state", value) , setselectedState(value)}}/>
-                {/* <Select placeholder="Select State" name="state" onChange={(value) => handleDropDownChange("state", value)}>
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={20}>
+          <Col md={{ span: 12 }} xs={{ span: 24 }}>
+            <Form.Item
+              label="State"
+              name="state"
+              onChange={handleInputChange}
+              rules={[
+                {
+                  required: true,
+                  message: "Please select an option!",
+                },
+              ]}
+            >
+              <StateComponent countryCode={selectedCountry} onChange={(value) => { handleDropDownChange("state", value), setselectedState(value) }} />
+              {/* <Select placeholder="Select State" name="state" onChange={(value) => handleDropDownChange("state", value)}>
                   <Option value="option1">Option 1</Option>
                   <Option value="option2">Option 2</Option>
                   <Option value="option3">Option 3</Option>
                 </Select> */}
-              </Form.Item>
-            </Col>
+            </Form.Item>
+          </Col>
 
-            <Col md={{ span: 12 }} xs={{ span: 24 }}>
-              <Form.Item
-                label="City"
-                name="city"
-                onChange={handleInputChange}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select an option!",
-                  },
-                ]}
-              >
-                <CityComponent  countryCode={selectedCountry} stateCode={selectedState} onChange={(value) => handleDropDownChange("city", value)}/>
-                {/* <Select placeholder="Select City" name="city" onChange={(value) => handleDropDownChange("city", value)}>
+          <Col md={{ span: 12 }} xs={{ span: 24 }}>
+            <Form.Item
+              label="City"
+              name="city"
+              onChange={handleInputChange}
+              rules={[
+                {
+                  required: true,
+                  message: "Please select an option!",
+                },
+              ]}
+            >
+              <CityComponent countryCode={selectedCountry} stateCode={selectedState} onChange={(value) => handleDropDownChange("city", value)} />
+              {/* <Select placeholder="Select City" name="city" onChange={(value) => handleDropDownChange("city", value)}>
                   <Option value="option1">Option 1</Option>
                   <Option value="option2">Option 2</Option>
                   <Option value="option3">Option 3</Option>
                 </Select> */}
-              </Form.Item>
-            </Col>
-          </Row>
+            </Form.Item>
+          </Col>
+        </Row>
 
         <Col md={{ span: 12 }} xs={{ span: 24 }}>
           <Form.Item
@@ -570,7 +581,8 @@ console.log("object")
             rules={[
               {
                 required: true,
-                message: "Please input your Zip code!",
+                pattern: /^[0-9]+$/,
+                message: "Please input your Zip code using numbers only!",
               },
             ]}
           >

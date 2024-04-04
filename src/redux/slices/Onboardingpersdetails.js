@@ -8,7 +8,7 @@ import {useDispatch} from "react-redux"
 const accessToken = getAccessTokenFromCookie();
 
 
-export const updateEmployee = async (dispatch,employeId, data) => {
+export const updateEmployee = async (employeId, data) => {
 
   try {
     const response = await axios.put(`/employee/${employeId}`, data, {
@@ -18,7 +18,7 @@ export const updateEmployee = async (dispatch,employeId, data) => {
     });
     console.log("personal data", response);
     console.log("personal status",response.status);
-        dispatch(setPersonalStatus(response.status))
+    // dispatch(setPersonalData(response));
     return response.data;
   } catch (error) {
     console.error("error personal", error);
@@ -28,7 +28,7 @@ export const updateEmployee = async (dispatch,employeId, data) => {
 
 
 
-export const updateOrganization = async (dispatch,data) => {
+export const updateOrganization = async (data) => {
   try {
     const response = await axios.put('/organization', data, {
       headers: {
@@ -37,7 +37,7 @@ export const updateOrganization = async (dispatch,data) => {
     });
     console.log("company response", response);
     console.log("personal status",response.status);
-        dispatch(setPersonalStatus(response.status))
+    // dispatch(setCompanyData(response));
     return response.data;
   } catch (error) {
     console.error("error company", error);
@@ -51,8 +51,8 @@ export const Onboardingpersdetails = createSlice({
     personalData:{},
     companyData:{},
     employeId:null,
-    personalStatus:200,
-    companyStatus:200,
+    personalStatus:null,
+    companyStatus:null,
     OnboardingData:null,
     loading: false,
     error: null,
@@ -60,9 +60,11 @@ export const Onboardingpersdetails = createSlice({
   reducers: {
     setPersonalData:(state,action) => {
       state.personalData = action.payload
+      state.personalStatus = 200
     },
     setCompanyData:(state,action) => {
       state.companyData = action.payload
+      state.companyStatus = 200
     },
     setemployeId:(state,action) => {
       state.employeId = action.payload

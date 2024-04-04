@@ -12,7 +12,7 @@ import { setCompanyData ,setPersonalData, updateOrganization, updateEmployee} fr
 import { removeAccessToken } from "@/utils/getAccessToken";
 
 
-import {  Progress } from "antd";
+import {  Progress,notification  } from "antd";
 import moment from "moment";
 const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
   
@@ -58,6 +58,13 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
       // Handle error
     }
   };
+
+  const openNotification = () => {
+    notification.open({
+      message: 'Please fill in all the required fields',
+    });
+  };
+
   
   const handleSubmit = async () => {
     // const orgId = "482d8374-fca3-43ff-a638-02c8a425c492"; // Replace with your actual orgId value
@@ -80,10 +87,13 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
       setStep(step + 1)
     }
     else{
-      setStep(1)
+      // setStep(1)
+      console.log("error");
+      openNotification()
     }
     
     // console.log(combinedData);
+    
   };
   
   const datetoshow = moment(personalData.dob).format('DD/MM/YYYY');

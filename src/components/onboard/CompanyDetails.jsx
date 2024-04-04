@@ -87,14 +87,29 @@ const CompanyDetails = ({ step, setStep  }) => {
     });
   };
 
+
   const handleCompanySubmit = async () => {
     // e.preventDefault();
+    if(!company.number ||
+      company.number.length !== 10){
+        notification.open({
+          message: "Please fill the number correctly",
+        });
+        return;
+      }
+
+    if(!company.zipcode ||
+       company.zipcode.length !==6){
+          notification.open({
+            message: "Please fill the zipcode correctly",
+          });
+          return;
+      }
+    
 
     if (
       !company.name ||
       !company.email ||
-      !company.number ||
-      company.number.length !== 10 ||
       !company.address_line_1 ||
       !company.address_line_2 ||
       !company.country ||

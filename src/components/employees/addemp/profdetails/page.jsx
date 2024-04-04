@@ -155,6 +155,45 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   //   (state) => state.selectedworkLocation
   // );
   // const selectedDate = useSelector((state) => state.selectedDate);
+
+  const [designation,setdesignation] = useEffect({})
+  const [department,setdepartment] = useEffect({})
+
+  
+  useEffect(() => {
+    const fetchDesinationData = async () => {
+      try {
+        const response = await axios.get("/designation", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log("designation response",response);
+        setdesignation(response)
+      } catch (error) {
+        console.error("Error fetching designations:", error);
+      }
+    };
+    fetchDesinationData();
+  }, [accessToken]);
+
+  useEffect(() => {
+    const fetchDepartmentData = async () => {
+      try {
+        const response = await axios.get("/department", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log("department response",response);
+        setdepartment(response)
+      } catch (error) {
+        console.error("Error fetching departments:", error);
+      }
+    };
+    fetchDepartmentData();
+  }, [ accessToken]);
+
   const handleDropDownChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
     console.log(name, value, "change");
@@ -218,7 +257,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {prof1.map((option) => (
+              {designation.map((option) => (
                 <Select.Option
                   key={option}
                   value={option}
@@ -313,7 +352,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {prof.map((option) => (
+              {department.map((option) => (
                 <Select.Option key={option} value={option}>
                   {option}
                 </Select.Option>
