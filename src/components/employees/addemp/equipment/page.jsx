@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button } from "antd";
+import { Button, notification } from "antd";
 import { useRouter } from "next/navigation";
 import { Checkbox, DatePicker, Input, Radio, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -101,15 +101,26 @@ const Equipments = ({ tab, setTab }) => {
       // dispatch(AddEquipment(response.data));
       // storing the response in redux
       dispatch(setEquipmentDetails(response.data));
+      trueNotification()
       // changing the tab
       setTab(tab + 1);
     }
   } catch (error) {
     console.log("error", error);
+    falseNotification()
   }
    }
   };
-
+  const falseNotification = () => {
+    notification.open(
+      {message: 'please review the details and fill all fields with correct details',}
+    );
+  };
+const trueNotification = () => {
+    notification.open(
+      {message: 'Equipment data stored,redirected to Document details form',}
+    );
+  };
   return (
     <div>
       <div

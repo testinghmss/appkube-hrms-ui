@@ -1,4 +1,5 @@
 "use client";
+// import React, { useEffect, useState } from "react";
 import React, { useEffect, useState } from "react";
 // import { Button } from "antd";
 import Image from "next/image";
@@ -77,7 +78,7 @@ const handleEdit = ()=>{
 // console.log(`edit value ${edit}`)
 return (
     <>
-      {/* {!edit ? (
+      {!edit ? (
         <div key='personal-details'  className="w-full h-full p-2 flex flex-col gap-10 shadow-sm">
           <div className="flex justify-between items-center  p-3 shadow-md">
             <h2 className="text-xl font-bold">Personal Details </h2>
@@ -132,9 +133,9 @@ return (
             </div>
           </div>
         </div>
-      ) : ( */}
+      ) : (
         <Editpersonaldetail key='edit-details' fetchedData={fetchedData}/>
-      {/* )} */}
+      )}
     </>
   );
 };
