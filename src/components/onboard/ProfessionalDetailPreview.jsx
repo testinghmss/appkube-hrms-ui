@@ -9,6 +9,7 @@ import Link from "next/link";
 import {useDispatch,useSelector} from "react-redux"
 import { setCompanyData ,setPersonalData, updateOrganization, updateEmployee, setPersonalStatus} from "@/redux/slices/Onboardingpersdetails";
 import { removeAccessToken } from "@/utils/getAccessToken";
+import { notification } from "antd";
 
 
 const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
@@ -22,6 +23,12 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
   
   
   const dispatch = useDispatch()
+  
+  const openNotification = () => {
+    notification.open({
+      message: "Something went wrong, please try again",
+    });
+  };
 
   // const handleSubmit = async () => {
     //   // e.preventDefault();
@@ -32,7 +39,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
     //      console.log("dispatch",personalData);
     
     // };
-
+    
     const handleUpdateEmployee = async (data) => {
       try {
         const response = await updateEmployee(dispatch,employeId, data);
@@ -44,8 +51,8 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
         // Handle error (e.g., show error message)
       }
     };
-
-
+    
+    
     const handleUpdateOrganization = async (data) => {
       try {
         const response = await updateOrganization(dispatch,data);
@@ -67,7 +74,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
       // const personalDatawithID = { id:employeId, ...personalData };
       
       // Dispatch actions with the modified data
-
+      
       // dispatch(createUser(personalData));
       // dispatch(createCompany(companyData));
 
@@ -83,7 +90,8 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
         setStep(step + 1)
       }
       else{
-        setStep(1)
+        openNotification();
+        // setStep(1)
       }
       
     };

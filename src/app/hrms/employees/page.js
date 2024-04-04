@@ -146,15 +146,20 @@ const Page = () => {
       </div>
 
       <div className="bg-white w-full px-8 py-4 ml-4 flex justify-between">
-      <Search
+        <Search
           className="w-80 mt-4"
           placeholder="Search Employee"
           onSearch={handleSearch}
+          style={{ width: "500px" }}
         />
         <div className="flex items-center">
-          <Dropdown overlay={statusMenu} trigger={['click']} className='mr-2 text-sm'>
+          <Dropdown
+            overlay={statusMenu}
+            trigger={["click"]}
+            className="mr-2 text-sm"
+          >
             <a onClick={(e) => e.preventDefault()}>
-              {selectedStatus || 'All'} <DownOutlined />
+              {selectedStatus || "All"} <DownOutlined />
             </a>
           </Dropdown>
           <button
@@ -170,29 +175,26 @@ const Page = () => {
         <Table
           columns={columns}
           dataSource={filteredEmployees}
-          onRow={
-            (record) => {
+          onRow={(record) => {
             return {
               onClick: () => {
-                
                 SendEmp(record);
-              
-                router.push(`/hrms/employees/employeesOverView`)
-               dispatch(setParticularEmpid(record.id))
+
+                router.push(`/hrms/employees/employeesOverView`);
+                dispatch(setParticularEmpid(record.id));
               },
             };
-            
-          }
-         
-          }
+          }}
           pagination={false}
         />
         <div className="flex justify-end mt-6">
           <Pagination
             size="large"
-            total={100} 
+            total={100}
             current={currentPage}
-            showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+            showTotal={(total, range) =>
+              `${range[0]}-${range[1]} of ${total} items`
+            }
             onChange={handlePageChange}
           />
         </div>

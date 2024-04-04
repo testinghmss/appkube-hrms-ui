@@ -13,11 +13,15 @@ import axios from "@/api/axios";
 import { useDispatch } from "react-redux";
 import { setEmail } from "@/redux/slices/resetPasswordSlice";
 import { CiLight } from "react-icons/ci";
+import Loading from "@/app/loading";
+
 
 const Signup = () => {
   const router = useRouter();
   const email = useRef();
   const [emails, setemails] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
   const dispatch = useDispatch();
   // const password = useRef();
@@ -28,6 +32,8 @@ const Signup = () => {
   const [errMessage, setErrMessage] = useState("");
 
   const signupDetails = async (values) => {
+    setLoading(true);
+
     console.log("in finish");
     const data = {
       email: values.email,
@@ -66,6 +72,8 @@ const Signup = () => {
           setErrMessage(error.response.data.message);
         }
         setValid(false);
+      } finally {
+        setLoading(false); // Set loading state to false after response or error is received
       }
     } else {
       console.log(
@@ -75,6 +83,7 @@ const Signup = () => {
         values.confirmpassword,
         "?"
       );
+      setLoading(false);
     }
   };
 
@@ -116,6 +125,8 @@ const Signup = () => {
 
   // console.log(email.current.value);
   return (
+    <>
+      {loading && <Loading />}
     <div className="flex justify-center items-center p-10 gap-16">
       <div className="md:w-[70vw] md:h-[88vh] bg-[#E6F7FF] rounded-3xl flex justify-center items-center">
         <Image src={signup} alt="signup" className="w-[80%]" />
@@ -253,6 +264,7 @@ const Signup = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
