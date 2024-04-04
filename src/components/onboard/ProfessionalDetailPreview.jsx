@@ -7,7 +7,14 @@ import Company from "@/../public/assets/onboarding/company.svg";
 import Profile from "@/../public/assets/onboarding/profile.svg";
 import Link from "next/link";
 import {useDispatch,useSelector} from "react-redux"
-import { setCompanyData ,setPersonalData, updateOrganization, updateEmployee, setPersonalStatus} from "@/redux/slices/Onboardingpersdetails";
+import {
+  setCompanyData,
+  setPersonalData,
+  updateOrganization,
+  updateEmployee,
+  setCompanyStatus,
+  setPersonalStatus,
+} from "@/redux/slices/Onboardingpersdetails";
 import { removeAccessToken } from "@/utils/getAccessToken";
 import { notification } from "antd";
 
@@ -43,7 +50,8 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
     const handleUpdateEmployee = async (data) => {
       try {
         const response = await updateEmployee(dispatch,employeId, data);
-        dispatch(setPersonalData(response));
+        console.log("PU -- ", response);
+        if(response){dispatch(setPersonalStatus());}
         
         // Set other state as needed
       } catch (error) {
@@ -56,7 +64,8 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
     const handleUpdateOrganization = async (data) => {
       try {
         const response = await updateOrganization(dispatch,data);
-        dispatch(setCompanyData(response));
+        console.log('OU -- ',response);
+        if(response?.id) {dispatch(setCompanyStatus());}
         
         // Set other state as needed
       } catch (error) {
