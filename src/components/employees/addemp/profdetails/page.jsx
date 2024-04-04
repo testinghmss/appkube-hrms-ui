@@ -10,7 +10,7 @@ import { useForm } from "antd/lib/form/Form";
 import { useRouter } from "next/navigation";
 import axios from "@/api/axios";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
-
+import axiosW from "@/api/workflow";
 
 import {
   updateProfessionalDetails,
@@ -81,7 +81,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
       uan: values.uanNumber,
       department_id: 5,
       // reporting_manager_id: values.selectedReportingMngr,
-      reporting_manager_id: "61a6b732-1597-444a-afcc-10eeafbacc63",
+      reporting_manager_id: "9c9291d7-b202-429d-b5b7-b04a9efc1ab9",
       work_location: values.selectedworkLocation,
       start_date: values.selectedDate,
       emp_id: id,
@@ -110,6 +110,28 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   const selectedworkLocation = useSelector(
     (state) => state.selectedworkLocation
   );
+
+  const [projectManager, setprojectManager] = useState([])
+
+  useEffect(() => {
+    // Fetch data when the component mounts
+    const fetchData = async () => {
+      try {
+        const response = await axiosW.get("/get_resource_by_role", {
+          params: {
+            designation: "Project Manager",
+          },
+        });
+        console.log(response.data);
+        const data = response.data;
+        setprojectManager(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+  console.log(projectManager)
 
 
   useEffect(() => {
@@ -335,9 +357,9 @@ const ProfessionalInfo = ({ tab, setTab }) => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {prof.map((option) => (
-                <Select.Option key={option} value={option}>
-                  {option}
+              {projectManager.map((option) => (
+                <Select.Option key={option} value={option.emp_id}>
+                  {option.resource_name}
                 </Select.Option>
               ))}
             </Select>
@@ -346,29 +368,21 @@ const ProfessionalInfo = ({ tab, setTab }) => {
         <Col span="3xl">
           <Form.Item
             label="Work Location"
-            name="workLocation"
+            name="WorkLocation"
             rules={[
-              { required: true, message: "Please select a work location." },
+              { message: "Enter Your Work Location" },
+              {
+                // pattern: numberRegex,
+                message: "Please enter Work Location.",
+              },
             ]}
           >
-            <Select
-              showSearch
-              style={{ borderRadius: 0 }}
-              className="rounded-none"
-              onChange={handlework}
-              value={selectedworkLocation}
-              placeholder=" Select Work Location "
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              {prof.map((option) => (
-                <Select.Option key={option} value={option}>
-                  {option}
-                </Select.Option>
-              ))}
-            </Select>
+            <Input
+              placeholder="Enter Your Work Location"
+              type="text"
+              value={professionalDetails.selectedworkLocation}
+              onChange={(e) => handlework( e.target.value)}
+            />
           </Form.Item>
         </Col>
         <Col span="3xl">
