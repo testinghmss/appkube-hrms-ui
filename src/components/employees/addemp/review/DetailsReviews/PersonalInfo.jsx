@@ -19,38 +19,61 @@ const PersonalInfo = () => {
   const id = useSelector((state)=>state.Details.ParticularempId)
 
 
+  const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
   
-  useEffect(()=>{
+  // useEffect(()=>{
    
-    const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
-    console.log(empId, 'from localStorage')
-    const fetchData = async ()=>{
+  //   console.log(empId, 'from localStorage')
+  //   const fetchData = async ()=>{
   
  
-          try{
-            const response = await axios.get(`/employee/${empId}`,{
+  //         try{
+  //           const response = await axios.get(`/employee/${empId}`,{
     
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            });
-        console.log("response of employee id",response.data.personal_information)
-                // storing  data intto usestate
+  //             headers: {
+  //               Authorization: `Bearer ${accessToken}`,
+  //             },
+  //           });
+  //       console.log("response of employee id",response.data.personal_information)
+  //               // storing  data intto usestate
 
-        setFetchData(response.data.personal_information);
-        // console.log("data",employees)
-        setdata(response.data.personal_information)
-      }
-      catch(error){
-        console.log('error fetching employee',error);
-      }
-    }
+  //       setFetchData(response.data.personal_information);
+  //       // console.log("data",employees)
+  //       setdata(response.data.personal_information)
+  //     }
+  //     catch(error){
+  //       console.log('error fetching employee',error);
+  //     }
+  //   }
   
-      fetchData()
+  //     fetchData()
 
     
     
-  },[empId])
+  // },[])
+
+  useEffect(() => {
+    if (!empId) return; // Don't fetch data if empId is not available
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`/employee/${empId}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log("response of employee id", response.data.personal_information);
+            // storing  data into state
+            setFetchData(response.data.personal_information);
+            setdata(response.data.personal_information);
+        } catch (error) {
+            console.log('error fetching employee', error);
+        }
+    };
+
+    fetchData();
+
+}, [empId, accessToken]); // Specify empId and accessToken as dependencies
 
 
     // getting data from redux using useselector

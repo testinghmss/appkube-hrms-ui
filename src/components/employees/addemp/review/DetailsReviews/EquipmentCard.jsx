@@ -1,12 +1,42 @@
 import React from 'react'
 import { MdKeyboard } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import axios from '@/api/axios'
+import { useEffect, useState } from 'react';
+import getAccessTokenFromCookie from '@/utils/getAccessToken';
 
 
 const EquipmentCard = () => {
-    const details = useSelector((state) => state?.Equipment);
-    const organizationDetails = details?.organization
-    const workerDetails = details?.worker
+    const accessToken = getAccessTokenFromCookie()
+    const [organizationDetails, setempdata] = useState([])
+
+    const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
+    useEffect(()=>{
+      console.log(empId, 'from localStorage')
+          const fetchData = async ()=>{
+            try{
+              const empdetails = await axios.get(`/employee/${empId}`,{
+    
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              });
+    
+              // console.log("data",employees)
+              setempdata(empdetails.data.equipment
+                )
+                
+                console.log(empdetails.data.equipment, 'empdetails from equipment')
+            }
+            catch(error){
+              console.log('error',error);
+            }
+          }
+          fetchData()
+        },[])
+    // const details = useSelector((state) => state?.Equipment);
+    // const organizationDetails = details?.organization
+    // const workerDetails = details?.worker
 
     return (
         <div className='w-full flex overflow-x-auto'>

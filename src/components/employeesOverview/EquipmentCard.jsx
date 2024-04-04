@@ -1,17 +1,49 @@
 import React from 'react'
+import { useEffect, useState } from 'react';
 import { MdKeyboard } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import axios from '@/api/axios'
+import getAccessTokenFromCookie from '@/utils/getAccessToken';
 
 
 const EquipmentCard = () => {
-    const details = useSelector((state) => state?.Equipment);
-    const organizationDetails = details?.organization
-    const workerDetails = details?.worker
+    const accessToken = getAccessTokenFromCookie()
+
+ const [organizationDetails, setempdata] = useState([])
+    const id = useSelector((state)=>state.Details.ParticularempId)
+console.log(organizationDetails,'organizationdetails')
+   useEffect(()=>{
+    const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
+  console.log(empId, 'from localStorage')
+      const fetchData = async ()=>{
+        try{
+          const empdetails = await axios.get(`/employee/${id}`,{
+
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+
+          // console.log("data",employees)
+          setempdata(empdetails.data.equipment
+            )
+            
+            console.log(empdetails.data.equipment, 'empdetails from equipment')
+        }
+        catch(error){
+          console.log('error',error);
+        }
+      }
+      fetchData()
+    },[])
+    // const details = useSelector((state) => state?.Equipment);
+    // const organizationDetails = details?.organization
+    // const workerDetails = details?.worker
 
     return (
         <div className='w-full flex overflow-x-auto'>
 
-            {organizationDetails?.map((data, index) => (
+            {organizationDetails && organizationDetails.map((data, index) => (
                 <div key={index} className='flex flex-col justify-between  border border-gray-300 p-4 ml-5' style={{ width: '900px' }} >
                     <span className='flex gap-5 mb-4 items-center justify-between'>
                         <span className='flex items-center gap-3'>
