@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import { SendEmail } from './Profile3';
 const Profile5 = ({ step, setStep }) => {

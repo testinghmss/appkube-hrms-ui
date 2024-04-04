@@ -1,10 +1,13 @@
+'use client'
 import React from 'react';
 import { SendEmail } from './Profile3';
 import axios from '@/api/axios';
 import getAccessTokenFromCookie from '@/utils/getAccessToken';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 const Profile2 = ({ step, setStep }) => {
- 
+   
+  const router = useRouter()
     const accessToken = getAccessTokenFromCookie()
 
 
@@ -58,6 +61,33 @@ const Profile2 = ({ step, setStep }) => {
     
     // }
 
+
+  
+    const SendEmail = async () => {
+      const empId = localStorage.getItem("empId");
+      try {
+        const response = await axios.get(`/invite/${empId}`, {
+          headers: {
+            'Accept': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          }
+        });
+        console.log(JSON.stringify(response.data));
+        if (response.status === 200) {
+          localStorage.setItem('empId', '');
+          // Set empId to an empty string
+          router.push('/hrms');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    const handleConfirmAndContinue = () => {
+      // Call the SendEmail function when the button is clicked
+      SendEmail();
+    };
+
     return (
         <>
             {/* <div className='flex flex-col items-center  bg-white w-[45vw] '> */}
@@ -80,7 +110,7 @@ const Profile2 = ({ step, setStep }) => {
                 <p className=' text-gray-400'>Invitation</p>
                 <p>Immediately</p>
             </div>
-            <button className='bg-[#1890FF] w-[100%] mb-5 h-9 rounded-sm  text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF]'onClick={SendEmail} >Confirm and Continue</button>
+            <button className='bg-[#1890FF] w-[100%] mb-5 h-9 rounded-sm  text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF]'onClick={handleConfirmAndContinue} >Confirm and Continue</button>
             <p className='mb-5 cursor-pointer text-center' onClick={() => { setStep(step - 1) }} >Back</p>
             {/* </div> */}
         </>

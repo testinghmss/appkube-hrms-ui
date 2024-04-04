@@ -48,21 +48,21 @@ console.log(organizationDetails,'organizationdetails')
                     <span className='flex gap-5 mb-4 items-center justify-between'>
                         <span className='flex items-center gap-3'>
                             <MdKeyboard className='bg-[#BAE7FF] w-8 h-8 p-2 rounded-full' />
-                            <p>{data.Device}</p>
+                            <p>{data.device_type_name}</p>
                         </span>
                         {(data.owner === true) && (
-                            <span className='flex text-gray-400 items-center gap-2'>Status :<p className="font-medium text-sm text-black">{data.Date}</p></span>
+                            <span className='flex text-gray-400 items-center gap-2'>Status :<p className="font-medium text-sm text-black">{data.device_type_name}</p></span>
                         )}
                     </span>
 
                     <div className='flex justify-between'>
                         <span className="mb-4">
                             <h2 className="text-gray-400">Model</h2>
-                            <p className="font-medium text-sm">{data.Manufacturer}</p>
+                            <p className="font-medium text-sm">{data.manufacturer}</p>
                         </span>
                         <span>
                             <h2 className="text-gray-400">Serial Number</h2>
-                            <p className="font-medium text-sm">{data.SerialNumber}</p>
+                            <p className="font-medium text-sm">{data.serial_number}</p>
                         </span>
                         {(data.owner === true) ? (<span>
                             <h2 className="text-gray-400">Own by</h2>
@@ -76,7 +76,7 @@ console.log(organizationDetails,'organizationdetails')
 
                     <span>
                         <h2 className="text-gray-400">Note</h2>
-                        <p className="font-medium text-sm">{data.Notes}</p>
+                        <p className="font-medium text-sm">{data.note}</p>
                     </span>
 
 

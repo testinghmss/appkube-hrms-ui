@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import { Radio, Space, DatePicker, Form, TreeSelect, TimePicker } from 'antd';
 import dayjs from 'dayjs';
