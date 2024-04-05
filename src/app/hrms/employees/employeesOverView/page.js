@@ -68,7 +68,7 @@ const Page = () => {
       <div>
         {/* <TopEmpDt  empData={fetchedData}/> */}
         {/* <LeftNav  empData={fetchedData}/> */}
-        <TopEmpDt />
+        <TopEmpDt empData={fetchedData}/>
         <LeftNav />
       </div>
     </>

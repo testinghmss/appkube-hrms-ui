@@ -20,9 +20,12 @@ const Page = () => {
   const accessToken = getAccessTokenFromCookie();
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
-  const [info, setInfo] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [searchText, setSearchText] = useState("");
+
+
+  const [info, setInfo] = useState(10);
+
 
   const columns = [
     {
@@ -139,6 +142,7 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        
         const response1 = await axios.get("/dashboard/dashboardStats", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -147,7 +151,7 @@ const Page = () => {
         console.log("response of dashboard", response1.data);
         setInfo(response1.data);
         console.log("");
-        const response2 = await axios.get("/employee?page=1", {
+        const response2 = await axios.get(`/employee?page=${currentPage}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -255,7 +259,8 @@ const Page = () => {
         <div className="flex justify-end mt-5">
           <Pagination
             size="large"
-            total={100}
+            pageSize={10}
+            total={info}
             current={currentPage}
             showTotal={(total, range) =>
               `${range[0]}-${range[1]} of ${total} items`

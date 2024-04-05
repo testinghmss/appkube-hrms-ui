@@ -14,7 +14,7 @@ export const updateEmployee = async (dispatch, employeId, data) => {
     });
     console.log("personal data", response);
     console.log("personal status", response.status);
-    dispatch(setPersonalStatus(response.status));
+    // dispatch(setPersonalStatus(response.status));
     return response.data;
   } catch (error) {
     console.error("error personal", error);
@@ -31,7 +31,7 @@ export const updateOrganization = async (dispatch, data) => {
     });
     console.log("company response", response);
     console.log("personal status", response.status);
-    dispatch(setPersonalStatus(response.status));
+    // dispatch(setPersonalStatus(response.status));
     return response.data;
   } catch (error) {
     console.error("error company", error);

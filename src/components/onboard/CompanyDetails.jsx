@@ -8,7 +8,7 @@ import { setCompanyData } from "@/redux/slices/Onboardingpersdetails";
 // import { createUser } from "@/redux/slices/personalDetails";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { notification, Select,Upload } from "antd";
+import { notification,Upload } from "antd";
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import axios from "axios";
@@ -114,8 +114,7 @@ const CompanyDetails = ({ step, setStep  }) => {
       !company.address_line_2 ||
       !company.country ||
       !company.state ||
-      !company.city ||
-      !company.zipcode 
+      !company.city 
       // ||
       // company.zipcode.length !==6
     ) {
