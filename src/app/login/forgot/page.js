@@ -7,6 +7,8 @@ import { LockOutlined, UserOutlined, LeftOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail } from "@/redux/slices/resetPasswordSlice";
 import { useRouter } from "next/navigation";
+import Loading from "@/app/loading";
+
 import axios from "@/api/axios";
 
 import forgotImage from "@/../../public/assets/login/forgot/forgot.svg";
@@ -17,9 +19,13 @@ const Page = () => {
   const [email, setemail] = useState("");
   const dispatch = useDispatch();
   const reset = useSelector((state) => state.resetPassword);
+  const [loading, setLoading] = useState(false);
+
 
   return (
     <>
+      {loading && <Loading />}
+
       <div className="flex justify-between items-center p-10 md:mr-[150px]">
         <div className="md:w-[50vw] md:h-[88vh] bg-[#E6F7FF] rounded-3xl flex justify-center items-center">
           <Image
@@ -78,6 +84,8 @@ const Page = () => {
             <button
               className="w-[50%] bg-blue-500 hover:bg-blue-400 rounded-sm text-white text-base p-2 cursor-pointer self-center mt-5"
               onClick={async () => {
+                setLoading(true);
+
                 console.log(reset);
                 dispatch(setEmail(email));
                 try {
@@ -90,6 +98,8 @@ const Page = () => {
                 } catch (e) {
                   console.log(e);
                   alert("some error occured");
+                } finally {
+                  setLoading(false); // Set loading state to false after response or error is received
                 }
               }}
             >

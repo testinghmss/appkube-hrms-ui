@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Button, Form, Input } from "antd";
 import { LockOutlined, UserOutlined, LeftOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
+import Loading from "@/app/loading";
+
 import axios from "@/api/axios";
 
 import forgotImage from "@/../../public/assets/login/forgot/forgot.svg";
@@ -16,11 +18,14 @@ const Page = () => {
   const [valid, setValid] = useState(true);
   const [passMatch, setPassMatch] = useState();
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const reset = useSelector((state) => state.resetPassword);
 
   const signupDetails = async (values) => {
+    setLoading(true);
+
     console.log("in finish");
     const data = {
       email: reset.email,
@@ -70,6 +75,8 @@ const Page = () => {
         console.log(error);
         console.log(error?.response?.data?.message);
         setValid(false);
+      } finally {
+        setLoading(false); // Set loading state to false after response or error is received
       }
     } else {
       setPassMatch(false);
@@ -80,10 +87,14 @@ const Page = () => {
         values.confirmpassword,
         "?"
       );
+        setLoading(false);
+
     }
   };
   return (
     <>
+      {loading && <Loading />}
+
       <div className="flex justify-between items-center p-10 md:mr-[200px] ">
         <div className="md:w-[50vw] md:h-[88vh] bg-[#E6F7FF] rounded-3xl flex justify-center items-center">
           <Image

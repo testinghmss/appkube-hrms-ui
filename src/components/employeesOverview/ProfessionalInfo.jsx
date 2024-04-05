@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react'
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { useSelector } from 'react-redux';
-import axios from "@/api/axios"
+// import axios from "@/api/axios"
+import axios from '@/api/axios'
 
 const ProfessionalInfo = () => {
   const [fetchedData , setFetchData] = useState({})
@@ -10,13 +11,14 @@ const ProfessionalInfo = () => {
   
   const [empdata, setempdata] = useState({})
  console.log(empdata,'this is empdata')
+ const id = useSelector((state)=>state.Details.ParticularempId)
 
    useEffect(()=>{
     const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
   console.log(empId, 'from localStorage')
       const fetchData = async ()=>{
         try{
-          const empdetails = await axios.get(`/employee/${empId}`,{
+          const empdetails = await axios.get(`/employee/${id}`,{
 
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -57,7 +59,7 @@ const ProfessionalInfo = () => {
       </span>
       <span>
         <h2 className="text-gray-400">Department</h2>
-        <p className="font-semibold text-base">{(empdata.emp_designation) ? (empdata.emp_designation) : 'no value'}</p>
+        <p className="font-semibold text-base">{(empdata.department_name) ? (empdata.department_name) : 'no value'}</p>
       </span>
 
       {/* second row  */}

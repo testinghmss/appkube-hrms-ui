@@ -9,37 +9,38 @@ import Review from "@/components/employees/addemp/review/page";
 
 const Page = () => {
   const [activeTab, setActiveTab] = useState(1);
+  const [personalInfoFilled, setPersonalInfoFilled] = useState(false);
+  const [visibleItems, setVisibleItems] = useState([true, false, false, false, false]);
+  
   const items = [
     {
       key: "1",
       label: "Personal Information",
-      children: <Personal tab={activeTab} setTab={setActiveTab} />,
-      disabled: activeTab !== 1 && true,
+      children: <Personal tab={activeTab} setTab={setActiveTab} setPersonalInfoFilled={setPersonalInfoFilled} />,
     },
     {
       key: "2",
       label: "Professional Information",
       children: <Professional tab={activeTab} setTab={setActiveTab} />,
-      disabled: activeTab !== 2 && true,
+      disabled: !personalInfoFilled,
     },
     {
       key: "3",
       label: "Equipment Details",
-      
-      children: <Equipment tab={activeTab} setTab={setActiveTab} />,
-      disabled: activeTab !== 3 && true,
+      children: <Equipment tab={activeTab} setTab={setActiveTab} setPersonalInfoFilled={setPersonalInfoFilled}/>,
+      disabled: !personalInfoFilled,
     },
     {
       key: "4",
       label: "Document",
-      children: <Documents tab={activeTab} setTab={setActiveTab} />,
-      disabled: activeTab !== 4 && true,
+      children: <Documents tab={activeTab} setTab={setActiveTab} setPersonalInfoFilled={setPersonalInfoFilled}/>,
+      disabled: !personalInfoFilled,
     },
     {
       key: "5",
       label: "Review",
-      children: <Review tab={activeTab} setTab={setActiveTab} />,
-      disabled: activeTab !== 5 && true,
+      children: <Review tab={activeTab} setTab={setActiveTab} setPersonalInfoFilled={setPersonalInfoFilled}/>,
+      disabled: !personalInfoFilled,
     },
   ];
   const onChange = (key) => {
@@ -70,7 +71,7 @@ const Page = () => {
         defaultActiveKey="1"
         activeKey={`${activeTab}`}
         // activeKey="1"
-        onTabClick={console.log('cant move forward')}
+        onTabClick={(key) => setActiveTab(key)}
         className="pl-3 pt-2"
         items={items}
         onChange={onChange}

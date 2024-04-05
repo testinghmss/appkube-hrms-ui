@@ -1,9 +1,11 @@
 'use client'
-  import DocumentCard from "@/components/employeesOverview/DocumentCard";
-  import EquipmentCard from "@/components/employeesOverview/EquipmentCard";
-  import EquipmentDetails from "@/components/employeesOverview/EquipmentDetails";
-  import PersonalInfo from "@/components/employeesOverview/PersonalInfo";
-  import ProfessionalInfo from "@/components/employeesOverview/ProfessionalInfo";
+import DocumentCard from "@/components/employeesOverview/DocumentCard";
+import EquipmentCard from "@/components/employeesOverview/EquipmentCard";
+import EquipmentDetails from "@/components/employeesOverview/EquipmentDetails";
+import PersonalInfo from "@/components/employeesOverview/PersonalInfo";
+import ProfessionalInfo from "../profdetails/Profesional";
+
+
   import React, { useEffect, useState } from "react";
   import { RiEditFill } from "react-icons/ri";
   import Image from "next/image";
@@ -21,63 +23,97 @@
     const accessToken = getAccessTokenFromCookie();
     // const empId =  localStorage.getItem('empId')
     // console.log('emmpid from localstorage',empId)
-    useEffect(()=>{
-      console.log('in useeffect')
-      const fetchData = async ()=>{
-            // getting employee id from local storage 
+    const id =  localStorage.getItem('empId')
+    // useEffect(()=>{
+    //   console.log('in useeffect')
+    //   const fetchData = async ()=>{
+    //         // getting employee id from local storage 
 
-        const id = await localStorage.getItem('empId')
-        // setEmpId(id)
-        try{
-          console.log('employee id from local storage',id)
-          // fetching data by employee id in case of data not found in redux
-          const response = await axios.get(`/employee/${id}`,{
-            headers: {
-              Authorization: `Bearer ${accessToken}`
-            }
-          });
-          console.log("response of employee id for equipments",response.data.equipment)
-          // storing equipment data intto usestate
-          setFetchData({...fetchedData,equipment:response.data.equipment});
-          // console.log("data",employees)
+    //     // setEmpId(id)
+    //     try{
+    //       console.log('employee id from local storage',id)
+    //       // fetching data by employee id in case of data not found in redux
+    //       const response = await axios.get(`/employee/${id}`,{
+    //         headers: {
+    //           Authorization: `Bearer ${accessToken}`
+    //         }
+    //       });
+    //       console.log("response of employee id for equipments",response.data.equipment)
+    //       // storing equipment data intto usestate
+    //       setFetchData({...fetchedData,equipment:response.data.equipment});
+    //       // console.log("data",employees)
 
-          // fetching data by employee id in case of data not found in redux
-          const response2 = await axios.get(`/employee/${id}`,{
-            headers: {
-              'Authorization': `Bearer ${accessToken}`
-            }
-          });
-          console.log("response of employee id for documents",response2.data.documents)
-          // storing equipment data intto usestate
+    //       // fetching data by employee id in case of data not found in redux
+    //       const response2 = await axios.get(`/employee/${id}`,{
+    //         headers: {
+    //           'Authorization': `Bearer ${accessToken}`
+    //         }
+    //       });
+    //       console.log("response of employee id for documents",response2.data.documents)
+    //       // storing equipment data intto usestate
 
-          setFetchData({...fetchedData,documents:response2.data.documents});
-        }
-        catch(error){
-          console.log('error fetching employee data',error);
-        }
-      }
-      fetchData()
-    },[accessToken,fetchedData])
+    //       setFetchData({...fetchedData,documents:response2.data.documents});
+    //     }
+    //     catch(error){
+    //       console.log('error fetching employee data',error);
+    //     }
+    //   }
+    //   fetchData()
+    // },[accessToken,fetchedData])
+
+
+    // useEffect(() => {
+    //   console.log('in useeffect');
+    //   const fetchData = async () => {
+    //     try {
+    //       console.log('employee id from local storage', id);
+    //       // fetching data by employee id in case of data not found in redux
+    //       const response = await axios.get(`/employee/${id}`, {
+    //         headers: {
+    //           Authorization: `Bearer ${accessToken}`,
+    //         },
+    //       });
+    //       console.log("response of employee id for equipments", response.data.equipment);
+    //       // storing equipment data into state
+    //       setFetchData(prevData => ({...prevData, equipment: response.data.equipment}));
+    
+    //       // fetching data by employee id in case of data not found in redux
+    //       const response2 = await axios.get(`/employee/${id}`, {
+    //         headers: {
+    //           'Authorization': `Bearer ${accessToken}`,
+    //         },
+    //       });
+    //       console.log("response of employee id for documents", response2.data.documents);
+    //       // storing equipment data into state
+    //       setFetchData(prevData => ({...prevData, documents: response2.data.documents}));
+    //     } catch (error) {
+    //       console.log('error fetching employee data', error);
+    //     }
+    //   };
+    //   fetchData();
+    // }, [id, accessToken]);
+    
+
     // getting data from redux using useselector
-    const reduxEquipmentData = useSelector(state => state.Details?.equipDetails)
-    console.log('redux data for equipments ',reduxEquipmentData)
-    console.log('fetched data by id for equipments ',fetchedData.equipment)
-    // setData(reduxData)
-    // condittionally trendering the data eitther from redux or from fetched  data by id 
-    const equipmenData = reduxEquipmentData.length > 0 ? reduxEquipmentData : fetchedData.equipment;
-    console.log("data ofequipments details",equipmenData)
+    // const reduxEquipmentData = useSelector(state => state.Details?.equipDetails)
+    // console.log('redux data for equipments ',reduxEquipmentData)
+    // console.log('fetched data by id for equipments ',fetchedData.equipment)
+    // // setData(reduxData)
+    // // condittionally trendering the data eitther from redux or from fetched  data by id 
+    // const equipmenData = reduxEquipmentData.length > 0 ? reduxEquipmentData : fetchedData.equipment;
+    // console.log("data ofequipments details",equipmenData)
   
-      // getting data from redux using useselector
+    //   // getting data from redux using useselector
 
-    const reduxDocumentsData = useSelector(state => state.Details?.documentDetails)
-    console.log('redux data for equipments ',reduxDocumentsData)
-    console.log('fetched data by id for equipments ',fetchedData.equipment)
-    // setData(reduxData)
+    // const reduxDocumentsData = useSelector(state => state.Details?.documentDetails)
+    // console.log('redux data for equipments ',reduxDocumentsData)
+    // console.log('fetched data by id for equipments ',fetchedData.equipment)
+    // // setData(reduxData)
 
-      // condittionally trendering the data eitther from redux or from fetched  data by id 
+    //   // condittionally trendering the data eitther from redux or from fetched  data by id 
 
-    const documentsData = reduxDocumentsData.length > 0 ? reduxDocumentsData : fetchedData.equipment;
-    console.log("data ofequipments details",documentsData)
+    // const documentsData = reduxDocumentsData.length > 0 ? reduxDocumentsData : fetchedData.equipment;
+    // console.log("data ofequipments details",documentsData)
 
 
 
