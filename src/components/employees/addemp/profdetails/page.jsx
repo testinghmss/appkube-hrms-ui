@@ -30,7 +30,7 @@ const numberRegex = /^[0-9]{5,}$/; // Ensure at least 5 digits
 
 const ProfessionalInfo = ({ tab, setTab }) => {
   // getting employee id from local storage
- 
+
   // const handleSelectChange = (value) => {
   //   dispatch(setDropdownOption(value));
   // };
@@ -58,9 +58,9 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   //   dispatch(updateProfessionalDetails({ [name]: value }));
   // };
   const [formData, setFormData] = useState({});
- useEffect(()=>{
-  setIsClient(true)
- },[isClient])
+  useEffect(() => {
+    setIsClient(true)
+  }, [isClient])
   const handleSubmit = async () => {
     // let data = {
     //   // designation_id: values.selectedDesignation,
@@ -76,41 +76,41 @@ const ProfessionalInfo = ({ tab, setTab }) => {
     //   emp_id: empId,
     // };
     // making data into format to hit api
-    if(isClient){
+    if (isClient) {
       const empId = localStorage.getItem("empId");
-    console.log("id from localstorage", empId);
-    let data = {
-      designation_id: 4,
-      pf: formData.pf,
-      uan: formData.uan,
-      department_id: 5,
-      reporting_manager_id: "f81cce0a-84fb-4eb4-b0ec-74b5f2a9fdb7",
-      work_location: formData.work_location,
-      start_date: formData.start_date,
-      emp_id: empId,
-    };
+      console.log("id from localstorage", empId);
+      let data = {
+        designation_id: 4,
+        pf: formData.pf,
+        uan: formData.uan,
+        department_id: 5,
+        reporting_manager_id: "f81cce0a-84fb-4eb4-b0ec-74b5f2a9fdb7",
+        work_location: formData.work_location,
+        start_date: formData.start_date,
+        emp_id: empId,
+      };
 
-    try {
-      console.log("stored data of from in usestate", data);
-      const response = await axios.put("/employee/professionalInfo", data, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log("success", response.data);
-      if (response.status === 200) {
-        // storing the response in redux
+      try {
+        console.log("stored data of from in usestate", data);
+        const response = await axios.put("/employee/professionalInfo", data, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log("success", response.data);
+        if (response.status === 200) {
+          // storing the response in redux
 
-        dispatch(setprofessionalDetails(response.data));
-        // changing the tab
-        trueNotification()
+          dispatch(setprofessionalDetails(response.data));
+          // changing the tab
+          trueNotification()
 
-        setTab(tab + 1);
+          setTab(tab + 1);
+        }
+      } catch (error) {
+        console.log("error", error);
+        falseNotification()
       }
-    } catch (error) {
-      console.log("error", error);
-      falseNotification()
-    }
     }
   };
   const router = useRouter();
@@ -158,10 +158,10 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   // );
   // const selectedDate = useSelector((state) => state.selectedDate);
 
-  const [designation,setdesignation] = useEffect({})
-  const [department,setdepartment] = useEffect({})
+  const [designation, setdesignation] = useState({})
+  const [department, setdepartment] = useState({})
 
-  
+
   useEffect(() => {
     const fetchDesinationData = async () => {
       try {
@@ -170,7 +170,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log("designation response",response);
+        console.log("designation response", response);
         setdesignation(response)
       } catch (error) {
         console.error("Error fetching designations:", error);
@@ -187,14 +187,14 @@ const ProfessionalInfo = ({ tab, setTab }) => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log("department response",response);
+        console.log("department response", response);
         setdepartment(response)
       } catch (error) {
         console.error("Error fetching departments:", error);
       }
     };
     fetchDepartmentData();
-  }, [ accessToken]);
+  }, [accessToken]);
 
   const handleDropDownChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
@@ -220,20 +220,24 @@ const ProfessionalInfo = ({ tab, setTab }) => {
 
   const falseNotification = () => {
     notification.open(
-      {message: 'please review the details and fill all fields with correct details  ',
-      style: {
-        backgroundColor: 'white',
-        color:'red',// Set the background color
-      }}
+      {
+        message: 'please review the details and fill all fields with correct details  ',
+        style: {
+          backgroundColor: 'white',
+          color: 'red',// Set the background color
+        }
+      }
     );
   };
-const trueNotification = () => {
+  const trueNotification = () => {
     notification.open(
-      {message: 'professional information stored,redirected to Equipments details form',
-      style: {
-        backgroundColor: 'white',
-        color:'blue',// Set the background color
-      },}
+      {
+        message: 'professional information stored,redirected to Equipments details form',
+        style: {
+          backgroundColor: 'white',
+          color: 'blue',// Set the background color
+        },
+      }
     );
   };
   return (
@@ -278,12 +282,8 @@ const trueNotification = () => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {designation.map((option) => (
-                <Select.Option
-                  key={option}
-                  value={option}
-                  className="rounded-none"
-                >
+              {designation && Array.isArray(designation) && designation.map((option) => (
+                <Select.Option key={option} value={option}>
                   {option}
                 </Select.Option>
               ))}
@@ -373,7 +373,7 @@ const trueNotification = () => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {department.map((option) => (
+              {department && Array.isArray(department) && department.map((option) => (
                 <Select.Option key={option} value={option}>
                   {option}
                 </Select.Option>
@@ -404,7 +404,7 @@ const trueNotification = () => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {prof.map((option) => (
+              {prof?.map((option) => (
                 <Select.Option key={option} value={option}>
                   {option}
                 </Select.Option>
@@ -471,9 +471,9 @@ const trueNotification = () => {
                 justifyContent: "center",
                 marginLeft: "40%",
               }}
-              // onClick={() => {
-              //   setTab(tab + 1);
-              // }}
+            // onClick={() => {
+            //   setTab(tab + 1);
+            // }}
             >
               Next
             </Button>
