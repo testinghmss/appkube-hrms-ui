@@ -1,6 +1,39 @@
+'use client'
 import React from 'react';
-
+import { useEffect, useState } from 'react';
+import axios from '@/api/axios'
+import getAccessTokenFromCookie from '@/utils/getAccessToken';
+import { SendEmail } from './Profile3';
 const Profile5 = ({ step, setStep }) => {
+
+    const [empdata, setempdata] = useState({})
+    console.log(empdata,'this is empdata')
+     
+   
+     useEffect(()=>{
+       const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
+     console.log(empId, 'from localStorage')
+         const fetchData = async ()=>{
+           try{
+             const empdetails = await axios.get(`/employee/${empId}`,{
+     
+               headers: {
+                 Authorization: `Bearer ${accessToken}`,
+               },
+             });
+            
+             // console.log("data",employees)
+             setempdata(empdetails.data)
+     
+           }
+           catch(error){
+             console.log('error',error);
+           }
+         }
+         fetchData()
+       },[])
+   
+
     const handleBack = () => {
         setStep(step - 1); // Move back to the previous step
     };
@@ -27,7 +60,7 @@ const Profile5 = ({ step, setStep }) => {
                 <p>Schedule invite
                 </p>
             </div>
-            <button className='bg-[#1890FF] w-[100%] mb-5 h-9 rounded-sm text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF]' >Confirm and Continue</button>
+            <button className='bg-[#1890FF] w-[100%] mb-5 h-9 rounded-sm text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF]' onClick={SendEmail} >Confirm and Continue</button>
             <p className='mb-5 cursor-pointer text-center' onClick={handleBack} >Back</p>
             {/* </div> */}
         </>

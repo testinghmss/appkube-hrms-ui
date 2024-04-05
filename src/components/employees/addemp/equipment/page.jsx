@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button } from "antd";
+import { Button, notification } from "antd";
 import { useRouter } from "next/navigation";
 import { Checkbox, DatePicker, Input, Radio, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +17,8 @@ const { TextArea } = Input;
 const Equipments = ({ tab, setTab }) => {
   // const empId = localStorage.getItem("empId");
   // getting employee id from local storage
+  const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
+
   const [owner, setOwner] = useState(null);
   const [Device, setDevice] = useState("");
   const [Manufacturer, setManufacturer] = useState("");
@@ -52,7 +54,7 @@ const Equipments = ({ tab, setTab }) => {
 
    if(isClient){
   // const empId = localStorage.getItem("empId");
-  const empId = localStorage.getItem("empId");
+  // const empId = localStorage.getItem("empId");
   console.log("id from localstorage", empId);
 
     let data =
@@ -74,7 +76,7 @@ const Equipments = ({ tab, setTab }) => {
         serial_number: SerialNumber,
         note: Notes,
         supply_date: supplydate,
-        emp_id: empId,
+        emp_id:  empId ? empId : null,
       },
     ];
   // making data into format to hit api
@@ -99,15 +101,26 @@ const Equipments = ({ tab, setTab }) => {
       // dispatch(AddEquipment(response.data));
       // storing the response in redux
       dispatch(setEquipmentDetails(response.data));
+      trueNotification()
       // changing the tab
       setTab(tab + 1);
     }
   } catch (error) {
     console.log("error", error);
+    falseNotification()
   }
    }
   };
-
+  const falseNotification = () => {
+    notification.open(
+      {message: 'please review the details and fill all fields with correct details',}
+    );
+  };
+const trueNotification = () => {
+    notification.open(
+      {message: 'Equipment data stored,redirected to Document details form',}
+    );
+  };
   return (
     <div>
       <div

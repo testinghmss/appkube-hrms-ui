@@ -4,7 +4,7 @@ import Link from 'next/link'
 const Modal3 = ({id}) => {
   return (
     <div>
-        <Button className='bg-red-200'><Link href={`/hrms/employees/employeesOverView?${id}`}> View profile</Link> </Button>
+        <Button className='bg-red-200'><Link href={`/hrms/employees/employeesOverView?id=${id}`}> View profile</Link> </Button>
     </div>
   );
 };
