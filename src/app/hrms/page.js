@@ -220,31 +220,25 @@ const Page = () => {
 
       <div className="flex justify-between p-4">{/* <h2>Employees</h2> */}</div>
       <div className="bg-white w-full px-8 py-4 ml-4">
-        <div className="mb-5 flex justify-between">
-          <Search
-            className=" mt-4 rounded-none"
-            placeholder="Search Employee"
-            onSearch={handleSearch}
-            width={50}
-            style={{ width: "500px" }}
-          />
-          <div className="flex items-center">
-            <Dropdown
-              overlay={statusMenu}
-              trigger={["click"]}
-              className="mr-2 text-sm"
-            >
-              <a onClick={(e) => e.preventDefault()}>
-                {selectedStatus || "All"} <DownOutlined />
-              </a>
-            </Dropdown>
-            <Link href={"/hrms/employees/addemp"}>
-              <button className="bg-[#1890FF] text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] flex p-4 gap-3 justify-center items-center">
-                <FiPlus />
-                Add New Employees
-              </button>
-            </Link>
-          </div>
+      <div className="mb-5 flex gap-4 items-center justify-between">
+      <Search
+          className="w-52 rounded-none"
+          placeholder="Search Employee"
+          onSearch={handleSearch}
+        /> 
+        <div className="flex items-center gap-4">
+          <Dropdown overlay={statusMenu} trigger={['click']} className='mr-2 text-sm'>
+            <a onClick={(e) => e.preventDefault()}>
+              {selectedStatus || 'All'} <DownOutlined />
+            </a>
+          </Dropdown>
+          <Link href={"/hrms/employees/addemp"}>
+          <button className="bg-[#1890FF] text-white border w-44 hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] p-2 flex gap-3 justify-center items-center">
+             <FiPlus />
+             Add New Employees
+          </button>
+        </Link>
+
         </div>
         <Table
           columns={columns}
