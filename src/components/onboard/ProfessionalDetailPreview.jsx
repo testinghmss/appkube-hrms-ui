@@ -17,6 +17,8 @@ import {
 } from "@/redux/slices/Onboardingpersdetails";
 import { removeAccessToken } from "@/utils/getAccessToken";
 import { notification } from "antd";
+import { useRouter } from "next/navigation";
+
 
 
 const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
@@ -25,8 +27,8 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
   const companyData = useSelector((state) => state.Onboardingpersdetails.companyData);
   const employeId = useSelector((state) => state.Onboardingpersdetails.employeId);
 
-  const personalStatus = useSelector(state => state.Onboardingpersdetails.personalStatus)
-  const companyStatus = useSelector(state => state.Onboardingpersdetails.companyStatus)
+  // const personalStatus = useSelector(state => state.Onboardingpersdetails.personalStatus)
+  // const companyStatus = useSelector(state => state.Onboardingpersdetails.companyStatus)
   
   
   const dispatch = useDispatch()
@@ -36,6 +38,9 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
       message: "Something went wrong, please try again",
     });
   };
+
+  const router = useRouter();
+
 
   // const handleSubmit = async () => {
     //   // e.preventDefault();
@@ -51,12 +56,14 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
       try {
         const response = await updateEmployee(dispatch,employeId, data);
         console.log("PU -- ", response);
-        if(response){dispatch(setPersonalStatus());}
+        // if(response){dispatch(setPersonalStatus());}
+        return response ? true : false;
         
         // Set other state as needed
       } catch (error) {
         console.error(error);
         // Handle error (e.g., show error message)
+        return false;
       }
     };
     
@@ -65,12 +72,13 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
       try {
         const response = await updateOrganization(dispatch,data);
         console.log('OU -- ',response);
-        if(response?.id) {dispatch(setCompanyStatus());}
-        
+        // if(response?.id) {dispatch(setCompanyStatus());}
+        return response ? true : false;
         // Set other state as needed
       } catch (error) {
         console.error(error);
         // Handle error
+        return false;
       }
     };
     
@@ -87,16 +95,18 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
       // dispatch(createUser(personalData));
       // dispatch(createCompany(companyData));
 
-      await handleUpdateEmployee(personalData)
-      await handleUpdateOrganization(companyData)
+    const personalstatus = await handleUpdateEmployee(personalData);
+    const companystatus = await handleUpdateOrganization(companyData);
 
-      console.log("redux status p",personalStatus);
-      console.log("redux status c",companyStatus);
+      // console.log("redux status p",personalStatus);
+      // console.log("redux status c",companyStatus);
       // setStep(step + 1)
       // console.log(combinedData);
 
-      if(personalStatus == 200 && companyStatus == 200){
-        setStep(step + 1)
+      if(personalstatus && companystatus ){
+        // setStep(step + 1)
+        router.push("/hrms")
+
       }
       else{
         openNotification();

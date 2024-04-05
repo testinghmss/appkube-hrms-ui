@@ -7,6 +7,7 @@ import Organizationdetails from "./organization/Organizationdetails";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import axios from "@/api/axios";
 import Loading from "@/app/loading";
+import EditButton from "./personaldetails/editButton";
 
 const Preference = () => {
   const [isClient, setIsClient] = useState(false);
@@ -44,7 +45,7 @@ const Preference = () => {
     }
   }, [accessToken, isClient]);
 
-  console.log("Fetched HR data", fetchedData);
+  console.log("Fetched HR data ", fetchedData.personal_information);
 
   return (
     <>
@@ -52,7 +53,7 @@ const Preference = () => {
 
       <Tabs defaultActiveKey="1" className="px-2">
         <Tabs.TabPane tab="Personal Information" key="1">
-          <PersonalDetail fetchedData={fetchedData.personal_information} />
+          <EditButton fetchedData={fetchedData.personal_information} />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Organizational Information" key="2">
           <Organizationdetails />

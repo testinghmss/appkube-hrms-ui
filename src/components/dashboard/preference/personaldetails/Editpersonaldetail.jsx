@@ -25,8 +25,8 @@ const prefixSelector = (
 );
 
 
-const Editpersonaldetail = ({hrData}) => {
-  const [edit, setEdit] = useState(false);
+const Editpersonaldetail = ({hrData,setFirstStep, firstStep}) => {
+  const [save, setSave] = useState(false);
   // const [isClient, setIsClient] = useState(false);
   // const [fetchedData , setFetchData] = useState([])
   const accessToken = getAccessTokenFromCookie();
@@ -117,7 +117,6 @@ const Editpersonaldetail = ({hrData}) => {
 
   return (
     <>
-      {edit ? (
         <div className="h-full w-full flex flex-col gap-5 p-2">
           <div className="flex justify-between items-center ">
             <h2 className="text-xl font-bold">Edit Personal Details </h2>
@@ -125,12 +124,14 @@ const Editpersonaldetail = ({hrData}) => {
               <Button
                 className=" hover:bg-blue-50 rounded-md p-2"
                 onClick={() => {
-                  setEdit(false);
+                  setFirstStep(firstStep - 1);
                 }}
               >
                 Cancle
               </Button>
-              <button className="bg-blue-500 text-white flex gap-2 items-center rounded-sm p-2 px-5">
+              <button className="bg-blue-500 text-white flex gap-2 items-center rounded-sm p-2 px-5"  onClick={() => {
+                setFirstStep(firstStep - 1);
+              }}>
                 <IoSaveSharp className="text-lg" /> Save
               </button>
             </div>
@@ -248,9 +249,6 @@ const Editpersonaldetail = ({hrData}) => {
             </div>
           </div>
         </div>
-      ) : (
-        <PersonalDetail />
-      )}
     </>
   );
 };

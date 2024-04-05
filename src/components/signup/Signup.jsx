@@ -66,8 +66,11 @@ const Signup = () => {
         console.log(error.response.data.message);
         if (error.response.data.message == "invalid request body") {
           setErrMessage("Enter a valid Email and Password");
+        }
+        else if (error.response.data.message == "user account already exists") {
+          setErrMessage("User account already exists");
         } else {
-          setErrMessage(error.response.data.message);
+          setErrMessage("Some error occured, please try again");
         }
         setValid(false);
       } finally {

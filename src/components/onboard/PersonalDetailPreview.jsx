@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { IoChevronBackOutline } from "react-icons/io5";
 import Onboard from "@/../public/assets/onboarding/OnbordingImg.svg";
@@ -17,10 +17,14 @@ import {
   setPersonalStatus,
 } from "@/redux/slices/Onboardingpersdetails";
 import { removeAccessToken } from "@/utils/getAccessToken";
-import { notification } from "antd";
 
-import { Progress } from "antd";
+
+
+
+import {  Progress,notification  } from "antd";
 import moment from "moment";
+import { useRouter } from "next/navigation";
+
 const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
   const personalData = useSelector(
     (state) => state.Onboardingpersdetails.personalData
@@ -32,20 +36,16 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
     (state) => state.Onboardingpersdetails.employeId
   );
 
-  const personalStatus = useSelector(
-    (state) => state.Onboardingpersdetails.personalStatus
-  );
-  const companyStatus = useSelector(
-    (state) => state.Onboardingpersdetails.companyStatus
-  );
+  // const personalStatus = useSelector(
+  //   (state) => state.Onboardingpersdetails.personalStatus
+  // );
+  // const companyStatus = useSelector(
+  //   (state) => state.Onboardingpersdetails.companyStatus
+  // );
 
+  const router = useRouter();
   const dispatch = useDispatch();
 
-  const openNotification = () => {
-    notification.open({
-      message: "Something went wrong, please try again",
-    });
-  };
   // const handleSubmit = async () => {
   //   // e.preventDefault();
   //   // console.log("company...", companyData);
@@ -58,15 +58,21 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
 
   // };
 
+
   const handleUpdateEmployee = async (data) => {
     try {
       const response = await updateEmployee(dispatch, employeId, data);
       console.log("PU -- ",response);
-       if(response) {dispatch(setPersonalStatus());}
+      //  if(response) {
+      //   // dispatch(setPersonalStatus());
+      //   setPersonalStatus(true)
+      // }
+      return response ? true : false;
       // Set other state as needed
     } catch (error) {
       console.error(error);
       // Handle error (e.g., show error message)
+      return false;
     }
   };
 
@@ -74,39 +80,64 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
     try {
       const response = await updateOrganization(dispatch, data);
       console.log('UO -- ',response);
-      if(response?.id) {dispatch(setCompanyStatus());}
+      // if(response?.id) {
+      //   // dispatch(setCompanyStatus());
+      //   setCompanyStatus(true)
+      // }
+      return response ? true : false;
       // Set other state as needed
     } catch (error) {
       console.error(error);
       // Handle error
+      return false;
     }
   };
+
+  const openNotification = () => {
+    notification.open({
+      message: "Something went wrong, please try again",
+    });
+  };
+
+  
+
 
   const handleSubmit = async () => {
     // const orgId = "482d8374-fca3-43ff-a638-02c8a425c492"; // Replace with your actual orgId value
     console.log("id for the employe", employeId);
-
     // Combine orgId with companyData
     // const personalDatawithID = { id:employeId, ...personalData };
 
     // Dispatch actions with the modified data
     // dispatch(createUser(personalData));
     // dispatch(createCompany(companyData));
+   
 
-    await handleUpdateEmployee(personalData);
-    await handleUpdateOrganization(companyData);
+   const personalstatus = await handleUpdateEmployee(personalData);
+   const companystatus = await handleUpdateOrganization(companyData);
 
-    console.log("redux status p", personalStatus);
-    console.log("redux status c", companyStatus);
 
-    if (personalStatus == 200 && companyStatus == 200) {
-      setStep(step + 1);
-    } else {
-      openNotification();
+    // console.log("redux status p",personalStatus);
+    // console.log("redux status c",companyStatus);
+  
+
+    // if(personalStatus == 200 && companyStatus == 200)
+    if(personalstatus && companystatus)
+    {
+      // setStep(step + 1)
+      router.push("/hrms")
+
+    }
+    else{
       // setStep(1)
+      console.log("error");
+
+      openNotification()
     }
 
+ 
     // console.log(combinedData);
+    
   };
 
   const datetoshow = moment(personalData.dob).format("DD/MM/YYYY");
@@ -208,10 +239,10 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
         </div>
         <button
           className="w-[70%] lg:mt py-1 h-8 bg-[#1890FF] border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] transition-all text-white items-end"
-          onClick={() => {
-            handleSubmit();
+          onClick={
+            handleSubmit
             // ,setStep(step + 1)
-          }}
+          }
         >
           Complete
         </button>

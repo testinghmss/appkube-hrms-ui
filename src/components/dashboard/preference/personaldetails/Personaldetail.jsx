@@ -10,10 +10,11 @@ import { AiFillEdit } from "react-icons/ai";
 import Editpersonaldetail from "./Editpersonaldetail";
 // import getAccessTokenFromCookie from "@/utils/getAccessToken";
 // import axios from '@/api/axios'
-const PersonalDetail = ({fetchedData}) => {
+const PersonalDetail = ({fetchedData,setFirstStep, firstStep}) => {
   // const router = useRouter();
   const [edit, setEdit] = useState(false);
   console.log('hr data',fetchedData)
+
 
   //   
 // address_line_1
@@ -71,20 +72,27 @@ const PersonalDetail = ({fetchedData}) => {
 // : 
 // "500053"
   
-const handleEdit = ()=>{
-  setEdit(true)
+const handleEdit = (e)=>{
+  e.preventDefault();
+  // setEdit(true)
   console.log('changing value od edit',edit)
 }
 // console.log(`edit value ${edit}`)
+
+useEffect(() => {
+  console.log("Edit state is now: ",edit);
+}, [edit]);
+
 return (
     <>
-      {!edit ? (
         <div key='personal-details'  className="w-full h-full p-2 flex flex-col gap-10 shadow-sm">
           <div className="flex justify-between items-center  p-3 shadow-md">
             <h2 className="text-xl font-bold">Personal Details </h2>
             <button
               className="bg-blue-500 text-white flex gap-2 items-center rounded-md p-2 px-3"
-              onClick={handleEdit}
+              onClick={(e) =>  {
+                handleEdit(e), setEdit(true),setFirstStep(firstStep + 1);}}
+               
             >
               <AiFillEdit className="text-lg" /> Edit
             </button>
@@ -133,9 +141,6 @@ return (
             </div>
           </div>
         </div>
-      ) : (
-        <Editpersonaldetail key='edit-details' fetchedData={fetchedData}/>
-      )}
     </>
   );
 };
