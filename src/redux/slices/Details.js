@@ -5,6 +5,7 @@ const initialState = {
   professionalDetails: [],
   equipDetails: [],
   documentDetails: [],
+  ParticularempId:{},
   id: "",
   tab: false
 };
@@ -24,6 +25,9 @@ export const formSlice = createSlice({
     setdocumentDetails: (state, action) => {
       state.documentDetails = { ...state.documentDetails, ...action.payload };
     },
+    setParticularEmpid:(state, action)=>{
+      state.ParticularempId= action.payload
+    },
     setId: (state, action) => {
       state.id = action.payload
       console.log("id", action.payload)
@@ -39,6 +43,7 @@ export const { setpersonalDetails } = formSlice.actions;
 export const { setprofessionalDetails } = formSlice.actions;
 export const { setequipDetails } = formSlice.actions;
 export const { setdocumentDetails } = formSlice.actions;
+export const {setParticularEmpid} = DetailSlice.actions;
 export const { setId } = formSlice.actions;
 export const { setTabs } = formSlice.actions;
 

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Button, Form, Input } from "antd";
 import { LockOutlined, UserOutlined, LeftOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
+import Loading from "@/app/loading";
+
 import axios from "@/api/axios";
 
 import forgotImage from "@/../../public/assets/login/forgot/forgot.svg";
@@ -15,20 +17,25 @@ const Page = () => {
   const router = useRouter();
   const [valid, setValid] = useState(true);
   const [passMatch, setPassMatch] = useState();
-  const [password,setPassword] = useState('')
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const reset = useSelector((state) => state.resetPassword);
 
   const signupDetails = async (values) => {
+    setLoading(true);
+
     console.log("in finish");
     const data = {
       email: reset.email,
       otp: reset.otp,
       newPassword:
-        (values.password === values.confirmpassword &&
+        values.password === values.confirmpassword &&
         values.password != "" &&
-        values.confirmpassword != "")?password:""
+        values.confirmpassword != ""
+          ? password
+          : "",
     };
     // //       {
     // //   "email": "<email>",
@@ -59,13 +66,17 @@ const Page = () => {
         //   console.log(reset);
         // }, 5000);
         //     } else {
-        setValid(false);
+        // setValid(false);
+        //
         //       console.log(response);
         //   }
       } catch (error) {
         //     // console.log("error", error.response.data.message);
         console.log(error);
+        console.log(error?.response?.data?.message);
         setValid(false);
+      } finally {
+        setLoading(false); // Set loading state to false after response or error is received
       }
     } else {
       setPassMatch(false);
@@ -76,10 +87,14 @@ const Page = () => {
         values.confirmpassword,
         "?"
       );
+        setLoading(false);
+
     }
   };
   return (
     <>
+      {loading && <Loading />}
+
       <div className="flex justify-between items-center p-10 md:mr-[200px] ">
         <div className="md:w-[50vw] md:h-[88vh] bg-[#E6F7FF] rounded-3xl flex justify-center items-center">
           <Image
@@ -148,7 +163,9 @@ const Page = () => {
                 style={{ fontSize: "1.1rem", borderRadius: "3px" }}
                 size="large"
                 required={true}
-                onChange={(e)=>{setPassword(e.target.value)}}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
               />
             </Form.Item>
 
@@ -187,6 +204,11 @@ const Page = () => {
               />
             </Form.Item>
             {/* <Link href="/signup/confirm-mail"> */}
+            {!valid && (
+              <p className="text-red-500 font-semibold text-[14px] -mt-3 mb-3">
+                Invalid verification code provided, please try again.
+              </p>
+            )}
             <button
               className="w-full "
               // type="primary"

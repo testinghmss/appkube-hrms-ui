@@ -13,11 +13,13 @@ import axios from "@/api/axios";
 import { useDispatch } from "react-redux";
 import { setEmail } from "@/redux/slices/resetPasswordSlice";
 import { CiLight } from "react-icons/ci";
+import Loading from "@/app/loading";
 
 const Signup = () => {
   const router = useRouter();
   const email = useRef();
   const [emails, setemails] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   // const password = useRef();
@@ -28,6 +30,8 @@ const Signup = () => {
   const [errMessage, setErrMessage] = useState("");
 
   const signupDetails = async (values) => {
+    setLoading(true);
+
     console.log("in finish");
     const data = {
       email: values.email,
@@ -47,7 +51,7 @@ const Signup = () => {
         console.log(response.message);
         if (response.status == 200) {
           dispatch(setEmail(emails));
-          router.push("/signup/confirm-mail");
+          router.push("/signup/confirm-mail", { email: emails });
         } else {
           setValid(false);
           console.log(response);
@@ -56,13 +60,18 @@ const Signup = () => {
         // console.log("error", error.response.data.message);
         console.log(error);
         console.log(emails);
-        router.push("/signup/confirm-mail", { email: emails });
 
         dispatch(setEmail(emails));
 
         console.log(error.response.data.message);
-        setErrMessage(error.response.data.message);
+        if (error.response.data.message == "invalid request body") {
+          setErrMessage("Enter a valid Email and Password");
+        } else {
+          setErrMessage(error.response.data.message);
+        }
         setValid(false);
+      } finally {
+        setLoading(false); // Set loading state to false after response or error is received
       }
     } else {
       console.log(
@@ -72,6 +81,7 @@ const Signup = () => {
         values.confirmpassword,
         "?"
       );
+      setLoading(false);
     }
   };
 
@@ -113,68 +123,75 @@ const Signup = () => {
 
   // console.log(email.current.value);
   return (
-    <div className="flex justify-center items-center p-10 gap-16">
-      <div className="md:w-[70vw] md:h-[88vh] bg-[#E6F7FF] rounded-3xl flex justify-center items-center">
-        <Image src={signup} alt="signup" className="w-[80%]" />
-      </div>
-      <div className="md:w-[50vw] flex flex-col  items-start">
-        <span className="flex items-center gap-3">
-          <Image src={hrmslogo} alt="logo" />
-          <h1 className="font-semibold text-2xl">HRMS</h1>
-        </span>
-        <div className="mt-12">
-          <h1 className="font-semibold text-xl">Sign up</h1>
-          <h2 className="text-[#A2A1A8] text-md">Create Your Account</h2>
+    <>
+      {loading && <Loading />}
+      <div className="flex justify-center items-center p-10 gap-16">
+        <div className="md:w-[70vw] md:h-[88vh] bg-[#E6F7FF] rounded-3xl flex justify-center items-center">
+          <Image src={signup} alt="signup" className="w-[80%]" />
         </div>
-        <div className="mt-5">
-          <Form
-            className="flex flex-col "
-            style={{ width: "50vh", fontSize: "1.1rem" }}
-            // onFinish={() => {
-            //   console.log("form submitted");
-            //   router.push("/signup/confirm-mail");
-            // }}
-            onFinish={signupDetails}
-            // onValuesChange={handleFormValuesChange}
-          >
-            <Form.Item
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: `${false ? "hello" : "Please enter valid email"}`,
-                },
-              ]}
+        <div className="md:w-[50vw] flex flex-col  items-start">
+          <span className="flex items-center gap-3">
+            <Image src={hrmslogo} alt="logo" />
+            <h1 className="font-semibold text-2xl">
+              Employee Information Portal
+            </h1>
+          </span>
+          <div className="mt-12">
+            <h1 className="font-semibold text-xl">Sign up</h1>
+            <h2 className="text-[#A2A1A8] text-md">Create Your Account</h2>
+          </div>
+          <div className="mt-5">
+            <Form
+              className="flex flex-col "
+              style={{ width: "50vh", fontSize: "1.1rem" }}
+              // onFinish={() => {
+              //   console.log("form submitted");
+              //   router.push("/signup/confirm-mail");
+              // }}
+              onFinish={signupDetails}
+              // onValuesChange={handleFormValuesChange}
             >
-              <Input
-                placeholder="Email"
-                style={{ fontSize: "1.2rem" }}
-                ref={email}
-                required={true}
-                onChange={(e) => {
-                  email.current.value = e.target.value;
-                  setemails(e.target.value);
-                }}
-              />
-            </Form.Item>
-            <Form.Item
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please create your password!",
-                },
-              ]}
-            >
-              <Input.Password
-                placeholder="Password(6 digits at least, case sensitive)"
-                style={{ fontSize: "1.1rem" }}
-                size="large"
-                required={true}
-              />
-            </Form.Item>
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: `${false ? "hello" : "Please enter valid email"}`,
+                  },
+                ]}
+              >
+                <Input
+                  placeholder="Email"
+                  style={{ fontSize: "1.2rem" }}
+                  ref={email}
+                  required={true}
+                  onChange={(e) => {
+                    email.current.value = e.target.value;
+                    setemails(e.target.value);
+                  }}
+                />
+              </Form.Item>
+                <p className="text-gray-400">
+                  (8 digits at least, alphanumeric and case sensitive)
+                </p>
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please create your password!",
+                  },
+                ]}
+              >
+                <Input.Password
+                  placeholder="Password"
+                  style={{ fontSize: "1.1rem" }}
+                  size="large"
+                  required={true}
+                />
+              </Form.Item>
 
-            {/* <Form.Item
+              {/* <Form.Item
               name="confirmpassword"
               rules={[
                 {
@@ -183,68 +200,74 @@ const Signup = () => {
                 },
               ]}
             > */}
-            <Form.Item
-              name="confirmpassword"
-              dependencies={["password"]} // Make the validation dependent on the password field
-              rules={[
-                {
-                  required: true,
-                  message: "Please confirm your password!",
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve(); // Passwords match, resolve the promise
-                    }
-                    return Promise.reject("The two passwords do not match!"); // Passwords don't match, reject the promise
+              <Form.Item
+                name="confirmpassword"
+                dependencies={["password"]} // Make the validation dependent on the password field
+                rules={[
+                  {
+                    required: true,
+                    message: "Please confirm your password!",
                   },
-                }),
-              ]}
-            >
-              <Input.Password
-                placeholder="Comfirm password"
-                style={{ fontSize: "1.1rem" }}
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve(); // Passwords match, resolve the promise
+                      }
+                      return Promise.reject("The two passwords do not match!"); // Passwords don't match, reject the promise
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password
+                  placeholder="Comfirm password"
+                  style={{ fontSize: "1.1rem" }}
+                  size="large"
+                  required={true}
+                />
+              </Form.Item>
+              {/* <Link href="/signup/confirm-mail"> */}
+              {errMessage && (
+                <p className=" text-red-500 mt-4 mb-2 text-[14px]">
+                  {errMessage}
+                </p>
+              )}
+
+              <button
+                className="w-full "
+                // type="primary"
+                // type="submit"
+                style={{
+                  fontSize: "1.2rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  paddingBottom: "5px",
+                  paddingTop: "5px",
+                  backgroundColor: "#1890FF",
+                  color: "white",
+                  borderRadius: "5px",
+                }}
                 size="large"
-                required={true}
-              />
-            </Form.Item>
-            {/* <Link href="/signup/confirm-mail"> */}
-            <button
-              className="w-full "
-              // type="primary"
-              // type="submit"
-              style={{
-                fontSize: "1.2rem",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                paddingBottom: "5px",
-                paddingTop: "5px",
-                backgroundColor: "#1890FF",
-                color: "white",
-                borderRadius: "5px",
-              }}
-              size="large"
-              // disabled={ !passMatch}
-              // onClick={() => {
-              //   handleOnSubmit();
-              // }}
-            >
-              Create Account
-            </button>
-            {/* </Link> */}
-          </Form>
-          <br />
-          {errMessage && <p className="-mt-5 text-red-500">{errMessage}</p>}
-          <span className="">
-            Have an account ?{" "}
-            <Link href="/login" className="text-[#1890FF]">
-              Sign in
-            </Link>
-          </span>
+                // disabled={ !passMatch}
+                // onClick={() => {
+                //   handleOnSubmit();
+                // }}
+              >
+                Create Account
+              </button>
+              {/* </Link> */}
+            </Form>
+            <br />
+            <span className="">
+              Have an account ?{" "}
+              <Link href="/login" className="text-[#1890FF]">
+                Sign in
+              </Link>
+            </span>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

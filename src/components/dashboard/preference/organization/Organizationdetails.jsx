@@ -38,7 +38,7 @@ const Organizationdetails = () => {
         </Tabs.items>
         <Tabs.items tab={
             <span className='p-2 w-full'>
-              custom fields</span>
+              Organization Setup</span>
         } key="2">
           {tabContents['2']}
         </Tabs.items>

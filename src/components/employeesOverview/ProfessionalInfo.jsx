@@ -1,118 +1,89 @@
-import React, { useEffect, useState } from "react";
+'use client'
+import React, { useState, useEffect } from 'react'
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
+// import axios from "@/api/axios"
+import axios from '@/api/axios'
 
 const ProfessionalInfo = () => {
+  const [fetchedData , setFetchData] = useState({})
   const accessToken = getAccessTokenFromCookie();
-  const [fetchedData, setFetchData] = useState({});
-  const id = useSelector((state) => state.Details.id) 
-  const idTabs = useSelector((state) => state.Details.tab) 
+  
+  const [empdata, setempdata] = useState({})
+ console.log(empdata,'this is empdata')
+ const id = useSelector((state)=>state.Details.ParticularempId)
 
+   useEffect(()=>{
+    const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
+  console.log(empId, 'from localStorage')
+      const fetchData = async ()=>{
+        try{
+          const empdetails = await axios.get(`/employee/${id}`,{
 
-  // const [data, setData] = useState({})
-  // setData(useSelector(state => state.DetailSlice.personalDetails))
-  // const data =  useSelector(state => state.DetailSlice?.personalDetails)
-  // console.log("data of personal details from redux",data)
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
 
-  useEffect(() => {
-    console.log("in useeffect");
-    const fetchData = async () => {
-      // getting employee id from local storage
-      
-      // setEmpId(id)
-      try {
-        console.log("employee id ", id);
-        // fetching data by employee id in case of data not found in redux
-        const config = {
-          headers: {
-            'Accept': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-        };
-        const response = await axios.get(`/employee/${id}`, config);
-        console.log(
-          "response of employee id",
-          response.data.professional_information
-          );
-          // storing  data intto usestate
-          
-          setFetchData(response.data.professional_information);
           // console.log("data",employees)
-        } catch (error) {
-          console.log("error fetching employee", error);
+          setempdata(empdetails.data.professional_information
+            )
+
         }
-      };
-      
-      fetchData();
-  }, [accessToken, idTabs]);
+        catch(error){
+          console.log('error',error);
+        }
+      }
+      fetchData()
+    },[])
 
-  // getting data from redux using useselector
 
-  const reduxData = useSelector((state) => state.Details?.professional_information);
-  const objLength = Object.keys(reduxData).length;
-  console.log(
-    "redux data for personal info",
-    JSON.stringify(reduxData),
-    "Length",
-    objLength
-  );
-  console.log("fetched data by id for personal info", fetchedData);
+    // getting data from redux using useselector
+
+
+  const reduxData = useSelector(state => state.Details?.professionalDetails)
+  console.log('redux data for professional info',reduxData)
+  console.log('fetched data by id for professional info',fetchedData)
   // setData(reduxData)
 
-  // condittionally trendering the data eitther from redux or from fetched  data by id
+    // condittionally rendering the data eitther from redux or from fetched  data by id 
 
   const data = reduxData.length > 0 ? reduxData : fetchedData;
-  console.log("data of personal details", data);
-
-  // const professionalDetails = useSelector(
-  //   (state) => state.professionalDetails
-  // );
-
+  console.log("data of profesional details",data)
   return (
-    <div className="grid grid-cols-2 grid-rows-3">
+    <div className="grid grid-cols-2 grid-rows-3 ">
       {/* first row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Designation</h2>
-        <p className="font-semibold text-base">
-          {data.designation}
-        </p>
+        <p className="font-semibold text-base">{(empdata.emp_designation) ? (empdata.emp_designation) : 'no value'}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Department</h2>
-        <p className="font-semibold text-base">
-          {data.department}
-        </p>
+        <p className="font-semibold text-base">{(empdata.department_name) ? (empdata.department_name) : 'no value'}</p>
       </span>
 
       {/* second row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">PF Number</h2>
-        <p className="font-semibold text-base">
-          {data.pfNumber}
-        </p>
+        <p className="font-semibold text-base">{(empdata.pf) ? (empdata.pf) : 'no value'}</p>
       </span>
       <span>
         <h2 className="text-gray-400">UAN Number</h2>
-        <p className="font-semibold text-base">
-          {data.uanNumber}
-        </p>
+        <p className="font-semibold text-base">{(empdata.uan) ? (empdata.uan) : 'no value'}</p>
       </span>
 
       {/* third row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Direct Reporting Manager</h2>
-        <p className="font-semibold text-base">
-          {data.reportingManager}
-        </p>
+        <p className="font-semibold text-base">{(empdata.reporting_manager_first_name && empdata.reporting_manager_last_name) ? (empdata.reporting_manager_first_name && empdata.reporting_manager_last_name) : 'no value'}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Work location</h2>
-        <p className="font-semibold text-base">
-          {data.workLocation}
-        </p>
+        <p className="font-semibold text-base">{(empdata.work_location) ? (empdata.work_location) : 'no value'}</p>
       </span>
-    </div>
-  );
-};
 
-export default ProfessionalInfo;
+    </div>
+  )
+}
+
+export default ProfessionalInfo

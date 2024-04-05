@@ -26,7 +26,7 @@ const CountryComponent = ({ value, onChange }) => {
         option.children.toLowerCase().includes(input.toLowerCase())
       }
       value={selectedCountry}
-      className="w-[33.5%] mr-4 p-1 border border-gray-300 outline-[#1890FF]"
+      className="w-[45%] mr-4 p-1 border border-none border-gray-300 outline-[#1890FF]"
     >
       {Countrydata.map((country) => (
         <Select.Option key={country.value} value={country.value}>

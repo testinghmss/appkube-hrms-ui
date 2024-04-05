@@ -7,9 +7,16 @@ import Company from "@/../public/assets/onboarding/company.svg";
 import Profile from "@/../public/assets/onboarding/profile.svg";
 import Link from "next/link";
 import {useDispatch,useSelector} from "react-redux"
-import { createUser } from "@/redux/slices/Onboardingpersdetails";
-import { createCompany } from "@/redux/slices/Onboardingpersdetails";
+import {
+  setCompanyData,
+  setPersonalData,
+  updateOrganization,
+  updateEmployee,
+  setCompanyStatus,
+  setPersonalStatus,
+} from "@/redux/slices/Onboardingpersdetails";
 import { removeAccessToken } from "@/utils/getAccessToken";
+import { notification } from "antd";
 
 
 const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
@@ -17,8 +24,18 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
   const personalData = useSelector((state) => state.Onboardingpersdetails.personalData);
   const companyData = useSelector((state) => state.Onboardingpersdetails.companyData);
   const employeId = useSelector((state) => state.Onboardingpersdetails.employeId);
+
+  const personalStatus = useSelector(state => state.Onboardingpersdetails.personalStatus)
+  const companyStatus = useSelector(state => state.Onboardingpersdetails.companyStatus)
+  
   
   const dispatch = useDispatch()
+  
+  const openNotification = () => {
+    notification.open({
+      message: "Something went wrong, please try again",
+    });
+  };
 
   // const handleSubmit = async () => {
     //   // e.preventDefault();
@@ -30,6 +47,33 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
     
     // };
     
+    const handleUpdateEmployee = async (data) => {
+      try {
+        const response = await updateEmployee(dispatch,employeId, data);
+        console.log("PU -- ", response);
+        if(response){dispatch(setPersonalStatus());}
+        
+        // Set other state as needed
+      } catch (error) {
+        console.error(error);
+        // Handle error (e.g., show error message)
+      }
+    };
+    
+    
+    const handleUpdateOrganization = async (data) => {
+      try {
+        const response = await updateOrganization(dispatch,data);
+        console.log('OU -- ',response);
+        if(response?.id) {dispatch(setCompanyStatus());}
+        
+        // Set other state as needed
+      } catch (error) {
+        console.error(error);
+        // Handle error
+      }
+    };
+    
     
     const handleSubmit = async () => {
       // const orgId = "482d8374-fca3-43ff-a638-02c8a425c492"; // Replace with your actual orgId value
@@ -39,10 +83,26 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
       // const personalDatawithID = { id:employeId, ...personalData };
       
       // Dispatch actions with the modified data
-      dispatch(createUser());
-      dispatch(createCompany(companyData));
       
+      // dispatch(createUser(personalData));
+      // dispatch(createCompany(companyData));
+
+      await handleUpdateEmployee(personalData)
+      await handleUpdateOrganization(companyData)
+
+      console.log("redux status p",personalStatus);
+      console.log("redux status c",companyStatus);
+      // setStep(step + 1)
       // console.log(combinedData);
+
+      if(personalStatus == 200 && companyStatus == 200){
+        setStep(step + 1)
+      }
+      else{
+        openNotification();
+        // setStep(1)
+      }
+      
     };
     
     return (
@@ -103,7 +163,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
         <div className="self-start rounded-md w-full p-2 h-full flex flex-col gap-2">
           <div className="w-[7vw] h-[8vh] bg-white rounded-md">
             <Image
-              src={Company}
+              src={companyData.logo || Company}
               width={100}
               height={100}
               className="w-[80%] h-[80%] border "
@@ -111,14 +171,14 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
             />
           </div>
           <div className="flex flex-col gap-4">
-            <div className="flex  justify-start gap-40 border-b  border-gray-200 w-full">
-              <span className="  flex flex-col  ">
+            <div className="flex  justify-between border-b  border-gray-200 ">
+              <span className="  flex flex-col w-[50%]  ">
                 <span className="text-gray-400 text-xs">
                   Legal Company Name
                 </span>
                 <span className="text-xs">{companyData.name}</span>
               </span>
-              <span className="flex flex-col  pl-4">
+              <span className="flex flex-col w-[50%]  pl-4">
                 <span className="text-gray-400 text-xs">
                   Company Email Address
                 </span>
@@ -127,8 +187,8 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
             </div>
             <div className="flex flex-col   border-b border-gray-200 w-full">
               <span className="text-gray-400 text-xs">Phone Number</span>
-              <span className="text-xs">91+{companyData.number}</span>
-            </div>
+              <span className="text-xs">+91 {companyData.number}</span>
+            </div> 
             <div className="flex flex-col   border-b border-gray-200 w-full">
               <span className="text-gray-400 text-xs">Address Line 1</span>
               <span className="text-xs">{companyData.address_line_1}</span>
@@ -162,8 +222,9 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
         <button
           className="w-[70%] lg:mt-6 h-8 border bg-[#1890FF] hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF] transition-all text-white items-end"
           onClick={() => {
-            handleSubmit(),
-            setStep(step + 1);
+            handleSubmit()
+            // ,
+            // setStep(step + 1);
           }}
         >
           Complete

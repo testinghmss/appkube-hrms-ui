@@ -65,14 +65,21 @@ const CompanyDetails = ({ step, setStep  }) => {
 
   const getCompanyData = (e) => {
     const { name, value } = e.target;
-    // Trim the value to 10 digits if it's the phone number field
-    if (name === "number") {
-      const trimmedValue = value.slice(0, 10);
-      setCompany({ ...company, [name]: trimmedValue });
+
+    // Check if the field is 'number' or 'zipcode'
+    if (name === "number" || name === "zipcode") {
+        // Allow only digits
+        const onlyNums = value.replace(/\D/g, '');
+
+        // For 'number', trim the value to 10 digits; for 'zipcode', use as is or apply any specific logic
+        const trimmedValue = name === "number" ? onlyNums.slice(0, 10) : onlyNums;
+        setCompany({ ...company, [name]: trimmedValue });
     } else {
-      setCompany({ ...company, [name]: value });
+        // For other fields, use the value as is
+        setCompany({ ...company, [name]: value });
     }
-  };
+};
+
 
   const openNotification = () => {
     notification.open({
@@ -93,8 +100,9 @@ const CompanyDetails = ({ step, setStep  }) => {
       !company.country ||
       !company.state ||
       !company.city ||
-      !company.zipcode ||
-      company.zipcode.length !==6
+      !company.zipcode 
+      // ||
+      // company.zipcode.length !==6
     ) {
       console.log("Please fill in all the required fields");
       openNotification();
@@ -278,7 +286,7 @@ console.log("image state",company );
               <input
                 name="number"
                 onChange={getCompanyData}
-                type="number"
+                type="text"
                 placeholder="Phone Number"
                 className="w-full h-9 p-2 border-gray-300 outline-[#1890FF]"
                 maxLength="10"
@@ -304,30 +312,8 @@ console.log("image state",company );
             value={company.address_line_2 || ""}
           />
 
-          <div>
-            <div className="w-full mb-1">
-              {/* <Select
-                showSearch
-                // selected={selectedCountry}
-                placeholder="Select a country"
-                optionFilterProp="children"
-                onChange={(value) => {
-                  setCompany({ ...company, country: value })
-                  setSelectedCountry(value)
-                  // console.log("value in the country", value);
-                  }} 
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().includes(input.toLowerCase())
-                }
-                value={company.country || undefined} 
-                className="w-[33.5%] mr-4 p-1 border border-gray-300 outline-[#1890FF]"
-              >
-                {Countrydata.map((country) => (
-                  <Select.Option  key={country.value} value={country.value} >
-                    {country.displayValue}
-                  </Select.Option>
-                ))}
-              </Select> */}
+          <div className="w-[70%]">
+            <div className="w-full mb-1 border border-none mr-0 flex justify-between">
               <CountryComponent
                 value={company.country || undefined}
                 onChange={(value) => {
@@ -336,37 +322,8 @@ console.log("image state",company );
                 }}
                 // data={Countrydata}
               />
-              {/* <Select
-                name="state"
-                onChange={getCompanyData}
-                placeholder="Select a State"
-                className="w-[33.5%] p-1 border border-gray-300 outline-[#1890FF]"
-                // value={companyData.state !== undefined ? companyData.state : "" || companyData.state }
-                value={company.state || ''}
-              >
-                {startdata.map((state) => (
-                  <Select.Option key={state.value} value={state.value}>
-                    {state.displayValue}
-                  </Select.Option>
-                ))}
-              </Select> */}
-              {/* <Select
-                showSearch
-                placeholder="Select a State"
-                optionFilterProp="children"
-                onChange={(value) => setCompany({ ...company, state: value })}
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().includes(input.toLowerCase())
-                }
-                value={company.state || undefined}
-                className="w-[33.5%] p-1 border border-gray-300 outline-[#1890FF]"
-              >
-                {startdata.map((state) => (
-                  <Select.Option key={state.value} value={state.value}>
-                    {state.displayValue}
-                  </Select.Option>
-                ))}
-              </Select> */}
+              
+             
               <StateComponent countryCode={selectedCountry}
               //  changeState={setselectedState}
                 value={company.state || undefined}
@@ -375,22 +332,10 @@ console.log("image state",company );
                 setselectedState(value)
               }}/>
             </div>
-            <div>
-              {/* <select
-                name="city"
-                onChange={getCompanyData}
-                placeholder="City"
-                className="w-[33.5%] mr-4 p-1 border border-gray-300 outline-[#1890FF]"
-                // value={companyData.city !== undefined ? companyData.city : "" || companyData.city }
-                value={company.city || ''}
-              >
-                <option value="">select city</option>
-                <option value="Hyderabad">Hyderabad</option>
-                <option value="Varangel">Varangel</option>
-                <option value="Mahaboob Nager">Mahaboob Nager</option>
-              </select> */}
+            <div className="flex justify-between">
+           
                 <CityComponent
-                  countryCode={selectedCountry}
+                  countryCode={selectedCountry} 
                   stateCode={selectedState} // Pass selectedState to CityComponent
                   onChange={ (value) =>{
                 setCompany({ ...company, city: value })
@@ -409,9 +354,9 @@ console.log("image state",company );
               <input
                 name="zipcode"
                 onChange={getCompanyData}
-                type="number"
+                type="text"
                 placeholder="Zip Code"
-                className="w-[33.5%] p-1 border border-gray-300 outline-[#1890FF]"
+                className="w-[45%] p-1 border rounded-md border-gray-300 outline-[#1890FF]"
                 // value={companyData.zipcode !== undefined ? companyData.zipcode : "" || companyData.zipcode }
                 value={company.zipcode || ""}
               />
@@ -447,9 +392,9 @@ console.log("image state",company );
               
             </div>
             <div>
-              <h2 className="border border-gray-300 p-1 pl-3">
-                Upload Profile
-              </h2>
+                {/* <h2 className="border border-gray-300 p-1 pl-3">
+                  Upload Profile
+                </h2> */}
               <p className="text-sm font-light">upload your profile picture</p>
             </div>
           </div>
