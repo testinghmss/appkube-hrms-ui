@@ -71,12 +71,12 @@ const Equipments = ({ tab, setTab }) => {
     [
       {
         owner: owner,
-        device_type_id: 1,
+        device_type_id: 5,
         manufacturer: Manufacturer,
         serial_number: SerialNumber,
         note: Notes,
         supply_date: supplydate,
-        emp_id:  empId ? empId : null,
+        emp_id:  empId ,
       },
     ];
   // making data into format to hit api
