@@ -6,7 +6,7 @@ import OnBoardingImg from '@/../public/assets/onboarding/OnbordingImg.svg'
 import Logout from '@/../public/assets/onboarding/Logout.svg'
 import { removeAccessToken } from "@/utils/getAccessToken";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
-import axios from 'axios'
+import axios from "@/api/axios"
 import {
   Flex,
   Form,
@@ -15,7 +15,6 @@ import {
   Select,
   notification,
   message,
-  DatePicker,
   Upload
 } from "antd";
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
@@ -26,6 +25,8 @@ import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 // import { createUser } from "@/redux/slices/personalDetails";
 import { setPersonalData } from '@/redux/slices/Onboardingpersdetails';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 
 // // for the image upload
@@ -54,6 +55,8 @@ const Onboarding = ({ step, setStep }) => {
   // for the image upload
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
+  const [Attachments, setAttachments] = useState([]);
+
 
   const personalData = useSelector((state) => state.Onboardingpersdetails.personalData);
 
@@ -93,13 +96,23 @@ const Onboarding = ({ step, setStep }) => {
 
   const handleDateChange = (date) => {
     if (date) {
-      const formattedDate = moment(date).format('YYYY/MM/DD');
-      setPersonal({...personal,dob:formattedDate});
+        const formattedDate = moment(date).format('YYYY/MM/DD');
+        setPersonal({ ...personal, dob: formattedDate });
     } else {
-      setPersonal({...personal, dob:null});
+        setPersonal({ ...personal, dob: null });
     }
-  };
-  const datetoshow = moment(personal.dob).format('DD/MM/YYYY');
+};
+
+const datetoshow = personal.dob ? moment(personal.dob, 'YYYY/MM/DD').toDate() : null;
+
+
+  // const consoleLogDates = () => {
+  //   const presentDate = moment(); // or new Date()
+  //   const eighteenYearsBefore = moment().subtract(18, 'years'); // or new Date(new Date().setFullYear(new Date().getFullYear() - 18))
+  
+  //   console.log('Present Date:', presentDate.format('DD/MM/YYYY'));
+  //   console.log('18 Years Before:', eighteenYearsBefore.format('DD/MM/YYYY'));
+  // };
 
   const handleGenderChange = (selectedValue) => {
     setPersonal({ ...personal, gender: selectedValue });
@@ -203,39 +216,32 @@ const Onboarding = ({ step, setStep }) => {
 
   const handleFileChange = (info) => {
     const file = info.file.originFileObj; // Access the selected file object
-    console.log("THis is file", file)
-    console.log("This is info file", info.file)
-    console.log(info.file, info.fileList, 'these are lists of files ');
-    console.log(info.fileList, 'THis is inof multiple ')
+    console.log("THis is file", file);
+    console.log("This is info file", info.file,'and',info.file.originFileObj);
+    console.log(info.file, info.fileList, "these are lists of files ");
+    console.log(info.fileList, "THis is inof multiple ");
 
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64 = reader.result;
         setReq({ fileName: file.name, data: base64 });
-        if (!fileuploaded) {
-          setfileuploaded(true); // Set to true only if it wasn't true already
-        }
+        setfileuploaded(true);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  console.log(req)
+  console.log("req data", req);
 
-
-
-  const [Attachments, setAttachments] = useState([])
-  console.log(Attachments,)
-
-
+  // console.log("attachmemnts data", Attachments);
   const uploadFile = async () => {
-    if (!req.data) return; // Add a check to ensure there's something to upload
-
+    // const data = {amar:req.url}
     try {
-      const response = await axios.post(
-        'https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/docUpload',
-        req,
+      console.log('uploadinf file',req)
+      const response = await axios.post("/docUpload",
+        // data,
+       req,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -243,8 +249,9 @@ const Onboarding = ({ step, setStep }) => {
         }
       );
 
-      console.log(response.data);
-      // alert('Image uploaded successfully!');
+
+      console.log("image uploaded",response.data);
+      alert('Image uploaded successfully!');
       setAttachments(response.data.link);
       setImageUrl(response.data.link);
       setfileuploaded(false); // Reset to false after successful upload
@@ -258,13 +265,12 @@ const Onboarding = ({ step, setStep }) => {
 
   if (fileuploaded) {
     // useEffect(()=>{
-    uploadFile(),
-      setfileuploaded(false)
-    // },[fileuploaded])
+    uploadFile()
+    setfileuploaded(false);
   }
+
   console.log(Attachments)
   console.log("image state", personal);
-
 
 
   return (
@@ -372,14 +378,15 @@ const Onboarding = ({ step, setStep }) => {
             </Flex>
           </div>
 
-          <div className=" mb-2 border border-gray-300 border-none outline-none w-[70%] rounded-none">
+          <div className=" mb-2 border border-gray-300 pt-1 pl-1 outline-none w-[70%] rounded-none">
             <DatePicker
               selected={datetoshow}
               onChange={handleDateChange}
-              placeholderText="dd/mm/yyyy"
+              placeholderText="DD/MM/YYYY"
               className="p-1 mb-2 border border-gray-300 outline-none w-[100%] rounded-none border-none"
+              maxDate={moment().subtract(18, 'years').toDate()}
+              dateFormat="dd/MM/yyyy"
             />
-
           </div>
 
           <div>
