@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Editpersonaldetail from "./Editpersonaldetail";
 import PersonalDetail from "./Personaldetail";
 
 const EditButton = ({fetchedData}) => {
   const [firstStep, setFirstStep] = useState(1);
   const [hrData, setHrData] = useState(fetchedData)
-  console.log("in edit button",hrData);
+  
+  useEffect(() => {
+      setHrData(fetchedData); // Update hrData when fetchedData changes
+    }, [fetchedData]);
+    
+    console.log("in edit button",hrData);
   return (
     <>
       {firstStep == 1 && (

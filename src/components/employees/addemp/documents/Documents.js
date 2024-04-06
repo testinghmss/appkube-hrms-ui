@@ -118,6 +118,7 @@ const Documents = ({ tab, setTab }) => {
       setAttachments(prevAttachments => [...prevAttachments, docs]);
     }
   }, [docs,isClient]);
+  
   const MyUploads = () => {
     return (
       // <Dragger {...props}>
