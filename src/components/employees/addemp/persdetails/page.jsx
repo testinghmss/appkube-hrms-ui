@@ -10,7 +10,7 @@ import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import Mainaxios from "@/api/axios";
-import axios from "axios";
+import axios from "@/api/axios";
 import CountryComponent from "@/components/location/Countrys";
 import StateComponent from "@/components/location/States";
 import CityComponent from "@/components/location/city";
@@ -235,7 +235,7 @@ const PersonalInformation = ({ tab, setTab }) => {
 
     try {
       const response = await axios.post(
-        "https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/docUpload",
+        "/docUpload",
 
         req,
         {

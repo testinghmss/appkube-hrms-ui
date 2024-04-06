@@ -20,6 +20,7 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
       equipment:[],
       documents:[],
     })
+    const [data, setdata] = useState()
     const accessToken = getAccessTokenFromCookie();
     // const empId =  localStorage.getItem('empId')
     // console.log('emmpid from localstorage',empId)
@@ -62,36 +63,40 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
     // },[accessToken,fetchedData])
 
 
-    // useEffect(() => {
-    //   console.log('in useeffect');
-    //   const fetchData = async () => {
-    //     try {
-    //       console.log('employee id from local storage', id);
-    //       // fetching data by employee id in case of data not found in redux
-    //       const response = await axios.get(`/employee/${id}`, {
-    //         headers: {
-    //           Authorization: `Bearer ${accessToken}`,
-    //         },
-    //       });
-    //       console.log("response of employee id for equipments", response.data.equipment);
-    //       // storing equipment data into state
-    //       setFetchData(prevData => ({...prevData, equipment: response.data.equipment}));
+    useEffect(() => {
+      console.log('in useeffect');
+      const fetchData = async () => {
+        try {
+          console.log('employee id from local storage', id);
+          // fetching data by employee id in case of data not found in redux
+          const response = await axios.get(`/employee/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          console.log("response of employee id for equipments", response.data.personal_information);
+          console.log("response of employee id for equipments", response.data);
+
+          // storing equipment data into state
+        //   setFetchData(prevData => ({...prevData, equipment: response.data.equipment}));
+        setdata(response.data.personal_information)
     
-    //       // fetching data by employee id in case of data not found in redux
-    //       const response2 = await axios.get(`/employee/${id}`, {
-    //         headers: {
-    //           'Authorization': `Bearer ${accessToken}`,
-    //         },
-    //       });
-    //       console.log("response of employee id for documents", response2.data.documents);
-    //       // storing equipment data into state
-    //       setFetchData(prevData => ({...prevData, documents: response2.data.documents}));
-    //     } catch (error) {
-    //       console.log('error fetching employee data', error);
-    //     }
-    //   };
-    //   fetchData();
-    // }, [id, accessToken]);
+        //   // fetching data by employee id in case of data not found in redux
+        //   const response2 = await axios.get(`/employee/${id}`, {
+        //     headers: {
+        //       'Authorization': `Bearer ${accessToken}`,
+        //     },
+        //   });
+        //   console.log("response of employee id for documents", response2.data.documents);
+        //   // storing equipment data into state
+        //   setFetchData(prevData => ({...prevData, documents: response2.data.documents}));
+        } 
+        catch (error) {
+          console.log('error fetching employee data', error);
+        }
+      };
+      fetchData();
+    }, [id, accessToken]);
     
 
     // getting data from redux using useselector
@@ -136,7 +141,7 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
             </div>
           </div>
           <div className="flex items-start gap-4">
-            <Image src={ProfImg} className="w-[100px] " alt="profile" />
+            <Image src={data?.image} className="w-[100px] " alt="profile" width={100} height={100} />
             <PersonalInfo />
           </div>
         </div>

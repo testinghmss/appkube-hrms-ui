@@ -6,6 +6,8 @@ import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import React, { useEffect, useState } from "react";
 import axios from "@/api/axios";
 import Loading from "@/app/loading";
+import { useSelector } from 'react-redux'
+
 
 // import { loadBindings } from 'next/dist/build/swc'
 const Page = () => {
@@ -13,6 +15,8 @@ const Page = () => {
   // const searchParams = useSearchParams();
   // const userId =  searchParams?.get('id')
   // console.log('id from  params',userId)
+
+  const id = useSelector((state) => state.Details.ParticularempId)
   const [fetchedData, setFetchData] = useState({});
   const accessToken = getAccessTokenFromCookie();
   const [isClient, setIsClient] = useState(false);
@@ -36,7 +40,7 @@ const Page = () => {
           setLoading(true);
 
           console.log("employee id from local storage", userId);
-          const response = await axios.get(`/employee/${userId}`, {
+          const response = await axios.get(`/employee/${id}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -66,10 +70,10 @@ const Page = () => {
       {loading && <Loading />}
 
       <div>
-        {/* <TopEmpDt  empData={fetchedData}/> */}
-        {/* <LeftNav  empData={fetchedData}/> */}
-        <TopEmpDt />
-        <LeftNav />
+        <TopEmpDt  empData={fetchedData}/>
+        <LeftNav  empData={fetchedData}/>
+        {/* <TopEmpDt /> */}
+        {/* <LeftNav /> */}
       </div>
     </>
   );

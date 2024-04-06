@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { notification, Select,Upload } from "antd";
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
-import axios from "axios";
+import axios from "@/api/axios";
 
 // import StateComponent from "./countrys";
 import StateComponent from "../location/States";
@@ -187,7 +187,7 @@ console.log(req)
   
     try {
       const response = await axios.post(
-        'https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/docUpload',
+        '/docUpload',
         req,
         {
           headers: {

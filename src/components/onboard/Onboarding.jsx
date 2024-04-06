@@ -6,7 +6,7 @@ import OnBoardingImg from '@/../public/assets/onboarding/OnbordingImg.svg'
 import Logout from '@/../public/assets/onboarding/Logout.svg'
 import { removeAccessToken } from "@/utils/getAccessToken";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
-import axios from 'axios'
+import axios from '@/api/axios'
 import {
   Flex,
   Form,
@@ -227,7 +227,7 @@ const Onboarding = ({ step, setStep }) => {
 
     try {
       const response = await axios.post(
-        'https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/docUpload',
+        '/docUpload',
         req,
         {
           headers: {

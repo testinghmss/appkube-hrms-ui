@@ -109,6 +109,7 @@
 // }
 
 // export default ProfessionalInfo
+'use client'
 import React, { useState, useEffect } from 'react';
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import axios from '@/api/axios';
@@ -117,6 +118,7 @@ const ProfessionalInfo = () => {
   const [empdata, setEmpData] = useState({});
   const accessToken = getAccessTokenFromCookie();
   
+  console.log(empdata, 'from professional')
   useEffect(() => {
     const fetchData = async () => {
       try {

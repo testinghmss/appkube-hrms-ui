@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import Image from 'next/image';
-import axios from 'axios'; 
+import axios from '@/api/axios'; 
 import {useDispatch} from "react-redux"
 // import { setPersonalData } from '@/redux/slices/Onboardingpersdetails';
 // import { setonboardingImg } from '@/redux/slices/Onboardingpersdetails';
@@ -46,7 +46,7 @@ const App = () => {
         // Upload the image to the server
         try {
           const response = await axios.post(
-            'https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/docUpload',
+            '/docUpload',
             { fileName: info.file.name, data: url }
           );
           console.log(response.data);
