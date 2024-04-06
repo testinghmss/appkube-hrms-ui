@@ -82,6 +82,8 @@ const PersonalInfo = () => {
             },
           });
           console.log("response of employee id", response.data.personal_information);
+          console.log("response of employee id", response.data);
+
           setFetchData(response.data.personal_information);
            setdata({})
           setdata(response.data.personal_information);
@@ -147,7 +149,7 @@ const PersonalInfo = () => {
     <div className="grid grid-cols-2 grid-rows-9 ">
       <span className="mb-4">
         <h2 className="text-gray-400">First Name</h2>
-        <p className="font-semibold text-base">{data.first_name}</p>
+        <p className="font-semibold text-base">{data?.first_name}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Last Name</h2>
