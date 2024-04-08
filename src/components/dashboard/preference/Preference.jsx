@@ -7,7 +7,7 @@ import Organizationdetails from "./organization/Organizationdetails";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import axios from "@/api/axios";
 import Loading from "@/app/loading";
-import EditButton from "./personaldetails/editButton";
+import EditButton from "./personaldetails/EditButton";
 
 const Preference = () => {
   const [isClient, setIsClient] = useState(false);
