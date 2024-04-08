@@ -67,7 +67,7 @@ const App = () => {
 
         } catch (error) {
           console.error(error);
-          alert('Error uploading image. Please try again.');
+          // alert('Error uploading image. Please try again.');
         }
       });
     }

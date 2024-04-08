@@ -55,7 +55,7 @@ const Editorgdetails = ({hrData}) => {
       };
     };
   };
-
+  
   const [image, setImage] = useState(null);
   const hiddenFileInput = useRef(null);
 
@@ -91,7 +91,7 @@ const Editorgdetails = ({hrData}) => {
               </Button>
               <button
                 className="bg-blue-500 text-white flex gap-2 items-center rounded-sm border hover:text-blue-500 hover:bg-white hover:border-blue-500 transition-all px-3 p-1"
-                onClick={() => {}}
+                onClick={() => {console.log('clicked')}}
               >
                 <IoSaveSharp className="text-lg" /> Save
               </button>
@@ -111,8 +111,8 @@ const Editorgdetails = ({hrData}) => {
                   />
                   <input
                     type="text"
-                    placeholder="Last Name"
-                    // value={}
+                    placeholder="website"
+                    value={hrData.org_name}
                     className=" border border-gray-400 p-2 w-[50%] placeholder:text-black outline-none bg-transparent"
                   />
                 </div>
@@ -185,7 +185,8 @@ const Editorgdetails = ({hrData}) => {
             </div>
             <div className="w-[30%] h-fit bg-white px-2 py-6 flex flex-col gap-5 items-center justify-between shadow-md">
               <div className="profile w-20 h-20 bg-yellow-500 rounded-full flex justify-center items-center">
-                <span className="text-lg text-orange-600 ">PK</span>
+                {/* <span className="text-lg text-orange-600 ">PK</span> */}
+                <Image  src={hrData.org_logo} className="w-full h-full rounded-full" width={100} height={100} alt="organizattion logo"/>
               </div>
               <div className="flex flex-col items-center">
                 <span>Add your Company Logo</span>
