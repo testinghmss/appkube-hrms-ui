@@ -42,11 +42,14 @@ const App = () => {
     const fetchData = async () => {
       try {
         console.log("fetching");
-        const response = await axios.get("/employee/tracker", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          `/employee/tracker?page=${currentPage}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         console.log("tracker data", response);
         setData(response.data.employees);
       } catch (error) {
@@ -57,10 +60,12 @@ const App = () => {
     fetchData(); // Call fetchData here
 
     console.log("in use effect");
-  }, [accessToken, setData]); // Include dependencies accessToken and setData
+  }, [accessToken, currentPage]); // Include dependencies accessToken and setData
 
   const handlePageChange = (page) => {
+    console.log("this is page no click ::", page);
     setCurrentPage(page);
+    console.log("this is current page ::", currentPage);
   };
 
   const handlePageSizeChange = (size) => {
@@ -129,13 +134,43 @@ const App = () => {
               style={{ marginRight: "8px" }}
             />
           )}
-          <a onClick={() => handleEmployeeClick(record)}>{text}</a>
+          <a
+            className="cursor-pointer"
+            onClick={() => {
+              console.log("clicked");
+              handleEmployeeClick(record);
+            }}
+          >
+            {text}
+          </a>
         </div>
       ),
       render: (text, record) => (
         <div className="flex items-center ">
-          <img src={record?.image} alt={record.employee_name} className="w-8 h-8 rounded-full mr-2" />
-          <span>{text}</span>
+          {showCheckboxes && (
+            <input
+              type="checkbox"
+              onChange={() => handleCheckboxChange(record)}
+              checked={selectedEmployeesForReminder.some(
+                (item) => item.key === record.key
+              )}
+              style={{ marginRight: "8px" }}
+            />
+          )}
+          <img
+            src={record?.image}
+            alt={record.employee_name}
+            className="w-8 h-8 rounded-full mr-2"
+          />
+          <a
+            className="cursor-pointer"
+            onClick={() => {
+              console.log("clicked");
+              handleEmployeeClick(record);
+            }}
+          >
+            {text}
+          </a>
         </div>
       ),
     },
@@ -143,7 +178,16 @@ const App = () => {
       title: "Email Address",
       dataIndex: "email",
       key: "email",
-      render: (text) => <a>{text}</a>,
+      render: (text, record) => (
+        <a
+          onClick={() => {
+            console.log("clicked");
+            handleEmployeeClick(record);
+          }}
+        >
+          {text}
+        </a>
+      ),
     },
     {
       title: "Employee Status",
@@ -176,11 +220,11 @@ const App = () => {
       dataIndex: "employee_type",
       render: (employeeType) => {
         const tagColors = {
-          Permanent: "purple",
-          Consultant: "blue",
+          PERMANENT: "purple",
+          CONSULTANT: "blue",
         };
 
-        const color = tagColors[employeeType] || "defaultColor";
+        const color = tagColors[employeeType];
 
         return (
           <Tag color={color} key={employeeType}>
@@ -303,9 +347,9 @@ const App = () => {
     });
     return statusMatch && textMatch;
   });
-  const startIdx = (currentPage - 1) * pageSize;
-  const endIdx = currentPage * pageSize;
-  const displayedData = filteredData.slice(startIdx, endIdx);
+  // const startIdx = (currentPage - 1) * pageSize;
+  // const endIdx = currentPage * pageSize;
+  // const displayedData = filteredData.slice(startIdx, endIdx);
 
   const statusMenu = (
     <Menu
@@ -365,11 +409,29 @@ const App = () => {
             </Button>
           </div>
         </div>
-        <Table
-          columns={columns}
-          dataSource={displayedData}
-          pagination={false}
-        />
+        <Table columns={columns} dataSource={datas} pagination={false} />
+        <div className="flex justify-end mt-6">
+          {/* <Pagination
+            size="large"
+            pageSize={10}
+            total={100}
+            current={currentPage}
+            showTotal={(total, range) =>
+              ${range[0]}-${range[1]} of ${total} items
+            }
+            onChange={handlePageChange}
+          /> */}
+          <Pagination
+            size="large"
+            pageSize={10}
+            total={100} // Use the length of filteredData as total
+            current={currentPage}
+            showTotal={(total, range) =>
+              `${range[0]}-${range[1]} of ${total} items`
+            }
+            onChange={handlePageChange}
+          />
+        </div>
         <Drawer
           placement="right"
           closable={false}
@@ -391,9 +453,13 @@ const App = () => {
                     <Popup />
                   )}
                   {selectedEmployee.employee_status === "INVITED" && <Modal1 />}
-                  {selectedEmployee.employee_status === "DRAFT" && <Modal2 />}
+                  {selectedEmployee.employee_status === "DRAFT" && (
+                    <Modal2 id={selectedEmployee.id} />
+                  )}
                   {/* {selectedEmployee.employee_status === 'ACTIVE' && <Modal3/>} */}
-                  {selectedEmployee.employee_status === "SENT" && <Modal3 id={selectedEmployee.id}/>}
+                  {selectedEmployee.employee_status === "SENT" && (
+                    <Modal3 id={selectedEmployee.id} />
+                  )}
 
                   {/* switch(selectedEmployee.employee_status) {
     case "draft": return <Modal1/>
@@ -480,19 +546,19 @@ const App = () => {
             </>
           )}
         </Drawer>
-        <div className="flex justify-end mt-5">
+        {/* <div className="flex justify-end mt-5">
           <Pagination
             size="large"
             // total={filteredData.length}
             total={100}
             current={currentPage}
-            //showTotal={(total) => `Total ${total} items`}
+            //showTotal={(total) => Total ${total} items}
             onChange={handlePageChange}
             showTotal={(total, range) =>
-              `${range[0]}-${range[1]} of ${total} items`
+              ${range[0]}-${range[1]} of ${total} items
             }
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

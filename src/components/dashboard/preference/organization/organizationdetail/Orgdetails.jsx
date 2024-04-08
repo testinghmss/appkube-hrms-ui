@@ -135,7 +135,7 @@ const Orgdetails = () => {
               <div className="flex   border-b border-1  border-gray-200 w-full">
                 <span className="  flex flex-col gap-1 w-[50%] border-b border-1 ">
                   <span className="text-gray-400 ">Zipcode</span>
-                  <span>{fetchedData.org_zipcode}</span>
+                  <span>{fetchedData.org_Zipcode}</span>
                 </span>
               </div>
             </div>

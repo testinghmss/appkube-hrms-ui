@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import axios from '@/api/axios'
 import getAccessTokenFromCookie from '@/utils/getAccessToken';
 import { SendEmail } from './Profile3';
+import { useRouter } from 'next/navigation';
 const Profile5 = ({ step, setStep }) => {
-
+ const router = useRouter()
     const [empdata, setempdata] = useState({})
     console.log(empdata,'this is empdata')
      
@@ -37,6 +38,8 @@ const Profile5 = ({ step, setStep }) => {
     const handleBack = () => {
         setStep(step - 1); // Move back to the previous step
     };
+
+
     return (
         <>
             {/* <div className='flex flex-col items-center  bg-white w-[45vw] '> */}
@@ -60,7 +63,9 @@ const Profile5 = ({ step, setStep }) => {
                 <p>Schedule invite
                 </p>
             </div>
-            <button className='bg-[#1890FF] w-[100%] mb-5 h-9 rounded-sm text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF]' onClick={SendEmail} >Confirm and Continue</button>
+            <button className='bg-[#1890FF] w-[100%] mb-5 h-9 rounded-sm text-white border hover:text-[#1890FF] hover:bg-white hover:border-[#1890FF]' onClick={()=>{ router.push('/hrms')
+
+            }} >Confirm and Continue</button>
             <p className='mb-5 cursor-pointer text-center' onClick={handleBack} >Back</p>
             {/* </div> */}
         </>

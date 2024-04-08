@@ -76,12 +76,15 @@ const handleEdit = (e)=>{
   e.preventDefault();
   // setEdit(true)
   console.log('changing value od edit',edit)
+  setEdit(true)
+  setFirstStep(firstStep + 1);
 }
 // console.log(`edit value ${edit}`)
 
 useEffect(() => {
   console.log("Edit state is now: ",edit);
 }, [edit]);
+console.log('hr data in personal info',fetchedData,`step ${setFirstStep} and first ${firstStep}`)
 
 return (
     <>
@@ -91,7 +94,8 @@ return (
             <button
               className="bg-blue-500 text-white flex gap-2 items-center rounded-md p-2 px-3"
               onClick={(e) =>  {
-                handleEdit(e), setEdit(true),setFirstStep(firstStep + 1);}}
+                handleEdit(e)
+              }}
                
             >
               <AiFillEdit className="text-lg" /> Edit

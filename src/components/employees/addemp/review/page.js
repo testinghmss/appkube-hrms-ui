@@ -14,7 +14,9 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
   import getAccessTokenFromCookie from "@/utils/getAccessToken";
   import { useSelector } from "react-redux";
   import axios from "@/api/axios"
+  import { useRouter } from "next/navigation";
   const Page = ({ tab, setTab }) => {
+    const router = useRouter()
     //  created usestate for storing redux data into same variable
     const [fetchedData , setFetchData] = useState({
       equipment:[],
@@ -96,7 +98,7 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
         }
       };
       fetchData();
-    }, [id, accessToken]);
+    }, [id, accessToken,router]);
     
 
     // getting data from redux using useselector
@@ -187,7 +189,7 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
           </div>
           <div className="flex gap-4">
             <DocumentCard />
-            <DocumentCard />
+            {/* <DocumentCard /> */}
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@ import ProjectIcon from "@/../../public/assets/empDetails/Projects.svg";
 import AllProjects from "./AllProjects";
 
 const LeftNav = ({empData}) => {
-
+   console.log('data of r',empData);
   useEffect(() => {
     // Accessing location object inside useEffect
     if (typeof window !== 'undefined') {
