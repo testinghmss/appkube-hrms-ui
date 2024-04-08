@@ -132,6 +132,12 @@ const App = () => {
           <a onClick={() => handleEmployeeClick(record)}>{text}</a>
         </div>
       ),
+      render: (text, record) => (
+        <div className="flex items-center ">
+          <img src={record?.image} alt={record.employee_name} className="w-8 h-8 rounded-full mr-2" />
+          <span>{text}</span>
+        </div>
+      ),
     },
     {
       title: "Email Address",
@@ -385,9 +391,13 @@ const App = () => {
                     <Popup />
                   )}
                   {selectedEmployee.employee_status === "INVITED" && <Modal1 />}
-                  {selectedEmployee.employee_status === "DRAFT" && <Modal2 />}
+                  {selectedEmployee.employee_status === "DRAFT" && (
+                    <Modal2 id={selectedEmployee.id} />
+                  )}
                   {/* {selectedEmployee.employee_status === 'ACTIVE' && <Modal3/>} */}
-                  {selectedEmployee.employee_status === "SENT" && <Modal3 id={selectedEmployee.id}/>}
+                  {selectedEmployee.employee_status === "SENT" && (
+                    <Modal3 id={selectedEmployee.id} />
+                  )}
 
                   {/* switch(selectedEmployee.employee_status) {
     case "draft": return <Modal1/>

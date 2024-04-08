@@ -19,8 +19,9 @@ const Customfeild = () => {
   const [departmentModal, setDepartmentModal] = useState(false);
   const [designationInput, setDesignationInput] = useState("");
   const [departmentInput, setDepartmentInput] = useState("");
-  const [designationData, setDesignationData] = useState([]);
-  const [departmentData, setDepartmentData] = useState([]);
+  // const [designationData, setDesignationData] = useState([]);
+  // const [departmentData, setDepartmentData] = useState([]);
+
   const dispatch = useDispatch();
   const designations = useSelector(
     (state) => state.organizationSetup.designations
@@ -29,76 +30,76 @@ const Customfeild = () => {
     (state) => state.organizationSetup.departments
   );
 
-  //   Designation GET APi
-  // const fetchDesinationData = async () => {
-  //   try {
-  //     const response = await axios.get("/designation", {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-  //     dispatch(setDesignations(response.data));
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.error("Error fetching designations:", error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchDesinationData();
-  // }, []);
-
+    // Designation GET APi
+  const fetchDesinationData = async () => {
+    try {
+      const response = await axios.get("/designation", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      dispatch(setDesignations(response.data));
+      console.log(response);
+    } catch (error) {
+      console.error("Error fetching designations:", error);
+    }
+  };
   useEffect(() => {
-    const fetchDesinationData = async () => {
-      try {
-        const response = await axios.get("/designation", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        dispatch(setDesignations(response.data));
-        console.log(response);
-      } catch (error) {
-        console.error("Error fetching designations:", error);
-      }
-    };
     fetchDesinationData();
   }, [dispatch, accessToken]);
 
+  // useEffect(() => {
+  //   const fetchDesinationData = async () => {
+  //     try {
+  //       const response = await axios.get("/designation", {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       });
+  //       dispatch(setDesignations(response.data));
+  //       console.log(response);
+  //     } catch (error) {
+  //       console.error("Error fetching designations:", error);
+  //     }
+  //   };
+  //   fetchDesinationData();
+  // }, [dispatch, accessToken]);
+
   //   Department GET API
 
-  // const fetchDepartmentData = async () => {
-  //   try {
-  //     const response = await axios.get("/department", {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
-  //     dispatch(setDepartments(response.data));
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.error("Error fetching departments:", error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchDepartmentData();
-  // }, []);
-
+  const fetchDepartmentData = async () => {
+    try {
+      const response = await axios.get("/department", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      dispatch(setDepartments(response.data));
+      console.log(response);
+    } catch (error) {
+      console.error("Error fetching departments:", error);
+    }
+  };
   useEffect(() => {
-    const fetchDepartmentData = async () => {
-      try {
-        const response = await axios.get("/department", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        dispatch(setDepartments(response.data));
-        console.log(response);
-      } catch (error) {
-        console.error("Error fetching departments:", error);
-      }
-    };
     fetchDepartmentData();
   }, [dispatch, accessToken]);
+
+  // useEffect(() => {
+  //   const fetchDepartmentData = async () => {
+  //     try {
+  //       const response = await axios.get("/department", {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       });
+  //       dispatch(setDepartments(response.data));
+  //       console.log(response);
+  //     } catch (error) {
+  //       console.error("Error fetching departments:", error);
+  //     }
+  //   };
+  //   fetchDepartmentData();
+  // }, [dispatch, accessToken]);
 
   //   Designation POST APi
   const handleAddDesignation = async () => {

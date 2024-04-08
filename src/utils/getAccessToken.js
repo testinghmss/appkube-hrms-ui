@@ -21,4 +21,11 @@ export const removeAccessToken = () => {
   }
 };
 
+export const removeAllCredentials = ()=>{
+
+  localStorage.clear() 
+
+}
 export default getAccessTokenFromCookie;
+
+
