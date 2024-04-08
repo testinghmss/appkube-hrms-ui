@@ -385,9 +385,13 @@ const App = () => {
                     <Popup />
                   )}
                   {selectedEmployee.employee_status === "INVITED" && <Modal1 />}
-                  {selectedEmployee.employee_status === "DRAFT" && <Modal2 />}
+                  {selectedEmployee.employee_status === "DRAFT" && (
+                    <Modal2 id={selectedEmployee.id} />
+                  )}
                   {/* {selectedEmployee.employee_status === 'ACTIVE' && <Modal3/>} */}
-                  {selectedEmployee.employee_status === "SENT" && <Modal3 id={selectedEmployee.id}/>}
+                  {selectedEmployee.employee_status === "SENT" && (
+                    <Modal3 id={selectedEmployee.id} />
+                  )}
 
                   {/* switch(selectedEmployee.employee_status) {
     case "draft": return <Modal1/>
