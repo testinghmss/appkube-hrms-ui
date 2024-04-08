@@ -47,6 +47,7 @@ import Bell from "../../../public/assets/homeicons/Bell.svg";
 
 import { useSelector } from "react-redux";
 
+import { removeAllCredentials } from "@/utils/getAccessToken";
 // import Onboardemp from "@/components/employees/addemp/onboardemp/page";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -84,7 +85,9 @@ export default function RootLayout({ children }) {
     // Clear cookie or local storage here
     removeAccessToken();
     // Navigate to login page
+    removeAllCredentials()
     router.push("/");
+    
   };
 
   const menu = (

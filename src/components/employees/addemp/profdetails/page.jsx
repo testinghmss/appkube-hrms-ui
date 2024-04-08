@@ -464,9 +464,9 @@ const trueNotification = () => {
               { required: true, message: "Please select a work location." },
             ]}
           >
-            <Select
+            <Input
               showSearch
-              onChange={(value) => handleDropDownChange("work_location", value)}
+              onChange={(value) => handleDropDownChange("work_location", value.target.value)}
               name="work_location"
               style={{ borderRadius: 0 }}
               className="rounded-none"
@@ -476,12 +476,12 @@ const trueNotification = () => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {prof.map((option) => (
+              {/* {prof.map((option) => (
                 <Select.Option key={option} value={option}>
                   {option}
                 </Select.Option>
-              ))}
-            </Select>
+              ))} */}
+            </Input>
           </Form.Item>
         </Col>
         <Col span="3xl">
