@@ -55,12 +55,7 @@ const Document = () => {
   return (
     <div className='flex flex-wrap gap-10 mt-4'>
       <DocumentCard/>
-      {/* <DocumentCard/>
-      <DocumentCard/>
-      <DocumentCard/>
-      <DocumentCard/>
-      <DocumentCard/>
-      <DocumentCard/> */}
+  
     </div>
   )
 }

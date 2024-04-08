@@ -421,6 +421,7 @@ const Equipments = ({ tab, setTab }) => {
     console.log(owner)
   };
   const id = useSelector((state) => state.Details.id)
+  // const empId = localStorage.getItem("empId");
   const empId = typeof window !== 'undefined' ? localStorage.getItem('empId') : null;
 
   console.log("ID", id)
