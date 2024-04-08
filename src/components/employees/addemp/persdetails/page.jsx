@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setpersonalDetails } from "@/redux/slices/Details";
 // import { Provider } from "react-redux";
 // import { store } from "@/redux/store/store";
-import { Form, Input, Row, Col, Select, Radio, Upload, DatePicker } from "antd";
+import { Form, Input, Row, Col, Select, Radio, Upload} from "antd";
 const { Option } = Select;
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
@@ -16,6 +16,9 @@ import StateComponent from "@/components/location/States";
 import CityComponent from "@/components/location/city";
 import { notification } from "antd";
 import Image from "next/image";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from "moment";
 const beforeUpload = (file) => {
   const isPng = file.type === "image/png";
   if (!isPng) {
@@ -37,6 +40,23 @@ const PersonalInformation = ({ tab, setTab }) => {
   const dispatch = useDispatch();
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setselectedState] = useState();
+  
+  const [formData, setFormData] = useState({
+    email: "",
+    work_email: "",
+    first_name: "",
+    last_name: "",
+    gender: "",
+    dob: "",
+    emergency_number: "",
+    highest_qualification: "",
+    image: "",
+    landmark: "",
+    country: "",
+    state: "",
+    city: "",
+    zipcode: "",
+  });
   // const [status ,setStatus] = useState(null)
   // const [image,setImage] = useState(null)
 
@@ -71,8 +91,21 @@ const PersonalInformation = ({ tab, setTab }) => {
     console.log("form data", formData);
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    console.log(name, value, "change");
+    
   };
+
+  const handleDateChange = (date) => {
+    if (date) {
+        const formattedDate = moment(date).format('YYYY/MM/DD');
+        setFormData({ ...formData, dob : formattedDate });
+    } else {
+      setFormData({ ...formData, dob : null });
+    }
+};
+
+const datetoshow = formData.dob ? moment(formData.dob, 'YYYY/MM/DD').toDate() : null;
+
+
   const handleDropDownChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
     console.log(name, value, "change");
@@ -83,22 +116,6 @@ const PersonalInformation = ({ tab, setTab }) => {
     console.log(name, dateValue, "change");
   };
 
-  const [formData, setFormData] = useState({
-    email: "",
-    work_email: "",
-    first_name: "",
-    last_name: "",
-    gender: "",
-    dob: "",
-    emergency_number: "",
-    highest_qualification: "",
-    image: "",
-    landmark: "",
-    country: "",
-    state: "",
-    city: "",
-    zipcode: "",
-  });
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
 
@@ -439,6 +456,7 @@ const PersonalInformation = ({ tab, setTab }) => {
                 className="rounded-none"
                 placeholder="Enter Your Contact No."
                 name="number"
+                
               />
             </Form.Item>
           </Col>
@@ -460,6 +478,7 @@ const PersonalInformation = ({ tab, setTab }) => {
                 className="rounded-none"
                 placeholder="Emergency No."
                 name="emergency_number"
+                maxLength={10}
               />
             </Form.Item>
           </Col>
@@ -497,9 +516,12 @@ const PersonalInformation = ({ tab, setTab }) => {
               ]}
             >
               <DatePicker
-                className="rounded-none w-[100%]"
-                onChange={(value) => dateHandle("dob", value)}
-                name="dob"
+                selected={datetoshow}
+                onChange={handleDateChange}
+                placeholderText="DD/MM/YYYY"
+                className="p-1 mb-2 border border-gray-300 rounded-md focus:outline-[#188fffea] focus:outline-1 w-[192%]"
+                maxDate={moment().subtract(18, 'years').toDate()}
+                dateFormat="dd/MM/yyyy"
               />
             </Form.Item>
           </Col>
