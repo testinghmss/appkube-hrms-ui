@@ -297,14 +297,14 @@ const Documents = ({ tab, setTab }) => {
   // const empId = localStorage.getItem("empId");
   // updated usestate as required for backend
   const [req, setReq] = useState({ fileName: "", data: "" });
-  const [docs, setDocs] = useState({ name: '', url: '' })
+  const [docs, setDocs] = useState({ name: '', data: '' })
   const dispatch = useDispatch();
   const [fileuploaded, setfileuploaded] = useState(false);
   const accessToken = getAccessTokenFromCookie();
   const [Attachments, setAttachments] = useState([]);
   const [isClient, setIsClient] = useState(false);
 
-
+console.log(Attachments, 'attachments')
 
   // Wrap the client-only code inside this conditional
 
@@ -351,10 +351,13 @@ const Documents = ({ tab, setTab }) => {
 
       console.log("uploaded image response", response.data);
  
-      setDocs({ name: req.fileName, url: response.data.link, date: dateString, })
+      setDocs({ name: req.fileName, data: req.data })
       // alert("Image uploaded successfully!");
+    dispatch(setdocumentFullDetails(Attachments));
+
       imageTrueNotification()
       console.log('docs to push', docs)
+
 
       console.log("attachments", Attachments);
 
@@ -364,9 +367,8 @@ const Documents = ({ tab, setTab }) => {
     }
   };
   console.log(Attachments);
-  if (Attachments) {
-    dispatch(setdocumentFullDetails(Attachments));
-  }
+  // if (Attachments) {
+  // }
 
   if (fileuploaded) {
     // useEffect(()=>{
@@ -378,7 +380,7 @@ const Documents = ({ tab, setTab }) => {
   useEffect(() => {
     // Check if both name and url are truthy
     setIsClient(true);
-    if (docs.name && docs.url) {
+    if (docs.name && docs.data) {
       // Push the docs object into Attachments
       setAttachments(prevAttachments => [...prevAttachments, docs]);
     }
@@ -471,7 +473,7 @@ const Documents = ({ tab, setTab }) => {
         <MyUploads />
       </div>
       <p className="mt-6 font-semibold text-lg">Attach Files</p>
-      <FileTable />
+      <FileTable data= {Attachments} />
       <button
         className="w-[30%]  bg-[#1890FF] text-white hover:text-[#1890FF] hover:bg-white  border hover:border-[#1890FF] m-auto h-9 mt-10 "
         onClick={HandleDocuments}

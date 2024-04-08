@@ -160,7 +160,7 @@ const { Column, ColumnGroup } = Table;
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import axios from "axios";
 
-const FileTable = () => {
+const FileTable = ({data}) => {
   const dispatch = useDispatch()
   const empId =  "0d466422-41b9-4150-a378-fb60f7296a3b"
   const documentDetails = useSelector((state) => state.Details.documentFullDetails)
@@ -180,12 +180,12 @@ const FileTable = () => {
           </tr>
         </thead>
         <tbody>
-          {documentDetails.map((data, index) => (
+          { data &&  data.map((data, index) => (
             <tr key={index} className="">
               <td style={{ width: "30%" }} className="py-5 border border-x-0 ">
                 <div className="flex items-center space-x-5 pl-3 ">
-                  <Image src={data.url} width={50} height={50} className="rounded-full overflow-hidden" />
-                  <span>{data.name}</span>
+                  <Image src={data?.data} width={50} height={50} className="rounded-full overflow-hidden" />
+                  <span>{data?.name}</span>
                 </div>
               </td>
               <td className="text-sm text-center font-medium py-5 border border-x-0 " style={{ width: "30%" }}>{data.date}</td>
