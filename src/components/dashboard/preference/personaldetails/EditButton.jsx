@@ -1,3 +1,4 @@
+'use client'
 import React, { useState,useEffect } from "react";
 import Editpersonaldetail from "./Editpersonaldetail";
 import PersonalDetail from "./Personaldetail";

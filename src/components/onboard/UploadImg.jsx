@@ -4,6 +4,7 @@ import { message, Upload } from 'antd';
 import Image from 'next/image';
 import axios from '@/api/axios'; 
 import {useDispatch} from "react-redux"
+import getAccessTokenFromCookie from '@/utils/getAccessToken';
 // import { setPersonalData } from '@/redux/slices/Onboardingpersdetails';
 // import { setonboardingImg } from '@/redux/slices/Onboardingpersdetails';
 
@@ -27,6 +28,8 @@ const beforeUpload = (file) => {
 };
 
 const App = () => {
+
+  const accessToken = getAccessTokenFromCookie()
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
 
@@ -47,10 +50,15 @@ const App = () => {
         try {
           const response = await axios.post(
             '/docUpload',
-            { fileName: info.file.name, data: url }
+            { fileName: info.file.name, data: url },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
           );
           console.log(response.data);
-          alert('Image uploaded successfully!');
+          // alert('Image uploaded successfully!');
           // dispatch(setPersonalData(response.data.link))
           // console.log(response.data.link,"this is for image url");
            

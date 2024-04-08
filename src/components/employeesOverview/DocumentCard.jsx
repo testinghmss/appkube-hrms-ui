@@ -41,10 +41,10 @@ const DocumentCard = () => {
 
   return (
     <div className='flex items-center justify-between w-[22%] p-3 rounded-lg border border-gray-400'>
-         {documents.map((document, index) => (
+         {documents && documents.map((document, index) => (
         <div key={index}>
-          <h3>{document.name}</h3>
-          <Image src={document.url} alt={document.name}  width={100} height={100} />
+          <h3>{document?.name}</h3>
+          <Image src={document?.url} alt={document?.name}  width={100} height={100} />
         </div>
       ))}
     </div>  )
