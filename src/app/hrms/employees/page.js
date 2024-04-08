@@ -208,7 +208,7 @@ return (
         <Pagination
           size="large"
           pageSize = { 10 } 
-          total = { info }
+          total = {100 }
           current = { currentPage }
           showTotal={(total, range) =>
             `${range[0]}-${range[1]} of ${total} items`
