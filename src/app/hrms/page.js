@@ -31,6 +31,12 @@ const Page = () => {
     {
       title: "Employee Name",
       dataIndex: "employee_name",
+      render: (text, record) => (
+        <div className="flex items-center ">
+          <img src={record?.image} alt={record.employee_name} className="w-8 h-8 rounded-full mr-2" />
+          <span>{text}</span>
+        </div>
+      ),
     },
     {
       title: "Employee ID",
@@ -260,7 +266,7 @@ const Page = () => {
           <Pagination
             size="large"
             pageSize={10}
-            total={info}
+            total={100}
             current={currentPage}
             showTotal={(total, range) =>
               `${range[0]}-${range[1]} of ${total} items`

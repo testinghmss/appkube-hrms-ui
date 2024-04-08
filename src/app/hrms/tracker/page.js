@@ -132,6 +132,12 @@ const App = () => {
           <a onClick={() => handleEmployeeClick(record)}>{text}</a>
         </div>
       ),
+      render: (text, record) => (
+        <div className="flex items-center ">
+          <img src={record?.image} alt={record.employee_name} className="w-8 h-8 rounded-full mr-2" />
+          <span>{text}</span>
+        </div>
+      ),
     },
     {
       title: "Email Address",

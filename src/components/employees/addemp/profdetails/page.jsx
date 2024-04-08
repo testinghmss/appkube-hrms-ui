@@ -104,6 +104,8 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   // };
   const dispatch = useDispatch();
   const [isClient, setIsClient] = useState(false);
+  const [designations, setDesignations] = useState();
+  const [departments, setDepartments] = useState();
   // const professionalDetails = useSelector(selectProfessionalDetails);
   const [form] = useForm();
 
@@ -172,6 +174,45 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   const router = useRouter();
   const prof1 = ["option1", "option2", "option3"];
   const prof = ["option1", "option2", "option3"];
+
+
+
+   // Designation GET APi
+   const fetchDesinationData = async () => {
+    try {
+      const response = await axios.get("/designation", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setDesignations(response.data)
+      console.log("designation",response);
+    } catch (error) {
+      console.error("Error fetching designations:", error);
+    }
+  };
+  useEffect(() => {
+    fetchDesinationData();
+  }, [dispatch, accessToken]);
+
+  
+  const fetchDepartmentData = async () => {
+    try {
+      const response = await axios.get("/department", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setDepartments(response.data)
+      console.log("department",response);
+    } catch (error) {
+      console.error("Error fetching departments:", error);
+    }
+  };
+  useEffect(() => {
+    fetchDepartmentData();
+  }, [dispatch, accessToken]);
+
 
   // const putting = async (values) => {
   //   let data = {
@@ -295,13 +336,13 @@ const trueNotification = () => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {prof1.map((option) => (
+              {designations?.map((option) => (
                 <Select.Option
-                  key={option}
-                  value={option}
+                  key={option.designation}
+                  value={option.designation}
                   className="rounded-none"
                 >
-                  {option}
+                  {option.designation}
                 </Select.Option>
               ))}
             </Select>
@@ -390,9 +431,9 @@ const trueNotification = () => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {prof.map((option) => (
-                <Select.Option key={option} value={option}>
-                  {option}
+              {departments?.map((option) => (
+                <Select.Option key={option.name} value={option.name}>
+                  {option.name}
                 </Select.Option>
               ))}
             </Select>
@@ -464,9 +505,9 @@ const trueNotification = () => {
               { required: true, message: "Please select a work location." },
             ]}
           >
-            <Select
+            <Input
               showSearch
-              onChange={(value) => handleDropDownChange("work_location", value)}
+              onChange={(value) => handleDropDownChange("work_location", value.target.value)}
               name="work_location"
               style={{ borderRadius: 0 }}
               className="rounded-none"
@@ -476,12 +517,12 @@ const trueNotification = () => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {prof.map((option) => (
+              {/* {prof.map((option) => (
                 <Select.Option key={option} value={option}>
                   {option}
                 </Select.Option>
-              ))}
-            </Select>
+              ))} */}
+            </Input>
           </Form.Item>
         </Col>
         <Col span="3xl">

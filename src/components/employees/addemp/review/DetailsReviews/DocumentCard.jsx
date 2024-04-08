@@ -47,10 +47,10 @@ const DocumentCard = () => {
             <CiSaveDown1 className='text-lg font-bold'/>
         </span>
         </div> */}
-        {documents.map((document, index) => (
+        {documents && documents.map((document, index) => (
         <div key={index}>
-          <h3>{document.name}</h3>
-          <Image src={document.url} alt={document.name}  width={100} height={100} />
+          <h3>{document?.name}</h3>
+          <Image src={document?.url} alt={document?.name}  width={100} height={100} />
         </div>
       ))}
         
