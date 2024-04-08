@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import { setParticularEmpid } from '@/redux/slices/Details';
 import { useDispatch } from 'react-redux';
@@ -9,7 +10,7 @@ const Modal3 = ({id}) => {
   const router = useRouter()
   return (
     <div>
-        {/* <Button className='bg-red-200'><Link href={`/hrms/employees/employeesOverView?id=${id}`}> View profile</Link> </Button> */}
+        {/* <Button className='bg-red-200'><Link href={/hrms/employees/employeesOverView?id=${id}}> View profile</Link> </Button> */}
         <Button className='bg-red-200' onClick={()=>{
               dispatch(setParticularEmpid(id));
               localStorage.setItem('trackerId', id)

@@ -54,8 +54,7 @@ const Modal2 = ({ id }) => {
         // localStorage.setItem("empId", "");
         // Set empId to an empty string
         openNotification();
-        
-        
+
         // router.push("/hrms");
       }
       setIsModalOpen(false);
@@ -64,7 +63,6 @@ const Modal2 = ({ id }) => {
         notification.open({
           message: "Employee has already been invited",
         });
-        
       } else {
         notification.open({
           message: "There is some issue in sending Invite",
