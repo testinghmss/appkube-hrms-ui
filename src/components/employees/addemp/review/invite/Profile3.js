@@ -117,24 +117,24 @@ const Profile3 = ({ step, setStep }) => {
   const [EmpData, setempdata] = useState([]);
 
   const SendEmail = async () => {
-    const empId = localStorage.getItem("empId");
-    try {
-      const response = await axios.get(`/invite/${empId}`, {
-        headers: {
-          'Accept': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        }
-      });
-      console.log(JSON.stringify(response.data));
-      setempdata(empdetails.data.personal_information)
-      if (response.status === 200) {
-        localStorage.setItem('empId', '');
-        // Set empId to an empty string
+    // const empId = localStorage.getItem("empId");
+    // try {
+    //   const response = await axios.get(`/invite/${empId}`, {
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       Authorization: `Bearer ${accessToken}`,
+    //     }
+    //   });
+    //   console.log(JSON.stringify(response.data));
+    //   setempdata(empdetails.data.personal_information)
+    //   if (response.status === 200) {
+    //     localStorage.setItem('empId', '');
+    //     // Set empId to an empty string
         router.push('/hrms');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+      // }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const handleConfirmAndContinue = () => {

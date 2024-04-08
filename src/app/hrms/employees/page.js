@@ -63,7 +63,7 @@ useEffect(() => {
     }
   };
   fetchData();
-}, [accessToken]);
+}, [accessToken,currentPage]);
 
 const filteredEmployees = employees.filter((employee) =>
   employee.employee_name.toLowerCase().includes(searchText.toLowerCase())

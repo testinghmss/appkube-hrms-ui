@@ -70,9 +70,18 @@ const Page = () => {
         multiple: 1,
       },
     },
+    // {
+    //   title: "Start Date",
+    //   dataIndex: "english",
+    //   sorter: {
+    //     compare: (a, b) => a.english - b.english,
+    //     multiple: 1,
+    //   },
+    // },
     {
       title: "Start Date",
-      dataIndex: "english",
+      dataIndex: "start_date",
+      key: "start_date",
       sorter: {
         compare: (a, b) => a.english - b.english,
         multiple: 1,
@@ -169,7 +178,7 @@ const Page = () => {
       }
     };
     fetchData();
-  }, [accessToken]);
+  }, [accessToken,currentPage]);
 
   const statusMenu = (
     <Menu>
