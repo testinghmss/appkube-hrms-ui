@@ -5,6 +5,8 @@ const initialState = {
     professionalDetails: {}, 
     equipDetails: [], 
     documentDetails: [], 
+    documentFullDetails: [],
+
     ParticularempId:{}
   };
 export const DetailSlice = createSlice({
@@ -32,15 +34,29 @@ export const DetailSlice = createSlice({
     },
     setParticularEmpid:(state, action)=>{
       state.ParticularempId= action.payload
+    },
+    setdocumentFullDetails: (state, action) => {
+      state.documentFullDetails = action.payload
+    },
+    deletedocumentFullDetails: (state, action) => {
+      const { payload } = action;
+      state.documentFullDetails = state.documentFullDetails.filter(
+        (item) => item.url !== payload
+      );
     }
+
   },
 });
 
 export const { setpersonalDetails} = DetailSlice.actions;
+
 export const { setprofessionalDetails} = DetailSlice.actions;
 export const { setEquipmentDetails} = DetailSlice.actions;
 export const {setDocumentDetails} = DetailSlice.actions;
+export const { setdocumentFullDetails } = DetailSlice.actions;
 export const {setParticularEmpid} = DetailSlice.actions;
+export const { deletedocumentFullDetails } = DetailSlice.actions;
+
 
 
 

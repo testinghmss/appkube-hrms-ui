@@ -423,7 +423,7 @@ const Equipments = ({ tab, setTab }) => {
   const id = useSelector((state) => state.Details.id)
   const empId = typeof window !== 'undefined' ? localStorage.getItem('empId') : null;
 
-  console.log("ID", id)
+  console.log("ID", empId)
   const details = useSelector((state) => state.EquipmentDetails);
   const organizationDetails = details.organization
   console.log(organizationDetails)
