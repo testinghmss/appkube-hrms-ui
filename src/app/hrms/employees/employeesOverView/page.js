@@ -2,12 +2,12 @@
 import LeftNav from "@/components/employeesOverview/LeftNav";
 import TopEmpDt from "@/components/employeesOverview/TopEmpDtl";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
+import { useSearchParams } from "next/navigation";
 // import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from "react";
 import axios from "@/api/axios";
 import Loading from "@/app/loading";
-import { useSelector } from 'react-redux'
-
+import { useSelector } from "react-redux";
 
 // import { loadBindings } from 'next/dist/build/swc'
 const Page = () => {
@@ -16,7 +16,13 @@ const Page = () => {
   // const userId =  searchParams?.get('id')
   // console.log('id from  params',userId)
 
-  const id = useSelector((state) => state.Details.ParticularempId)
+  // const [searchParams, setSearchParams] = useState(null);
+  // const searchParam = useSearchParams();
+  // const userId =  searchParam?.get('id')
+  // console.log('id from  params',userId)
+
+  const id = useSelector((state) => state.Details.ParticularempId);
+  console.log('redux emp id ::',id);
   const [fetchedData, setFetchData] = useState({});
   const accessToken = getAccessTokenFromCookie();
   const [isClient, setIsClient] = useState(false);
@@ -29,17 +35,16 @@ const Page = () => {
   useEffect(() => {
     console.log("in useffect");
     if (isClient) {
+      // const id = await localStorage.getItem('trackerId')
       // const searchParams = useSearchParams();
       // const userId =  searchParams.get('id')
-      const userId = "kasjdak";
-      console.log("id from  params", userId);
+      // console.log("id from  params", userId);
       const fetchData = async () => {
         // setEmpId(id)
         try {
-          // const id = await localStorage.getItem('empId')
           setLoading(true);
 
-          console.log("employee id from local storage", userId);
+          // console.log("employee id from local storage", userId);
           const response = await axios.get(`/employee/${id}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -70,8 +75,8 @@ const Page = () => {
       {loading && <Loading />}
 
       <div>
-        <TopEmpDt  empData={fetchedData}/>
-        <LeftNav  empData={fetchedData}/>
+        <TopEmpDt empData={fetchedData} />
+        <LeftNav empData={fetchedData} />
         {/* <TopEmpDt /> */}
         {/* <LeftNav /> */}
       </div>
