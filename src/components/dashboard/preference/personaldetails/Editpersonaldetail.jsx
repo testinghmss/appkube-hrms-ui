@@ -1,4 +1,3 @@
-'use client'
 import React, { useState, useRef, useEffect } from "react";
 import { Button, Radio, Input, Form, Select ,Option} from "antd";
 // import { AiFillEdit } from "react-icons/ai";
@@ -24,47 +23,114 @@ const prefixSelector = (
   
   </Form.Item>
 );
+import Profile from "@/../../public/assets/onboarding/profile.svg";
+// import { fetchData } from "@/components/employees/addemp/review/invite/Profile1";
 
 
-const Editpersonaldetail = ({hrData,setFirstStep, firstStep}) => {
+
+const Editpersonaldetail = ({setFirstStep, firstStep,hrData}) => {
   const [save, setSave] = useState(false);
-  // const [isClient, setIsClient] = useState(false);
-  // const [fetchedData , setFetchData] = useState([])
+  const [isClient, setIsClient] = useState(false);
+  const [fetchedData , setfetchedData] = useState()
   const accessToken = getAccessTokenFromCookie();
-  // useEffect(() => {
-  //   // Check if both name and url are truthy
-  //   setIsClient(true);
-  // },[])
-  // useEffect(()=>{
-  //   console.log('in useffect')
-  //   if( isClient){
-  //     // const searchParams = useSearchParams();
-  //     // const userId =  searchParams.get('id')
-  //     const hrId = localStorage.getItem('hrId'); 
-  //     console.log('Hr id from  localstorage',hrId)
-  //     const fetchData = async ()=>{
-  //       // setEmpId(id)
-  //       try{
-  //         // const id = await localStorage.getItem('empId')
-  //         // console.log('employee id from local storage',userId)
-  //         const response = await axios.get(`/employee/${hrId}`,{
-  //           headers: {
-  //             'Authorization': `Bearer ${accessToken}`
-  //           }
-  //         });
-  //         console.log("response of employee data for overview",response.data)
-  //         setFetchData(response.data.personal_information);
-  //         // console.log("data",employees)
-  //       }
-  //       catch(error){
-  //         console.log('error fetching employee data',error);
-  //       }
-  //     }
-  //     fetchData()
-  //   }
-  // },[setFetchData,accessToken,isClient])
+  const [formData, setFormData] = useState()
+  const getAccessToken = getAccessTokenFromCookie()
+  // const [hrData,sethrData] = useState()
+  useEffect(() => {
+    // Check if both name and url are truthy
+    setIsClient(true);
+    setfetchedData(hrData || {})
+  },[fetchedData])
+  
+  console.log('hr data ain oaojs',hrData)
+
+  useEffect(()=>{
+    console.log('in useffect')
+    if( isClient){
+      // const searchParams = useSearchParams();
+      // const userId =  searchParams.get('id')
+      const hrId = localStorage.getItem('hrId'); 
+      console.log('Hr id from  localstorage',hrId)
+      const fetchData = async ()=>{
+        // setEmpId(id)
+        try{
+          // const id = await localStorage.getItem('empId')
+          // console.log('employee id from local storage',userId)
+          const response = await axios.get(`/employee/${hrId}`,{
+            headers: {
+              'Authorization': `Bearer ${accessToken}`
+            }
+          });
+          console.log("response of employee data for overview",response.data.personal_information)
+          setfetchedData(response.data.personal_information);
+          // console.log("data",employees)
+        }
+        catch(error){
+          console.log('error fetching employee data',error);
+        }
+      }
+      fetchData()
+    }
+  },[accessToken,isClient])
   
   // console.log('fetched hr data',fetchedData)
+
+     
+// address_line_1
+// : 
+// "falaknuma"
+// address_line_2
+// : 
+// "jahanuma"
+// city
+// : 
+// "Hyderabad"
+// country
+// : 
+// "India"
+// dob
+// : 
+// "2024-04-03T00:00:00.000Z"
+// email
+// : 
+// "abdullahahil153@gmail.com"
+// emergency_number
+// : 
+// null
+// emp_id
+// : 
+// null
+// first_name
+// : 
+// "Md "
+// gender
+// : 
+// "Male"
+// highest_qualification
+// : 
+// null
+// image
+// : 
+// ""
+// landmark
+// : 
+// null
+// last_name
+// : 
+// "Abdullah"
+// number
+// : 
+// "9505934716"
+// state
+// : 
+// "Telangana"
+// work_email
+// : 
+// "abdullahahil7861@gmail.com"
+// zipcode
+// : 
+// "500053"
+  
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     const imgname = event.target.files[0].name;
@@ -115,7 +181,131 @@ const Editpersonaldetail = ({hrData,setFirstStep, firstStep}) => {
 
   const [image, setImage] = useState(null);
   const hiddenFileInput = useRef(null);
+  console.log('hr data in edit personal info',fetchedData,`step ${setFirstStep} and first ${firstStep}`)
+  const formattedDOB = hrData?.dob ? new Date(hrData.dob).toISOString().split('T')[0] : '';
+  //   
+// address_line_1
+// : 
+// "falaknuma"
+// address_line_2
+// : 
+// "jahanuma"
+// city
+// : 
+// "Hyderabad"
+// country
+// : 
+// "India"
+// dob
+// : 
+// "2024-04-03T00:00:00.000Z"
+// email
+// : 
+// "abdullahahil153@gmail.com"
+// emergency_number
+// : 
+// null
+// emp_id
+// : 
+// null
+// first_name
+// : 
+// "Md "
+// gender
+// : 
+// "Male"
+// highest_qualification
+// : 
+// null
+// image
+// : 
+// ""
+// landmark
+// : 
+// null
+// last_name
+// : 
+// "Abdullah"
+// number
+// : 
+// "9505934716"
+// state
+// : 
+// "Telangana"
+// work_email
+// : 
+// "abdullahahil7861@gmail.com"
+// zipcode
+// : 
+// "500053"
+  
+const handleDropDownChange = (name, value) => {
+  setFormData({ ...formData, [name]: value });
+  console.log(name, value, "change");
+};
+const dateHandle = (name, value) => {
+  const dateValue = value ? value.format("YYYY-MM-DD") : "";
+  setFormData({ ...formData, [name]: dateValue });
+  console.log(name, dateValue, "change");
+};
 
+const handleInputChange = (e) => {
+  console.log("form data", formData);
+  const { name, value } = e.target;
+  // setFormData({ ...formData, [name]: value });
+  console.log(name, value, "change");
+};
+console.log("form data", formData);
+
+const handleSave = async ()=>{
+  // formatt {
+  //   "first_name": "John",
+  //   "last_name": "Doe",
+  //   "email": "John@matrix.com",
+  //   "work_email": "John_work_email@matrix.com",
+  //   "gender": "Male",
+  //   "dob": "1990-01-01",
+  //   "number": "1234567890",
+  //   "emergency_number": "9876543210",
+  //   "highest_qualification": "Master's Degree",
+  //   "address_line_1": "456 Updated St",
+  //   "address_line_2": "Suite 202",
+  //   "landmark": "Near the river",
+  //   "country": "USA",
+  //   "state": "California",
+  //   "city": "Los Angeles",
+  //   "zipcode": "90001",
+  //   "image": "https://example.com/updated_image.jpg"
+  // }
+  const data = {
+    first_name : formData.first_name,
+    last_name : formData.last_name,
+    dob : formData.dob,
+    number : formData.number,
+    gender : formData.gender,
+    image : formData.image,
+    ...formData,
+  }
+  try {
+    console.log('hr personal data to put',data)
+    const response = await axios.put(`/employee/${hrData.id}`, data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    console.log("success", response.data);
+
+    if (response.status === 200) {
+      console.log('sssuccesss')
+    }
+  } catch (error) {
+    console.log("error", error);
+  }
+
+  setFirstStep(firstStep - 1);
+
+}
   return (
     <>
         <div className="h-full w-full flex flex-col gap-5 p-2">
@@ -130,9 +320,7 @@ const Editpersonaldetail = ({hrData,setFirstStep, firstStep}) => {
               >
                 Cancle
               </Button>
-              <button className="bg-blue-500 text-white flex gap-2 items-center rounded-sm p-2 px-5"  onClick={() => {
-                setFirstStep(firstStep - 1);
-              }}>
+              <button className="bg-blue-500 text-white flex gap-2 items-center rounded-sm p-2 px-5"  onClick={() => {handleSave}}>
                 <IoSaveSharp className="text-lg" /> Save
               </button>
             </div>
@@ -146,38 +334,53 @@ const Editpersonaldetail = ({hrData,setFirstStep, firstStep}) => {
                   <input
                     type="text"
                     placeholder="First Name"
+                    value={hrData?.first_name || ""}
                     className=" border border-gray-400 p-2 w-[50%] outline-none bg-transparent"
+                    onChange={handleInputChange}
                   />
                   <input
                     type="text"
-                    placeholder="Last Name"
+                    // placeholder="Last Name"
+                    value={hrData?.last_name || ""}
                     className=" border border-gray-400 p-2 w-[50%] outline-none bg-transparent"
+                    onChange={handleInputChange}
+
                   />
                 </div>
                 <div className="relative">
                   <input
                     type="date"
                     id="dateOfBirth"
+                    // Select={hrData.dob}
+                    // value={hrData?.dob}
+                    value={formattedDOB}
                     className="w-full p-2 bg-transparent border border-gray-400 "
-                    style={{ color: "transparent" }}
+                    onChange={handleInputChange}
+
+                    // style={{ color: "transparent" }}
                   />
-                  <label
+                  {/* <label
                     htmlFor="dateOfBirth"
                     className="absolute top-0 left-0 p-2 text-gray-500 "
-                  >
-                    Date Of Birth
-                  </label>
+                  > */}
+                    {/* Date Of Birth
+                  </label> */}
                 </div>
                 <div className="flex gap-5 bg-transparent items-center">
                   <Input
                     addonBefore={prefixSelector}
+                    value={hrData.number}
                     style={{ width: "50%", backgroundColor: "transparent" }}
+                    onChange={handleInputChange}
+
                   />
                   <div className="">
                     {/* <label htmlFor="gender" className="text-lg bg-transparent">
                 Gender:
               </label> */}
-                    <Radio.Group id="gender" className="flex  gap-3">
+                    <Radio.Group id="gender" className="flex  gap-3" value={hrData.gender || ''}>
+                      
+                      
                       <Radio.Button
                         value="Male"
                         className="bg-transparent border border-gray-400"
@@ -200,7 +403,8 @@ const Editpersonaldetail = ({hrData,setFirstStep, firstStep}) => {
                   </div>
                 </div>
                 <div className=" border border-gray-400 p-2 w-full bg-transparent ">
-                  Civa.30051@example.com
+                  {/* Civa.30051@example.com */}
+                  {hrData?.email}
                 </div>
                 <p className="text-sm">
                   to change your email please{" "}
@@ -212,11 +416,19 @@ const Editpersonaldetail = ({hrData,setFirstStep, firstStep}) => {
             </div>
             <div className="w-[30%] h-fit bg-white px-2 py-6 flex flex-col gap-5 items-center justify-between shadow-md">
               <div className="profile w-20 h-20 bg-yellow-500 rounded-full flex justify-center items-center">
-                <span className="text-lg text-orange-600 ">PK</span>
+                {/* <span className="text-lg text-orange-600 ">PK</span> */}
+              <Image
+                src={(hrData?.image) ? (hrData?.image) : Profile}
+                className="h-full w-full rounded-full"
+                width={100}
+                height={100}
+                alt="profile"
+                onChange={handleImageChange}
+              />
               </div>
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center text-center ">
                 <p>Make it easier for people to recognize you.</p>
-                <span>Add a Photo</span>
+                <span>by Adding a Photo</span>
               </div>
               <div className="image-upload-container">
                 <div className="w-full flex justify-center items-center flex-col">

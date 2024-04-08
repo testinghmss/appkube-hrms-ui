@@ -16,16 +16,16 @@ const EditButton = ({fetchedData}) => {
     <>
       {firstStep == 1 && (
         <PersonalDetail
+        fetchedData={fetchedData}
         setFirstStep={setFirstStep}
           firstStep={firstStep}
-          fetchedData={hrData}
         />
       )}
       {firstStep == 2 && (
         <Editpersonaldetail
+        hrData={fetchedData}
         setFirstStep={setFirstStep}
           firstStep={firstStep}
-          fetchedData={hrData}
         />
       )}
     </>

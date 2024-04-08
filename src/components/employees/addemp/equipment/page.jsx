@@ -387,7 +387,7 @@
 'use client'
 
 import React, { useEffect, useState } from "react";
-import { Button } from "antd";
+import { Button, notification } from "antd";
 import { useRouter } from "next/navigation";
 import { Checkbox, DatePicker, Input, Radio, Select } from "antd";
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
@@ -529,23 +529,42 @@ const Equipments = ({ tab, setTab }) => {
     console.log("Data Array", dataArray); // Log the array before sending it
 
     try {
-      const response = await axios.put("/employee/equipmentInfo", dataArray, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      if(dataArray){
+        const response = await axios.put("/employee/equipmentInfo", dataArray, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log("success", response.data);
+        
+        
+        if (response.status === 200) {
+          trueNotification()
+          setTab(tab + 1);
+        }
+      }
+      else{
+        notification.open(
+          {message: 'please first add items to upload',}
+        );
 
-      console.log("success", response.data);
-
-      if (response.status === 200) {
-        setTab(tab + 1);
       }
     } catch (error) {
       console.log("error", error);
+      falseNotification()
     }
   }
 
-
+  const falseNotification = () => {
+    notification.open(
+      {message: 'please review the details and fill all fields with correct details',}
+    );
+  };
+const trueNotification = () => {
+    notification.open(
+      {message: 'Equipment data stored,redirected to Document details form',}
+    );
+  };
 
   return (
     <div>
