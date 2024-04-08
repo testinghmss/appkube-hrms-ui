@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import Image from 'next/image';
-import axios from 'axios'; 
+import axios from '@/api/axios'; 
 import {useDispatch} from "react-redux"
+import getAccessTokenFromCookie from '@/utils/getAccessToken';
 // import { setPersonalData } from '@/redux/slices/Onboardingpersdetails';
 // import { setonboardingImg } from '@/redux/slices/Onboardingpersdetails';
 
@@ -27,6 +28,8 @@ const beforeUpload = (file) => {
 };
 
 const App = () => {
+
+  const accessToken = getAccessTokenFromCookie()
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
 
@@ -46,11 +49,16 @@ const App = () => {
         // Upload the image to the server
         try {
           const response = await axios.post(
-            'https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/docUpload',
-            { fileName: info.file.name, data: url }
+            '/docUpload',
+            { fileName: info.file.name, data: url },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
           );
           console.log(response.data);
-          alert('Image uploaded successfully!');
+          // alert('Image uploaded successfully!');
           // dispatch(setPersonalData(response.data.link))
           // console.log(response.data.link,"this is for image url");
            

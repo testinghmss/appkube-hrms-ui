@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useRef, useEffect } from "react";
 import { Button, Radio, Input, Form, Select ,Option} from "antd";
 // import { AiFillEdit } from "react-icons/ai";

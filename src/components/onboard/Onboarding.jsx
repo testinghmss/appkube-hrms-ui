@@ -6,7 +6,9 @@ import OnBoardingImg from '@/../public/assets/onboarding/OnbordingImg.svg'
 import Logout from '@/../public/assets/onboarding/Logout.svg'
 import { removeAccessToken } from "@/utils/getAccessToken";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
-import axios from "@/api/axios"
+
+import axios from '@/api/axios'
+
 import {
   Flex,
   Form,
@@ -238,10 +240,11 @@ const datetoshow = personal.dob ? moment(personal.dob, 'YYYY/MM/DD').toDate() : 
   const uploadFile = async () => {
     // const data = {amar:req.url}
     try {
-      console.log('uploadinf file',req)
-      const response = await axios.post("/docUpload",
-        // data,
-       req,
+
+      const response = await axios.post(
+        '/docUpload',
+        req,
+
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

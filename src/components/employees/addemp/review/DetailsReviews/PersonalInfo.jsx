@@ -169,7 +169,7 @@ const PersonalInfo = () => {
       {/* fifth row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Employee ID</h2>
-        <p className="font-semibold text-base">{data?.emp_id
+        <p className="font-semibold text-base">{data?.id
 }</p>
       </span>
       <span>
