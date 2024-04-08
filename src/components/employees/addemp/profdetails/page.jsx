@@ -54,36 +54,6 @@ const ProfessionalInfo = ({ tab, setTab }) => {
 
 
 
-  //department designation api 
-  const [designationOptions, setDesignationOptions] = useState([]);
-  console.log(designationOptions,'desgination api')
-  const [selectedDepartments, setSelectedDepartments] = useState("");
-  useEffect(() => {
-    const fetchData = async () => {
-      let config = {
-        method: 'get',
-        maxBodyLength: Infinity,
-        url: '/designation',
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-        }
-      };
-  
-      try {
-        const response = await api.request(config);
-        setDesignationOptions(response.data);
-        console.log(response, 'designation')
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  
-    fetchData();
-  
-  }, [accessToken]);
-  
-
   // getting employee id from local storage
  
   // const handleSelectChange = (value) => {

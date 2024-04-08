@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { IoAddOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
-import { Button, Input, Modal } from "antd";
+import { Button, Input, Modal, message} from "antd";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import axios from "@/api/axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +21,27 @@ const Customfeild = () => {
   const [departmentInput, setDepartmentInput] = useState("");
   // const [designationData, setDesignationData] = useState([]);
   // const [departmentData, setDepartmentData] = useState([]);
+  const [filledDesignation, setFilledDesignation] = useState(null); 
+  const [filledDepartment, setFilledDepartment] = useState(null);
+
+  const designationInputRef = useRef(null);
+  const departmentInputRef = useRef(null);
+
+  useEffect(() => {
+    if (designationModal) {
+      setTimeout(() => {
+        designationInputRef.current.focus();
+      }, 0);
+    }
+  }, [designationModal]);
+  
+  useEffect(() => {
+    if (departmentModal) {
+      setTimeout(() => {
+        departmentInputRef.current.focus();
+      }, 0);
+    }
+  }, [departmentModal]);
 
   const dispatch = useDispatch();
   const designations = useSelector(
@@ -113,9 +134,14 @@ const Customfeild = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log("Designation Data:", response);
+      setFilledDesignation(data); 
+      message.success("Designation added successfully"); 
+      setDesignationInput(""); 
+      setDesignationModal(false); 
+      return response
     } catch (error) {
       console.error("Error adding designation:", error);
+      message.error("Error adding designation"); 
     }
     fetchDesinationData();
   };
@@ -132,10 +158,15 @@ const Customfeild = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log("Department Data:", response);
-      await setDepartmentModal(false);
+      setFilledDepartment(data); 
+      message.success("Department added successfully"); 
+      setDepartmentInput(""); 
+      setDepartmentModal(false); 
+      return response
     } catch (error) {
       console.error("Error adding department:", error);
+      message.error("Error adding department"); 
+      
     }
     fetchDepartmentData();
   };
@@ -256,6 +287,7 @@ const Customfeild = () => {
               type="text"
               className="mt-4"
               onChange={handledesignationvalue}
+              ref={designationInputRef}
             />
             <div className="content-center text-center mt-10">
               <button
@@ -324,6 +356,7 @@ const Customfeild = () => {
               type="text"
               className="mt-4"
               onChange={handleDepartmentValue}
+              ref={departmentInputRef}
             />
             <div className="content-center text-center mt-10">
               <button
