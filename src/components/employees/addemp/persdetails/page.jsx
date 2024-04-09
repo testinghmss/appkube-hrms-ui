@@ -366,7 +366,7 @@ const PersonalInformation = ({ tab, setTab }) => {
                 {
                   pattern: /^[A-Za-z]+$/,
                   required: true,
-                  message: "Please input your username!",
+                  message: "Please input your first name!",
                 },
               ]}
             >
@@ -409,7 +409,7 @@ const PersonalInformation = ({ tab, setTab }) => {
               {
                 required: true,
                 pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: "Please input your Work Email Address!",
+                message: "Please input your Email Address!",
               },
             ]}
           >
@@ -549,7 +549,7 @@ const PersonalInformation = ({ tab, setTab }) => {
               <DatePicker
                 selected={datetoshow}
                 onChange={handleDateChange}
-                placeholderText="DD/MM/YYYY"
+                placeholderText="DOB"
                 className="p-1 mb-2 border border-gray-300 rounded-md focus:outline-[#188fffea] focus:outline-1 w-[192%]"
                 maxDate={moment().subtract(18, "years").toDate()}
                 dateFormat="dd/MM/yyyy"
