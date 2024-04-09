@@ -187,11 +187,11 @@ const PersonalInformation = ({ tab, setTab }) => {
     try {
       console.log("data", data);
       console.log("assTo", accessToken);
-      if (data.email === data.work_email) {
+      if (data.email & data.email === data.work_email) {
         notification.open({
           message: "email and work email must be different  .",
         });
-      } else if (data.number === data.emergency_number) {
+      } else if (data.number & data.number === data.emergency_number) {
         notification.open({
           message: "number and emergency number  must be different  .",
         });
@@ -364,9 +364,9 @@ const PersonalInformation = ({ tab, setTab }) => {
               onChange={handleInputChange}
               rules={[
                 {
-                  pattern: /^[A-Za-z]+$/,
+                  pattern: /^(?:[A-Za-z\s]{3,})$/,
                   required: true,
-                  message: "Please input your first name!",
+                  message: "Name must have atleast 3 letters! , name can't contain numbers and special characters ",
                 },
               ]}
             >
@@ -384,8 +384,9 @@ const PersonalInformation = ({ tab, setTab }) => {
               onChange={handleInputChange}
               rules={[
                 {
+                  pattern: /^(?:[A-Za-z\s]{3,})$/,
                   required: true,
-                  message: "Please input your Last Name!",
+                  message: "Name must have atleast 3 letters! , name can't contain numbers and special characters ",
                 },
               ]}
             >
@@ -703,8 +704,9 @@ const PersonalInformation = ({ tab, setTab }) => {
             onChange={handleInputChange}
             rules={[
               {
+                pattern:/^[0-9]{6}$/,
                 required: true,
-                message: "Please input your Zip code!",
+                message: "Please input your 6 digit zip code!",
               },
             ]}
           >
