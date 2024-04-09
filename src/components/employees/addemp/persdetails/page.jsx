@@ -91,6 +91,17 @@ const PersonalInformation = ({ tab, setTab }) => {
     console.log("form data", formData);
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    // Check if both number and emergency_number fields have values
+    if (formData.number && formData.emergency_number) {
+      // Compare the values
+      if (formData.number === formData.emergency_number) {
+        notification.error({
+          message: "Number and Emergency Number cannot be the same."
+        });
+      }
+    }
+
   };
 
   const handleDateChange = (date) => {
@@ -184,6 +195,14 @@ const PersonalInformation = ({ tab, setTab }) => {
       emp_type: 1,
       image: Attachments,
     };
+
+  //   if (formData.number === formData.emergency_number) {
+  //     notification.open({
+  //         message: "Number and Emergency Number cannot be the same.",
+  //     });
+  //     return; // Stop further execution
+  // }
+
     try {
       console.log("data", data);
       console.log("assTo", accessToken);

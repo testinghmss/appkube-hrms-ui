@@ -28,7 +28,7 @@ import api from "@/api/workflow";
 //   setSelectedDate,
 // } from "../../../../redux/slices/profDetails";
 
-const numberRegex = /^[0-9]{5,}$/; // Ensure at least 5 digits
+const numberRegex = /^[a-zA-Z0-9]{5,}$/; // Ensure at least 5 digits
 
 const ProfessionalInfo = ({ tab, setTab }) => {
   const accessToken = getAccessTokenFromCookie();
