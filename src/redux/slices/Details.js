@@ -37,6 +37,7 @@ export const DetailSlice = createSlice({
     setdocumentFullDetails: (state, action) => {
       state.documentFullDetails = action.payload
     },
+    
     deletedocumentFullDetails: (state, action) => {
       const { payload } = action;
       state.documentFullDetails = state.documentFullDetails.filter(
