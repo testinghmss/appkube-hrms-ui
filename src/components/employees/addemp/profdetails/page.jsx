@@ -134,6 +134,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
         trueNotification()
 
         setTab(tab + 1);
+        setFormData({})
       }
     } catch (error) {
       console.log("error", error);
@@ -268,7 +269,7 @@ const trueNotification = () => {
     <div>
       <Form
         requiredMark={false}
-        initialValues={professionalDetails}
+        // initialValues={professionalDetails}
         style={{
           padding: "50px",
           width: "auto",

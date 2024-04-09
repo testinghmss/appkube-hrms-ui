@@ -168,8 +168,15 @@ const [req, setReq] = useState(
 const accessToken = getAccessTokenFromCookie();
 
 const [fileuploaded, setfileuploaded] = useState(false)
+const [isUploading, setIsUploading] = useState(false);
 
 const handleFileChange = (info) => {
+
+  if (isUploading) {
+    return;
+  }
+
+  setIsUploading(true);
   const file = info.file.originFileObj; // Access the selected file object
   console.log("THis is file",file)
   console.log("This is info file",info.file)
@@ -220,6 +227,8 @@ console.log(req)
       console.error(error);
       // alert('Error uploading image. Please try again.');
     }
+    
+    setIsUploading(false);
   };
 
 

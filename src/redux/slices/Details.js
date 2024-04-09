@@ -41,7 +41,7 @@ export const DetailSlice = createSlice({
     deletedocumentFullDetails: (state, action) => {
       const { payload } = action;
       state.documentFullDetails = state.documentFullDetails.filter(
-        (item) => item.url !== payload
+        (item) => item.url == payload
       );
     }
 
