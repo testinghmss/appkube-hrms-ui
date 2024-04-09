@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setpersonalDetails } from "@/redux/slices/Details";
 // import { Provider } from "react-redux";
 // import { store } from "@/redux/store/store";
-import { Form, Input, Row, Col, Select, Radio, Upload} from "antd";
+import { Form, Input, Row, Col, Select, Radio, Upload } from "antd";
 const { Option } = Select;
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
@@ -16,8 +16,8 @@ import StateComponent from "@/components/location/States";
 import CityComponent from "@/components/location/city";
 import { notification } from "antd";
 import Image from "next/image";
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 const beforeUpload = (file) => {
   const isPng = file.type === "image/png";
@@ -40,7 +40,7 @@ const PersonalInformation = ({ tab, setTab }) => {
   const dispatch = useDispatch();
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setselectedState] = useState();
-  
+
   const [formData, setFormData] = useState({
     email: "",
     work_email: "",
@@ -63,7 +63,7 @@ const PersonalInformation = ({ tab, setTab }) => {
   const falseNotification = () => {
     notification.open({
       message:
-        "please review the details and fill all fields with correct details, contact numbers and emails must be different",
+        "please review the details and fill all fields with correct details",
       style: {
         backgroundColor: "white",
         color: "red", // Set the background color
@@ -91,20 +91,20 @@ const PersonalInformation = ({ tab, setTab }) => {
     console.log("form data", formData);
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    
   };
 
   const handleDateChange = (date) => {
     if (date) {
-        const formattedDate = moment(date).format('YYYY/MM/DD');
-        setFormData({ ...formData, dob : formattedDate });
+      const formattedDate = moment(date).format("YYYY/MM/DD");
+      setFormData({ ...formData, dob: formattedDate });
     } else {
-      setFormData({ ...formData, dob : null });
+      setFormData({ ...formData, dob: null });
     }
-};
+  };
 
-const datetoshow = formData.dob ? moment(formData.dob, 'YYYY/MM/DD').toDate() : null;
-
+  const datetoshow = formData.dob
+    ? moment(formData.dob, "YYYY/MM/DD").toDate()
+    : null;
 
   const handleDropDownChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
@@ -187,40 +187,50 @@ const datetoshow = formData.dob ? moment(formData.dob, 'YYYY/MM/DD').toDate() : 
     try {
       console.log("data", data);
       console.log("assTo", accessToken);
-      const response = await Mainaxios.post("/employee/personalInfo", data, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log("response", response);
-      if (response.status === 200) {
-        // localStorage.setItem('empId', response.data.id)
+      if (data.email === data.work_email) {
+        notification.open({
+          message: "email and work email must be different  .",
+        });
+      } else if (data.number === data.emergency_number) {
+        notification.open({
+          message: "number and emergency number  must be different  .",
+        });
+      } else {
+        const response = await Mainaxios.post("/employee/personalInfo", data, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log("response", response);
+        if (response.status === 200) {
+          // localStorage.setItem('empId', response.data.id)
 
-        console.log("response data", response.data);
-        // storing the response in redux
-        dispatch(setpersonalDetails(response.data));
-        // getting employee id from local storage
+          console.log("response data", response.data);
+          // storing the response in redux
+          dispatch(setpersonalDetails(response.data));
+          // getting employee id from local storage
 
-        const id = localStorage.getItem("empId");
-        //  checking tthe existance of employee id
-        if (id) {
-          console.log("previouse id of local storage present", id);
-          // if id is existing then we will remote it from local storage
-          localStorage.removeItem("empId");
-          console.log(
-            "id deleted from local storage",
-            localStorage.getItem("empId")
-          );
-          // seting new empid for its information update
-          localStorage.setItem("empId", response.data.id);
-          console.log("new id", localStorage.getItem("empId"));
-        } else {
-          localStorage.setItem("empId", response.data.id);
+          const id = localStorage.getItem("empId");
+          //  checking tthe existance of employee id
+          if (id) {
+            console.log("previouse id of local storage present", id);
+            // if id is existing then we will remote it from local storage
+            localStorage.removeItem("empId");
+            console.log(
+              "id deleted from local storage",
+              localStorage.getItem("empId")
+            );
+            // seting new empid for its information update
+            localStorage.setItem("empId", response.data.id);
+            console.log("new id", localStorage.getItem("empId"));
+          } else {
+            localStorage.setItem("empId", response.data.id);
+          }
+          // setStatus(true)
+          await trueNotification();
+          // changing tab
+          setTab(tab + 1);
         }
-        // setStatus(true)
-        await trueNotification();
-        // changing tab
-        setTab(tab + 1);
       }
 
       // const id = localStorage.getItem("empId");
@@ -242,8 +252,30 @@ const datetoshow = formData.dob ? moment(formData.dob, 'YYYY/MM/DD').toDate() : 
       // // changing tab
       // setTab(tab + 1);
     } catch (error) {
-      console.log("error", error);
-      await falseNotification();
+      console.log("error occured", error);
+      if (error.response?.data?.error?.detail) {
+        console.log("message is", error.response?.data?.error?.detail);
+        const str = error.response?.data?.error?.detail
+
+        
+        const regex = /Key \((\w+)\)=\(([^)]+)\)/;
+        
+
+        const match = str.match(regex);
+
+       
+        const key = match && match.length > 1 ? match[1] : null;
+        const value = match && match.length > 2 ? match[2] : null;
+
+        console.log("detail email", `key ${key}:${value}`);
+        notification.open({
+          message: `${value} already exist , try with other email`,
+        });
+      }
+      else{
+
+        await falseNotification();
+      }
       // setTab(tab + 1)
     }
   };
@@ -456,7 +488,6 @@ const datetoshow = formData.dob ? moment(formData.dob, 'YYYY/MM/DD').toDate() : 
                 className="rounded-none"
                 placeholder="Enter Your Contact No."
                 name="number"
-                
               />
             </Form.Item>
           </Col>
@@ -520,7 +551,7 @@ const datetoshow = formData.dob ? moment(formData.dob, 'YYYY/MM/DD').toDate() : 
                 onChange={handleDateChange}
                 placeholderText="DD/MM/YYYY"
                 className="p-1 mb-2 border border-gray-300 rounded-md focus:outline-[#188fffea] focus:outline-1 w-[192%]"
-                maxDate={moment().subtract(18, 'years').toDate()}
+                maxDate={moment().subtract(18, "years").toDate()}
                 dateFormat="dd/MM/yyyy"
               />
             </Form.Item>
