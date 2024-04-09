@@ -392,14 +392,14 @@ import { useRouter } from "next/navigation";
 import { Checkbox, DatePicker, Input, Radio, Select } from "antd";
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from "react-redux";
-import { AddEquipment, deleteequipement } from "@/redux/slices/Equipment";
+import { AddEquipment, deleteequipement,clearEquipment  } from "@/redux/slices/Equipment";
+import moment from "moment";
 
 import axios from "@/api/axios";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 
 import Image from "next/image";
 const { TextArea } = Input;
-
 
 
 
@@ -415,18 +415,43 @@ const Equipments = ({ tab, setTab }) => {
   const dispatch = useDispatch();
   const [provideBy, setProvideBy] = useState("org");
   const accessToken = getAccessTokenFromCookie();
-  const handleProvideByChange = (e) => {
-    setOwner(e.target.value)
-    setProvideBy(e.target.value);
-    console.log(owner)
+
+  // const handleProvideByChange = (e) => {
+  //   setOwner(e.target.value)
+  //   setProvideBy(e.target.value);
+  //   console.log(owner)
+  // };
+
+   // Function to reset the form
+   const resetForm = () => {
+    setOwner(null);
+    setDevice("");
+    setManufacturer("");
+    setSerialNumber("");
+    setNotes("");
+    setSupplyDate("");
+    setProvideBy("org");
   };
+
+
+  useEffect(() => {
+    // Reset form upon component mount
+    resetForm();
+    dispatch(clearEquipment());
+  }, []);
+
+  const handleProvideByChange = (e) => {
+    setProvideBy(e.target.value);
+    setOwner(e.target.value);
+  };
+
   const id = useSelector((state) => state.Details.id)
   // const empId = localStorage.getItem("empId");
   const empId = typeof window !== 'undefined' ? localStorage.getItem('empId') : null;
 
-  console.log("ID", id)
+  console.log("ID", empId)
   const details = useSelector((state) => state.EquipmentDetails);
-  const organizationDetails = details.organization
+  let organizationDetails = details.organization
   console.log(organizationDetails)
 
   const isSupplyDateVisible = () => provideBy === true;
@@ -483,6 +508,15 @@ const Equipments = ({ tab, setTab }) => {
     console.log(data)
     dispatch(AddEquipment(data))
 
+     // Reset form fields here
+    setDevice('');
+    setManufacturer('');
+    setSerialNumber('');
+    setNotes('');
+    setSupplyDate('');
+
+    // Call resetForm to clear the form fields
+    resetForm();
   }
 
   const handledelete = (id) => {
@@ -490,9 +524,15 @@ const Equipments = ({ tab, setTab }) => {
     dispatch(deleteequipement(id))
   }
   const [formState, setformstate] = useState();
+
   const handleedit = (data) => {
-    setformstate(data)
-  }
+  setOwner(data.owner);
+  setDevice(data.Device);
+  setManufacturer(data.Manufacturer);
+  setSerialNumber(data.SerialNumber);
+  setNotes(data.Notes);
+  setSupplyDate(data.Date);
+};
   console.log(formState)
 
 
@@ -541,6 +581,8 @@ const Equipments = ({ tab, setTab }) => {
         if (response.status === 200) {
           trueNotification()
           setTab(tab + 1);
+          dispatch(clearEquipment());
+          
         }
       }
       else{
@@ -643,7 +685,7 @@ const trueNotification = () => {
                 name="devicetype"
                 type="text"
                 placeholder="Laptop"
-                // value={formState.Device}
+                value={Device}
                 onChange={(e) => {
                   setDevice(e.target.value)
                 }}
@@ -663,7 +705,7 @@ const trueNotification = () => {
                 name="manufacturerName"
                 type="text"
                 placeholder="Hp Laptop"
-                // value={formState.manufacturerName}
+                value={Manufacturer}
                 onChange={(e) => {
                   setManufacturer(e.target.value);
                 }}
@@ -683,7 +725,7 @@ const trueNotification = () => {
                 name="serialnumber"
                 type="text"
                 placeholder="First Name"
-                // value={formState.serialnumber}
+                value={SerialNumber}
                 onChange={(e) => {
                   setSerialNumber(e.target.value);
                 }}
@@ -702,7 +744,7 @@ const trueNotification = () => {
                 name="notes"
                 placeholder="Design"
                 rows={4}
-                // value={formState.notes}
+                value={Notes} 
                 onChange={(e) => {
                   setNotes(e.target.value);
                 }}
@@ -722,7 +764,7 @@ const trueNotification = () => {
                   name="supplyDate"
                   className="border flex-1 hover:border-sky-600 ml-2 mb-2"
                   placeholder="Select date"
-                  // value={formState.supplyDate}
+                  value={supplydate ? moment(supplydate, "YYYY-MM-DD") : null}
                   onChange={handleDateChange}
                 />
               </div>
@@ -744,6 +786,7 @@ const trueNotification = () => {
                 onClick={() => {
                   // StoreEquipment();
                   callApi()
+                  handledelete(SerialNumber)
                 }}
               >
                 Next
@@ -764,7 +807,7 @@ const trueNotification = () => {
         }}
       >
         <div className="">
-          {(organizationDetails) ? (
+          {Array.isArray(organizationDetails) && organizationDetails.length > 0 ? (
 
             organizationDetails.map((data, index) => (
               console.log(data),
@@ -811,6 +854,7 @@ const trueNotification = () => {
                       type="editbtn"
                       className="text-black rounded-none mt-3  h-8 w-24 flex items-center hover:text-blue-600 hover:border-blue-600 border-gray-300 font-semibold text-base"
                       icon={<EditOutlined />}
+                      onChange={handleedit}
                     >
                       Edit
                     </Button>

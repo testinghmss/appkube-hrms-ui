@@ -215,8 +215,14 @@ const datetoshow = personal.dob ? moment(personal.dob, 'YYYY/MM/DD').toDate() : 
   const accessToken = getAccessTokenFromCookie();
 
   const [fileuploaded, setfileuploaded] = useState(false)
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = (info) => {
+
+    if (isUploading) {
+      return;
+    }
+    setIsUploading(true);
     const file = info.file.originFileObj; // Access the selected file object
     console.log("THis is file", file);
     console.log("This is info file", info.file,'and',info.file.originFileObj);
@@ -254,15 +260,22 @@ const datetoshow = personal.dob ? moment(personal.dob, 'YYYY/MM/DD').toDate() : 
 
 
       console.log("image uploaded",response.data);
-      alert('Image uploaded successfully!');
+      // alert('Image uploaded successfully!');
+      notification.open({
+        message: 'Image uploaded successfully!',
+      });
       setAttachments(response.data.link);
       setImageUrl(response.data.link);
       setfileuploaded(false); // Reset to false after successful upload
       setPersonal({ ...personal, image: response.data.link });
     } catch (error) {
       console.error(error);
-      alert('Error uploading image. Please try again.');
+      notification.open({
+        message: 'Error uploading image',
+        description: error.message, // Display the error message received from the server
+      });
     }
+    setIsUploading(false);
   };
 
 
