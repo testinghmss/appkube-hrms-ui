@@ -54,9 +54,13 @@ const EquipmentDetails = createSlice({
         },
         editdata: (state, action) => {
             state.editdata.push
-        }
+        },
+        clearEquipment: (state) => {
+            state.organization = [];
+          }
+          
     }
 })
 
-export const { AddEquipment, deleteequipement } = EquipmentDetails.actions;
+export const { AddEquipment, deleteequipement,clearEquipment  } = EquipmentDetails.actions;
 export default EquipmentDetails.reducer;
