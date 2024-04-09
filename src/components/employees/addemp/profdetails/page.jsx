@@ -28,7 +28,7 @@ import api from "@/api/workflow";
 //   setSelectedDate,
 // } from "../../../../redux/slices/profDetails";
 
-const numberRegex = /^[0-9]{5,}$/; // Ensure at least 5 digits
+const numberRegex = /^[a-zA-Z0-9]{5,}$/; // Ensure at least 5 digits
 
 const ProfessionalInfo = ({ tab, setTab }) => {
   const accessToken = getAccessTokenFromCookie();
@@ -105,11 +105,24 @@ const ProfessionalInfo = ({ tab, setTab }) => {
     if(isClient){
       const empId = localStorage.getItem("empId");
     console.log("id from localstorage", empId);
+
+    //  // Find the corresponding designation ID based on the selected designation name
+    //  const selectedDesignation = designations.find(
+    //   (designation) => designation.designation === formData.designation
+    // );
+    // const designation_id = selectedDesignation ? selectedDesignation.id : null;
+
+    // // Find the corresponding department ID based on the selected department name
+    // const selectedDepartment = departments.find(
+    //   (department) => department.name === formData.department
+    // );
+    // const department_id = selectedDepartment ? selectedDepartment.id : null;
+
     let data = {
-      designation_id: 5,
+      designation_id: formData.designation_id,
       pf: formData.pf,
       uan: formData.uan,
-      department_id: 1,
+      department_id: formData.department_id,
       // reporting_manager_id: formData.reporting_manager,
       // "f81cce0a-84fb-4eb4-b0ec-74b5f2a9fdb7",
       reporting_manager_id: formData.reportingManager,
@@ -117,6 +130,7 @@ const ProfessionalInfo = ({ tab, setTab }) => {
       start_date: formData.start_date,
       emp_id: empId,
     };
+
 
     try {
       console.log("stored data of from in usestate", data);
@@ -145,7 +159,6 @@ const ProfessionalInfo = ({ tab, setTab }) => {
   const router = useRouter();
   const prof1 = ["option1", "option2", "option3"];
   const prof = ["option1", "option2", "option3"];
-
 
 
    // Designation GET APi
@@ -309,8 +322,8 @@ const trueNotification = () => {
             >
               {designations?.map((option) => (
                 <Select.Option
-                  key={option.designation}
-                  value={option.designation}
+                  key={option.id}
+                  value={option.id}
                   className="rounded-none"
                 >
                   {option.designation}
@@ -391,7 +404,7 @@ const trueNotification = () => {
             rules={[{ required: true, message: "Please select a department." }]}
           >
             <Select
-              onChange={(value) => handleDropDownChange("department", value)}
+              onChange={(value) => handleDropDownChange("department_id", value)}
               name="department_id"
               showSearch
               style={{ borderRadius: 0 }}
@@ -403,7 +416,7 @@ const trueNotification = () => {
               }
             >
               {departments?.map((option) => (
-                <Select.Option key={option.name} value={option.name}>
+                <Select.Option key={option.id} value={option.id}>
                   {option.name}
                 </Select.Option>
               ))}

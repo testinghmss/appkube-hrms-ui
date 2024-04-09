@@ -28,6 +28,13 @@ const Customfeild = () => {
   const departmentInputRef = useRef(null);
 
   useEffect(() => {
+    if (!designationModal && !departmentModal) {
+      setDesignationInput(""); 
+      setDepartmentInput(""); 
+    }
+  }, [designationModal, departmentModal]);
+
+  useEffect(() => {
     if (designationModal) {
       setTimeout(() => {
         designationInputRef.current.focus();
@@ -97,6 +104,7 @@ const Customfeild = () => {
       });
       dispatch(setDepartments(response.data));
       console.log(response);
+
     } catch (error) {
       console.error("Error fetching departments:", error);
     }
@@ -137,13 +145,13 @@ const Customfeild = () => {
       setFilledDesignation(data); 
       message.success("Designation added successfully"); 
       setDesignationInput(""); 
-      setDesignationModal(false); 
+      setDesignationModal(false);
+      fetchDesinationData();
       return response
     } catch (error) {
       console.error("Error adding designation:", error);
       message.error("Error adding designation"); 
     }
-    fetchDesinationData();
   };
 
   // Department POST API
@@ -162,13 +170,13 @@ const Customfeild = () => {
       message.success("Department added successfully"); 
       setDepartmentInput(""); 
       setDepartmentModal(false); 
+      fetchDepartmentData();
       return response
     } catch (error) {
       console.error("Error adding department:", error);
       message.error("Error adding department"); 
       
     }
-    fetchDepartmentData();
   };
 
   //   Designation Remove User Button
@@ -213,6 +221,8 @@ const Customfeild = () => {
   const handleCancel = () => {
     setDesignationModal(false);
     setDepartmentModal(false);
+    setDesignationInput(""); 
+    setDepartmentInput(""); 
   };
 
   const handleToggleAccordion = (accordionType) => {
