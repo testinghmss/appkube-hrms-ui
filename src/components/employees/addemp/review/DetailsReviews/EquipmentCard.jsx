@@ -86,7 +86,7 @@ import { MdKeyboard } from 'react-icons/md';
 import axios from '@/api/axios';
 import getAccessTokenFromCookie from '@/utils/getAccessToken';
 
-const EquipmentCard = () => {
+const EquipmentCard = ({data}) => {
     const accessToken = getAccessTokenFromCookie();
     const [organizationDetails, setOrganizationDetails] = useState([]);
 

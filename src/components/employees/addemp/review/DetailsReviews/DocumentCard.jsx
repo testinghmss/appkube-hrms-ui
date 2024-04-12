@@ -8,7 +8,7 @@ import getAccessTokenFromCookie from '@/utils/getAccessToken';
 import axios from '@/api/axios';
 import Image from 'next/image';
 
-const DocumentCard = () => {
+const DocumentCard = ({data}) => {
     const accessToken = getAccessTokenFromCookie();
     const [documents, setdocuments] = useState([]);
 

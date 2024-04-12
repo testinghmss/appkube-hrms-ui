@@ -7,7 +7,7 @@ import { useParams, useSearchParams } from "next/navigation";
 
 
 
-const PersonalInfo = () => {
+const PersonalInfo = ({datasend}) => {
 
   
         const accessToken = getAccessTokenFromCookie();
