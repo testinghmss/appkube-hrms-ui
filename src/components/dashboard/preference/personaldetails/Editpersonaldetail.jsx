@@ -74,62 +74,27 @@ const Editpersonaldetail = ({setFirstStep, firstStep, hrData}) => {
   },[accessToken,isClient])
   
   // console.log('fetched hr data',fetchedData)
-
-     
-// address_line_1
-// : 
-// "falaknuma"
-// address_line_2
-// : 
-// "jahanuma"
-// city
-// : 
-// "Hyderabad"
-// country
-// : 
-// "India"
-// dob
-// : 
-// "2024-04-03T00:00:00.000Z"
-// email
-// : 
-// "abdullahahil153@gmail.com"
-// emergency_number
-// : 
-// null
-// emp_id
-// : 
-// null
-// first_name
-// : 
-// "Md "
-// gender
-// : 
-// "Male"
-// highest_qualification
-// : 
-// null
-// image
-// : 
-// ""
-// landmark
-// : 
-// null
-// last_name
-// : 
-// "Abdullah"
-// number
-// : 
-// "9505934716"
-// state
-// : 
-// "Telangana"
-// work_email
-// : 
-// "abdullahahil7861@gmail.com"
-// zipcode
-// : 
-// "500053"
+  // {
+  //   "address_line_1": "falaknuma",
+  //   "address_line_2": "jahanuma",
+  //   "city": "Hyderabad",
+  //   "country": "India",
+  //   "dob": "2024-04-03T00:00:00.000Z",
+  //   "email": "abdullahahil153@gmail.com",
+  //   "emergency_number": null,
+  //   "emp_id": null,
+  //   "first_name": "Md",
+  //   "gender": "Male",
+  //   "highest_qualification": null,
+  //   "image": "",
+  //   "landmark": null,
+  //   "last_name": "Abdullah",
+  //   "number": "9505934716",
+  //   "state": "Telangana",
+  //   "work_email": "abdullahahil7861@gmail.com",
+  //   "zipcode": "500053"
+  // }
+  
   
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -195,12 +160,7 @@ const dateHandle = (name, value) => {
   console.log(name, dateValue, "change");
 };
 
-// const handleInputChange = (e) => {
-//   console.log("form data", formData);
-//   const { name, value } = e.target;
-//   // setFormData({ ...formData, [name]: value });
-//   console.log(name, value, "change");
-// };
+
 
 const handleInputChange = (e, fieldName) => {
   const { value } = e.target;
@@ -210,9 +170,13 @@ const handleInputChange = (e, fieldName) => {
   }));
 };
 
-const handleGenderChange = (selectedValue) => {
-  setPersonal({ ...formData, gender: selectedValue });
+const handleGenderChange = (e) => {
+  setFormData(prevFormData => ({
+    ...prevFormData,
+    gender: e.target.value 
+  }));
 };
+
 
 
  // Debugging to see if state updates
@@ -346,8 +310,7 @@ const handleSave = async ()=>{
                     {/* <label htmlFor="gender" className="text-lg bg-transparent">
                 Gender:
               </label> */}
-                    <Radio.Group id="gender" className="flex  gap-3" value={formData.gender || ''} onChange={() => handleGenderChange}>
-                      
+                    <Radio.Group id="gender" className="flex  gap-3" value={formData.gender || ''} onChange={handleGenderChange}>
                       
                       <Radio.Button
                         value="Male"
@@ -372,7 +335,7 @@ const handleSave = async ()=>{
                 </div>
                 <div className=" border border-gray-400 p-2 w-full bg-transparent ">
                   {/* Civa.30051@example.com */}
-                  {hrData?.email}
+                  {formData.work_email}
                 </div>
                 <p className="text-sm">
                   to change your email please{" "}

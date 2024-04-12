@@ -86,14 +86,7 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
     const handleSubmit = async () => {
       // const orgId = "482d8374-fca3-43ff-a638-02c8a425c492"; // Replace with your actual orgId value
       console.log("id for the employe",employeId);
-      
-      // Combine orgId with companyData
-      // const personalDatawithID = { id:employeId, ...personalData };
-      
-      // Dispatch actions with the modified data
-      
-      // dispatch(createUser(personalData));
-      // dispatch(createCompany(companyData));
+     
 
     const personalstatus = await handleUpdateEmployee(personalData);
     const companystatus = await handleUpdateOrganization(companyData);

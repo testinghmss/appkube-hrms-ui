@@ -21,36 +21,6 @@ const PersonalInfo = () => {
 
   const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
   
-  // useEffect(()=>{
-   
-  //   console.log(empId, 'from localStorage')
-  //   const fetchData = async ()=>{
-  
- 
-  //         try{
-  //           const response = await axios.get(`/employee/${empId}`,{
-    
-  //             headers: {
-  //               Authorization: `Bearer ${accessToken}`,
-  //             },
-  //           });
-  //       console.log("response of employee id",response.data.personal_information)
-  //               // storing  data intto usestate
-
-  //       setFetchData(response.data.personal_information);
-  //       // console.log("data",employees)
-  //       setdata(response.data.personal_information)
-  //     }
-  //     catch(error){
-  //       console.log('error fetching employee',error);
-  //     }
-  //   }
-  
-  //     fetchData()
-
-    
-    
-  // },[])
 
   useEffect(() => {
     if (!empId) return; // Don't fetch data if empId is not available

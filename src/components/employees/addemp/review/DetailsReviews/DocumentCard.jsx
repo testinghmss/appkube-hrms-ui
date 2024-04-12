@@ -39,14 +39,6 @@ const DocumentCard = () => {
   return (
     <div className='flex items-center justify-between w-[22%] p-3 rounded-lg border border-gray-400'>
 
-        
-
-{/* <p className='text-md font-medium'>{doc?.name}</p>
-        <span className='flex gap-2'>
-            <FiEye className='text-lg '/>
-            <CiSaveDown1 className='text-lg font-bold'/>
-        </span>
-        </div> */}
         {documents && documents.map((document, index) => (
         <div key={index}>
           <h3>{document?.name}</h3>
