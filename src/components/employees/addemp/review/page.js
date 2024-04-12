@@ -12,11 +12,13 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
   import ProfImg from "@/../public/assets/empDetails/Avatar1.svg";
   import Invite from "./invite/Invite";
   import getAccessTokenFromCookie from "@/utils/getAccessToken";
-  import { useSelector } from "react-redux";
+  import { useDispatch,useSelector } from "react-redux";
   import axios from "@/api/axios"
   import { useRouter } from "next/navigation";
-  const Page = ({ tab, setTab }) => {
+  import { setEditPersonal } from "@/redux/slices/Details";
+  const Page = ({ tab, setTab ,editPersonal,setEditPersonal}) => {
     const router = useRouter()
+    const dispatch = useDispatch()
     //  created usestate for storing redux data into same variable
     const [fetchedData , setFetchData] = useState({
       equipment:[],
@@ -132,7 +134,7 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
           <div className="flex justify-between w-full mb-4">
             <p className="font-medium text-xl">Personal Information</p>
             <div className="flex items-center gap-4">
-              <button className="flex items-center border px-5 py-2" onClick={() => { setTab(1) }}>
+              <button className="flex items-center border px-5 py-2" onClick={  ()  => { setEditPersonal(true) ,setTab(1)}}>
                 <RiEditFill />
                 <p>Edit</p>
               </button>
