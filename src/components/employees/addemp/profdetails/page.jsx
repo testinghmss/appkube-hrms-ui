@@ -106,17 +106,6 @@ const ProfessionalInfo = ({ tab, setTab }) => {
       const empId = localStorage.getItem("empId");
     console.log("id from localstorage", empId);
 
-    //  // Find the corresponding designation ID based on the selected designation name
-    //  const selectedDesignation = designations.find(
-    //   (designation) => designation.designation === formData.designation
-    // );
-    // const designation_id = selectedDesignation ? selectedDesignation.id : null;
-
-    // // Find the corresponding department ID based on the selected department name
-    // const selectedDepartment = departments.find(
-    //   (department) => department.name === formData.department
-    // );
-    // const department_id = selectedDepartment ? selectedDepartment.id : null;
 
     let data = {
       designation_id: formData.designation_id,

@@ -6,7 +6,8 @@ const initialState = {
     equipDetails: [], 
     documentDetails: [], 
     documentFullDetails: [],
-    ParticularempId:{}
+    ParticularempId:{},
+    EditPersonal:false,
   };
 export const DetailSlice = createSlice({
   name: "Details",
@@ -43,7 +44,10 @@ export const DetailSlice = createSlice({
       state.documentFullDetails = state.documentFullDetails.filter(
         (item) => item.url == payload
       );
-    }
+    },
+    setEditPersonal: (state, action) => {
+      state.EditPersonal = true
+    },
 
   },
 });
@@ -56,6 +60,7 @@ export const {setDocumentDetails} = DetailSlice.actions;
 export const { setdocumentFullDetails } = DetailSlice.actions;
 export const {setParticularEmpid} = DetailSlice.actions;
 export const { deletedocumentFullDetails } = DetailSlice.actions;
+export const { setEditPersonal } = DetailSlice.actions;
 
 
 

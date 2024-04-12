@@ -1,10 +1,10 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setpersonalDetails } from "@/redux/slices/Details";
 // import { Provider } from "react-redux";
 // import { store } from "@/redux/store/store";
-import { Form, Input, Row, Col, Select, Radio, Upload } from "antd";
+import { Form, Input, Row, Col, Select, Radio, Upload,message } from "antd";
 const { Option } = Select;
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
@@ -30,7 +30,7 @@ const beforeUpload = (file) => {
   }
   return isLt2M;
 };
-const PersonalInformation = ({ tab, setTab }) => {
+const PersonalInformation = ({ tab, setTab,editPersonal,setEditPersonal }) => {
   const accessToken = getAccessTokenFromCookie();
   const persDetails = useSelector((state) => state.Details);
   const router = useRouter();
@@ -41,6 +41,12 @@ const PersonalInformation = ({ tab, setTab }) => {
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setselectedState] = useState();
 
+  const [isClient, setIsClient] = useState(false);
+
+useEffect(()=>{
+  setIsClient(true)
+ },[isClient])
+      
   const [formData, setFormData] = useState({
     email: "",
     work_email: "",
@@ -171,7 +177,21 @@ const PersonalInformation = ({ tab, setTab }) => {
     </button>
   );
   console.log("object");
+
+
+  const EditPersonal = useSelector(
+    (state) => state.Details.EditPersonal
+  );
+
+  console.log("EditPersonal in the personal",editPersonal);
+
+  // const empId = localStorage.getItem("empId");
+  //     console.log("EditPersonal in the empId",empId);
+  
+
   const handleAddItemButtonClick = async () => {
+    if(isClient){
+
     console.log(formData, "hitting api");
     console.log("imagr", imageUrl);
     // making data into format to hit api
@@ -215,11 +235,30 @@ const PersonalInformation = ({ tab, setTab }) => {
           message: "number and emergency number  must be different  .",
         });
       } else {
-        const response = await Mainaxios.post("/employee/personalInfo", data, {
+        console.log("EditPersonal in the api",EditPersonal);
+
+        let response;
+
+        if(!editPersonal){
+         response = await Mainaxios.post('/employee/personalInfo', data, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
+
+
+      }else{
+      const empId = localStorage.getItem("empId");
+      console.log("EditPersonal in the empId",empId);
+        
+         response = await Mainaxios.put(`/employee/${empId}`, data, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+      }
+        
+
         console.log("response", response);
         if (response.status === 200) {
           // localStorage.setItem('empId', response.data.id)
@@ -227,6 +266,7 @@ const PersonalInformation = ({ tab, setTab }) => {
           console.log("response data", response.data);
           // storing the response in redux
           dispatch(setpersonalDetails(response.data));
+          message.success("updated successfull"); 
           // getting employee id from local storage
 
           const id = localStorage.getItem("empId");
@@ -239,8 +279,10 @@ const PersonalInformation = ({ tab, setTab }) => {
               "id deleted from local storage",
               localStorage.getItem("empId")
             );
+            if(!editPersonal){
             // seting new empid for its information update
             localStorage.setItem("empId", response.data.id);
+            }
             console.log("new id", localStorage.getItem("empId"));
           } else {
             localStorage.setItem("empId", response.data.id);
@@ -297,7 +339,9 @@ const PersonalInformation = ({ tab, setTab }) => {
       }
       // setTab(tab + 1)
     }
+  }
   };
+
   const uploadFile = async () => {
     console.log("uploading");
 
@@ -508,6 +552,7 @@ const PersonalInformation = ({ tab, setTab }) => {
                 className="rounded-none"
                 placeholder="Enter Your Contact No."
                 name="number"
+                maxLength={10}
               />
             </Form.Item>
           </Col>

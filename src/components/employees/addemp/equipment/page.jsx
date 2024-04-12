@@ -392,7 +392,7 @@ import { useRouter } from "next/navigation";
 import { Checkbox, DatePicker, Input, Radio, Select } from "antd";
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from "react-redux";
-import { AddEquipment, deleteequipement,clearEquipment  } from "@/redux/slices/Equipment";
+import { AddEquipment, deleteequipement, clearEquipment } from "@/redux/slices/Equipment";
 import moment from "moment";
 
 import axios from "@/api/axios";
@@ -411,7 +411,7 @@ const Equipments = ({ tab, setTab }) => {
   const [Notes, setNotes] = useState("");
   const [supplydate, setSupplyDate] = useState("");
   const router = useRouter();
-  const [collapsed, setCollapsed] = useState(false);
+  // const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const [provideBy, setProvideBy] = useState("org");
   const accessToken = getAccessTokenFromCookie();
@@ -422,8 +422,8 @@ const Equipments = ({ tab, setTab }) => {
   //   console.log(owner)
   // };
 
-   // Function to reset the form
-   const resetForm = () => {
+  // Function to reset the form
+  const resetForm = () => {
     setOwner(null);
     setDevice("");
     setManufacturer("");
@@ -441,9 +441,13 @@ const Equipments = ({ tab, setTab }) => {
   }, []);
 
   const handleProvideByChange = (e) => {
-    setProvideBy(e.target.value);
-    setOwner(e.target.value);
+    const value = e.target.value;
+    console.log("Selected value:", value); // Add this line
+    setProvideBy(value);
+    // Convert the string value to boolean
+    setOwner(value === "true");
   };
+  
 
   const id = useSelector((state) => state.Details.id)
   // const empId = localStorage.getItem("empId");
@@ -458,8 +462,9 @@ const Equipments = ({ tab, setTab }) => {
 
   const handleDateChange = (date, dateString) => {
     console.log('Selected Date:', dateString);
-    setSupplyDate(dateString)
+    setSupplyDate(dateString);
   };
+
 
 
   // const StoreEquipment = async () => {
@@ -497,23 +502,23 @@ const Equipments = ({ tab, setTab }) => {
   // }
 
   const sendData = () => {
+
+     // Update owner based on provideBy state
+    //  console.log("provideBy before", provideBy);
+    // const ownerValue = provideBy === 'true';
+    // console.log("provideBy after", provideBy);
+
     const data = {
-      owner: owner,
+      owner: provideBy,
       Device: Device,
       Manufacturer: Manufacturer,
       SerialNumber: SerialNumber,
       Notes: Notes,
       Date: supplydate
     }
-    console.log(data)
+    console.log("data in the sendData",data)
     dispatch(AddEquipment(data))
 
-     // Reset form fields here
-    setDevice('');
-    setManufacturer('');
-    setSerialNumber('');
-    setNotes('');
-    setSupplyDate('');
 
     // Call resetForm to clear the form fields
     resetForm();
@@ -526,14 +531,18 @@ const Equipments = ({ tab, setTab }) => {
   const [formState, setformstate] = useState();
 
   const handleedit = (data) => {
-  setOwner(data.owner);
-  setDevice(data.Device);
-  setManufacturer(data.Manufacturer);
-  setSerialNumber(data.SerialNumber);
-  setNotes(data.Notes);
-  setSupplyDate(data.Date);
-};
-  console.log(formState)
+    setOwner(data.owner);
+    setDevice(data.Device);
+    setManufacturer(data.Manufacturer);
+    setSerialNumber(data.SerialNumber);
+    setNotes(data.Notes);
+    setSupplyDate(data.Date);
+
+    setProvideBy(data.owner);
+
+    dispatch(clearEquipment());
+  };
+  console.log("send data ",formState)
 
 
   const callApi = async () => {
@@ -569,25 +578,25 @@ const Equipments = ({ tab, setTab }) => {
     console.log("Data Array", dataArray); // Log the array before sending it
 
     try {
-      if(dataArray){
+      if (dataArray) {
         const response = await axios.put("/employee/equipmentInfo", dataArray, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
         console.log("success", response.data);
-        
-        
+
+
         if (response.status === 200) {
           trueNotification()
           setTab(tab + 1);
           dispatch(clearEquipment());
-          
+
         }
       }
-      else{
+      else {
         notification.open(
-          {message: 'please first add items to upload',}
+          { message: 'please first add items to upload', }
         );
 
       }
@@ -599,12 +608,12 @@ const Equipments = ({ tab, setTab }) => {
 
   const falseNotification = () => {
     notification.open(
-      {message: 'please review the details and fill all fields with correct details',}
+      { message: 'please review the details and fill all fields with correct details', }
     );
   };
-const trueNotification = () => {
+  const trueNotification = () => {
     notification.open(
-      {message: 'Equipment data stored,redirected to Document details form',}
+      { message: 'Equipment data stored,redirected to Document details form', }
     );
   };
 
@@ -659,10 +668,7 @@ const trueNotification = () => {
                 Device Provide by:
               </label>
               <div className="flex ml-2 mb-2">
-                <Radio.Group
-                  onChange={handleProvideByChange}
-                  value={provideBy}
-                >
+                <Radio.Group onChange={handleProvideByChange} value={provideBy}>
                   <Radio value={true} className="font-medium">
                     Own by organization
                   </Radio>
@@ -670,6 +676,7 @@ const trueNotification = () => {
                     Own by worker
                   </Radio>
                 </Radio.Group>
+
               </div>
             </div>
             <div className="mb-6 flex items-center">
@@ -744,7 +751,7 @@ const trueNotification = () => {
                 name="notes"
                 placeholder="Design"
                 rows={4}
-                value={Notes} 
+                value={Notes}
                 onChange={(e) => {
                   setNotes(e.target.value);
                 }}
@@ -808,28 +815,25 @@ const trueNotification = () => {
       >
         <div className="">
           {Array.isArray(organizationDetails) && organizationDetails.length > 0 ? (
-
             organizationDetails.map((data, index) => (
-              console.log(data),
               <div className="flex flex-col gap-5 mt-5" key={index}>
-                {index === index && (
-                  <div>
-                    {data.owner === true ? (
-                      <h1 className="text-center font-semibold text-xl">Own by Organization</h1>
-                    ) : (
-                      <h1 className="text-center font-semibold text-xl">Own by Worker</h1>
-                    )}
-                  </div>
-                )}
-                <div className="flex gap-5 mt-5"><div className="bg-cyan-400 h-12 w-16 rounded-full">
-                  <Image
-                    src="https://www.iconpacks.net/icons/1/free-keyboard-icon-1405-thumb.png"
-                    className="rounded-xl h-6 w-6 ml-2.5 mt-3"
-                    alt="Equipment Icon"
-                    width={100}
-                    height={100}
-                  />
+                <div>
+                  {data.owner ? (
+                    <h1 className="text-center font-semibold text-xl">Own by Organization</h1>
+                  ) : (
+                    <h1 className="text-center font-semibold text-xl">Own by Worker</h1>
+                  )}
                 </div>
+                <div className="flex gap-5 mt-5">
+                  <div className="bg-cyan-400 h-12 w-16 rounded-full">
+                    <Image
+                      src="https://www.iconpacks.net/icons/1/free-keyboard-icon-1405-thumb.png"
+                      className="rounded-xl h-6 w-6 ml-2.5 mt-3"
+                      alt="Equipment Icon"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                   <div className="w-full">
                     <h1 className="text-xl">
                       <b></b>
@@ -840,28 +844,27 @@ const trueNotification = () => {
                     <h4 className="text-gray-400 mt-1.5 flex" id="output2">
                       Serial number: <p className="text-black ml-1">{data.SerialNumber}</p>
                     </h4>
-                    {(data.owner === true) && (
+                    {data.owner && data.Date && (
                       <h4 className="text-gray-400 mt-1.5 flex" id="output3">
                         Supply Date: <p className="text-black ml-1">{data.Date}</p>
-                      </h4>)}
+                      </h4>
+                    )}
                     <h4 className="text-gray-400 mt-1.5 flex" id="output4">
                       Notes: <p className="text-black ml-1">{data.Notes}</p>
                     </h4>
                   </div>
-
                   <div className="flex gap-4">
                     <Button
                       type="editbtn"
-                      className="text-black rounded-none mt-3  h-8 w-24 flex items-center hover:text-blue-600 hover:border-blue-600 border-gray-300 font-semibold text-base"
+                      className="text-black rounded-none mt-3 h-8 w-24 flex items-center hover:text-blue-600 hover:border-blue-600 border-gray-300 font-semibold text-base"
                       icon={<EditOutlined />}
-                      onChange={handleedit}
+                      onClick={() => { handleedit(data); console.log("hello edit"); }}
                     >
                       Edit
                     </Button>
-
                     <Button
                       type="danger"
-                      className="text-white rounded-none mt-3 flex items-center bg-red-500 hover:text- hover:border-red-600 border-gray-300 font-semibold h-8 w-24 "
+                      className="text-white rounded-none mt-3 flex items-center bg-red-500 hover:text-red-600 hover:border-red-600 border-gray-300 font-semibold h-8 w-24"
                       onClick={() => handledelete(data.SerialNumber)}
                       style={{ background: "rgb(245, 0, 0)", color: "white" }}
                       icon={<DeleteOutlined />}
