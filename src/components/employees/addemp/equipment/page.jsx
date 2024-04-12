@@ -2,7 +2,7 @@
 'use client'
 
 import React, { useEffect, useState } from "react";
-import { Button, notification } from "antd";
+import { Button, notification ,message} from "antd";
 import { useRouter } from "next/navigation";
 import { Checkbox, DatePicker, Input, Radio, Select } from "antd";
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
@@ -172,8 +172,8 @@ const Equipments = ({ tab, setTab }) => {
         }
       }
       else {
-        notification.open(
-          { message: 'please first add items to upload', }
+        message.open(
+          {type:'error', content: 'please first add items to upload', }
         );
 
       }
@@ -184,13 +184,13 @@ const Equipments = ({ tab, setTab }) => {
   }
 
   const falseNotification = () => {
-    notification.open(
-      { message: 'please review the details and fill all fields with correct details', }
+    message.open(
+      {type:'error', content: 'please review the details and fill all fields with correct details', }
     );
   };
   const trueNotification = () => {
-    notification.open(
-      { message: 'Equipment data stored,redirected to Document details form', }
+    message.open(
+      {type:'success', content: 'Equipment data stored,redirected to Document details form', }
     );
   };
 

@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Form, Input, Button, Select, Col, Row, DatePicker, Space, notification } from "antd";
+import { Form, Input, Button, Select, Col, Row, DatePicker, Space, notification ,message} from "antd";
 // notification
 import { setprofessionalDetails } from "@/redux/slices/Details";
 
@@ -162,17 +162,14 @@ const ProfessionalInfo = ({ tab, setTab }) => {
 
 
   const falseNotification = () => {
-    notification.open(
-      {message: 'please review the details and fill all fields with correct details  ',
-      style: {
-        backgroundColor: 'white',
-        color:'red',// Set the background color
-      }}
+    message.open(
+      {type:'error',content: 'please review the details and fill all fields with correct details  ',
+      }
     );
   };
 const trueNotification = () => {
-    notification.open(
-      {message: 'professional information stored,redirected to Equipments details form',
+    message.open(
+      {type:'success', content: 'professional information stored,redirected to Equipments details form',
       style: {
         backgroundColor: 'white',
         color:'blue',// Set the background color

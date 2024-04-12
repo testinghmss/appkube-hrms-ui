@@ -99,7 +99,7 @@ const Orgdetails = () => {
                 </span>
                 <span className="flex flex-col gap-1 pl-4 w-[50%]">
                   <span className="text-gray-400 ">Company Email Address</span>
-                  <span>{fetchedData?.email}</span>
+                  <span>{fetchedData?.work_email}</span>
                 </span>
               </div>
               <div className="flex  justify-between border-b border-1  border-gray-200 w-full">

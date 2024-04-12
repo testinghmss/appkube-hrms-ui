@@ -24,6 +24,7 @@ const beforeUpload = (file) => {
   if (!isPng) {
     message.error("You can only upload PNG file!");
   }
+
   const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {
     message.error("Image must smaller than 2MB!");
@@ -67,30 +68,25 @@ useEffect(()=>{
   // const [image,setImage] = useState(null)
 
   const falseNotification = () => {
-    notification.open({
-      message:
+    message.open({
+      type:'error',
+      content:
         "please review the details and fill all fields with correct details",
-      style: {
-        backgroundColor: "white",
-        color: "red", // Set the background color
-      },
     });
   };
   const trueNotification = () => {
-    notification.open({
-      message:
+    message.open({
+      type:'success',
+      content:
         "personal information stored,redirected to professional details form",
-      style: {
-        backgroundColor: "white",
-        color: "blue", // Set the background color
-      },
+      
     });
   };
   const imageTrueNotification = () => {
-    notification.open({ message: "Image uploaded successfully!" });
+    message.open({type:'success', content: "Image uploaded successfully!" });
   };
   const imageFalseNotification = () => {
-    notification.open({ message: "Error uploading image. Please try again." });
+    message.open({type:'error', content: "Error uploading image. Please try again." });
   };
 
   const handleInputChange = (e) => {
@@ -102,8 +98,9 @@ useEffect(()=>{
     if (formData.number && formData.emergency_number) {
       // Compare the values
       if (formData.number === formData.emergency_number) {
-        notification.error({
-          message: "Number and Emergency Number cannot be the same."
+        message.open({
+          type:'error',
+          content: "Number and Emergency Number cannot be the same."
         });
       }
     }
@@ -213,12 +210,12 @@ useEffect(()=>{
       console.log("data", data);
       console.log("assTo", accessToken);
       if (data.email & data.email === data.work_email) {
-        notification.open({
-          message: "email and work email must be different  .",
+        message.open({
+          type:'error', content: "email and work email must be different  .",
         });
       } else if (data.number & data.number === data.emergency_number) {
-        notification.open({
-          message: "number and emergency number  must be different  .",
+        message.open({
+         type:'error', content: "number and emergency number  must be different  .",
         });
       } else {
         console.log("EditPersonal in the api",EditPersonal);
@@ -252,7 +249,7 @@ useEffect(()=>{
           console.log("response data", response.data);
           // storing the response in redux
           dispatch(setpersonalDetails(response.data));
-          message.success("updated successfull"); 
+          // message.success("updated successfull"); 
           // getting employee id from local storage
 
           const id = localStorage.getItem("empId");
@@ -298,8 +295,8 @@ useEffect(()=>{
         const value = match && match.length > 2 ? match[2] : null;
 
         console.log("detail email", `key ${key}:${value}`);
-        notification.open({
-          message: `${value} already exist , try with other email`,
+        message.open({
+         type:'error', content: `${value} already exist , try with other email`,
         });
       }
       else{

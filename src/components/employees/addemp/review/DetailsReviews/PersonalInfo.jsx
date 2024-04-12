@@ -108,7 +108,10 @@ const PersonalInfo = () => {
       {/* second row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Date of Birth </h2>
-        <p className="font-semibold text-base">{data?.dob}</p>
+        <p className="font-semibold text-base">{data?.dob.split("T")[0]
+                          .split("-")
+                          .reverse()
+                          .join("-")}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Gender</h2>

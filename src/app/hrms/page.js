@@ -86,6 +86,18 @@ const Page = () => {
         compare: (a, b) => a.english - b.english,
         multiple: 1,
       },
+      render: (text, record) => {
+        if(text){
+        const date = text;
+        const trimmedDateString = date.split("T")[0]; // Remove 'T' and everything after it
+        const reversedDateString = trimmedDateString
+          .split("-")
+          .reverse()
+          .join("-");
+        return reversedDateString;
+        }
+        else {return text}
+      },
     },
   ];
 
@@ -243,6 +255,7 @@ const Page = () => {
           <Search
             className=" mt-4 rounded-none"
             placeholder="Search Employee"
+            onChange={(e)=>handleSearch(e.target.value)}
             onSearch={handleSearch}
             width={50}
             style={{ width: "500px" }}
@@ -275,7 +288,7 @@ const Page = () => {
           <Pagination
             size="large"
             pageSize={10}
-            total={100}
+            total={parseInt(info.Totalemployees)}
             current={currentPage}
             showTotal={(total, range) =>
               `${range[0]}-${range[1]} of ${total} items`
