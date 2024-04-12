@@ -3,18 +3,13 @@ import Image from "next/image";
 import { IoChevronBackOutline } from "react-icons/io5";
 import Onboard from "@/../public/assets/onboarding/OnbordingImg.svg";
 import Logout from "@/../public/assets/onboarding/Logout.svg";
-// import Company from "@/../public/assets/onboarding/company.svg";
 import Profile from "@/../public/assets/onboarding/userIcon.png";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { createUser } from "@/redux/slices/Onboardingpersdetails";
 import {
-  setCompanyData,
-  setPersonalData,
   updateOrganization,
   updateEmployee,
-  setCompanyStatus,
-  setPersonalStatus,
 } from "@/redux/slices/Onboardingpersdetails";
 import { removeAccessToken } from "@/utils/getAccessToken";
 
@@ -36,37 +31,17 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
     (state) => state.Onboardingpersdetails.employeId
   );
 
-  // const personalStatus = useSelector(
-  //   (state) => state.Onboardingpersdetails.personalStatus
-  // );
-  // const companyStatus = useSelector(
-  //   (state) => state.Onboardingpersdetails.companyStatus
-  // );
+
 
   const router = useRouter();
   const dispatch = useDispatch();
-
-  // const handleSubmit = async () => {
-  //   // e.preventDefault();
-  //   // console.log("company...", companyData);
-
-  //      const combinedData = {"482d8374-fca3-43ff-a638-02c8a425c492",...companyData, };
-
-  //      dispatch(createUser(personalData))
-  //      dispatch(createCompany(combinedData))
-  //     //  console.log(combinedData);
-
-  // };
 
 
   const handleUpdateEmployee = async (data) => {
     try {
       const response = await updateEmployee(dispatch, employeId, data);
       console.log("PU -- ",response);
-      //  if(response) {
-      //   // dispatch(setPersonalStatus());
-      //   setPersonalStatus(true)
-      // }
+     
       return response ? true : false;
       // Set other state as needed
     } catch (error) {
@@ -80,10 +55,7 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
     try {
       const response = await updateOrganization(dispatch, data);
       console.log('UO -- ',response);
-      // if(response?.id) {
-      //   // dispatch(setCompanyStatus());
-      //   setCompanyStatus(true)
-      // }
+      
       return response ? true : false;
       // Set other state as needed
     } catch (error) {
@@ -104,13 +76,8 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
 
   const handleSubmit = async () => {
     // const orgId = "482d8374-fca3-43ff-a638-02c8a425c492"; // Replace with your actual orgId value
-    console.log("id for the employe", employeId);
-    // Combine orgId with companyData
-    // const personalDatawithID = { id:employeId, ...personalData };
-
-    // Dispatch actions with the modified data
-    // dispatch(createUser(personalData));
-    // dispatch(createCompany(companyData));
+    // console.log("id for the employe", employeId);
+  
    
 
    const personalstatus = await handleUpdateEmployee(personalData);

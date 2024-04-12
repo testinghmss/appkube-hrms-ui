@@ -5,8 +5,6 @@ import Image from 'next/image';
 import axios from '@/api/axios'; 
 import {useDispatch} from "react-redux"
 import getAccessTokenFromCookie from '@/utils/getAccessToken';
-// import { setPersonalData } from '@/redux/slices/Onboardingpersdetails';
-// import { setonboardingImg } from '@/redux/slices/Onboardingpersdetails';
 
 
 const getBase64 = (img, callback) => {

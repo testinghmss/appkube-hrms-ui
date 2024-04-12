@@ -14,63 +14,27 @@ const PersonalDetail = ({fetchedData,setFirstStep, firstStep}) => {
   // const router = useRouter();
   const [edit, setEdit] = useState(false);
   console.log('hr data',fetchedData)
-
-
-  //   
-// address_line_1
-// : 
-// "falaknuma"
-// address_line_2
-// : 
-// "jahanuma"
-// city
-// : 
-// "Hyderabad"
-// country
-// : 
-// "India"
-// dob
-// : 
-// "2024-04-03T00:00:00.000Z"
-// email
-// : 
-// "abdullahahil153@gmail.com"
-// emergency_number
-// : 
-// null
-// emp_id
-// : 
-// null
-// first_name
-// : 
-// "Md "
-// gender
-// : 
-// "Male"
-// highest_qualification
-// : 
-// null
-// image
-// : 
-// ""
-// landmark
-// : 
-// null
-// last_name
-// : 
-// "Abdullah"
-// number
-// : 
-// "9505934716"
-// state
-// : 
-// "Telangana"
-// work_email
-// : 
-// "abdullahahil7861@gmail.com"
-// zipcode
-// : 
-// "500053"
+  // {
+  //   "address_line_1": "falaknuma",
+  //   "address_line_2": "jahanuma",
+  //   "city": "Hyderabad",
+  //   "country": "India",
+  //   "dob": "2024-04-03T00:00:00.000Z",
+  //   "email": "abdullahahil153@gmail.com",
+  //   "emergency_number": null,
+  //   "emp_id": null,
+  //   "first_name": "Md",
+  //   "gender": "Male",
+  //   "highest_qualification": null,
+  //   "image": "",
+  //   "landmark": null,
+  //   "last_name": "Abdullah",
+  //   "number": "9505934716",
+  //   "state": "Telangana",
+  //   "work_email": "abdullahahil7861@gmail.com",
+  //   "zipcode": "500053"
+  // }
+  
   
 const handleEdit = (e)=>{
   e.preventDefault();

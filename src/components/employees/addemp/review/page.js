@@ -29,43 +29,7 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
     // const empId =  localStorage.getItem('empId')
     // console.log('emmpid from localstorage',empId)
     const id =  localStorage.getItem('empId')
-    // useEffect(()=>{
-    //   console.log('in useeffect')
-    //   const fetchData = async ()=>{
-    //         // getting employee id from local storage 
-
-    //     // setEmpId(id)
-    //     try{
-    //       console.log('employee id from local storage',id)
-    //       // fetching data by employee id in case of data not found in redux
-    //       const response = await axios.get(`/employee/${id}`,{
-    //         headers: {
-    //           Authorization: `Bearer ${accessToken}`
-    //         }
-    //       });
-    //       console.log("response of employee id for equipments",response.data.equipment)
-    //       // storing equipment data intto usestate
-    //       setFetchData({...fetchedData,equipment:response.data.equipment});
-    //       // console.log("data",employees)
-
-    //       // fetching data by employee id in case of data not found in redux
-    //       const response2 = await axios.get(`/employee/${id}`,{
-    //         headers: {
-    //           'Authorization': `Bearer ${accessToken}`
-    //         }
-    //       });
-    //       console.log("response of employee id for documents",response2.data.documents)
-    //       // storing equipment data intto usestate
-
-    //       setFetchData({...fetchedData,documents:response2.data.documents});
-    //     }
-    //     catch(error){
-    //       console.log('error fetching employee data',error);
-    //     }
-    //   }
-    //   fetchData()
-    // },[accessToken,fetchedData])
-
+    
 
     useEffect(() => {
       console.log('in useeffect');
@@ -84,16 +48,7 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
           // storing equipment data into state
         //   setFetchData(prevData => ({...prevData, equipment: response.data.equipment}));
         setdata(response.data.personal_information)
-    
-        //   // fetching data by employee id in case of data not found in redux
-        //   const response2 = await axios.get(`/employee/${id}`, {
-        //     headers: {
-        //       'Authorization': `Bearer ${accessToken}`,
-        //     },
-        //   });
-        //   console.log("response of employee id for documents", response2.data.documents);
-        //   // storing equipment data into state
-        //   setFetchData(prevData => ({...prevData, documents: response2.data.documents}));
+  
         } 
         catch (error) {
           console.log('error fetching employee data', error);
@@ -102,31 +57,6 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
       fetchData();
     }, [id, accessToken,router]);
     
-
-    // getting data from redux using useselector
-    // const reduxEquipmentData = useSelector(state => state.Details?.equipDetails)
-    // console.log('redux data for equipments ',reduxEquipmentData)
-    // console.log('fetched data by id for equipments ',fetchedData.equipment)
-    // // setData(reduxData)
-    // // condittionally trendering the data eitther from redux or from fetched  data by id 
-    // const equipmenData = reduxEquipmentData.length > 0 ? reduxEquipmentData : fetchedData.equipment;
-    // console.log("data ofequipments details",equipmenData)
-  
-    //   // getting data from redux using useselector
-
-    // const reduxDocumentsData = useSelector(state => state.Details?.documentDetails)
-    // console.log('redux data for equipments ',reduxDocumentsData)
-    // console.log('fetched data by id for equipments ',fetchedData.equipment)
-    // // setData(reduxData)
-
-    //   // condittionally trendering the data eitther from redux or from fetched  data by id 
-
-    // const documentsData = reduxDocumentsData.length > 0 ? reduxDocumentsData : fetchedData.equipment;
-    // console.log("data ofequipments details",documentsData)
-
-
-
-
 
     return (
       <div className="p-10 bg-gray-200">
@@ -138,9 +68,6 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
                 <RiEditFill />
                 <p>Edit</p>
               </button>
-              {/* <button className="bg-[#1890FF] text-white px-4 py-2">
-                <p>Finished</p>
-              </button> */}
               <Invite />
             </div>
           </div>

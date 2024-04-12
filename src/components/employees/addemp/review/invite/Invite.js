@@ -54,20 +54,14 @@ const Invite = () => {
         }}
         cancelButtonProps={{ style: { display: "none" } }}
       >
-        {/* Conditionally render profile based on step */}
-        {/* {step === 1 && <Profile1 step={step} setStep={setStep} />}
-        {step === 2 && <Profile2 step={step} setStep={setStep} />}
-        {step === 3 && <Profile3 step={step} setStep={setStep} />}
-        {step === 4 && <Profile4 step={step} setStep={setStep} />}
-        {step === 5 && <Profile5 step={step} setStep={setStep} />} */}
-
+       
         {step === 1 && <Profile1 key={step} step={step} setStep={setStep} />}
         {step === 2 && <Profile2 key={step} step={step} setStep={setStep} />}
         {step === 3 && <Profile3 key={step} step={step} setStep={setStep} />}
         {step === 4 && <Profile1 key={step} step={step} setStep={setStep} />}
         {step === 5 && <Profile5 key={step} step={step} setStep={setStep} />}
 
-        {/* {rednerComponent()} */}
+        
       </Modal>
     </div>
   );

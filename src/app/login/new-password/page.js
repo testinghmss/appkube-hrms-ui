@@ -62,14 +62,7 @@ const Page = () => {
         console.log(response.message);
         //     if (response.status == 200) {
         router.push("/login/reset");
-        // setTimeout(() => {
-        //   console.log(reset);
-        // }, 5000);
-        //     } else {
-        // setValid(false);
-        //
-        //       console.log(response);
-        //   }
+       
       } catch (error) {
         //     // console.log("error", error.response.data.message);
         console.log(error);
@@ -119,33 +112,11 @@ const Page = () => {
           <p className="text-[#A2A1A8] text-sm mb-6">
             Create a new password that is different from the old one.
           </p>
-          {/* <input type='text' placeholder='Enter Email  Address'/><br/> */}
-          {/* <Form form={form} name="horizontal_login" layout="inline" onFinish={onFinish}> */}
-          {/* <div className="flex flex-col ">
-            <Input
-              prefix={<UserOutlined className="site-form-item-icon " />}
-              placeholder="Enter Email Address"
-              className="w-[70%] my-5"
-              size="large"
-            />
-            <button
-              className="w-[50%] bg-blue-500 hover:bg-blue-400 rounded-sm text-white text-base p-2 cursor-pointer self-center"
-              onClick={() => {
-                router.push("/login/otp");
-              }}
-            >
-              Send otp
-            </button>
-          </div> */}
-          {/* </Link> */}
 
           <Form
             className="flex flex-col"
             style={{ width: "50vh", fontSize: "1.1rem" }}
-            // onFinish={() => {
-            //   console.log("form submitted");
-            //   router.push("/signup/confirm-mail");
-            // }}
+           
             onFinish={signupDetails}
             // onValuesChange={handleFormValuesChange}
           >
@@ -168,16 +139,6 @@ const Page = () => {
                 }}
               />
             </Form.Item>
-
-            {/* <Form.Item
-              name="confirmpassword"
-              rules={[
-                {
-                  required: true,
-                  message: `${!passMatch && "Password does not match!"}`,
-                },
-              ]}
-            > */}
             <Form.Item
               name="confirmpassword"
               dependencies={["password"]} // Make the validation dependent on the password field

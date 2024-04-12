@@ -134,12 +134,7 @@ useEffect(()=>{
   const [imageUrl, setImageUrl] = useState();
 
   const handleChange = (info) => {
-    // if (info.file.status === "uploading") {
-    // console.log(info, 'info')
-    // setLoading(true);
-    // return;
-    // }
-    // if (info.file.status === "done") {
+    
     const file = info.file.originFileObj;
     if (file) {
       setLoading(false);
@@ -181,9 +176,6 @@ useEffect(()=>{
   );
 
   console.log("EditPersonal in the personal",editPersonal);
-
-  // const empId = localStorage.getItem("empId");
-  //     console.log("EditPersonal in the empId",empId);
   
 
   const handleAddItemButtonClick = async () => {
@@ -213,12 +205,6 @@ useEffect(()=>{
       image: Attachments,
     };
 
-  //   if (formData.number === formData.emergency_number) {
-  //     notification.open({
-  //         message: "Number and Emergency Number cannot be the same.",
-  //     });
-  //     return; // Stop further execution
-  // }
 
     try {
       console.log("data", data);
@@ -291,24 +277,7 @@ useEffect(()=>{
         }
       }
 
-      // const id = localStorage.getItem("empId");
-      // //  checking tthe existance of employee id
-      // if (id) {
-      //   console.log("previouse id of local storage present", id);
-      //   // if id is existing then we will remote it from local storage
-      //   localStorage.removeItem("empId");
-      //   console.log(
-      //     "id deleted from local storage",
-      //     localStorage.getItem("empId")
-      //   );
-      //   // seting new empid for its information update
-      //   localStorage.setItem("empId", response.data.id);
-      //   console.log("new id", localStorage.getItem("empId"));
-      // } else {
-      //   localStorage.setItem("empId", response.data.id);
-      // }
-      // // changing tab
-      // setTab(tab + 1);
+  
     } catch (error) {
       console.log("error occured", error);
       if (error.response?.data?.error?.detail) {
@@ -381,8 +350,6 @@ useEffect(()=>{
           listType="picture-card"
           className="avatar-uploader"
           showUploadList={false}
-          // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-          // beforeUpload={beforeUpload}
           onChange={handleChange}
         >
           {imageUrl ? (
@@ -697,11 +664,6 @@ useEffect(()=>{
                     setSelectedCountry(value);
                 }}
               />
-              {/* <Select placeholder="Select Your Country" name="country" onChange={(value) => handleDropDownChange("country", value)}>
-                  <Option value="option1" name="country">Option 1</Option>
-                  <Option value="option2" name="country">Option 2</Option>
-                  <Option value="option3" name="country">Option 3</Option>
-                </Select> */}
             </Form.Item>
           </Col>
         </Row>
@@ -724,11 +686,6 @@ useEffect(()=>{
                   handleDropDownChange("state", value), setselectedState(value);
                 }}
               />
-              {/* <Select placeholder="Select State" name="state" onChange={(value) => handleDropDownChange("state", value)}>
-                  <Option value="option1">Option 1</Option>
-                  <Option value="option2">Option 2</Option>
-                  <Option value="option3">Option 3</Option>
-                </Select> */}
             </Form.Item>
           </Col>
 
@@ -749,11 +706,6 @@ useEffect(()=>{
                 stateCode={selectedState}
                 onChange={(value) => handleDropDownChange("city", value)}
               />
-              {/* <Select placeholder="Select City" name="city" onChange={(value) => handleDropDownChange("city", value)}>
-                  <Option value="option1">Option 1</Option>
-                  <Option value="option2">Option 2</Option>
-                  <Option value="option3">Option 3</Option>
-                </Select> */}
             </Form.Item>
           </Col>
         </Row>
