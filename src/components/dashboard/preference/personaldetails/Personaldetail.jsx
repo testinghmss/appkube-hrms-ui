@@ -125,7 +125,10 @@ return (
               <div className="flex  justify-between border-b border-1  border-gray-200 w-full">
                 <span className="  flex flex-col gap-1 w-[50%]">
                   <span className="text-gray-400 "> Date of Birth</span>
-                  <span>{fetchedData?.dob}</span>
+                  <span>{fetchedData?.dob.split("T")[0]
+                          .split("-")
+                          .reverse()
+                          .join("-")}</span>
                 </span>
                 <span className="flex flex-col gap-1 pl-4 w-[50%]">
                   <span className="text-gray-400 ">Gender</span>

@@ -281,7 +281,7 @@ import React from "react";
 import axios from "@/api/axios";
 import { FaRegFileAlt } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
-import { Button, Progress, Table, notification } from "antd";
+import { Button, Progress, Table, notification, message } from "antd";
 import FileTable from "./FileTable";
 import { useState, useEffect } from "react";
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
@@ -447,23 +447,23 @@ console.log(Attachments, 'attachments')
     }
   };
   const falseNotification = () => {
-    notification.open(
-      { message: 'please review the details and fill all fields with correct details', }
+    message.open(
+      {type:'error', content: 'please review the details and fill all fields with correct details', }
     );
   };
   const trueNotification = () => {
-    notification.open(
-      { message: 'documents information stored,redirected to Review screen', }
+    message.open(
+      {type:'success', content: 'documents information stored,redirected to Review screen', }
     );
   };
   const imageTrueNotification = () => {
-    notification.open(
-      { message: 'Image uploaded successfully!', }
+    message.open(
+      {type:'success', content: 'Image uploaded successfully!', }
     );
   };
   const imageFalseNotification = () => {
-    notification.open(
-      { message: 'Error uploading image. Please try again.', }
+    message.open(
+      {type:'error', content: 'Error uploading image. Please try again.', }
     );
   };
 

@@ -149,92 +149,95 @@ const PersonalInfo = () => {
     <div className="grid grid-cols-2 grid-rows-9 ">
       <span className="mb-4">
         <h2 className="text-gray-400">First Name</h2>
-        <p className="font-semibold text-base">{data?.first_name}</p>
+        <p className="font-semibold text-base">{(data?.first_name) ?(data.first_name):('no value')}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Last Name</h2>
-        <p className="font-semibold text-base">{data?.last_name}</p>
+        <p className="font-semibold text-base">{(data?.last_name) ?(data.last_name):('no value')}</p>
       </span>
 
       {/* second row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Date of Birth </h2>
-        <p className="font-semibold text-base">{data?.dob}</p>
+        <p className="font-semibold text-base">{(data?.dob) ? (data.dob.split("T")[0]
+                          .split("-")
+                          .reverse()
+                          .join("-")) : ('no value')}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Gender</h2>
-        <p className="font-semibold text-base">{data?.gender}</p>
+        <p className="font-semibold text-base">{(data?.gender)?(data.gender):('no value')}</p>
       </span>
 
       {/* third row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Contact No.</h2>
-        <p className="font-semibold text-base">{data?.number}</p>
+        <p className="font-semibold text-base">{(data?.number)?(data.number):('no value')}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Emergency Contact No.</h2>
-        <p className="font-semibold text-base">{data?.emergency_number}</p>
+        <p className="font-semibold text-base">{(data?.emergency_number)?(data.emergency_number):('no value')}</p>
       </span>
 
     {/* fourth row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Work Email</h2>
-        <p className="font-semibold text-base">{data?.work_email
+        <p className="font-semibold text-base">{(data?.work_email)?(data.work_email):('no value')
 }</p>
       </span>
       <span>
         <h2 className="text-gray-400">Personal Email</h2>
-        <p className="font-semibold text-base">{data?.email}</p>
+        <p className="font-semibold text-base">{(data?.email)?(data.email):('no value')}</p>
       </span>
 
       {/* fifth row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Employee ID</h2>
-        <p className="font-semibold text-base">{data?.id
+        <p className="font-semibold text-base">{(data?.id)?(data.id):('no value')
 }</p>
       </span>
       <span>
         <h2 className="text-gray-400">Qualification</h2>
-        <p className="font-semibold text-base">{data?.highest_qualification
-}</p>
+        <p className="font-semibold text-base">{(data?.highest_qualification)?(data.highest_qualification)
+:('no value')}</p>
       </span>
 
       {/* sixth row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Address Line 1</h2>
-        <p className="font-semibold text-base">{data?.address_line_1
+        <p className="font-semibold text-base">{(data?.address_line_1)?(data.address_line_2):('no value')
 }</p>
       </span>
       <span>
         <h2 className="text-gray-400">Address Line 2</h2>
-        <p className="font-semibold text-base">{data?.address_line_2
+        <p className="font-semibold text-base">{(data?.address_line_2)?(data.address_line_1):('no value')
 }</p>
       </span>
 
       {/* seventh row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Landmark</h2>
-        <p className="font-semibold text-base">{data?.landmark}</p>
+        <p className="font-semibold text-base">{(data?.landmark)?(data.landmark):('no value')}</p>
       </span>
       <span>
         <h2 className="text-gray-400">City </h2>
-        <p className="font-semibold text-base">{data?.city}</p>
+        <p className="font-semibold text-base">{(data?.city)?(data.city):('no value')}</p>
       </span>
 
       {/* eighth row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">State</h2>
-        <p className="font-semibold text-base">{data?.state}</p>
+        <p className="font-semibold text-base">{(data?.state)?(data.state):('no value')}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Counrty</h2>
-        <p className="font-semibold text-base">{data?.country}</p>
+        <p className="font-semibold text-base">{(data?.country)?(data.country):('no value')}</p>
       </span>
 
       {/* ninth row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Zip code</h2>
-        <p className="font-semibold text-base">{data?.zipcode}</p>
+        <p className="font-semibold text-base">{(data?.zipcode)?(data.zipcode):('no value')}</p>
       </span>
 
 

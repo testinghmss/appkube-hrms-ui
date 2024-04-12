@@ -50,7 +50,7 @@ useEffect(() => {
               },
             });
     console.log("response of dashboard", response1.data);
-    setInfo(response1.data);
+    setInfo(parseInt(response1.data.Totalemployees));
       const values = await axios.get(`/employee?page=${currentPage}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -129,6 +129,18 @@ const columns = [
       compare: (a, b) => a.english - b.english,
       multiple: 1,
     },
+    render: (text, record) => {
+      if(text){
+      const date = text;
+      const trimmedDateString = date.split("T")[0]; // Remove 'T' and everything after it
+      const reversedDateString = trimmedDateString
+        .split("-")
+        .reverse()
+        .join("-");
+      return reversedDateString;
+      }
+      else {return text}
+    },
   },
 ];
 
@@ -145,6 +157,7 @@ const statusMenu = (
 );
 
 const handleSearch = (value) => {
+  console.log('seARC',value)
   setCurrentPage(1);
   setSearchText(value);
 };
@@ -173,6 +186,7 @@ return (
       <Search
         className="w-80 mt-4"
         placeholder="Search Employee"
+        onChange={(e)=>handleSearch(e.target.value)}
         onSearch={handleSearch}
         style={{ width: "500px" }}
       />
@@ -216,7 +230,7 @@ return (
         <Pagination
           size="large"
           pageSize = { 10 } 
-          total = {100 }
+          total = {info}
           current = { currentPage }
           showTotal={(total, range) =>
             `${range[0]}-${range[1]} of ${total} items`
