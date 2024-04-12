@@ -469,7 +469,9 @@ const App = () => {
                   )}
                   {selectedEmployee.employee_status === "INVITED" && <Modal1 />}
                   {selectedEmployee.employee_status === "DRAFT" && (
-                    <Modal2 id={selectedEmployee.id} />
+                    <Moda
+                    
+                    l2 id={selectedEmployee.id} />
                   )}
                   {/* {selectedEmployee.employee_status === 'ACTIVE' && <Modal3/>} */}
                   {selectedEmployee.employee_status === "SENT" && (

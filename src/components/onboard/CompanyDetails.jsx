@@ -8,7 +8,7 @@ import { setCompanyData } from "@/redux/slices/Onboardingpersdetails";
 // import { createUser } from "@/redux/slices/personalDetails";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { notification,Upload } from "antd";
+import { notification,Upload,message } from "antd";
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import axios from "@/api/axios";
@@ -54,8 +54,8 @@ const CompanyDetails = ({ step, setStep  }) => {
 
 
   const openNotification = () => {
-    notification.open({
-      message: "Please fill in all the required fields",
+    message.open({
+    type:'error',  content: "Please fill in all the required fields",
     });
   };
 
@@ -64,16 +64,16 @@ const CompanyDetails = ({ step, setStep  }) => {
     // e.preventDefault();
     if(!company.number ||
       company.number.length !== 10){
-        notification.open({
-          message: "Please fill the number correctly",
+        message.open({
+         type:'error', content: "Please fill the number correctly",
         });
         return;
       }
 
     if(!company.zipcode ||
        company.zipcode.length !==6){
-          notification.open({
-            message: "Please fill the zipcode correctly",
+          message.open({
+           type:'error', content: "Please fill the zipcode correctly",
           });
           return;
       }

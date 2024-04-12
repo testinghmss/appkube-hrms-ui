@@ -121,8 +121,9 @@ const datetoshow = personal.dob ? moment(personal.dob, 'YYYY/MM/DD').toDate() : 
   };
 
   const openNotification = () => {
-    notification.open({
-      message: 'Please fill in all the required fields',
+    message.open({
+      type:'error',
+      content: 'Please fill in all the required fields',
     });
   };
 
@@ -131,8 +132,9 @@ const datetoshow = personal.dob ? moment(personal.dob, 'YYYY/MM/DD').toDate() : 
     console.log("Current state:", personal);
 
     if(!personal.number || personal.number.length !== 10){
-      notification.open({
-        message: 'Please fill number correctly',
+      message.open({
+        type:'error',
+        content: 'Please fill number correctly',
       });
       return;
     }
@@ -225,8 +227,8 @@ const datetoshow = personal.dob ? moment(personal.dob, 'YYYY/MM/DD').toDate() : 
 
       console.log("image uploaded",response.data);
       // alert('Image uploaded successfully!');
-      notification.open({
-        message: 'Image uploaded successfully!',
+      message.open({
+       type:'success', content: 'Image uploaded successfully!',
       });
       setAttachments(response.data.link);
       setImageUrl(response.data.link);
@@ -234,8 +236,8 @@ const datetoshow = personal.dob ? moment(personal.dob, 'YYYY/MM/DD').toDate() : 
       setPersonal({ ...personal, image: response.data.link });
     } catch (error) {
       console.error(error);
-      notification.open({
-        message: 'Error uploading image',
+      message.open({
+       type:'error', content: 'Error uploading image',
         description: error.message, // Display the error message received from the server
       });
     }
