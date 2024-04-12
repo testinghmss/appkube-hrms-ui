@@ -9,11 +9,12 @@ import Review from "@/components/employees/addemp/review/page";
 
 const Page = () => {
   const [activeTab, setActiveTab] = useState(1);
+  const [editPersonal,setEditPersonal] = useState(false)
   const items = [
     {
       key: "1",
       label: "Personal Information",
-      children: <Personal tab={activeTab} setTab={setActiveTab} />,
+      children: <Personal tab={activeTab} setTab={setActiveTab} editPersonal={editPersonal} setEditPersonal={setEditPersonal}/>,
       // disabled: activeTab !== 1 && true,
     },
     {
@@ -38,7 +39,7 @@ const Page = () => {
     {
       key: "5",
       label: "Review",
-      children: <Review tab={activeTab} setTab={setActiveTab} />,
+      children: <Review tab={activeTab} setTab={setActiveTab} editPersonal={editPersonal} setEditPersonal={setEditPersonal}/>,
       // disabled: activeTab !== 5 && true,
     },
   ];

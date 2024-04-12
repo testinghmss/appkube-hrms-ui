@@ -152,42 +152,6 @@ const datetoshow = personal.dob ? moment(personal.dob, 'YYYY/MM/DD').toDate() : 
   };
 
 
-  // for the image upload
-
-  // const handleChange = async (info) => {
-  //   console.log(info);
-  //   if (info.file.status === 'uploading') {
-  //     setLoading(true);
-  //     return;
-  //   }
-  //   if (info.file.status === 'done') {
-  //     // Get base64 representation of the image
-  //     getBase64(info.file.originFileObj, async (url) => {
-  //       setLoading(false);
-  //       setImageUrl(url);
-  //       // Upload the image to the server
-  //       console.log(url,'url');
-  //       try {
-  //         const response = await axios.post(
-  //           'https://i3mdnxvgrf.execute-api.us-east-1.amazonaws.com/dev/docUpload',
-  //           { fileName: info.file.name, data: url }
-  //         );
-  //         console.log(response.data);
-  //         alert('Image uploaded successfully!');
-  //         // dispatch(setPersonalData(response.data.link))
-  //         // console.log(response.data.link,"this is for image url");
-
-  //         // dispatch(uploadData(response.data.link ));
-  //         console.log(dispatch(setonboardingImg({image:response.data.link} )));
-
-  //       } catch (error) {
-  //         console.error(error);
-  //         alert('Error uploading image. Please try again.');
-  //       }
-  //     });
-  //   }
-  // };
-
 
   const uploadButton = (
     <button

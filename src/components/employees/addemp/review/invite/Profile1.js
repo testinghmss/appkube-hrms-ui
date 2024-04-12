@@ -79,17 +79,6 @@ const accessToken = getAccessTokenFromCookie()
     console.log("radio checked", e.target.value);
   };
 
-  // const id= useSelector((state)=>state.SendpersonalDetails.personalDetails)
-  
-
-  // console.log(id)
-  // const empId = localStorage.getItem("empId");
-  // console.log(empId,'empId')
-
-  // const id = useSelector(state => state.Details?.equipDetails.id)
-  // console.log(id)
-
- 
 
   return (
     <>
@@ -97,9 +86,7 @@ const accessToken = getAccessTokenFromCookie()
         <p className="text-center font-medium text-2xl ">
           Create profile and invite
         </p>
-        {/* <p className="text-center">
-          when do you want {empdata.personal_information.first_name} to receive an invitation to join
-        </p> */}
+        
         {empdata.first_name && (
   <p className="text-center">
     when do you want {empdata.first_name} to receive an invitation to join

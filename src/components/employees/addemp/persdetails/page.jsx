@@ -1,10 +1,10 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setpersonalDetails } from "@/redux/slices/Details";
 // import { Provider } from "react-redux";
 // import { store } from "@/redux/store/store";
-import { Form, Input, Row, Col, Select, Radio, Upload } from "antd";
+import { Form, Input, Row, Col, Select, Radio, Upload,message } from "antd";
 const { Option } = Select;
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
@@ -30,7 +30,7 @@ const beforeUpload = (file) => {
   }
   return isLt2M;
 };
-const PersonalInformation = ({ tab, setTab }) => {
+const PersonalInformation = ({ tab, setTab,editPersonal,setEditPersonal }) => {
   const accessToken = getAccessTokenFromCookie();
   const persDetails = useSelector((state) => state.Details);
   const router = useRouter();
@@ -41,6 +41,12 @@ const PersonalInformation = ({ tab, setTab }) => {
   const [selectedCountry, setSelectedCountry] = useState();
   const [selectedState, setselectedState] = useState();
 
+  const [isClient, setIsClient] = useState(false);
+
+useEffect(()=>{
+  setIsClient(true)
+ },[isClient])
+      
   const [formData, setFormData] = useState({
     email: "",
     work_email: "",
@@ -131,12 +137,7 @@ const PersonalInformation = ({ tab, setTab }) => {
   const [imageUrl, setImageUrl] = useState();
 
   const handleChange = (info) => {
-    // if (info.file.status === "uploading") {
-    // console.log(info, 'info')
-    // setLoading(true);
-    // return;
-    // }
-    // if (info.file.status === "done") {
+    
     const file = info.file.originFileObj;
     if (file) {
       setLoading(false);
@@ -171,7 +172,18 @@ const PersonalInformation = ({ tab, setTab }) => {
     </button>
   );
   console.log("object");
+
+
+  const EditPersonal = useSelector(
+    (state) => state.Details.EditPersonal
+  );
+
+  console.log("EditPersonal in the personal",editPersonal);
+  
+
   const handleAddItemButtonClick = async () => {
+    if(isClient){
+
     console.log(formData, "hitting api");
     console.log("imagr", imageUrl);
     // making data into format to hit api
@@ -196,12 +208,6 @@ const PersonalInformation = ({ tab, setTab }) => {
       image: Attachments,
     };
 
-  //   if (formData.number === formData.emergency_number) {
-  //     notification.open({
-  //         message: "Number and Emergency Number cannot be the same.",
-  //     });
-  //     return; // Stop further execution
-  // }
 
     try {
       console.log("data", data);
@@ -215,11 +221,30 @@ const PersonalInformation = ({ tab, setTab }) => {
           message: "number and emergency number  must be different  .",
         });
       } else {
-        const response = await Mainaxios.post("/employee/personalInfo", data, {
+        console.log("EditPersonal in the api",EditPersonal);
+
+        let response;
+
+        if(!editPersonal){
+         response = await Mainaxios.post('/employee/personalInfo', data, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
+
+
+      }else{
+      const empId = localStorage.getItem("empId");
+      console.log("EditPersonal in the empId",empId);
+        
+         response = await Mainaxios.put(`/employee/${empId}`, data, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+      }
+        
+
         console.log("response", response);
         if (response.status === 200) {
           // localStorage.setItem('empId', response.data.id)
@@ -227,6 +252,7 @@ const PersonalInformation = ({ tab, setTab }) => {
           console.log("response data", response.data);
           // storing the response in redux
           dispatch(setpersonalDetails(response.data));
+          message.success("updated successfull"); 
           // getting employee id from local storage
 
           const id = localStorage.getItem("empId");
@@ -239,8 +265,10 @@ const PersonalInformation = ({ tab, setTab }) => {
               "id deleted from local storage",
               localStorage.getItem("empId")
             );
+            if(!editPersonal){
             // seting new empid for its information update
             localStorage.setItem("empId", response.data.id);
+            }
             console.log("new id", localStorage.getItem("empId"));
           } else {
             localStorage.setItem("empId", response.data.id);
@@ -252,24 +280,7 @@ const PersonalInformation = ({ tab, setTab }) => {
         }
       }
 
-      // const id = localStorage.getItem("empId");
-      // //  checking tthe existance of employee id
-      // if (id) {
-      //   console.log("previouse id of local storage present", id);
-      //   // if id is existing then we will remote it from local storage
-      //   localStorage.removeItem("empId");
-      //   console.log(
-      //     "id deleted from local storage",
-      //     localStorage.getItem("empId")
-      //   );
-      //   // seting new empid for its information update
-      //   localStorage.setItem("empId", response.data.id);
-      //   console.log("new id", localStorage.getItem("empId"));
-      // } else {
-      //   localStorage.setItem("empId", response.data.id);
-      // }
-      // // changing tab
-      // setTab(tab + 1);
+  
     } catch (error) {
       console.log("error occured", error);
       if (error.response?.data?.error?.detail) {
@@ -297,7 +308,9 @@ const PersonalInformation = ({ tab, setTab }) => {
       }
       // setTab(tab + 1)
     }
+  }
   };
+
   const uploadFile = async () => {
     console.log("uploading");
 
@@ -340,8 +353,6 @@ const PersonalInformation = ({ tab, setTab }) => {
           listType="picture-card"
           className="avatar-uploader"
           showUploadList={false}
-          // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-          // beforeUpload={beforeUpload}
           onChange={handleChange}
         >
           {imageUrl ? (
@@ -508,6 +519,7 @@ const PersonalInformation = ({ tab, setTab }) => {
                 className="rounded-none"
                 placeholder="Enter Your Contact No."
                 name="number"
+                maxLength={10}
               />
             </Form.Item>
           </Col>
@@ -655,11 +667,6 @@ const PersonalInformation = ({ tab, setTab }) => {
                     setSelectedCountry(value);
                 }}
               />
-              {/* <Select placeholder="Select Your Country" name="country" onChange={(value) => handleDropDownChange("country", value)}>
-                  <Option value="option1" name="country">Option 1</Option>
-                  <Option value="option2" name="country">Option 2</Option>
-                  <Option value="option3" name="country">Option 3</Option>
-                </Select> */}
             </Form.Item>
           </Col>
         </Row>
@@ -682,11 +689,6 @@ const PersonalInformation = ({ tab, setTab }) => {
                   handleDropDownChange("state", value), setselectedState(value);
                 }}
               />
-              {/* <Select placeholder="Select State" name="state" onChange={(value) => handleDropDownChange("state", value)}>
-                  <Option value="option1">Option 1</Option>
-                  <Option value="option2">Option 2</Option>
-                  <Option value="option3">Option 3</Option>
-                </Select> */}
             </Form.Item>
           </Col>
 
@@ -707,11 +709,6 @@ const PersonalInformation = ({ tab, setTab }) => {
                 stateCode={selectedState}
                 onChange={(value) => handleDropDownChange("city", value)}
               />
-              {/* <Select placeholder="Select City" name="city" onChange={(value) => handleDropDownChange("city", value)}>
-                  <Option value="option1">Option 1</Option>
-                  <Option value="option2">Option 2</Option>
-                  <Option value="option3">Option 3</Option>
-                </Select> */}
             </Form.Item>
           </Col>
         </Row>
