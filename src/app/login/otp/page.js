@@ -16,6 +16,7 @@ const Page = () => {
   const inputRefs = useRef([]);
   const dispatch = useDispatch();
   const reset = useSelector((state) => state.resetPassword);
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     inputRefs.current[0].current.focus();
@@ -105,10 +106,16 @@ const Page = () => {
                   size="large"
                   value={otp[index]}
                   maxLength={1}
-                  onChange={(e) => handleInputChange(index, e.target.value)}
+                  onChange={(e) =>
+                    { const inputValue = e.target.value;
+                      const numericValue =inputValue.replace(/\D/g, '');
+                      setInputValue(numericValue);
+                       handleInputChange(index, numericValue)}}
                   onKeyDown={(e) => handleKeyDown(e, index)}
                   ref={inputRefs.current[index]}
                   onFocus={() => handleFocus(index)} // Assign ref to each input
+                 
+
                 />
               ))}
             </div>
@@ -116,7 +123,7 @@ const Page = () => {
               className="w-[200px] ml-7 bg-blue-500 rounded-sm text-white text-base p-1 cursor-pointer"
               onClick={() => {
                 if (otp.some((item) => item === "" || item === undefined)) {
-                  alert("Invalid Otp");
+                  alert(" Please Enter The OTP");
                 } else {
                   dispatch(setOtp(otp.join("")));
                   router.push("/login/new-password");
