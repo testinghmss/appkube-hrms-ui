@@ -66,8 +66,8 @@ const PreviewEmp = ({ setInStep, inStep, step, setStep }) => {
   };
 
   const openNotification = () => {
-    notification.open({
-      message: "Something went wrong, please try again",
+    message.open({
+     type:'error', content: "Something went wrong, please try again",
     });
   };
 

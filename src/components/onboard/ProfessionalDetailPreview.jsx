@@ -16,7 +16,7 @@ import {
   setPersonalStatus,
 } from "@/redux/slices/Onboardingpersdetails";
 import { removeAccessToken } from "@/utils/getAccessToken";
-import { notification } from "antd";
+import { notification,message } from "antd";
 import { useRouter } from "next/navigation";
 
 
@@ -34,8 +34,8 @@ const PreviewCompany = ({ setInStep, setStep, step, inStep }) => {
   const dispatch = useDispatch()
   
   const openNotification = () => {
-    notification.open({
-      message: "Something went wrong, please try again",
+    message.open({
+     type:'error', content: "Something went wrong, please try again",
     });
   };
 
