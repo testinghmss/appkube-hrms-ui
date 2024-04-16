@@ -217,7 +217,6 @@ return (
           return {
             onClick: () => {
               SendEmp(record);
-
               router.push(`/hrms/employees/employeesOverView`);
               dispatch(setParticularEmpid(record.id));
             },
