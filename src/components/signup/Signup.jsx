@@ -92,17 +92,6 @@ const Signup = () => {
     router.push("/signup/confirm-mail");
   };
 
-  // const handleFormValuesChange = (changedValues, allValues) => {
-  //   if ("password" in changedValues) {
-  //     setPassword(changedValues.password);
-  //   }
-  //   if ("confirmpassword" in changedValues) {
-  //     setConfirmPassword(changedValues.confirmpassword);
-  //   }
-  //   if (password && confirmPassword) {
-  //     setPassMatch(password === confirmPassword);
-  //   }
-  // };
 
   const validateEmail = (rule, value, callback) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -147,10 +136,7 @@ const Signup = () => {
             <Form
               className="flex flex-col "
               style={{ width: "50vh", fontSize: "1.1rem" }}
-              // onFinish={() => {
-              //   console.log("form submitted");
-              //   router.push("/signup/confirm-mail");
-              // }}
+              
               onFinish={signupDetails}
               // onValuesChange={handleFormValuesChange}
             >
@@ -194,15 +180,6 @@ const Signup = () => {
                 />
               </Form.Item>
 
-              {/* <Form.Item
-              name="confirmpassword"
-              rules={[
-                {
-                  required: true,
-                  message: `${!passMatch && "Password does not match!"}`,
-                },
-              ]}
-            > */}
               <Form.Item
                 name="confirmpassword"
                 dependencies={["password"]} // Make the validation dependent on the password field

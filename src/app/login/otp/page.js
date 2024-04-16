@@ -21,16 +21,7 @@ const Page = () => {
     inputRefs.current[0].current.focus();
   }, []);
 
-  // useEffect(() => {
-  //   // Create refs for each OTP input
-  //   for (let i = 0; i < otp.length; i++) {
-  //     inputRefs.current.push(React.createRef());
-  //   }
-  // }, []);
 
-  // useEffect(() => {
-  //   // Create refs for each OTP input
-  // }, [otp]); // eslint-disable-next-line react-hooks/exhaustive-deps
   for (let i = 0; i < otp.length; i++) {
     inputRefs.current.push(React.createRef());
   }
@@ -67,31 +58,6 @@ const Page = () => {
       inputRefs.current[index - 1].current.focus();
     }
   };
-
-  // const handleFocus = (index) => {
-  //   // Clear the input value when it is focused
-  //   const newOtp = [...otp];
-  //   newOtp[index] = "";
-  //   setotp(newOtp);
-  // };
-
-  // const handleKeyDown = (e, index) => {
-  //   if (e.key === "ArrowRight" && index < otp.length - 1) {
-  //     inputRefs.current[index + 1].current.focus();
-  //   } else if (e.key === "ArrowLeft" && index > 0) {
-  //     inputRefs.current[index - 1].current.focus();
-  //   } else if (e.key === "ArrowRight" && index === otp.length - 1) {
-  //     inputRefs.current[0].current.focus();
-  //   } else if (e.key === "ArrowLeft" && index === 0) {
-  //     inputRefs.current[otp.length - 1].current.focus();
-  //   } else if (e.key === "Backspace" && index > 0) {
-  //     // Remove the previous input when Backspace is pressed
-  //     const newOtp = [...otp];
-  //     newOtp[index - 1] = "";
-  //     setotp(newOtp);
-  //     inputRefs.current[index - 1].current.focus();
-  //   }
-  // };
 
  
 

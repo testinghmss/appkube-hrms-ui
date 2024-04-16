@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Button, Modal, Radio, Input, DatePicker } from "antd";
-import { notification } from "antd";
+import { notification ,message} from "antd";
 import axios from "@/api/axios";
 
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
@@ -16,8 +16,8 @@ const Modal2 = ({ id }) => {
   const accessToken = getAccessTokenFromCookie();
 
   const openNotification = () => {
-    notification.open({
-      message: "Invitation has been sent Successfully",
+    message.open({
+     type:'success', content: "Invitation has been sent Successfully",
     });
   };
 
@@ -60,12 +60,12 @@ const Modal2 = ({ id }) => {
       setIsModalOpen(false);
     } catch (error) {
       if (error.response.data.message == "user already exists.") {
-        notification.open({
-          message: "Employee has already been invited",
+        message.open({
+         type:'info', content: "Employee has already been invited",
         });
       } else {
-        notification.open({
-          message: "There is some issue in sending Invite",
+        message.open({
+        type:'error',  content: "There is some issue in sending Invite",
         });
       }
       setIsModalOpen(false);

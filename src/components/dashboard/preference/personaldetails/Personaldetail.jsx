@@ -14,63 +14,27 @@ const PersonalDetail = ({fetchedData,setFirstStep, firstStep}) => {
   // const router = useRouter();
   const [edit, setEdit] = useState(false);
   console.log('hr data',fetchedData)
-
-
-  //   
-// address_line_1
-// : 
-// "falaknuma"
-// address_line_2
-// : 
-// "jahanuma"
-// city
-// : 
-// "Hyderabad"
-// country
-// : 
-// "India"
-// dob
-// : 
-// "2024-04-03T00:00:00.000Z"
-// email
-// : 
-// "abdullahahil153@gmail.com"
-// emergency_number
-// : 
-// null
-// emp_id
-// : 
-// null
-// first_name
-// : 
-// "Md "
-// gender
-// : 
-// "Male"
-// highest_qualification
-// : 
-// null
-// image
-// : 
-// ""
-// landmark
-// : 
-// null
-// last_name
-// : 
-// "Abdullah"
-// number
-// : 
-// "9505934716"
-// state
-// : 
-// "Telangana"
-// work_email
-// : 
-// "abdullahahil7861@gmail.com"
-// zipcode
-// : 
-// "500053"
+  // {
+  //   "address_line_1": "falaknuma",
+  //   "address_line_2": "jahanuma",
+  //   "city": "Hyderabad",
+  //   "country": "India",
+  //   "dob": "2024-04-03T00:00:00.000Z",
+  //   "email": "abdullahahil153@gmail.com",
+  //   "emergency_number": null,
+  //   "emp_id": null,
+  //   "first_name": "Md",
+  //   "gender": "Male",
+  //   "highest_qualification": null,
+  //   "image": "",
+  //   "landmark": null,
+  //   "last_name": "Abdullah",
+  //   "number": "9505934716",
+  //   "state": "Telangana",
+  //   "work_email": "abdullahahil7861@gmail.com",
+  //   "zipcode": "500053"
+  // }
+  
   
 const handleEdit = (e)=>{
   e.preventDefault();
@@ -125,7 +89,10 @@ return (
               <div className="flex  justify-between border-b border-1  border-gray-200 w-full">
                 <span className="  flex flex-col gap-1 w-[50%]">
                   <span className="text-gray-400 "> Date of Birth</span>
-                  <span>{fetchedData?.dob}</span>
+                  <span>{fetchedData?.dob.split("T")[0]
+                          .split("-")
+                          .reverse()
+                          .join("-")}</span>
                 </span>
                 <span className="flex flex-col gap-1 pl-4 w-[50%]">
                   <span className="text-gray-400 ">Gender</span>

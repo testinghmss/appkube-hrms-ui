@@ -27,15 +27,6 @@ const Document = () => {
       //   setFetchData(prevData => ({...prevData, equipment: response.data.equipment}));
       setdata(response.data.documents)
   
-      //   // fetching data by employee id in case of data not found in redux
-      //   const response2 = await axios.get(`/employee/${id}`, {
-      //     headers: {
-      //       'Authorization': `Bearer ${accessToken}`,
-      //     },
-      //   });
-      //   console.log("response of employee id for documents", response2.data.documents);
-      //   // storing equipment data into state
-      //   setFetchData(prevData => ({...prevData, documents: response2.data.documents}));
       } 
       catch (error) {
         console.log('error fetching employee data', error);
@@ -48,12 +39,7 @@ const Document = () => {
   return (
     <div className='flex flex-wrap gap-10 mt-4'>
       <DocumentCard/>
-      {/* <DocumentCard/>
-      <DocumentCard/>
-      <DocumentCard/>
-      <DocumentCard/>
-      <DocumentCard/>
-      <DocumentCard/> */}
+     
     </div>
   )
 }

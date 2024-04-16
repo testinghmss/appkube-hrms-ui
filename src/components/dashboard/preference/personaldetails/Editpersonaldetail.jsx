@@ -28,12 +28,12 @@ import Profile from "@/../../public/assets/onboarding/profile.svg";
 
 
 
-const Editpersonaldetail = ({setFirstStep, firstStep,hrData}) => {
+const Editpersonaldetail = ({setFirstStep, firstStep, hrData}) => {
   const [save, setSave] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [fetchedData , setfetchedData] = useState()
   const accessToken = getAccessTokenFromCookie();
-  const [formData, setFormData] = useState()
+  const [formData, setFormData] = useState({ ...hrData })
   const getAccessToken = getAccessTokenFromCookie()
   // const [hrData,sethrData] = useState()
   useEffect(() => {
@@ -74,62 +74,27 @@ const Editpersonaldetail = ({setFirstStep, firstStep,hrData}) => {
   },[accessToken,isClient])
   
   // console.log('fetched hr data',fetchedData)
-
-     
-// address_line_1
-// : 
-// "falaknuma"
-// address_line_2
-// : 
-// "jahanuma"
-// city
-// : 
-// "Hyderabad"
-// country
-// : 
-// "India"
-// dob
-// : 
-// "2024-04-03T00:00:00.000Z"
-// email
-// : 
-// "abdullahahil153@gmail.com"
-// emergency_number
-// : 
-// null
-// emp_id
-// : 
-// null
-// first_name
-// : 
-// "Md "
-// gender
-// : 
-// "Male"
-// highest_qualification
-// : 
-// null
-// image
-// : 
-// ""
-// landmark
-// : 
-// null
-// last_name
-// : 
-// "Abdullah"
-// number
-// : 
-// "9505934716"
-// state
-// : 
-// "Telangana"
-// work_email
-// : 
-// "abdullahahil7861@gmail.com"
-// zipcode
-// : 
-// "500053"
+  // {
+  //   "address_line_1": "falaknuma",
+  //   "address_line_2": "jahanuma",
+  //   "city": "Hyderabad",
+  //   "country": "India",
+  //   "dob": "2024-04-03T00:00:00.000Z",
+  //   "email": "abdullahahil153@gmail.com",
+  //   "emergency_number": null,
+  //   "emp_id": null,
+  //   "first_name": "Md",
+  //   "gender": "Male",
+  //   "highest_qualification": null,
+  //   "image": "",
+  //   "landmark": null,
+  //   "last_name": "Abdullah",
+  //   "number": "9505934716",
+  //   "state": "Telangana",
+  //   "work_email": "abdullahahil7861@gmail.com",
+  //   "zipcode": "500053"
+  // }
+  
   
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -183,61 +148,7 @@ const Editpersonaldetail = ({setFirstStep, firstStep,hrData}) => {
   const hiddenFileInput = useRef(null);
   console.log('hr data in edit personal info',fetchedData,`step ${setFirstStep} and first ${firstStep}`)
   const formattedDOB = hrData?.dob ? new Date(hrData.dob).toISOString().split('T')[0] : '';
-  //   
-// address_line_1
-// : 
-// "falaknuma"
-// address_line_2
-// : 
-// "jahanuma"
-// city
-// : 
-// "Hyderabad"
-// country
-// : 
-// "India"
-// dob
-// : 
-// "2024-04-03T00:00:00.000Z"
-// email
-// : 
-// "abdullahahil153@gmail.com"
-// emergency_number
-// : 
-// null
-// emp_id
-// : 
-// null
-// first_name
-// : 
-// "Md "
-// gender
-// : 
-// "Male"
-// highest_qualification
-// : 
-// null
-// image
-// : 
-// ""
-// landmark
-// : 
-// null
-// last_name
-// : 
-// "Abdullah"
-// number
-// : 
-// "9505934716"
-// state
-// : 
-// "Telangana"
-// work_email
-// : 
-// "abdullahahil7861@gmail.com"
-// zipcode
-// : 
-// "500053"
+
   
 const handleDropDownChange = (name, value) => {
   setFormData({ ...formData, [name]: value });
@@ -249,12 +160,31 @@ const dateHandle = (name, value) => {
   console.log(name, dateValue, "change");
 };
 
-const handleInputChange = (e) => {
-  console.log("form data", formData);
-  const { name, value } = e.target;
-  // setFormData({ ...formData, [name]: value });
-  console.log(name, value, "change");
+
+
+const handleInputChange = (e, fieldName) => {
+  const { value } = e.target;
+  setFormData((prevFormData) => ({
+    ...prevFormData,
+    [fieldName]: value,
+  }));
 };
+
+const handleGenderChange = (e) => {
+  setFormData(prevFormData => ({
+    ...prevFormData,
+    gender: e.target.value 
+  }));
+};
+
+
+
+ // Debugging to see if state updates
+ useEffect(() => {
+  console.log("Current Gender:", formData.gender);
+}, [formData.gender]);
+
+
 console.log("form data", formData);
 
 const handleSave = async ()=>{
@@ -277,6 +207,8 @@ const handleSave = async ()=>{
   //   "zipcode": "90001",
   //   "image": "https://example.com/updated_image.jpg"
   // }
+
+
   const data = {
     first_name : formData.first_name,
     last_name : formData.last_name,
@@ -334,16 +266,16 @@ const handleSave = async ()=>{
                   <input
                     type="text"
                     placeholder="First Name"
-                    value={hrData?.first_name || ""}
+                    value={formData.first_name || ""}
                     className=" border border-gray-400 p-2 w-[50%] outline-none bg-transparent"
-                    onChange={handleInputChange}
+                    onChange={(e) => handleInputChange(e, "first_name")}
                   />
                   <input
                     type="text"
                     // placeholder="Last Name"
-                    value={hrData?.last_name || ""}
+                    value={formData.last_name || ""}
                     className=" border border-gray-400 p-2 w-[50%] outline-none bg-transparent"
-                    onChange={handleInputChange}
+                    onChange={(e) => handleInputChange(e, "last_name")}
 
                   />
                 </div>
@@ -355,7 +287,7 @@ const handleSave = async ()=>{
                     // value={hrData?.dob}
                     value={formattedDOB}
                     className="w-full p-2 bg-transparent border border-gray-400 "
-                    onChange={handleInputChange}
+                    onChange={(e) => handleInputChange(e, "dob")}
 
                     // style={{ color: "transparent" }}
                   />
@@ -369,17 +301,16 @@ const handleSave = async ()=>{
                 <div className="flex gap-5 bg-transparent items-center">
                   <Input
                     addonBefore={prefixSelector}
-                    value={hrData.number}
+                    value={formData.number}
                     style={{ width: "50%", backgroundColor: "transparent" }}
-                    onChange={handleInputChange}
+                    onChange={(e) => handleInputChange(e, "number")}
 
                   />
                   <div className="">
                     {/* <label htmlFor="gender" className="text-lg bg-transparent">
                 Gender:
               </label> */}
-                    <Radio.Group id="gender" className="flex  gap-3" value={hrData.gender || ''}>
-                      
+                    <Radio.Group id="gender" className="flex  gap-3" value={formData.gender || ''} onChange={handleGenderChange}>
                       
                       <Radio.Button
                         value="Male"
@@ -404,7 +335,7 @@ const handleSave = async ()=>{
                 </div>
                 <div className=" border border-gray-400 p-2 w-full bg-transparent ">
                   {/* Civa.30051@example.com */}
-                  {hrData?.email}
+                  {formData.work_email}
                 </div>
                 <p className="text-sm">
                   to change your email please{" "}
@@ -418,12 +349,12 @@ const handleSave = async ()=>{
               <div className="profile w-20 h-20 bg-yellow-500 rounded-full flex justify-center items-center">
                 {/* <span className="text-lg text-orange-600 ">PK</span> */}
               <Image
-                src={(hrData?.image) ? (hrData?.image) : Profile}
+                src={(formData?.image) ? (formData?.image) : Profile}
                 className="h-full w-full rounded-full"
                 width={100}
                 height={100}
                 alt="profile"
-                onChange={handleImageChange}
+                onChange={(e) => handleInputChange(e, "image")}
               />
               </div>
               <div className="flex flex-col items-center text-center ">

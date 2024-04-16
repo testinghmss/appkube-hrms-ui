@@ -21,36 +21,6 @@ const PersonalInfo = () => {
 
   const empId = typeof window !== "undefined" ? localStorage.getItem("empId") : null;
   
-  // useEffect(()=>{
-   
-  //   console.log(empId, 'from localStorage')
-  //   const fetchData = async ()=>{
-  
- 
-  //         try{
-  //           const response = await axios.get(`/employee/${empId}`,{
-    
-  //             headers: {
-  //               Authorization: `Bearer ${accessToken}`,
-  //             },
-  //           });
-  //       console.log("response of employee id",response.data.personal_information)
-  //               // storing  data intto usestate
-
-  //       setFetchData(response.data.personal_information);
-  //       // console.log("data",employees)
-  //       setdata(response.data.personal_information)
-  //     }
-  //     catch(error){
-  //       console.log('error fetching employee',error);
-  //     }
-  //   }
-  
-  //     fetchData()
-
-    
-    
-  // },[])
 
   useEffect(() => {
     if (!empId) return; // Don't fetch data if empId is not available
@@ -138,7 +108,10 @@ const PersonalInfo = () => {
       {/* second row  */}
       <span className="mb-4">
         <h2 className="text-gray-400">Date of Birth </h2>
-        <p className="font-semibold text-base">{data?.dob}</p>
+        <p className="font-semibold text-base">{data?.dob.split("T")[0]
+                          .split("-")
+                          .reverse()
+                          .join("-")}</p>
       </span>
       <span>
         <h2 className="text-gray-400">Gender</h2>

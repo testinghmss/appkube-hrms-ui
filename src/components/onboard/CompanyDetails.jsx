@@ -17,16 +17,10 @@ import axios from "@/api/axios";
 import StateComponent from "../location/States";
 import CityComponent from "../location/city";
 import CountryComponent from "../location/Countrys";
-
-// import {personalDetails} from '@/redux/slices/Onboardingpersdetails'
-
 import { Form, Progress } from "antd";
 import Link from "next/link";
 const CompanyDetails = ({ step, setStep  }) => {
-  // const Countrydata = Country.getAllCountries().map((country) => ({
-  //   value: country.name,
-  //   displayValue: `${country.name} - ${country.isoCode}`,
-  // }));
+ 
 
   const companyData = useSelector(
     (state) => state.Onboardingpersdetails.companyData
@@ -39,29 +33,7 @@ const CompanyDetails = ({ step, setStep  }) => {
   const [loading, setLoading] = useState(false);
 
 
-
-  // useEffect(() => {
-  //   if (company.countryCode) {
-  //     const states = State.getStatesOfCountry(company.country).map(state => ({
-  //       value: state.name,
-  //       displayValue: `${state.name} - ${state.isoCode}`
-  //     }));
-  //     console.log("States for selected country:", states);
-  //     setStartData(states);
-  //     // Also reset the selected state when the country changes
-  //     setCompany(prevState => ({ ...prevState, state: undefined }));
-  //   }
-  // }, [company.country]);
-
-  // const personalData = useSelector((state) => state.personalDetails.personalData);
-
-  // console.log(personalData);
   const dispatch = useDispatch();
-
-  // const getCompanyData = (e) => {
-  //   setCompany({ ...company, [e.target.name]: e.target.value });
-  //   // console.log(company);
-  // };
 
   const getCompanyData = (e) => {
     const { name, value } = e.target;
@@ -115,8 +87,6 @@ const CompanyDetails = ({ step, setStep  }) => {
       !company.country ||
       !company.state ||
       !company.city 
-      // ||
-      // company.zipcode.length !==6
     ) {
       console.log("Please fill in all the required fields");
       openNotification();
@@ -133,13 +103,6 @@ const CompanyDetails = ({ step, setStep  }) => {
     //  dispatch(createUser(combinedData))
   };
 
-  // useEffect(() => {
-    
-  // }, [selectedState]);
-  
-  // console.log("log of the state compontnt",selectedState);
-
-  ///////////////////////////////////////////////////////
 
   
 const uploadButton = (
@@ -415,9 +378,7 @@ console.log("image state",company );
               
             </div>
             <div>
-                {/* <h2 className="border border-gray-300 p-1 pl-3">
-                  Upload Profile
-                </h2> */}
+               
               <p className="text-sm font-light">upload your profile picture</p>
             </div>
           </div>

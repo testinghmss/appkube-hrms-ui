@@ -34,6 +34,9 @@ const App = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [selectedEmployeesForReminder, setSelectedEmployeesForReminder] =
     useState([]);
+  const [info, setInfo] = useState(10);
+  const [invitation , setInvitation] = useState(false);
+
   const [showCheckboxes, setShowCheckboxes] = useState(false);
 
   const accessToken = getAccessTokenFromCookie();
@@ -52,6 +55,14 @@ const App = () => {
         );
         console.log("tracker data", response);
         setData(response.data.employees);
+        const response1 = await axios.get("/dashboard/dashboardStats", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log("response of dashboard", response1.data);
+        setInfo(parseInt(response1.data.Totalemployees));
+        console.log("");
       } catch (error) {
         console.log("error of tracker", error);
       }
@@ -339,12 +350,15 @@ const App = () => {
   const filteredData = datas.filter((item) => {
     const statusMatch =
       !selectedStatus || item.employee_status.includes(selectedStatus);
-    const textMatch = Object.values(item).some((value) => {
-      if (value === null || value === undefined) {
-        return false;
-      }
-      return value.toString().toLowerCase().includes(searchText.toLowerCase());
-    });
+    // const textMatch = Object.values(item).some((value) => {
+    //   if (value === null || value === undefined) {
+    //     return false;
+    //   }
+    //   return value.toString().toLowerCase().includes(searchText.toLowerCase());
+    // });
+    const textMatch =
+      item.employee_name &&
+      item.employee_name.toLowerCase().includes(searchText.toLowerCase());
     return statusMatch && textMatch;
   });
   // const startIdx = (currentPage - 1) * pageSize;
@@ -387,6 +401,7 @@ const App = () => {
             <Search
               className="w-80"
               placeholder="Search Employee"
+              onChange={(e) => handleSearch(e.target.value)}
               onSearch={handleSearch}
             />
           </div>
@@ -409,7 +424,7 @@ const App = () => {
             </Button>
           </div>
         </div>
-        <Table columns={columns} dataSource={datas} pagination={false} />
+        <Table columns={columns} dataSource={filteredData} pagination={false} />
         <div className="flex justify-end mt-6">
           {/* <Pagination
             size="large"
@@ -424,7 +439,7 @@ const App = () => {
           <Pagination
             size="large"
             pageSize={10}
-            total={100} // Use the length of filteredData as total
+            total={info} // Use the length of filteredData as total
             current={currentPage}
             showTotal={(total, range) =>
               `${range[0]}-${range[1]} of ${total} items`
@@ -495,50 +510,85 @@ const App = () => {
                   <div className=" w-full h-full border-b border-slate-200">
                     <h2 className="font-normal text-base text-slate-400">
                       First Name
+                      <br />
+                      <p className="text-slate-800 mt-1">
+                        {selectedEmployee.first_name}
+                      </p>
                     </h2>
                   </div>
                   <div className="w-full h-full border-b border-slate-200">
-                    <h2 className="font-normal text-base text-slate-400">
+                  <h2 className="font-normal text-base text-slate-400">
                       Last Name
+                      <br />
+                      <p className="text-slate-800 mt-1">
+                        {selectedEmployee.last_name}
+                      </p>
                     </h2>
                   </div>
                 </div>
 
                 <div className="flex gap-6 h-16">
                   <div className=" w-full h-full border-b border-slate-200">
-                    <h2 className="font-normal text-base text-slate-400">
+                  <h2 className="font-normal text-base text-slate-400">
                       Date of Birth
+                      <br />
+                      <p className="text-slate-800 mt-1">
+                        {selectedEmployee.dob.split("T")[0]
+                          .split("-")
+                          .reverse()
+                          .join("-")}
+                      </p>
                     </h2>
                   </div>
                   <div className="w-full h-full border-b border-slate-200">
-                    <h2 className="font-normal text-base text-slate-400">
+                  <h2 className="font-normal text-base text-slate-400">
                       Gender
+                      <br />
+                      <p className="text-slate-800 mt-1">
+                        {selectedEmployee.gender}
+                      </p>
                     </h2>
                   </div>
                 </div>
 
                 <div className="flex gap-6 h-16">
                   <div className=" w-full h-full border-b border-slate-200">
-                    <h2 className="font-normal text-base text-slate-400">
+                  <h2 className="font-normal text-base text-slate-400">
                       Contact No.
+                      <br />
+                      <p className="text-slate-800 mt-1">
+                        {selectedEmployee.number}
+                      </p>
                     </h2>
                   </div>
                   <div className="w-full h-full border-b border-slate-200">
-                    <h2 className="font-normal text-base text-slate-400">
+                  <h2 className="font-normal text-base text-slate-400">
                       Email
+                      <br />
+                      <p className="text-slate-800 mt-1">
+                        {selectedEmployee.work_email}
+                      </p>
                     </h2>
                   </div>
                 </div>
 
                 <div className="flex gap-6 h-16">
                   <div className=" w-full h-full border-b border-slate-200">
-                    <h2 className="font-normal text-base text-slate-400">
+                  <h2 className="font-normal text-base text-slate-400">
                       Emergency Contact Number
+                      <br />
+                      <p className="text-slate-800 mt-1">
+                        {selectedEmployee.number}
+                      </p>
                     </h2>
                   </div>
                   <div className="w-full h-full border-b border-slate-200">
-                    <h2 className="font-normal text-base text-slate-400">
+                  <h2 className="font-normal text-base text-slate-400">
                       Qualification
+                      <br />
+                      <p className="text-slate-800 mt-1">
+                        {selectedEmployee.highest_qualification}
+                      </p>
                     </h2>
                   </div>
                 </div>
