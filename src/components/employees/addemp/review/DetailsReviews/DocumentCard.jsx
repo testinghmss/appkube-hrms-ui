@@ -8,7 +8,8 @@ import getAccessTokenFromCookie from '@/utils/getAccessToken';
 import axios from '@/api/axios';
 import Image from 'next/image';
 
-const DocumentCard = ({data}) => {
+const DocumentCard = ({data}, ) => {
+  console.log(data,'docdata')
     const accessToken = getAccessTokenFromCookie();
     const [documents, setdocuments] = useState([]);
 
@@ -47,7 +48,14 @@ const DocumentCard = ({data}) => {
             <CiSaveDown1 className='text-lg font-bold'/>
         </span>
         </div> */}
-        {documents && documents.map((document, index) => (
+        {/* {documents && documents.map((document, index) => (
+        <div key={index}>
+          <h3>{document?.name}</h3>
+          <Image src={document?.url} alt={document?.name}  width={100} height={100} />
+        </div>
+      ))} */}
+
+{data && data.documents?.map((document, index) => (
         <div key={index}>
           <h3>{document?.name}</h3>
           <Image src={document?.url} alt={document?.name}  width={100} height={100} />

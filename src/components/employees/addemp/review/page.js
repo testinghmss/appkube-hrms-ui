@@ -15,7 +15,9 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
   import { useSelector } from "react-redux";
   import axios from "@/api/axios"
   import { useRouter } from "next/navigation";
-  const Page = ({ tab, setTab }) => {
+  const Page = ({ tab, setTab, dataFrompage }) => {
+
+     console.log(dataFrompage,'data from review')
     const router = useRouter()
     //  created usestate for storing redux data into same variable
     const [fetchedData , setFetchData] = useState({
@@ -144,7 +146,7 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
           </div>
           <div className="flex items-start gap-4">
             <Image src={data?.image} className="w-[100px] " alt="profile" width={100} height={100} />
-            <PersonalInfo />
+            <PersonalInfo Perdata={dataFrompage} />
           </div>
         </div>
 
@@ -158,7 +160,7 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
               </button>
             </div>
           </div>
-          <ProfessionalInfo />
+          <ProfessionalInfo profdata = {dataFrompage} />
         </div>
 
         <div className="mb-5 p-5 bg-white">
@@ -172,7 +174,7 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
             </div>
           </div>
           <div className="flex gap-4">
-            <EquipmentCard />
+            <EquipmentCard dataequip= {dataFrompage} />
 
           </div>
         </div>
@@ -188,7 +190,7 @@ import ProfessionalInfo from "./DetailsReviews/ProfessionalInfo";
             </div>
           </div>
           <div className="flex gap-4">
-            <DocumentCard />
+            <DocumentCard  data={dataFrompage} />
             {/* <DocumentCard /> */}
           </div>
         </div>

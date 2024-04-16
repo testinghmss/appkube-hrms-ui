@@ -19,38 +19,39 @@ const Page = () => {
   const accessToken = getAccessTokenFromCookie()
   const [activeTab, setActiveTab] = useState(1);
   const [data, setData] = useState({
-    personal: null,
-    professional: null,
-    equipment: null,
-    documents: null,
-    review: null,
+    // personal: null,
+    // professional: null,
+    // equipment: null,
+    // documents: null,
+    // review: null,
   }); // State to store fetched data for each tab
 
+  console.log(data ,'data from details')
   const items = [
     {
       key: "1",
       label: "Personal Information",
-      children: <Personal tab={activeTab}  setTab={setActiveTab} data={data.personal} setData={(newData) => setData({ ...data, personal: newData })} />,
+      children: <Personal tab={activeTab}  setTab={setActiveTab} data={data && data.personal_information} setData={(newData) => setData({ ...data, personal: newData })} />,
     },
     {
       key: "2",
       label: "Professional Information",
-      children: <Professional tab={activeTab} setTab={setActiveTab} data={data.professional} setData={(newData) => setData({ ...data, professional: newData })} />,
+      children: <Professional tab={activeTab} setTab={setActiveTab} data={ data && data.professional_information} setData={(newData) => setData({ ...data, professional: newData })} />,
     },
     {
       key: "3",
       label: "Equipment Details",
-      children: <Equipment tab={activeTab} setTab={setActiveTab} data={data.equipment} setData={(newData) => setData({ ...data, equipment: newData })} />,
+      children: <Equipment tab={activeTab} setTab={setActiveTab} data={data && data.equipments} setData={(newData) => setData({ ...data, equipment: newData })} />,
     },
     {
       key: "4",
       label: "Document",
-      children: <Documents tab={activeTab} setTab={setActiveTab} data={data.documents} setData={(newData) => setData({ ...data, documents: newData })} />,
+      children: <Documents tab={activeTab} setTab={setActiveTab} data={ data && data.documents} setData={(newData) => setData({ ...data, documents: newData })} />,
     },
     {
       key: "5",
       label: "Review",
-      children: <Review tab={activeTab} setTab={setActiveTab} data={data.review} setData={(newData) => setData({ ...data, review: newData })} />,
+      children: <Review tab={activeTab} setTab={setActiveTab} dataFrompage={ data &&  data} setData={(newData) => setData({ ...data, review: newData })} />,
     },
   ];
 
@@ -70,7 +71,9 @@ const Page = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      setData((prevData) => ({ ...prevData, [tab]: response.data }));
+      // setData((prevData) => ({ ...prevData, [tab]: response.data }));
+      setData( response.data);
+
       console.log(response, 'from details page')
     };
     
