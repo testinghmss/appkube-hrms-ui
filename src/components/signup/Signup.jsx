@@ -103,15 +103,22 @@ const Signup = () => {
   };
 
   const validatePassword = (rule, value, callback) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-    if (value && !passwordRegex.test(value)) {
+    if (
+      value.length <8 ||
+      value.length >15 || 
+      !/[A-Z]/.test(value) ||
+      !/[!@#$%^&*(),.?":{}|<>]/.test(value) ||
+      (value.match(/\d/g) || []).length < 2
+    ) {
       callback(
-        "Password must contain at least 8 characters including uppercase, lowercase, and numbers"
+        "Please enter a valid password (between 8 and 15 characters with at least 1 uppercase letter, 2 numbers, and 1 special character)."
       );
     } else {
       callback();
     }
   };
+  
+
 
   // console.log(email.current.value);
   return (
@@ -136,9 +143,9 @@ const Signup = () => {
             <Form
               className="flex flex-col "
               style={{ width: "50vh", fontSize: "1.1rem" }}
-              
+
               onFinish={signupDetails}
-              // onValuesChange={handleFormValuesChange}
+            // onValuesChange={handleFormValuesChange}
             >
               <Form.Item
                 name="email"
@@ -160,9 +167,9 @@ const Signup = () => {
                   }}
                 />
               </Form.Item>
-                <p className="text-gray-400">
-                  (8 digits at least, alphanumeric and case sensitive)
-                </p>
+              <p className="text-gray-400">
+                (8 digits at least, alphanumeric and case sensitive)
+              </p>
               <Form.Item
                 name="password"
                 rules={[
@@ -228,10 +235,10 @@ const Signup = () => {
                   borderRadius: "5px",
                 }}
                 size="large"
-                // disabled={ !passMatch}
-                // onClick={() => {
-                //   handleOnSubmit();
-                // }}
+              // disabled={ !passMatch}
+              // onClick={() => {
+              //   handleOnSubmit();
+              // }}
               >
                 Create Account
               </button>

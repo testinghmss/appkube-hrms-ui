@@ -184,7 +184,7 @@ const Page = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please Enter your username!",
+                  message: "Please Enter your Email!",
                 },
               ]}
             >
