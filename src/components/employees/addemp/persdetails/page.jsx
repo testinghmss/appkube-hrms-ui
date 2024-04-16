@@ -2,8 +2,6 @@
 import React, { useState, useRef,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setpersonalDetails } from "@/redux/slices/Details";
-// import { Provider } from "react-redux";
-// import { store } from "@/redux/store/store";
 import { Form, Input, Row, Col, Select, Radio, Upload,message } from "antd";
 const { Option } = Select;
 import getAccessTokenFromCookie from "@/utils/getAccessToken";
@@ -150,6 +148,7 @@ useEffect(()=>{
     }
     // }
   };
+  //code for upload button of image
   const uploadButton = (
     <button
       style={{
